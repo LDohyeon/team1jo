@@ -223,10 +223,46 @@
             
             
 		}
-		
+        MonthForm();
+        
 		function MonthForm(){
-			let div = document.getElementsByClassName("calendarDiv");
-            div.removeChild();
+			let div = document.getElementsByClassName("calendarDiv")[0];
+            
+            
+            let v;
+            let c;
+            let cc;
+            let ccc;
+
+            v = document.createElement("div");
+            v.classList.add("calendarArea");
+        
+            
+            c = document.createElement("div");
+            c.classList.add("MonthAreaHead");
+            
+            for(let i = 0; i < 7; i++){
+                cc = document.createElement("div");
+                cc.classList.add("monthAreaHeadTitle");
+                cc.innerHTML = i+"";
+                c.appendChild(cc);
+            }
+            
+            v.appendChild(c);
+            
+            c = document.createElement("div");
+            c.classList.add("MonthAreaBody");
+            
+            for(let i = 0; i < dateAlgorism(); i++){
+                cc = document.createElement("div");
+                cc.classList.add("monthBox"); 
+                cc.innerHTML = i +"";
+                c.appendChild(cc);
+            }
+            v.appendChild(c);
+            
+            console.log(v);
+            div.appendChild(v);
 		}
 		
 		function WeekForm(){
@@ -243,12 +279,18 @@
             let cc;
             let ccc;
             
+            v = document.createElement("div");
+            v.classList.add("calendarArea");
+            
             
 		}
 		
-        
-        
-        
+        // 날짜를 구하는 알고리즘
+        function dateAlgorism(){
+            let i = 31;
+            
+            return i;
+        }
         
         
         
