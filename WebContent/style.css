@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+.wrap1{
+	width: 750px;
+	padding: 30px;
+	border: 2px solid gray;
+}
+
+.wrap2{
+	width: 700px;
+	padding: 5px;
+	border: 1px solid lightgray;
+}
+
+h1, h4{
+	padding: 10px;
+	margin: 0;
+}
+
+form div span{
+	padding: 10px;
+	text-align: left;
+	margin-right: 10px;
+	display: inline-block;
+	width: 150px;	
+}
