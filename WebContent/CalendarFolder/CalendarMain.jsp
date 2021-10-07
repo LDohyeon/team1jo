@@ -47,6 +47,31 @@
             }
         	return toDay;
         }
+        // 오늘 요일 
+        function getTodayString(){
+        	
+        }
+        
+        // 윤년 여부 보기
+        function getYunNyen(){
+        	let date = getToday();
+        	let year = (Number)date.year;
+        	let yunNyen; 
+        	
+        	if(year%4==0){
+        		if(year%100==0){
+        			if(year%400==0){
+        				yunNyen = true;
+        			}
+        			else{
+        				yunNyen = false;
+        			}
+        		}
+        		yunNyen = true;
+        	}
+        	return yunNyen;
+        }
+        
         
         console.log(getToday().day);
         
@@ -149,8 +174,8 @@
         }
         // Header 내의 버튼들에 동작 부여
         
-        let seletForm = document.getElementsByClassName("selectForm")[0];
-        
+        let selectForm = document.getElementsByClassName("selectForm")[0];
+        console.log(selectForm);
         selectForm.addEventListener("change", function(){
         	changeForm(selectForm.value);
         });
