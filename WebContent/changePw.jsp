@@ -1,0 +1,30 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>비밀번호 수정 페이지</title>
+	</head>
+	<body>
+		<div id="wrap">
+			<form method="post" action="">
+                <div>
+					<p><input type="password" name="id" placeholder="현재 비밀번호"></p>
+					<P><input type="password" name="pw" placeholder="새로운 비밀번호"></P>
+					<P><input type="password" placeholder="새로운 비밀번호 확인"></P>
+                    <p onclick=""><b>수정</b></p>
+                    <p><a href="userInfo.html"><b>취소</b></a></p>
+                </div>
+			</form>
+		</div>
+		<script>
+			/*
+                비밀번호 서로 동일한지 체크
+                
+                현재 비밀번호 잘못 기입 시 :: alert로 현재 비밀번호를 올바르게 입력해주세요.
+                모두 참일 때, 비밀번호 변경 -> 회원정보 수정 페이지로 이동
+            */
+		</script>
+	</body>
+</html>
