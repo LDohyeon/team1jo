@@ -32,44 +32,51 @@
 						<span><input type="email" name="email"></span>
 					</div>
 					<div>
-						<span><input type="submit" value="회원가입" onclick="return register()"></span>
+						<span><input type="submit" value="회원가입" onclick="return registerCheck()"></span>
 					</div>
 				</div>
 			</form>
 		</div>
-		
 		<script>
-			function register(){
+		
+			function registerCheck(){
 				if(document.register.id.value == ""){
 					alert("아이디를 입력해주세요");
 					document.register.id.focus();
+					console.log("작동1");
 					return false;
 				}
-				if(register.id.value.length < 4 || register.id.value.length > 16){ 
+				if(document.register.id.value.length < 4 || document.register.id.value.length > 16){ 
 					alert("아이디는 4자리 ~ 15자리 이하로 입력해주세요");
+					console.log("작동2");
 					return false;
 				}
 				if(document.register.pw.value == ""){
 					alert("비밀번호를 입력해주세요");
 					document.register.pw.focus();
+					console.log("작동3");
 					return false;
 				}
-				if(register.pw.value.length < 4 || register.pw.value.length > 8){
+				if(document.register.pw.value.length < 4 || document.register.pw.value.length > 8){
 					alert("비밀번호는 4자리 ~ 8자리 사이로 입력해주세요");
 					document.register.pw.focus();
+					console.log("작동4");
 					return false;
 				}
 				if(document.register.name.value == ""){
 					alert("이름을 입력해주세요");
 					document.register.email.focus();
+					console.log("작동5");
 					return false;
 				}
 				if(document.register.name.value == ""){
 					alert("이메일을 입력해주세요");
 					document.register.name.focus();
+					console.log("작동6");
 					return false;
 				}
-				return false;
+				console.log("작동확인");
+				
 			}
 			<!-- 박정현 작성 끝 -->		
 			<!-- 이도현 작성 -->
@@ -88,6 +95,7 @@
 					XHR= new XMLHttpRequest();
 				}
 			}
+			
 			function idCheck()
 			{
 				var id =document.getElementById("id").value;
@@ -108,9 +116,8 @@
 				XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				
 				XHR.send(check);
-				
-				
 			}
+			
 			function handleStateChange()
 			{
 				if(XHR.readyState==4)
@@ -119,7 +126,6 @@
 					{
 						idOverlap=XHR.responseText;
 						overlapCheck(idOverlap);
-						
 					}
 				}
 			}
@@ -144,10 +150,6 @@
 			
 			<!-- 이도현 작성 끝 -->
 		</script>
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/member
 	</body>
 </html>
 
