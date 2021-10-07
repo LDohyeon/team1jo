@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html>
+<!-- Login User Key: loginUserId -->
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -14,8 +15,11 @@
 	</body>
 	<script>
 		let calendar = document.getElementById("calendar");
-   
+   		
         let thisGroup = ["1", "A", "B", "C"];
+        let monthDayTitle = ["일", "월", "화", "수", "목", "금", "토"];
+        
+        let benchmarkDay = "1900-01-01 00:00:00";
         
         // 견본 콘텍스트 
         let calendarData = {
@@ -24,6 +28,27 @@
             id: "testcalendar", // 유저 Id 
             group: thisGroup // 유저가 속한 그룹 데이터 > 이를 기반으로 DB와 통신
         }
+        
+        // 오늘 날짜 
+        function getToday(){
+        	let date = new Date();
+        	let year = date.getFullYear();
+        	let month = ("0" + (1 + date.getMonth())).slice(-2);
+        	let day = ("0" + date.getDate()).slice(-2);
+        	let hour = ("0" + date.getHours()).slice(-2);
+			let minites = ("0" + date.getMinutes()).slice(-2);
+			
+            let toDay = {
+            	year: year, 
+            	month: month, 
+            	day: day,
+            	hour: hour, 
+            	minites: minites	
+            }
+        	return toDay;
+        }
+        
+        console.log(getToday().day);
         
         // 기본 데이터 변경
         function definitionData(date, form, id, group){
@@ -94,7 +119,7 @@
             c = document.createElement("div");
             c.classList.add("calendarHeadSelect");
             cc = document.createElement("select");
-            //cc.classList.add("");
+            cc.classList.add("selectForm");
             ccc = document.createElement("option");
             ccc.innerHTML = "년"
             ccc.setAttribute("value", "Y")
@@ -102,7 +127,8 @@
             
             ccc = document.createElement("option");
             ccc.innerHTML = "월"
-            ccc.setAttribute("value", "Y")
+            ccc.setAttribute("value", "M")
+            ccc.setAttribute("selected", "true")
             cc.appendChild(ccc);
             
             ccc = document.createElement("option");
@@ -122,6 +148,12 @@
             return v;
         }
         // Header 내의 버튼들에 동작 부여
+        
+        let seletForm = document.getElementsByClassName("selectForm")[0];
+        
+        selectForm.addEventListener("change", function(){
+        	changeForm(selectForm.value);
+        });
         
         // Calendar Body 영역 만들기 
         function createToBodyLayout(){
@@ -201,17 +233,17 @@
         };
         
 		// ChangeForm: 매개변수에 따라 현재 달력 폼을 변경
-		function changeForm(){
-			if(calendarData.form=="Y"){
+		function changeForm(selectForm){
+			if(selectForm=="Y"){
 				YearForm();
 			}
-			else if(calendarData.form=="M"){
+			else if(selectForm=="M"){
 				MonthForm();
 			}
-			else if(calendarData.form=="W"){
+			else if(selectForm=="W"){
 				WeekForm();			
 			}
-			else if(calendarData.form=="D"){
+			else if(selectForm=="D"){
 				DayForm();
 			}	
 		}
@@ -223,7 +255,7 @@
             
             
 		}
-        MonthForm();
+        
         
 		function MonthForm(){
 			let div = document.getElementsByClassName("calendarDiv")[0];
@@ -239,19 +271,19 @@
         
             
             c = document.createElement("div");
-            c.classList.add("MonthAreaHead");
+            c.classList.add("monthAreaHead");
             
             for(let i = 0; i < 7; i++){
                 cc = document.createElement("div");
                 cc.classList.add("monthAreaHeadTitle");
-                cc.innerHTML = i+"";
+                cc.innerHTML = monthDayTitle[i];
                 c.appendChild(cc);
             }
             
             v.appendChild(c);
             
             c = document.createElement("div");
-            c.classList.add("MonthAreaBody");
+            c.classList.add("monthAreaBody");
             
             for(let i = 0; i < dateAlgorism(); i++){
                 cc = document.createElement("div");
