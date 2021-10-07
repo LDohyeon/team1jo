@@ -8,7 +8,6 @@
 		<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
-		<!-- 박정현 작성 -->
 		<div class="wrap1">
 			<form name="register" method="post" action="register.do">
 				<div class="wrap2">
@@ -43,43 +42,34 @@
 				if(document.register.id.value == ""){
 					alert("아이디를 입력해주세요");
 					document.register.id.focus();
-					console.log("작동1");
 					return false;
 				}
 				if(document.register.id.value.length < 4 || document.register.id.value.length > 16){ 
 					alert("아이디는 4자리 ~ 15자리 이하로 입력해주세요");
-					console.log("작동2");
 					return false;
 				}
 				if(document.register.pw.value == ""){
 					alert("비밀번호를 입력해주세요");
 					document.register.pw.focus();
-					console.log("작동3");
 					return false;
 				}
 				if(document.register.pw.value.length < 4 || document.register.pw.value.length > 8){
 					alert("비밀번호는 4자리 ~ 8자리 사이로 입력해주세요");
 					document.register.pw.focus();
-					console.log("작동4");
 					return false;
 				}
 				if(document.register.name.value == ""){
 					alert("이름을 입력해주세요");
-					document.register.email.focus();
-					console.log("작동5");
-					return false;
-				}
-				if(document.register.name.value == ""){
-					alert("이메일을 입력해주세요");
 					document.register.name.focus();
-					console.log("작동6");
 					return false;
 				}
-				console.log("작동확인");
-				
+				if(document.register.email.value == ""){
+					alert("이메일을 입력해주세요");
+					document.register.email.focus();
+					return false;
+				}
 			}
-			<!-- 박정현 작성 끝 -->		
-			<!-- 이도현 작성 -->
+			
 			//아이디 중복 체크를 위한 ajax 시작
 			//이건 신경 안 써도 됩니다.
 			var XHR;
@@ -147,8 +137,6 @@
 				//기능은 아이디가 중복일 경우 submit 되면 안 되고
 				//또 아이디 중복 체크를 안 했을 때도 submit 되면 안 됩니다.
 			}
-			
-			<!-- 이도현 작성 끝 -->
 		</script>
 	</body>
 </html>
