@@ -22,5 +22,38 @@ form div span{
 	text-align: left;
 	margin-right: 10px;
 	display: inline-block;
-	width: 150px;	
+	width: 80px;	
+}
+
+form div span input{
+	display: inline-block;
+	width: 140px;	
+}
+
+.registerIdCheck{
+	display: inline-block;
+	width: 120px;	
+	margin-left: 50px;
+}
+
+.registerIdCheckMsg{
+	display: inline-block;	
+	font-size: 13px;
+	margin: 0;
+	color: red;
+}
+
+.registerMsg, .loginIdPw{
+	width: 300px;
+	padding-top: 0;
+	padding-left: 127px;
+	font-size: 13px;
+	color: red;
+}
+
+.loginMsg{
+	width: 300px;
+	padding-left: 10px;
+	font-size: 15px;
+	color: red;
 }
