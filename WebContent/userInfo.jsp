@@ -6,6 +6,8 @@
 		<title>회원정보 수정 페이지</title>
 	</head>
 	<body>
+		<!-- 이유는 모르겠으나, 들여쓰기가 제 컴퓨터랑 깃허브랑 다릅니다. -->
+		<!-- 원인은 찾고있습니다. -->
 		<div id="wrap">
 			<form name="update" method="post" action="index.jsp">
 				<div id="wrap2">
