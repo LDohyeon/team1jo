@@ -14,12 +14,20 @@
             <P>삭제되는 내용을 확인하시고 필요한 데이터는 미리 백업을 해주세요.</P>
             <P>탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다.</P>
             <P><input type="checkbox" name="check"><b>안내 사항을 모두 확인하였으며, 이에 동의합니다.</b></P>
-            <p><a href="index.jsp"><b>확인</b></a></p>
+            <p><a href="index.jsp" onclick="return check()"><b>확인</b></a></p>
 		</div>
 		<script>
-			/*
-                checkbox 눌렸으면, 탈퇴
-            */
+			var checkbox=document.getElementsByTagName("input")[0];
+            console.log(checkbox.checked);
+            function check()
+            {
+                if(checkbox.checked==false)
+                {
+                    alert("안내사항을 동의해야 탈퇴가 가능합니다.");
+                    return false;
+                }
+                return true;
+            }
 		</script>
 	</body>
 </html>

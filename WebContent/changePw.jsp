@@ -10,11 +10,11 @@
 		<div id="wrap">
 			<form method="post" action="">
                 <div>
-					<p><input type="password" name="id" placeholder="현재 비밀번호"></p>
-					<P><input type="password" name="pw" placeholder="새로운 비밀번호"></P>
-					<P><input type="password" placeholder="새로운 비밀번호 확인"></P>
-                    <p onclick=""><b>수정</b></p>
-                    <p><a href="userInfo.html"><b>취소</b></a></p>
+					<span><input type="password" name="id" placeholder="현재 비밀번호"></span>
+					<span><input type="password" name="pw" placeholder="새로운 비밀번호"></span>
+					<span><input type="password" placeholder="새로운 비밀번호 확인"></span>
+                    <span onclick=""><b>수정</b></span>
+                    <span><a href="userInfo.html"><b>취소</b></a></span>
                 </div>
 			</form>
 		</div>
