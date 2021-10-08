@@ -68,11 +68,19 @@
     height: 100%;
     background-color: darkgrey;
 }
-.MonthAreaHead{
+.monthAreaHead{
 	display: flex;
 }
 .monthAreaHeadTitle{
 	flex: 1;
+}
+
+.monthAreaBody{
+	grid-template-columns: repeat(7, 1fr);
+	grid-template-rows: repeat(7, 1fr);
+}
+.monthBox{
+	grid-column: auto;
 }
 
 .leftBox{
