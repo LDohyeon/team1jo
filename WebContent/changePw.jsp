@@ -7,7 +7,6 @@
 		<title>비밀번호 수정 페이지</title>
 	</head>
 	<body>
-		<!--  pull하면 정상적으로 뜹니다. 깃허브에서만 다르게 뜨는 것 같습니다. -->
 		<!-- 추정 원인 :: bracket에서 가져오면서 tab과 space 간격 문제 발생 -->
 		<div id="wrap">
 			<form method="post" action="">
