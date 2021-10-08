@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Insert title here</title>
+		<title>calendar</title>
         <link href="calendarCss.css" rel="stylesheet">
 	</head>
 	<body>
@@ -19,7 +19,13 @@
         let thisGroup = ["1", "A", "B", "C"];
         let monthDayTitle = ["일", "월", "화", "수", "목", "금", "토"];
         
-        let benchmarkDay = "1900-01-01 00:00:00";
+        let benchmarkDay = {
+       		year: 1900, 
+           	month: 1, 
+           	day: 1,
+           	hour: 00, 
+           	minites: 00
+        }; //월요일
         
         // 견본 콘텍스트 
         let calendarData = {
@@ -33,47 +39,199 @@
         function getToday(){
         	let date = new Date();
         	let year = date.getFullYear();
-        	let month = ("0" + (1 + date.getMonth())).slice(-2);
-        	let day = ("0" + date.getDate()).slice(-2);
+        	let month = (1 + date.getMonth());
+        	let day = date.getDate();
         	let hour = ("0" + date.getHours()).slice(-2);
-			let minites = ("0" + date.getMinutes()).slice(-2);
+			let minute = ("0" + date.getMinutes()).slice(-2);
 			
-            let toDay = {
+            let today = {
             	year: year, 
             	month: month, 
             	day: day,
             	hour: hour, 
-            	minites: minites	
+            	minute: minute	
             }
-        	return toDay;
+        	return today;
         }
-        // 오늘 요일 
-        function getTodayString(){
+        
+        // 특정 날짜
+        function getThisDay(year, month, day, hour, minute){
+        	let thisDay = {
+               	year: year, 
+               	month: month, 
+               	day: day,
+               	hour: hour, 
+               	minute: minute
+            }
+        
+            return thisDay;
+        }
+        
+        // 오늘 요일을 구함 + 매개 변수 입력하면 특정 요일 구함 getThisDay()
+        function getYoil(date){
+        	let yoil; 
+        	let days = 0;
         	
+        	if(typeof(date)!="undefined"&&date!=null){
+        		let months = getMonthStructure();
+            	let today = date;
+            	
+            	for(let i = benchmarkDay.year; i<today.year; i++){
+            		let month = getMonthStructure(i);
+            		
+            		for(let j=0; j<month.length; j++){
+            			days += month[j];
+            		} 
+            	}
+            	
+            	for(let i = benchmarkDay.month; i<today.month; i++){
+            		let month = getMonthStructure(today.year);
+            		days += month[i];
+            	}
+            	
+            	for(let i = benchmarkDay.day; i<today.day; i++){
+            		days+=1;
+            	}
+            	
+            	if(days%7==0){
+            		yoil = monthDayTitle[1];
+            	}
+            	else if(days%7==1){
+            		yoil = monthDayTitle[2];
+            	}
+            	else if(days%7==2){
+            		yoil = monthDayTitle[3];
+            	}
+            	else if(days%7==3){
+            		yoil = monthDayTitle[4];
+            	}
+            	else if(days%7==4){
+            		yoil = monthDayTitle[5];
+            	}
+            	else if(days%7==5){
+            		yoil = monthDayTitle[6];
+            	}
+            	else if(days%7==6){
+            		yoil = monthDayTitle[0];
+            	}
+        	}
+        	else{
+        		let months = getMonthStructure();
+            	let today = getToday();
+            	
+            	for(let i = benchmarkDay.year; i<today.year; i++){
+            		let month = getMonthStructure(i);
+            		
+            		for(let j=0; j<month.length; j++){
+            			days += month[j];
+            		} 
+            	}
+            	
+            	for(let i = benchmarkDay.month; i<today.month; i++){
+            		let month = getMonthStructure(today.year);
+            		days += month[i];
+            	}
+            	
+            	for(let i = benchmarkDay.day; i<today.day; i++){
+            		days+=1;
+            	}
+            	
+            	if(days%7==0){
+            		yoil = monthDayTitle[1];
+            	}
+            	else if(days%7==1){
+            		yoil = monthDayTitle[2];
+            	}
+            	else if(days%7==2){
+            		yoil = monthDayTitle[3];
+            	}
+            	else if(days%7==3){
+            		yoil = monthDayTitle[4];
+            	}
+            	else if(days%7==4){
+            		yoil = monthDayTitle[5];
+            	}
+            	else if(days%7==5){
+            		yoil = monthDayTitle[6];
+            	}
+            	else if(days%7==6){
+            		yoil = monthDayTitle[0];
+            	}
+        	}
+        	return yoil;
         }
         
         // 윤년 여부 보기
-        function getYunNyen(){
-        	let date = getToday();
-        	let year = (Number)date.year;
+        function getYunNyen(y){
         	let yunNyen; 
         	
-        	if(year%4==0){
-        		if(year%100==0){
-        			if(year%400==0){
-        				yunNyen = true;
-        			}
-        			else{
-        				yunNyen = false;
-        			}
-        		}
-        		yunNyen = true;
-        	}
-        	return yunNyen;
+      		if(typeof(y)!='undefined'&&y!=null){
+    			
+            	if(y%4==0){
+            		yunNyen = true;
+            		
+            		if(y%100==0){
+            			yunNyen = false;
+            			
+            			if(y%400==0){
+            				yunNyen = true;
+            			}
+            			else{
+            				yunNyen = false;
+            			}
+            		}
+            	}
+            	else{
+            		yunNyen=false;
+            	}
+      		}	
+      		else{
+      			let date = getToday();
+            	let year = date.year;
+    			
+            	if(year%4==0){
+            		yunNyen = true;
+            		
+            		if(year%100==0){
+            			yunNyen = false;
+            			
+            			if(year%400==0){
+            				yunNyen = true;
+            			}
+            			else{
+            				yunNyen = false;
+            			}
+            		}
+            	}
+            	else{
+            		yunNyen=false;
+            	}
+      		}
+      		return yunNyen;
         }
-        
-        
-        console.log(getToday().day);
+      
+        // 윤년 여뷰에따라 올해 달력 구조를 생성
+        function getMonthStructure(year){
+        	let months;
+        	
+        	if(typeof(year)!='undefined'&&year!=null){
+        		if(getYunNyen(year)==true){
+            		months = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+            	}
+            	else{
+            		months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+            	}
+        	}
+        	else{
+        		if(getYunNyen()==true){
+            		months = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+            	}
+            	else{
+            		months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+            	}
+        	}
+        	return months;
+        }
         
         // 기본 데이터 변경
         function definitionData(date, form, id, group){
@@ -105,7 +263,6 @@
             let calendar = document.getElementById("calendar");
             calendar.appendChild(createToHeaderLayout());
             calendar.appendChild(createToBodyLayout());
-            
         }
         
         // 달력 조작 헤더 요소 만들기
@@ -173,7 +330,6 @@
             return v;
         }
         // Header 내의 버튼들에 동작 부여
-        
         let selectForm = document.getElementsByClassName("selectForm")[0];
         console.log(selectForm);
         selectForm.addEventListener("change", function(){
@@ -341,16 +497,6 @@
             
             
 		}
-		
-        // 날짜를 구하는 알고리즘
-        function dateAlgorism(){
-            let i = 31;
-            
-            return i;
-        }
-        
-        
-        
         
         
 		// GroupCheck
