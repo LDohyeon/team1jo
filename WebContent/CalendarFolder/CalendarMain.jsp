@@ -87,12 +87,15 @@
             	
             	for(let i = benchmarkDay.month; i<today.month; i++){
             		let month = getMonthStructure(today.year);
-            		days += month[i];
+            		days += month[i-1];
             	}
             	
             	for(let i = benchmarkDay.day; i<today.day; i++){
             		days+=1;
             	}
+            	
+            	console.log(benchmarkDay.day);
+            	console.log(days);
             	
             	if(days%7==0){
             		yoil = monthDayTitle[1];
@@ -264,6 +267,7 @@
             let calendar = document.getElementById("calendar");
             calendar.appendChild(createToHeaderLayout());
             calendar.appendChild(createToBodyLayout());
+            MonthForm();
         }
         
         // 달력 조작 헤더 요소 만들기
@@ -432,235 +436,72 @@
 		}
         
 		// Form 모양생성
-		function YearForm(){
-			let div = document.getElementsByClassName("calendarDiv");
-            div.removeChild();
+		function YearForm(date){
+			let div = document.getElementsByClassName("calendarDiv")[0];
+			
+			while(div.hasChildNodes()){
+				div.removeChild(div.firstChild);
+			}
             
-            
+			if(typeof(date)!='undefined'&&year!=null){
+				for(let box = 1; box < 13; box++){
+					date.month = box;
+					div.appendChild(createYearFormElement(date));
+				}
+			}
+			else{
+				let divc = document.createElement("div");
+				for(let box = 1; box < 13; box++){
+					let dayInfo = getToday();
+					dayInfo.month = box;
+					console.log(dayInfo.month);
+					divc.appendChild(createYearFormElement(dayInfo));
+				}
+				div.appendChild(divc);
+			}
 		}
         
-		function MonthForm(){
-			let div = document.getElementsByClassName("calendarDiv")[0];
-            
-            
-            let v;
-            let c;
-            let cc;
-            let ccc;
-            let cccc;
+		function MonthForm(date){
+			if(typeof(date)!='undefined'&&year!=null){
+				let div = document.getElementsByClassName("calendarDiv")[0];
+				
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);
+					
+				}
+				
+	            div.appendChild(createMonthFormElement());
+			}
+			else{
+				let div = document.getElementsByClassName("calendarDiv")[0];
+				
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);
+					
+				}
 
-            v = document.createElement("div");
-            v.classList.add("calendarArea");
-        
-            
-            c = document.createElement("div");
-            c.classList.add("monthAreaHead");
-            
-            for(let i = 0; i < 7; i++){
-                cc = document.createElement("div");
-                cc.classList.add("monthAreaHeadTitle");
-                cc.innerHTML = monthDayTitle[i];
-                c.appendChild(cc);
-            }
-            
-            v.appendChild(c);
-            
-            c = document.createElement("div");
-            c.classList.add("monthAreaBody");
-            
-            let today = getToday();
-            let months = getMonthStructure();
-            let flag = months[today.month-1];
-            let yoil = getYoil(getThisDay(today.year, today.month, 1, 0, 0));
-            let beforeYoil;
-            let NowMonth = months[today.month-2];
-          	
-           	if(yoil=="월"){
-           		for(let i = 0; i > -1 ; i--){
-           			beforeYoil = NowMonth;
-           			cc = document.createElement("div");
-                    cc.classList.add("monthBox"); 
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxTitle");
-                    
-                    cccc = document.createElement("span");
-                    cccc.classList.add("monthBoxTitleBox");
-                    cccc.innerHTML = (NowMonth-i) +"";
-                    ccc.appendChild(cccc);
-                    
-                    cc.appendChild(ccc);
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxBody");
-                    cc.appendChild(ccc);
-               		
-                    c.appendChild(cc);
-           		}
-           	}
-           	else if(yoil=="화"){
-           		for(let i = 1; i > -1 ; i--){
-           			beforeYoil = NowMonth;
-           			cc = document.createElement("div");
-                    cc.classList.add("monthBox"); 
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxTitle");
-                    
-                    cccc = document.createElement("span");
-                    cccc.classList.add("monthBoxTitleBox");
-                    cccc.innerHTML = (NowMonth-i) +"";
-                    ccc.appendChild(cccc);
-                    
-                    cc.appendChild(ccc);
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxBody");
-                    cc.appendChild(ccc);
-               		
-                    c.appendChild(cc);
-           		}
-           	}
-           	else if(yoil=="수"){
-           		for(let i = 2; i > -1 ; i--){
-           			beforeYoil = NowMonth;
-           			cc = document.createElement("div");
-                    cc.classList.add("monthBox"); 
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxTitle");
-                    
-                    cccc = document.createElement("span");
-                    cccc.classList.add("monthBoxTitleBox");
-                    cccc.innerHTML = (NowMonth-i) +"";
-                    ccc.appendChild(cccc);
-                    
-                    cc.appendChild(ccc);
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxBody");
-                    cc.appendChild(ccc);
-               		
-                    c.appendChild(cc);
-           		}
-           	}
-           	else if(yoil=="목"){
-           		for(let i = 3; i > -1 ; i--){
-           			beforeYoil = NowMonth;
-           			cc = document.createElement("div");
-                    cc.classList.add("monthBox"); 
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxTitle");
-                    
-                    cccc = document.createElement("span");
-                    cccc.classList.add("monthBoxTitleBox");
-                    cccc.innerHTML = (NowMonth-i) +"";
-                    ccc.appendChild(cccc);
-                    
-                    cc.appendChild(ccc);
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxBody");
-                    cc.appendChild(ccc);
-               		
-                    c.appendChild(cc);
-           		}
-           	}
-           	else if(yoil=="금"){
-           		for(let i = 4; i > -1 ; i--){
-           			beforeYoil = NowMonth;
-           			cc = document.createElement("div");
-                    cc.classList.add("monthBox"); 
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxTitle");
-                    
-                    cccc = document.createElement("span");
-                    cccc.classList.add("monthBoxTitleBox");
-                    cccc.innerHTML = (NowMonth-i) +"";
-                    ccc.appendChild(cccc);
-                    
-                    cc.appendChild(ccc);
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxBody");
-                    cc.appendChild(ccc);
-               		
-                    c.appendChild(cc);
-           		}
-           	}
-           	else if(yoil=="토"){
-           		for(let i = 5; i > -1 ; i--){
-           			beforeYoil = NowMonth;
-           			cc = document.createElement("div");
-                    cc.classList.add("monthBox"); 
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxTitle");
-                    
-                    cccc = document.createElement("span");
-                    cccc.classList.add("monthBoxTitleBox");
-                    cccc.innerHTML = (NowMonth-i) +"";
-                    ccc.appendChild(cccc);
-                    
-                    cc.appendChild(ccc);
-                    
-                    ccc = document.createElement("div");
-                    ccc.classList.add("monthBoxBody");
-                    cc.appendChild(ccc);
-               		
-                    c.appendChild(cc);
-           		}
-           	}
-           	v.appendChild(c);
-            
-            for(let i = 1; i < flag+1; i++){
-            	
-                cc = document.createElement("div");
-                cc.classList.add("monthBox"); 
-                
-                ccc = document.createElement("div");
-                ccc.classList.add("monthBoxTitle");
-                
-				if(i==1){
-					cccc = document.createElement("span");
-	                cccc.classList.add("monthBoxTitleBox");
-	                cccc.innerHTML = getToday().month+"월 "+ i +"일";
-	                ccc.appendChild(cccc);
-            	}
-            	else{
-            		cccc = document.createElement("span");
-                    cccc.classList.add("monthBoxTitleBox");
-                    cccc.innerHTML = i +"";
-                    ccc.appendChild(cccc);
-            	}
-              
-                cc.appendChild(ccc);
-                
-                ccc = document.createElement("div");
-                ccc.classList.add("monthBoxBody");
-                cc.appendChild(ccc);
-           		
-                c.appendChild(cc);
-            }
-            
-            v.appendChild(c);
-            
-            /*여기서부터 작업: 작업할거 31일 이후로 다음달 1일 부터 */
-            
-
-            div.appendChild(v);
+	            div.appendChild(createMonthFormElement());
+			}
 		}
 		
-		function WeekForm(){
+		function WeekForm(date){
 			let div = document.getElementsByClassName("calendarDiv");
-            div.removeChild();
+			
+			while(div.hasChildNodes()){
+				div.removeChild(div.firstChild);
+				
+			}
+			
+			
 		}
 		
 		function DayForm(){
 			let div = document.getElementsByClassName("calendarDiv");
-            div.removeChild();
+			
+			while(div.hasChildNodes()){
+				div.removeChild(div.firstChild);
+				
+			}
             
             let v;
             let c;
@@ -669,8 +510,7 @@
             
             v = document.createElement("div");
             v.classList.add("calendarArea");
-            
-            
+           
 		}
         
         
@@ -682,14 +522,1399 @@
 		function toDoList(){
 			
 		}
+		
 		function toDoListComplete(){
 			
 		}
+		
 		function toDoLostDelete(){
 			
 		}
+		
 		function toDoListChange(){
 			
 		}
+		
+		function addPlan(){
+			
+		}
+		
+		function createMonthFormElement(date){
+			
+			let v;
+            let c;
+            let cc;
+            let ccc;
+            let cccc;
+            
+			if(typeof(date)!='undefined'&&date!=null){
+				
+	            v = document.createElement("div");
+	            v.classList.add("calendarArea");
+	        
+	            
+	            c = document.createElement("div");
+	            c.classList.add("monthAreaHead");
+	            
+	            for(let i = 0; i < 7; i++){
+	                cc = document.createElement("div");
+	                cc.classList.add("monthAreaHeadTitle");
+	                cc.innerHTML = monthDayTitle[i];
+	                c.appendChild(cc);
+	            }
+	            
+	            v.appendChild(c);
+	            
+	            c = document.createElement("div");
+	            c.classList.add("monthAreaBody");
+	            
+	            let months = getMonthStructure();
+	            let flag = months[date.month-1];
+	            let yoil = getYoil(getThisDay(date.year, date.month, 1, 0, 0));
+	            let beforeYoil;
+	            let NowMonth = months[date.month-2];
+	            
+	            if(NowMonth==NaN||NowMonth==null){
+	            	NowMonth = months[11];
+	            }
+	          	
+	           	if(yoil=="월"){
+	           		for(let i = 0; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="화"){
+	           		for(let i = 1; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="수"){
+	           		for(let i = 2; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="목"){
+	           		for(let i = 3; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="금"){
+	           		for(let i = 4; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="토"){
+	           		for(let i = 5; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	v.appendChild(c);
+	            
+	            for(let i = 1; i < flag+1; i++){
+	            	
+	                cc = document.createElement("div");
+	                cc.classList.add("monthBox"); 
+	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxTitle");
+	                
+					if(i==1){
+						cccc = document.createElement("span");
+		                cccc.classList.add("monthBoxTitleBox");
+		                cccc.innerHTML = date.month+"월 "+ i +"일";
+		                ccc.appendChild(cccc);
+	            	}
+	            	else{
+	            		cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	            	}
+	              
+	                cc.appendChild(ccc);
+	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxBody");
+	                cc.appendChild(ccc);
+	           		
+	                c.appendChild(cc);
+	            }
+	            
+	            v.appendChild(c);
+	            
+	            yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
+	 			let afterYoil;
+	            NowMonth = months[date.month];
+	          	
+	           	if(yoil=="월"){
+	           		for(let i = 1; i < 7; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="화"){
+	           		for(let i = 1; i < 6 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="수"){
+	           		for(let i = 1; i < 5 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="목"){
+	           		for(let i = 1; i < 4 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="금"){
+	           		for(let i = 1; i < 3 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="토"){
+	           		for(let i = 1; i < 2 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	v.appendChild(c);
+			}
+			else{
+				let div = document.getElementsByClassName("calendarDiv")[0];
+				
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);
+					
+				}
+				
+	            v = document.createElement("div");
+	            v.classList.add("calendarArea");
+	        
+	            
+	            c = document.createElement("div");
+	            c.classList.add("monthAreaHead");
+	            
+	            for(let i = 0; i < 7; i++){
+	                cc = document.createElement("div");
+	                cc.classList.add("monthAreaHeadTitle");
+	                cc.innerHTML = monthDayTitle[i];
+	                c.appendChild(cc);
+	            }
+	            
+	            v.appendChild(c);
+	            
+	            c = document.createElement("div");
+	            c.classList.add("monthAreaBody");
+	            
+	            let today = getToday();
+	            let months = getMonthStructure();
+	            let flag = months[today.month-1];
+	            let yoil = getYoil(getThisDay(today.year, today.month, 1, 0, 0));
+	            let beforeYoil;
+	            let NowMonth = months[today.month-2];
+	          	
+	           	if(yoil=="월"){
+	           		for(let i = 0; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="화"){
+	           		for(let i = 1; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="수"){
+	           		for(let i = 2; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="목"){
+	           		for(let i = 3; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="금"){
+	           		for(let i = 4; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="토"){
+	           		for(let i = 5; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = (NowMonth-i) +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	v.appendChild(c);
+	            
+	            for(let i = 1; i < flag+1; i++){
+	            	
+	                cc = document.createElement("div");
+	                cc.classList.add("monthBox"); 
+	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxTitle");
+	                
+					if(i==1){
+						cccc = document.createElement("span");
+		                cccc.classList.add("monthBoxTitleBox");
+		                cccc.innerHTML = getToday().month+"월 "+ i +"일";
+		                ccc.appendChild(cccc);
+	            	}
+	            	else{
+	            		cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	            	}
+	              
+	                cc.appendChild(ccc);
+	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxBody");
+	                cc.appendChild(ccc);
+	           		
+	                c.appendChild(cc);
+	            }
+	            
+	            v.appendChild(c);
+	          
+	            yoil = getYoil(getThisDay(today.year, today.month+1, 1, 0, 0));
+	 			let afterYoil;
+	            NowMonth = months[today.month];
+	          	
+	          	
+	           	if(yoil=="월"){
+	           		for(let i = 1; i < 7; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="화"){
+	           		for(let i = 1; i < 6 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="수"){
+	           		for(let i = 1; i < 5 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="목"){
+	           		for(let i = 1; i < 4 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="금"){
+	           		for(let i = 1; i < 3 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="토"){
+	           		for(let i = 1; i < 2 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.innerHTML = i +"";
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	v.appendChild(c);
+			}
+			return v;
+		}
+		function createYearFormElement(date){
+			
+			let v;
+            let c;
+            let cc;
+            let ccc;
+            let cccc;
+            
+			if(typeof(date)!='undefined'&&date!=null){
+				
+	            v = document.createElement("div");
+	            v.classList.add("calendarArea");
+	        
+	            
+	            c = document.createElement("div");
+	            c.classList.add("monthAreaHead");
+	            
+	            for(let i = 0; i < 7; i++){
+	                cc = document.createElement("div");
+	                cc.classList.add("monthAreaHeadTitle");
+	                cc.innerHTML = monthDayTitle[i];
+	                c.appendChild(cc);
+	            }
+	            
+	            v.appendChild(c);
+	            
+	            c = document.createElement("div");
+	            c.classList.add("monthAreaBody");
+	            
+	            let months = getMonthStructure();
+	            let flag = months[date.month-1];
+	            let yoil = getYoil(getThisDay(date.year, date.month, 1, 0, 0));
+	            let beforeYoil;
+	            let NowMonth = months[date.month-2];
+	            
+	            if(NowMonth==NaN||NowMonth==null){
+	            	NowMonth = months[11];
+	            }
+	          	
+	           	if(yoil=="월"){
+	           		for(let i = 0; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="화"){
+	           		for(let i = 1; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="수"){
+	           		for(let i = 2; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="목"){
+	           		for(let i = 3; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="금"){
+	           		for(let i = 4; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="토"){
+	           		for(let i = 5; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	v.appendChild(c);
+	            
+	            for(let i = 1; i < flag+1; i++){
+	            	
+	                cc = document.createElement("div");
+	                cc.classList.add("monthBox"); 
+	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxTitle");
+	                
+            		cccc = document.createElement("span");
+                    cccc.classList.add("monthBoxTitleBox");
+                    cccc.innerHTML = i +"";
+                    ccc.appendChild(cccc);
+	              
+	                cc.appendChild(ccc);
+	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxBody");
+	                cc.appendChild(ccc);
+	           		
+	                c.appendChild(cc);
+	            }
+	            
+	            v.appendChild(c);
+	            
+	            yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
+	 			let afterYoil;
+	            NowMonth = months[date.month];
+	          	
+	           	if(yoil=="월"){
+	           		for(let i = 1; i < 7; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="화"){
+	           		for(let i = 1; i < 6 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="수"){
+	           		for(let i = 1; i < 5 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="목"){
+	           		for(let i = 1; i < 4 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="금"){
+	           		for(let i = 1; i < 3 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="토"){
+	           		for(let i = 1; i < 2 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	v.appendChild(c);
+			}
+			else{
+				let div = document.getElementsByClassName("calendarDiv")[0];
+				
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);
+					
+				}
+				
+	            v = document.createElement("div");
+	            v.classList.add("calendarArea");
+	        
+	            
+	            c = document.createElement("div");
+	            c.classList.add("monthAreaHead");
+	            
+	            for(let i = 0; i < 7; i++){
+	                cc = document.createElement("div");
+	                cc.classList.add("monthAreaHeadTitle");
+	                cc.innerHTML = monthDayTitle[i];
+	                c.appendChild(cc);
+	            }
+	            
+	            v.appendChild(c);
+	            
+	            c = document.createElement("div");
+	            c.classList.add("monthAreaBody");
+	            
+	            let today = getToday();
+	            let months = getMonthStructure();
+	            let flag = months[today.month-1];
+	            let yoil = getYoil(getThisDay(today.year, today.month, 1, 0, 0));
+	            let beforeYoil;
+	            let NowMonth = months[today.month-2];
+	          	
+	           	if(yoil=="월"){
+	           		for(let i = 0; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="화"){
+	           		for(let i = 1; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="수"){
+	           		for(let i = 2; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="목"){
+	           		for(let i = 3; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="금"){
+	           		for(let i = 4; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="토"){
+	           		for(let i = 5; i > -1 ; i--){
+	           			beforeYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	v.appendChild(c);
+	            
+	            for(let i = 1; i < flag+1; i++){
+	            	
+	                cc = document.createElement("div");
+	                cc.classList.add("monthBox"); 
+	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxTitle");
+	                
+					cccc = document.createElement("span");
+	                cccc.classList.add("monthBoxTitleBox");
+	                cccc.innerHTML = i +"";
+	                ccc.appendChild(cccc);
+	            	
+	                cc.appendChild(ccc);
+	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxBody");
+	                cc.appendChild(ccc);
+	           		
+	                c.appendChild(cc);
+	            }
+	            
+	            v.appendChild(c);
+	          
+	            yoil = getYoil(getThisDay(today.year, today.month+1, 1, 0, 0));
+	 			let afterYoil;
+	            NowMonth = months[today.month];
+	          	
+	          	
+	           	if(yoil=="월"){
+	           		for(let i = 1; i < 7; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="화"){
+	           		for(let i = 1; i < 6 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="수"){
+	           		for(let i = 1; i < 5 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="목"){
+	           		for(let i = 1; i < 4 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="금"){
+	           		for(let i = 1; i < 3 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	else if(yoil=="토"){
+	           		for(let i = 1; i < 2 ; i++){
+	           			afterYoil = NowMonth;
+	           			cc = document.createElement("div");
+	                    cc.classList.add("monthBox"); 
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxTitle");
+	                    
+	                    cccc = document.createElement("span");
+	                    cccc.classList.add("monthBoxTitleBox");
+	                    ccc.appendChild(cccc);
+	                    
+	                    cc.appendChild(ccc);
+	                    
+	                    ccc = document.createElement("div");
+	                    ccc.classList.add("monthBoxBody");
+	                    cc.appendChild(ccc);
+	               		
+	                    c.appendChild(cc);
+	           		}
+	           	}
+	           	v.appendChild(c);
+			}
+			return v;
+		}
+		
 	</script>
 </html>
