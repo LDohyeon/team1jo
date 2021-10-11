@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div id="wrap">
-			<form name="update" method="post" action="UserInfo.do">
+			<form name="update" method="post" action="userInfo.do">
 				<div id="wrap2">
 				
 					<div>
@@ -18,13 +18,13 @@
 					
 					<div>아이디</div>
 					<div>
-						<p>${user.getId()}</p>
+						<p>${loginUser.getId()}</p>
                     </div>
                     
 					<div>비밀번호</div>
 					<div>
-						<span>"${user.getPw()}"</span>
-						<span><input type="button" value="수정" onclick="location.href='changePw.jsp'"></span>
+						<span>"${loginUser.getPw()}"</span>
+						<span><input type="button" value="수정" onclick="location.href='changePw.do'"></span>
 					</div>
 					
 					<div>별명</div>

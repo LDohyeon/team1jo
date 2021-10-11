@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<div id="wrap">
-			<form name="update" method="post" action="ChangePw.do">
+			<form name="update" method="post" action="changePw.do">
 				<div id="wrap2">
 					<span><input name="cpw" type="password" placeholder="현재 비밀번호" onchange="checkCpw(); chekcCpwNPw();"></span>
 					<span id="underInfo1" style="display:none;">현재 비밀번호를 입력해주세요.</span>    

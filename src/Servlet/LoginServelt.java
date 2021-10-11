@@ -24,7 +24,7 @@ public class LoginServelt extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String url="index.jsp";//���� main.jsp ��� index.jsp�� ��ü 
+		String url="index.jsp";
 		
 		
 		request.setCharacterEncoding("utf-8");
@@ -53,7 +53,7 @@ public class LoginServelt extends HttpServlet {
 			response.sendRedirect(url);
 		}		
 	}
-
+	
 }
 
 
