@@ -1,8 +1,7 @@
 @charset "utf-8";
 
 #calendar{
-    width: 900px;
-    height: 600px;
+    width: 100%;
 }
 
 .calendarHeader{
@@ -27,7 +26,7 @@
     background-color: orange;
 }
 .calendarHeadDate{
-    flex: 1; 
+    flex: 7; 
     background-color: aquamarine;
 }
 .calendarHeadSearch{
@@ -42,7 +41,8 @@
 .calendarBody{
     width: 100%;
     display: flex;
-    height: 550px;
+    height: auto;
+    font-size: 15px;
 }
 .rightBox{
     flex: 8;
@@ -61,26 +61,134 @@
 
 .centerBox{
     flex: 30;
-    height: 100%;
+    height: calc(100%-50px);
+    overflow: scroll;
 }
 .calendarDiv{
     width: 100%;
     height: 100%;
-    background-color: darkgrey;
+    margin: 30 auto;
 }
 .monthAreaHead{
-	display: flex;
+	width: 100%;
 }
 .monthAreaHeadTitle{
-	flex: 1;
+	width: calc(100%/7.07);
+    height: 3vw;
+    text-align: center;
+    display: inline-block;
+    line-height: 3vw;
+    border-top: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    font-size: 10px;
+    
 }
-
+.monthAreaHeadTitle:nth-child(7n){
+    border-right: 1px solid lightgray;
+}
 .monthAreaBody{
-	grid-template-columns: repeat(7, 1fr);
-	grid-template-rows: repeat(7, 1fr);
+    width: 100%;
+    min-width: 800px;
 }
 .monthBox{
-	grid-column: auto;
+    width: calc(100%/7.07);
+    min-height: 40px;
+    height: 8vw;
+    padding-top: 1vw;
+    display: inline-block;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    font-size: 13px;
+}
+.monthBox:nth-child(7n){
+    border-right: 1px solid lightgray;
+}
+.monthBoxTitleBox{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+}
+.monthBoxTitleBox:hover{
+    background-color: lightgrey;
+}
+.monthBoxTitleBoxOne{
+    padding: 1px;
+    text-align: center;
+    border-radius: 50%;
+}
+.monthBoxTitleBoxOne:hover{
+    background-color: lightgrey;
+}
+
+
+.yearLayoutBox{
+    width: 30%;
+    vertical-align: top;
+    display: inline-block;
+    margin-right: 5%;
+    margin-bottom: 3vw;
+}
+.yearLayoutBox:nth-child(3n){
+    margin-right: 0;
+}
+.yearInMonthTitle{
+    font-size: 12px;
+    padding-bottom: 10px;
+    padding-left: 0.5vw;
+}
+
+.yearAreaHead{
+	width: 100%;
+}
+.yearAreaHeadTitle{
+	width: calc(100%/7);
+    height: 3vw;
+    text-align: center;
+    display: inline-block;
+    line-height: 3vw;
+    font-size: 10px;
+    padding-bottom: 0.5vw;
+}
+.yearAreaBody{
+    width: 100%;
+}
+.yearBox{
+    width: calc(100%/7);
+    height: 4vw;
+    display: inline-block;
+    text-align: center;
+    font-size: 11px;
+}
+.yearBoxTitleBox{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+}
+.yearBoxTitleBox:hover{
+    background-color: lightgrey;
+}
+.yearBoxTitleBoxOne{
+    padding: 1px;
+    text-align: center;
+    border-radius: 50%;
+}
+.yearBoxTitleBoxOne:hover{
+    background-color: lightgrey;
+}
+
+.yearBoxDummy{
+    width: calc(100%/7);
+    display: inline-block;
+    text-align: center;
+    font-size: 0;
+}
+.yearBoxTitleBoxDummy{
+    font-size: 0;
 }
 
 .leftBox{

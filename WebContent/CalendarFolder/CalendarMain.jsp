@@ -16,9 +16,8 @@
 	<script>
 		let calendar = document.getElementById("calendar");
    		
-        let thisGroup = ["1", "A", "B", "C"];
+        let thisGroup = ["1", "A", "B", "C"]; // 견본
         let monthDayTitle = ["일", "월", "화", "수", "목", "금", "토"];
-        
         
         let benchmarkDay = {
        		year: 1900, 
@@ -94,9 +93,7 @@
             		days+=1;
             	}
             	
-            	console.log(benchmarkDay.day);
-            	console.log(days);
-            	
+            	// 7로 나눠지는 경우, 벤치마크데이의 요일과 동일함 
             	if(days%7==0){
             		yoil = monthDayTitle[1];
             	}
@@ -218,6 +215,7 @@
         function getMonthStructure(year){
         	let months;
         	
+        	// months 는 1~12 월의 달수 표시, 배열로 확인 0 == 1월 
         	if(typeof(year)!='undefined'&&year!=null){
         		if(getYunNyen(year)==true){
             		months = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -438,29 +436,52 @@
 		// Form 모양생성
 		function YearForm(date){
 			let div = document.getElementsByClassName("calendarDiv")[0];
-			
+			let divc = document.createElement("div");
+            
 			while(div.hasChildNodes()){
 				div.removeChild(div.firstChild);
 			}
             
 			if(typeof(date)!='undefined'&&year!=null){
 				for(let box = 1; box < 13; box++){
+                    
+                    let p = document.createElement("div");
+                    p.classList.add("yearLayoutBox")
+                    
+                    let c = document.createElement("div");
+                    c.classList.add("yearInMonthTitle");
+                    c.innerHTML = box+" 월";
+                    
+                    p.appendChild(c);
+                    
 					date.month = box;
-					div.appendChild(createYearFormElement(date));
+                    
+                    
+					p.appendChild(createYearFormElement(date));
+                    div.appendChild(p);
 				}
 			}
 			else{
-				let divc = document.createElement("div");
 				for(let box = 1; box < 13; box++){
 					let dayInfo = getToday();
 					dayInfo.month = box;
-					console.log(dayInfo.month);
-					divc.appendChild(createYearFormElement(dayInfo));
+                    
+                    let p = document.createElement("div");
+                    p.classList.add("yearLayoutBox")
+                    
+                    let c = document.createElement("div");
+                    c.classList.add("yearInMonthTitle");
+                    c.innerHTML = box+" 월";
+                    
+                    p.appendChild(c);
+                    
+					p.appendChild(createYearFormElement(dayInfo));
+                    div.appendChild(p);
 				}
-				div.appendChild(divc);
 			}
 		}
         
+		// 몬스 폼을 만들기 
 		function MonthForm(date){
 			if(typeof(date)!='undefined'&&year!=null){
 				let div = document.getElementsByClassName("calendarDiv")[0];
@@ -484,6 +505,7 @@
 			}
 		}
 		
+		// 주간 폼 만들기
 		function WeekForm(date){
 			let div = document.getElementsByClassName("calendarDiv");
 			
@@ -495,6 +517,7 @@
 			
 		}
 		
+		// 일 폼 만들기 
 		function DayForm(){
 			let div = document.getElementsByClassName("calendarDiv");
 			
@@ -539,6 +562,7 @@
 			
 		}
 		
+		// 월 폼의 요소 만들기
 		function createMonthFormElement(date){
 			
 			let v;
@@ -1078,7 +1102,7 @@
 	                
 					if(i==1){
 						cccc = document.createElement("span");
-		                cccc.classList.add("monthBoxTitleBox");
+		                cccc.classList.add("monthBoxTitleBoxOne");
 		                cccc.innerHTML = getToday().month+"월 "+ i +"일";
 		                ccc.appendChild(cccc);
 	            	}
@@ -1247,6 +1271,8 @@
 			}
 			return v;
 		}
+		
+		// 년 폼 요소 만들기 
 		function createYearFormElement(date){
 			
 			let v;
@@ -1262,11 +1288,11 @@
 	        
 	            
 	            c = document.createElement("div");
-	            c.classList.add("monthAreaHead");
+	            c.classList.add("yearAreaHead");
 	            
 	            for(let i = 0; i < 7; i++){
 	                cc = document.createElement("div");
-	                cc.classList.add("monthAreaHeadTitle");
+	                cc.classList.add("yearAreaHeadTitle");
 	                cc.innerHTML = monthDayTitle[i];
 	                c.appendChild(cc);
 	            }
@@ -1274,7 +1300,7 @@
 	            v.appendChild(c);
 	            
 	            c = document.createElement("div");
-	            c.classList.add("monthAreaBody");
+	            c.classList.add("yearAreaBody");
 	            
 	            let months = getMonthStructure();
 	            let flag = months[date.month-1];
@@ -1282,6 +1308,7 @@
 	            let beforeYoil;
 	            let NowMonth = months[date.month-2];
 	            
+	            // 배열 값이 없는 항목을 참조: 할때 실행, 말을 12로 설정함 (1월일 경우 실행됨)
 	            if(NowMonth==NaN||NowMonth==null){
 	            	NowMonth = months[11];
 	            }
@@ -1290,19 +1317,19 @@
 	           		for(let i = 0; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1312,19 +1339,19 @@
 	           		for(let i = 1; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1334,19 +1361,19 @@
 	           		for(let i = 2; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1356,19 +1383,19 @@
 	           		for(let i = 3; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1378,19 +1405,19 @@
 	           		for(let i = 4; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1400,19 +1427,19 @@
 	           		for(let i = 5; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1423,20 +1450,20 @@
 	            for(let i = 1; i < flag+1; i++){
 	            	
 	                cc = document.createElement("div");
-	                cc.classList.add("monthBox"); 
+	                cc.classList.add("yearBox"); 
 	                
 	                ccc = document.createElement("div");
-	                ccc.classList.add("monthBoxTitle");
+	                ccc.classList.add("yearBoxTitle");
 	                
             		cccc = document.createElement("span");
-                    cccc.classList.add("monthBoxTitleBox");
+                    cccc.classList.add("yearBoxTitleBox");
                     cccc.innerHTML = i +"";
                     ccc.appendChild(cccc);
 	              
 	                cc.appendChild(ccc);
 	                
 	                ccc = document.createElement("div");
-	                ccc.classList.add("monthBoxBody");
+	                ccc.classList.add("yearBoxBody");
 	                cc.appendChild(ccc);
 	           		
 	                c.appendChild(cc);
@@ -1452,19 +1479,19 @@
 	           		for(let i = 1; i < 7; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1474,19 +1501,19 @@
 	           		for(let i = 1; i < 6 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1496,19 +1523,19 @@
 	           		for(let i = 1; i < 5 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearhBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1518,19 +1545,19 @@
 	           		for(let i = 1; i < 4 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1540,19 +1567,19 @@
 	           		for(let i = 1; i < 3 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1562,19 +1589,19 @@
 	           		for(let i = 1; i < 2 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1595,11 +1622,11 @@
 	        
 	            
 	            c = document.createElement("div");
-	            c.classList.add("monthAreaHead");
+	            c.classList.add("yearAreaHead");
 	            
 	            for(let i = 0; i < 7; i++){
 	                cc = document.createElement("div");
-	                cc.classList.add("monthAreaHeadTitle");
+	                cc.classList.add("yearAreaHeadTitle");
 	                cc.innerHTML = monthDayTitle[i];
 	                c.appendChild(cc);
 	            }
@@ -1607,7 +1634,7 @@
 	            v.appendChild(c);
 	            
 	            c = document.createElement("div");
-	            c.classList.add("monthAreaBody");
+	            c.classList.add("yearAreaBody");
 	            
 	            let today = getToday();
 	            let months = getMonthStructure();
@@ -1620,19 +1647,20 @@
 	           		for(let i = 0; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
+	                    cc.classList.add("yearBoxDummy"); 
+                        cc.innerHTML = "";
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1642,19 +1670,20 @@
 	           		for(let i = 1; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1664,19 +1693,20 @@
 	           		for(let i = 2; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1686,19 +1716,20 @@
 	           		for(let i = 3; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1708,19 +1739,20 @@
 	           		for(let i = 4; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1730,19 +1762,20 @@
 	           		for(let i = 5; i > -1 ; i--){
 	           			beforeYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1753,20 +1786,20 @@
 	            for(let i = 1; i < flag+1; i++){
 	            	
 	                cc = document.createElement("div");
-	                cc.classList.add("monthBox"); 
+	                cc.classList.add("yearBox"); 
 	                
 	                ccc = document.createElement("div");
-	                ccc.classList.add("monthBoxTitle");
+	                ccc.classList.add("yearBoxTitle");
 	                
 					cccc = document.createElement("span");
-	                cccc.classList.add("monthBoxTitleBox");
+	                cccc.classList.add("yearBoxTitleBox");
 	                cccc.innerHTML = i +"";
 	                ccc.appendChild(cccc);
 	            	
 	                cc.appendChild(ccc);
 	                
 	                ccc = document.createElement("div");
-	                ccc.classList.add("monthBoxBody");
+	                ccc.classList.add("yearBoxBody");
 	                cc.appendChild(ccc);
 	           		
 	                c.appendChild(cc);
@@ -1783,19 +1816,20 @@
 	           		for(let i = 1; i < 7; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1805,19 +1839,20 @@
 	           		for(let i = 1; i < 6 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1827,19 +1862,20 @@
 	           		for(let i = 1; i < 5 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1849,19 +1885,20 @@
 	           		for(let i = 1; i < 4 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("myearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1871,19 +1908,20 @@
 	           		for(let i = 1; i < 3 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
@@ -1893,19 +1931,20 @@
 	           		for(let i = 1; i < 2 ; i++){
 	           			afterYoil = NowMonth;
 	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
+	                    cc.classList.add("yearBoxDummy"); 
+	                    cc.innerHTML = "";
+                        
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
+	                    ccc.classList.add("yearBoxTitleDummy");
 	                    
 	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
+	                    cccc.classList.add("yearBoxTitleBoxDummy");
 	                    ccc.appendChild(cccc);
 	                    
 	                    cc.appendChild(ccc);
 	                    
 	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
+	                    ccc.classList.add("yearBoxBodyDummy");
 	                    cc.appendChild(ccc);
 	               		
 	                    c.appendChild(cc);
