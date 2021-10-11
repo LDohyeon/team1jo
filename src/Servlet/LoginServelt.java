@@ -26,14 +26,8 @@ public class LoginServelt extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-<<<<<<< HEAD
 		String url="index.jsp";
-		
-		
-=======
-		String url="index.jsp";//���� main.jsp ��� index.jsp�� ��ü 
-			
->>>>>>> branch 'member' of https://github.com/LDohyeon/team1jo.git
+
 		request.setCharacterEncoding("utf-8");
 		
 		String id = request.getParameter("id");
@@ -56,7 +50,7 @@ public class LoginServelt extends HttpServlet {
 		}		
 		response.sendRedirect(url);
 	}
-<<<<<<< HEAD
+
 	
 }
 
@@ -65,6 +59,4 @@ public class LoginServelt extends HttpServlet {
 
 
 
-=======
-}
->>>>>>> branch 'member' of https://github.com/LDohyeon/team1jo.git
+
