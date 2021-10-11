@@ -14,9 +14,6 @@
 				<div class="wrap2">
 					<h1>회원가입</h1>
 					<h4>*은 필수 항목 입니다</h4>
-					<span class="registerIdCheckMsg">
-						<input type="hidden" name="registerIdCheckHidden" value="">
-					</span>
 					<div>
 						<span>*아이디 : </span>
 						<span><input type="text" name="id" id="id"></span>
@@ -48,6 +45,7 @@
 			var frm = document.register;
 			var regMsg = document.getElementsByClassName("registerMsg");
 			var overlapStatus = 'N';
+			var currentId = "";
 			
 			for(i=0; i<regMsg.length; i++){
 				regMsg[i].style.display = "none";	
@@ -55,7 +53,7 @@
 			
 			// 회원가입 유효성 검사
 			function registerCheck(){
-			 	
+				
 				for(i=0; i<regMsg.length; i++){
 					regMsg[i].style.display = "none";	
 				}
@@ -67,54 +65,60 @@
 						regMsg[0].style.display = "block";	
 						frm.id.focus();
 						registerResult = false;
-					} else if(frm.id.value.length < 4 || frm.id.value.length > 16){
+					} else if(frm.id.value.length < 4 || frm.id.value.length > 16){ 
 						regMsg[0].innerHTML = "아이디는 4자리 ~ 15자리 이하로 입력해주세요";
 						regMsg[0].style.display = "block";
 						frm.id.focus();
 						registerResult = false;
-					}
+					} else if (overlapStatus == "N") {
+						regMsg[0].innerHTML = "아이디 중복 확인을 눌러주세요";	
+						regMsg[0].style.display = "block";
+						frm.id.focus();
+						registerResult = false;
+				   	}	
 					
 					if(frm.pw.value == ""){
 						regMsg[1].innerHTML = "비밀번호를 입력해주세요";	
 						regMsg[1].style.display = "block";	
-						frm.pw.focus();
 						registerResult = false;
 					}else if(frm.pw.value.length < 4 || frm.pw.value.length > 8){
 						regMsg[1].innerHTML = "비밀번호는 4자리 ~ 8자리 이하로 입력해주세요";
 						regMsg[1].style.display = "block";
-						frm.pw.focus();
 						registerResult = false;
 					}
+					
 					if(frm.name.value == ""){
+						regMsg[2].innerHTML = "이름을 입력해주세요";
 						regMsg[2].style.display = "block";
-						frm.name.focus();
 						registerResult = false;
 					}
+					
 					if(frm.email.value == ""){
+						regMsg[3].innerHTML = "이메일을 입력해주세요";
 						regMsg[3].style.display = "block";
-						frm.email.focus();
 						registerResult = false;
-					}
-					if (overlapStatus == 'N') {
-						registerIdCheckMsg[0].innerHTML = "아이디 중복 확인을 눌러주세요";	
-						registerIdCheckMsg[0].style.display = "block";
-						frm.id.focus();
-						registerResult = false;
-				   	}
+					}					
 
-				   	if (overlapStatus == 'O') {
-				   		registerIdCheckMsg[0].innerHTML = "중복된 아이디 입니다.";	
-						registerIdCheckMsg[0].style.display = "block";
+					if (overlapStatus == 'O') {
+				   		regMsg[0].innerHTML = "중복된 아이디 입니다.";	
+				   		regMsg[0].style.display = "block";
 						frm.id.focus();
-				      	overlapStatus = 'N'; // 초기화 (아이디 중복확인 메세지가 뜨도록)
 				      	registerResult = false;
 				   	}
+					
+				   	if(currentId != ""){
+					   	if (frm.id.value != currentId ){
+					   		regMsg[0].innerHTML = "아이디 중복 확인을 눌러주세요";	
+					   		regMsg[0].style.display = "block";
+							frm.id.focus();
+					      	registerResult = false;
+					   	}
+				   	}	   
 				}
 				return registerResult;
 			}
 			
 			//아이디 중복 체크를 위한 ajax 시작
-			//이건 신경 안 써도 됩니다.
 			var XHR;
 			var idOverlap;
 			function createXHRHttpRequest()
@@ -139,6 +143,18 @@
 			
 			function request_doPost()
 			{
+				if(frm.id.value == ""){
+					regMsg[0].innerHTML = "아이디 입력 후 아이디 중복 확인을 눌러주세요";	
+					regMsg[0].style.display = "block";	
+					frm.id.focus();
+					return false;
+				} else if(frm.id.value.length < 4 || frm.id.value.length > 16){
+					regMsg[0].innerHTML = "아이디는 4자리 ~ 15자리 이하로 입력해주세요";
+					regMsg[0].style.display = "block";
+					frm.id.focus();
+					return false;
+				}
+				
 				createXHRHttpRequest();
 				var url="idCheck.do";
 				var check=idCheck();
@@ -163,43 +179,23 @@
 				}
 			}
 			//아이디 중복 체크를 위한 ajax 끝
-			//여기까지는 신경 안 써도 됩니다.
-			//신경 써야될 건 바로 밑에 function overlapCheck()
 			
-			var registerIdCheckMsg = document.getElementsByClassName("registerIdCheckMsg");
-			var registerIdCheckHidden = document.register.registerIdCheckHidden.value;				
-			function overlapCheck(idOverlap) //아이디 중복체크를 눌렀을 때 실행되는 function
+			//아이디 중복체크를 눌렀을 때 실행되는 function 
+			function overlapCheck(idOverlap)
 			{
 				overlapStatus = 'O';
-				
-				if(idOverlap == "-1"){ // String 타입이라서
-					registerIdCheckMsg[0].innerHTML = "중복 된 아이디 입니다.";	
-					registerIdCheckMsg[0].style.display = "block";
+
+				if(idOverlap == -1){
+					regMsg[0].innerHTML = "중복된 아이디 입니다.";	
+					regMsg[0].style.display = "block";
+					frm.id.focus(); 
+				} else {
+					regMsg[0].innerHTML = "사용 가능한 아이디 입니다.";	
+					regMsg[0].style.display = "block";
 					frm.id.focus();
+					overlapStatus = "Y";
+					currentId = frm.id.value;
 				}
-				
-				if(idOverlap == 1 && frm.id.value == ""){
-					registerIdCheckMsg[0].innerHTML = "아이디 작성 후 아이디 중복 확인을 눌러주세요";	
-					registerIdCheckMsg[0].style.display = "block";
-					frm.id.focus();
-				}
-				
-				if(idOverlap == 1 && frm.id.value != "") {
-					if(frm.id.value.length < 4 || frm.id.value.length > 16){
-						regMsg[0].innerHTML = "아이디는 4자리 ~ 15자리 이하로 입력해주세요";
-						regMsg[0].style.display = "block";
-						frm.id.focus();
-					}else{
-						registerIdCheckMsg[0].innerHTML = "사용 가능한 아이디 입니다.";	
-						registerIdCheckMsg[0].style.display = "block";
-						frm.id.focus();
-						overlapStatus = "Y"; 
-					   	registerIdCheckHidden = overlapStatus;
-					}
-				} 
-				//이렇게 idOverlap의 값으로 기능 구현하시면 됩니다.
-				//기능은 아이디가 중복일 경우 submit 되면 안 되고
-				//또 아이디 중복 체크를 안 했을 때도 submit 되면 안 됩니다.
 			}
 		</script>
 	</body>

@@ -204,8 +204,8 @@ public class MemberDAO {
 		return result;
 		
 	}
-	
 	//id 중복 체크 끝
+<<<<<<< HEAD
 	
 	//비밀 번후 수정 시작
 	
@@ -323,3 +323,6 @@ public class MemberDAO {
 
 
 
+=======
+}
+>>>>>>> branch 'member' of https://github.com/LDohyeon/team1jo.git
