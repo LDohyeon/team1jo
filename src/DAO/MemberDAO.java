@@ -1,7 +1,7 @@
 package DAO;
 
 import java.sql.*;
-
+import java.util.*;
 
 import DTO.MemberDTO;
 
@@ -205,7 +205,6 @@ public class MemberDAO {
 		
 	}
 	//id 중복 체크 끝
-<<<<<<< HEAD
 	
 	//비밀 번후 수정 시작
 	
@@ -307,6 +306,53 @@ public class MemberDAO {
 	
 	//회원 탈퇴 끝
 	
+	
+	//관리자 회원 관리 시작
+	
+	public List<MemberDTO> memberList()
+	{
+		List<MemberDTO> list = new ArrayList<MemberDTO>();
+		
+		String sql="select * from member order by num desc limit 20";
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs=null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				MemberDTO mDTO = new MemberDTO();
+			
+				mDTO.setNum(rs.getInt("num"));
+				mDTO.setId(rs.getString("id"));
+				mDTO.setName(rs.getString("name"));
+				mDTO.setEmail(rs.getString("email"));
+				mDTO.setAuthority(rs.getString("authority"));
+				
+				list.add(mDTO);	
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("회원 관리 목록 출력 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return list;
+	}
+	
+	//관리자 회원 관리 끝
+	
+	
 }
 
 
@@ -318,11 +364,3 @@ public class MemberDAO {
 
 
 
-
-
-
-
-
-=======
-}
->>>>>>> branch 'member' of https://github.com/LDohyeon/team1jo.git
