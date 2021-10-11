@@ -204,23 +204,5 @@ public class MemberDAO {
 		return result;
 		
 	}
-	
 	//id 중복 체크 끝
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

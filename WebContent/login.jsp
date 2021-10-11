@@ -28,12 +28,12 @@
 				<div>
 					<span>아이디 : </span>
 					<span><input type="text" name="id"></span>
-					<span class="loginIdPw">아이디를 입력해주세요</span>
+					<span class="loginIdPw"></span>
 				</div>
 				<div>
 					<span>비밀번호 : </span>
 					<span><input type="password" name="pw"></span>
-					<span class="loginIdPw">아이디를 입력해주세요</span>
+					<span class="loginIdPw"></span>
 				</div>
 				<div>
 					<span><input type="submit" value="로그인" onclick="return loginCheck()"></span>
@@ -50,8 +50,7 @@
 			}
 			
 			// 로그인 유효성 검사
-			function loginCheck(){
-				
+			function loginCheck(){			
 				for(i=0; i<loginIdPw.length; i++){
 					loginMsg[0].style.display = "none";
 					loginIdPw[i].style.display = "none";	

@@ -43,6 +43,11 @@ form div span input{
 	color: red;
 }
 
+.registerIdCheckMsg > input{
+	display: inline-block;
+	width: 200px;
+}
+	
 .registerMsg, .loginIdPw{
 	width: 300px;
 	padding-top: 0;

@@ -39,11 +39,7 @@ public class RegisterServlet extends HttpServlet {
 		mDAO.MemberInsert(mDTO);
 		
 		response.sendRedirect("login.do");
-
-		
-		
 	}
-
 }
 
 
