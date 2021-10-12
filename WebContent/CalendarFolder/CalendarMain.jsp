@@ -1224,6 +1224,7 @@
 		// AJAX 기본 세팅
 		let XHRCalendar;//XHR + cal
 		let xmlParser;
+		let scheduleData = [];
 		
 		function createXHRCalendar(){
 			if(window.ActiveXObject){ 
@@ -1249,12 +1250,26 @@
 		            	xmlParser = new DOMParser();
 		            	xmlGroup = xmlParser.parseFromString(XHRCalendar.responseText, "text/xml");
 		            	
-		            	group = xmlGroup.getElementsByTagName("group");
+		            	groups = xmlGroup.getElementsByTagName("group");
 						
-		            	for(let i = 0; i < group.length; i++){
-		            		console.log(group[i]);
-		            		console.log(group[i].getElementsByTagName("schedule")[0]);
+		            	for(let i = 0; i < groups.length; i++){
+		            		schedules = groups[i].getElementsByTagName("schedule");
+		            		
+		            		for(let j = 0; j < schedules.length; j++){
+		            			let temp = {
+		            				key: groups[i].getElementsByTagName("key")[0].innerHTML,
+		            				name: groups[i].getElementsByTagName("name")[0].innerHTML,
+		            				num: schedules[j].getElementsByTagName("num")[0].innerHTML,
+		            				title: schedules[j].getElementsByTagName("title")[0].innerHTML,
+		            				start: schedules[j].getElementsByTagName("start")[0].innerHTML,
+		            				end: schedules[j].getElementsByTagName("end")[0].innerHTML,
+		            				content: schedules[j].getElementsByTagName("content")[0].innerHTML,
+		            				user: schedules[j].getElementsByTagName("user")[0].innerHTML
+		            			}
+		            			scheduleData.push(temp);
+		            		}
 		            	}
+		            	createScheduleElement(scheduleData);
 		            }
 				}
 			};
@@ -1263,8 +1278,14 @@
 			XHRCalendar.send("userKey="+user);
 		}
 		
-		function createElement(group, schedule){
-			
+		function createScheduleElement(scheduleData){
+			for(let i = 0; i < scheduleData.length; i++){
+				let end = scheduleData.end;
+				
+				if(end<getToday()){
+					
+				}
+			}
 		}
 		
 		function toDoList(){
