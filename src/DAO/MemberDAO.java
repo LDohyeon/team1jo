@@ -349,10 +349,7 @@ public class MemberDAO {
 		
 		return list;
 	}
-	
 	//관리자 회원 관리 끝
-	
-	
 }
 
 

@@ -25,15 +25,12 @@ public class MemberListServlet extends HttpServlet {
 		request.setAttribute("memberList", list);
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("memberList.jsp");
-		dispatcher.forward(request, response);
-		
+		dispatcher.forward(request, response);	
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	}
-
 }
 
 
