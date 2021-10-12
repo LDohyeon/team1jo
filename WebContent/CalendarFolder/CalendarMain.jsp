@@ -1244,16 +1244,11 @@
 					user = "DEMOUSER"
 				}
 				
-				if(group=='undefined'||group==null){
-					
-				}
 				
-				let yoil = getYoil(date);
+				
 			}
 		}
 		
-		
-		 
 		// GroupCheck
 		function CheckGroup(){
 			
