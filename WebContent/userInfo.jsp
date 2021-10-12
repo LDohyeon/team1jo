@@ -23,26 +23,25 @@
                     
 					<div>비밀번호</div>
 					<div>
-						<span>"${loginUser.getPw()}"</span>
-						<span><input type="button" value="수정" onclick="location.href='changePw.do'"></span>
+						<span>${pwEnc}</span>
+						<span><input type="button" value="수정" onclick="location.href='changePw.jsp'"></span>
 					</div>
 					
-					<div>별명</div>
+					<div>이름</div>
 					<div>
-						<span><input onchange="return checkName()" type="text" name="name" value=""></span>
-						<span id="underInfo1" style="display:none;">별명을 입력해주세요.</span>
+						<span><input onchange="return checkName()" type="text" name="name" value="${loginUser.getName()}"></span>
+						<span id="underInfo1" style="display:none;">이름을 입력해주세요.</span>
 					</div>
 					
 					<div>이메일</div>
 					<div>
-						<span><input onchange="return checkEmail()" type="email" name="email" value=""></span>
+						<span><input onchange="return checkEmail()" type="email" name="email" value="${loginUser.getEmail()}"></span>
 						<span id="underInfo2" style="display:none;">이메일 주소를 입력해주세요.</span>
 					</div>
 					
 					<div>
-						<input type="hidden" value="" name="num">
 						<input name="submit" type="submit" value="적용" onclick="return check()">
-						<input type="button" value="취소" onclick="location.href='main.jsp'">
+						<input type="button" value="취소" onclick="location.href='index.jsp'">
 					</div>
 				</div>
 			</form>

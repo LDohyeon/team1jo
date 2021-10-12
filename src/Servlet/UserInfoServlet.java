@@ -3,10 +3,11 @@ package Servlet;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 
 import DAO.MemberDAO;
+import DTO.MemberDTO;
 
-import javax.servlet.annotation.*;
 
 @WebServlet("/userInfo.do")
 public class UserInfoServlet extends HttpServlet {
@@ -19,22 +20,28 @@ public class UserInfoServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//setting
 		request.setCharacterEncoding("utf-8");
-		
-		String name= request.getParameter("name");
-		String email=request.getParameter("email");
+		MemberDAO mDAO=MemberDAO.getInstance();
 		HttpSession session = request.getSession();
+
+		//values for changing
+		String name=request.getParameter("name");
+		String email=request.getParameter("email");
+		String id=(String)session.getAttribute("loginUserId");
+		Object obj=session.getAttribute("loginUser");
+		MemberDTO member=(MemberDTO)obj;
+		String pw=member.getPw();
 		
-		String id = (String)session.getAttribute("loginUserId");
+		//update user's info
+		mDAO.MemberUpdate(name,email,id);
 		
-		MemberDAO mDAO = MemberDAO.getInstance();
-		mDAO.MemberUpdate(name, email, id);
+		//update session
+		MemberDTO mDTO = mDAO.loginMember(id, pw);
+		session.setAttribute("loginUser", mDTO);
 		
-		response.sendRedirect("login.do");
-		
-		
-		
+		//change page
+		response.sendRedirect("pwEnc.do");
 		
 	}
 

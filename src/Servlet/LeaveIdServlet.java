@@ -3,10 +3,10 @@ package Servlet;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 
 import DAO.MemberDAO;
 
-import javax.servlet.annotation.*;
 
 @WebServlet("/leaveId.do")
 public class LeaveIdServlet extends HttpServlet {
@@ -19,20 +19,19 @@ public class LeaveIdServlet extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//setting
 		request.setCharacterEncoding("utf-8");
+		MemberDAO mDAO=MemberDAO.getInstance();
 		
-		HttpSession session= request.getSession();
+		//get session, id
+		HttpSession session=request.getSession();
+		String id=(String)session.getAttribute("loginUserId");
 		
-		String id = (String)session.getAttribute("loginUserId");
-		
-		MemberDAO mDAO= MemberDAO.getInstance();
+		//delete member
 		mDAO.MemberDelete(id);
 		
+		//change page
 		response.sendRedirect("index.jsp");
-		
-		
-		
 	}
 
 }
