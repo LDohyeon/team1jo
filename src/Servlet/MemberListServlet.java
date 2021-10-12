@@ -50,13 +50,21 @@ public class MemberListServlet extends HttpServlet {
 		List<MemberDTO> list = mDAO.memberSerachList("ad", "dl");
 		
 
-		//검수는 해봤습니다. 자유롭게 써주세요 저 ad 11 는 getParameter로 받은 id name 넣어주시면 됩니다.
+		List<MemberDTO> list2= mDAO.memberSerachList("ad", "dl", "3");//관리자 번호 포함 오버로딩
 		
-		//아 그리고 검색창 비어있으면 검색 안 되는 js 안 만드셨더라고요
-		//그리고 select option 에서 ==선택== 이어도 안 넘어가게도 해주셔야 돼요 선택하라는 알림창 띄우면 좋을 듯
+		for(int i=0; i<list2.size(); i++)
+		{
+			System.out.println("list2 : "+ list2.get(i).getId());
+		}
 		
+		System.out.println("---------------------------");
 		
-
+		List<MemberDTO> list3= mDAO.memberSerachList("ad", "dl", "2");
+		
+		for(int i=0; i<list3.size(); i++)
+		{
+			System.out.println("list2 : "+ list3.get(i).getId());
+		}
 		
 		
 	}

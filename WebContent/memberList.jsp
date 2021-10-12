@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ page import="DAO.MemberDAO" %>
 <%@ page import="DTO.MemberDTO" %>
 <%@ page import="java.sql.*" %>
@@ -19,19 +20,24 @@
       %>
          
       <div class="wrap1">
-         <div class="wrap2">
+         <div>
             <h1>회원 리스트</h1>
-            <div>
-	            <form method="post" action="memberList.do">
-	               <select name="sel_serch">
-	                  <option value="">==선택==</option>
-	                  <option value="id">아이디</option>
-	                  <option value="name">이름</option>
-	               </select>
-	               <input type="text" name="serch">
-	               <input type="submit" value="검색">
-	            </form>
-	         </div>
+            <form method="post" action="memberList.do">
+               <select name="selSerch1">
+                  <option value="">==조건 선택==</option>
+                  <option value="id">아이디</option>
+                  <option value="name">이름</option>
+               </select>
+               <select name="selSerch2">
+                  <option value="0">전체보기</option>
+                  <option value="3">댓글 정지(3)</option>
+                  <option value="4">글 정지(4)</option>
+               </select>
+               <input type="text" name="selValue">
+               <input type="submit" value="검색">
+            </form>
+         </div>
+         <div class="wrap2">
             <table class="memberList">
                <tr>
                   <td>번호</td>
@@ -59,6 +65,24 @@
                %>               
             </table>
          </div>
+         <ul class="mListPage">
+            <c:if test="${startPage != 1}">
+               <li><a href="memberList.do?startPage=${startPage-1}&lastPage=${lastPage}">이전</a></li>
+            </c:if>
+            <c:forEach begin="1" end="${totalPage}" var="i">
+               <c:choose>
+                  <c:when test="${startPage eq i}">
+                     <li>${i}</li>
+                  </c:when>
+                  <c:otherwise>
+                     <li><a href="memberList.do?startPage=${i}&lastPage=${lastPage}">${i}</a></li>
+                  </c:otherwise>
+               </c:choose>
+            </c:forEach>
+            <c:if test="${startPage lt totalPage}">
+               <li><a href="memberList.do?startPage=${startPage+1}&lastPage=${lastPage}">다음</a></li>
+            </c:if>
+         </ul>
       </div>
    </body>
 </html>
