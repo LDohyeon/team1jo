@@ -17,8 +17,6 @@ public class LoginServelt extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setAttribute("loginMsg", "아이디 또는 비밀번호가 일치하지 않습니다");
-		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("login.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -41,6 +39,7 @@ public class LoginServelt extends HttpServlet {
 		{
 			// 로그인 실패시
 			url="login.do";
+			request.setAttribute("loginMsg", "아이디 또는 비밀 번호가 일치하지 않습니다.");
 		}
 		else
 		{	
@@ -48,7 +47,8 @@ public class LoginServelt extends HttpServlet {
 			session.setAttribute("loginUser", mDTO);//로그인 성공시
 			session.setAttribute("loginUserId", mDTO.getId());
 		}		
-		response.sendRedirect(url);
+		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+		dispatcher.forward(request, response);
 	}
 
 	
