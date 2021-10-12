@@ -18,7 +18,6 @@ public class MemberListServlet extends HttpServlet {
 
 		request.setCharacterEncoding("utf-8");
 		
-		//index.jsp a태그 참조
 		int startPage= Integer.parseInt(request.getParameter("startPage"));
 		int lastPage=20;
 		
@@ -48,11 +47,9 @@ public class MemberListServlet extends HttpServlet {
 
 		MemberDAO mDAO= MemberDAO.getInstance();
 		
-		List<MemberDTO> listId = mDAO.memberIdSerachList("ad");
+		List<MemberDTO> list = mDAO.memberSerachList("ad", "dl");
 		
-		List<MemberDTO> listName = mDAO.memberNameSerachList("11");
-		
-		
+
 		//검수는 해봤습니다. 자유롭게 써주세요 저 ad 11 는 getParameter로 받은 id name 넣어주시면 됩니다.
 		
 		//아 그리고 검색창 비어있으면 검색 안 되는 js 안 만드셨더라고요
