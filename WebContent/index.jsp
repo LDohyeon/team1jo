@@ -13,6 +13,10 @@
 	<body>
 		<a href="register.do">회원가입</a>
 		<a href="login.do">로그인</a>
+		<a href="changePw.do">비밀번호 수정</a>
+		<a href="userInfo.do">회원정보 수정</a>
+		<a href="leaveId.do">회원 탈퇴</a>
+		<a href="memberList.do">회원 관리(관리자)</a>
 		${loginUser.getId()}<!-- 로그인 잘 되는지 확인용 헤더가 없어서.. -->
 		${loginUser.getPw()}
 		
