@@ -61,8 +61,7 @@
 
 .centerBox{
     flex: 30;
-    height: calc(100%-50px);
-    overflow: scroll;
+    height: calc(100%-50px);   
 }
 .calendarDiv{
     width: 100%;
@@ -113,6 +112,9 @@
 }
 .monthBoxTitleBox:hover{
     background-color: lightgrey;
+}
+.dateTag{
+	display: none;
 }
 .monthBoxTitleBoxOne{
     padding: 1px;

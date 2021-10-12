@@ -72,7 +72,7 @@
         	let yoil; 
         	let days = 0;
         	
-        	if(typeof(date)!="undefined"&&date!=null){
+        	if(typeof(date)!="undefined"||date!=null){
         		let months = getMonthStructure();
             	let today = date;
             	
@@ -166,7 +166,7 @@
         function getYunNyen(y){
         	let yunNyen; 
         	
-      		if(typeof(y)!='undefined'&&y!=null){
+      		if(typeof(y)!='undefined'||y!=null){
     			
             	if(y%4==0){
             		yunNyen = true;
@@ -535,33 +535,7 @@
             v.classList.add("calendarArea");
            
 		}
-        
-        
-		// GroupCheck
-		function CheckGroup(){
-			
-		}
-		
-		function toDoList(){
-			
-		}
-		
-		function toDoListComplete(){
-			
-		}
-		
-		function toDoLostDelete(){
-			
-		}
-		
-		function toDoListChange(){
-			
-		}
-		
-		function addPlan(){
-			
-		}
-		
+
 		// 월 폼의 요소 만들기
 		function createMonthFormElement(date){
 			
@@ -571,7 +545,7 @@
             let ccc;
             let cccc;
             
-			if(typeof(date)!='undefined'&&date!=null){
+			if(typeof(date)!='undefined'||date!=null){
 				
 	            v = document.createElement("div");
 	            v.classList.add("calendarArea");
@@ -604,140 +578,32 @@
 	          	
 	           	if(yoil=="월"){
 	           		for(let i = 0; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, date, NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="화"){
 	           		for(let i = 1; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, date, NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="수"){
 	           		for(let i = 2; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, date, NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="목"){
 	           		for(let i = 3; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, date, NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="금"){
 	           		for(let i = 4; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, date, NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="토"){
 	           		for(let i = 5; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, date, NowMonth));
 	           		}
 	           	}
 	           	v.appendChild(c);
@@ -767,6 +633,22 @@
 	                
 	                ccc = document.createElement("div");
 	                ccc.classList.add("monthBoxBody");
+	                
+	                cccc = document.createElement("input");
+					cccc.classList.add("dateTag");
+					cccc.setAttribute("type", "text");
+					let thisTimeDate;
+					
+					if(i<10){
+						thisTimeDate = date.year+""+date.month+"0"+i
+					}
+					else{
+						thisTimeDate = date.year+""+date.month+""+i;
+					}
+					
+					cccc.setAttrubute("value", thisTimeDate);
+					ccc.appendChild(cccc);
+					
 	                cc.appendChild(ccc);
 	           		
 	                c.appendChild(cc);
@@ -780,140 +662,32 @@
 	          	
 	           	if(yoil=="월"){
 	           		for(let i = 1; i < 7; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, date));
 	           		}
 	           	}
 	           	else if(yoil=="화"){
 	           		for(let i = 1; i < 6 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, date));
 	           		}
 	           	}
 	           	else if(yoil=="수"){
 	           		for(let i = 1; i < 5 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, date));
 	           		}
 	           	}
 	           	else if(yoil=="목"){
 	           		for(let i = 1; i < 4 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, date));
 	           		}
 	           	}
 	           	else if(yoil=="금"){
 	           		for(let i = 1; i < 3 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, date));
 	           		}
 	           	}
 	           	else if(yoil=="토"){
 	           		for(let i = 1; i < 2 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, date));
 	           		}
 	           	}
 	           	v.appendChild(c);
@@ -954,140 +728,32 @@
 	          	
 	           	if(yoil=="월"){
 	           		for(let i = 0; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, getToday(), NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="화"){
 	           		for(let i = 1; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, getToday(), NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="수"){
 	           		for(let i = 2; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, getToday(), NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="목"){
 	           		for(let i = 3; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, getToday(), NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="금"){
 	           		for(let i = 4; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, getToday(), NowMonth));
 	           		}
 	           	}
 	           	else if(yoil=="토"){
 	           		for(let i = 5; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = (NowMonth-i) +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthBeforeFormDate(i, getToday(), NowMonth));
 	           		}
 	           	}
 	           	v.appendChild(c);
@@ -1117,6 +783,22 @@
 	                
 	                ccc = document.createElement("div");
 	                ccc.classList.add("monthBoxBody");
+	                
+	                cccc = document.createElement("input");
+					cccc.classList.add("dateTag");
+					cccc.setAttribute("type", "text");
+					let thisTimeDate = "";
+					
+					if(i<10){
+						thisTimeDate = getToday().year+""+getToday().month+"0"+i
+					}
+					else{
+						thisTimeDate = getToday().year+""+getToday().month+""+i;
+					}
+					
+					cccc.setAttribute("value", thisTimeDate);
+					ccc.appendChild(cccc);
+	                
 	                cc.appendChild(ccc);
 	           		
 	                c.appendChild(cc);
@@ -1131,145 +813,216 @@
 	          	
 	           	if(yoil=="월"){
 	           		for(let i = 1; i < 7; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, getToday()));
 	           		}
 	           	}
 	           	else if(yoil=="화"){
 	           		for(let i = 1; i < 6 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	                    c.appendChild(monthAfterFormDate(i, getToday()));
 	           		}
 	           	}
 	           	else if(yoil=="수"){
 	           		for(let i = 1; i < 5 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, getToday()));
 	           		}
 	           	}
 	           	else if(yoil=="목"){
 	           		for(let i = 1; i < 4 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, getToday()));
 	           		}
 	           	}
 	           	else if(yoil=="금"){
 	           		for(let i = 1; i < 3 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, getToday()));
 	           		}
 	           	}
 	           	else if(yoil=="토"){
 	           		for(let i = 1; i < 2 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("monthBox"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxTitle");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("monthBoxTitleBox");
-	                    cccc.innerHTML = i +"";
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("monthBoxBody");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(monthAfterFormDate(i, getToday()));
 	           		}
 	           	}
 	           	v.appendChild(c);
 			}
 			return v;
+		}
+		
+		// 몬스 폼에서 해당 월 마지막날 이후
+		function monthAfterFormDate(i, date){
+			if(typeof(i)=='undefined'||null){
+				return;
+			}
+			let cc;
+			let ccc;
+			let cccc;
+			
+			if(date.month==12){
+				cc = document.createElement("div");
+	            cc.classList.add("monthBox"); 
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxTitle");
+	            
+	            cccc = document.createElement("span");
+	            cccc.classList.add("monthBoxTitleBox");
+	            cccc.innerHTML = i +"";
+	            ccc.appendChild(cccc);
+	            
+	            cc.appendChild(ccc);
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxBody");
+	            
+	            cccc = document.createElement("input");
+				cccc.classList.add("dateTag");
+				cccc.setAttribute("type", "text");
+				let thisTimeDate = "";
+				
+				if(i<10){
+					thisTimeDate = (date.year+1)+"0"+1+"0"+i
+				}
+				else{
+					thisTimeDate = (date.year+1)+"0"+1+""+i;
+				}
+				cccc.setAttribute("value", thisTimeDate);
+				ccc.appendChild(cccc);
+	            
+	            cc.appendChild(ccc);
+			}
+			else{
+				cc = document.createElement("div");
+	            cc.classList.add("monthBox"); 
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxTitle");
+	            
+	            cccc = document.createElement("span");
+	            cccc.classList.add("monthBoxTitleBox");
+	            cccc.innerHTML = i +"";
+	            ccc.appendChild(cccc);
+	            
+	            cc.appendChild(ccc);
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxBody");
+	            
+	            cccc = document.createElement("input");
+				cccc.classList.add("dateTag");
+				cccc.setAttribute("type", "text");
+				let thisTimeDate = "";
+				
+				if(date.month<10){
+					if(i<10){
+						thisTimeDate = date.year+"0"+(date.month+1)+"0"+i;
+					}
+					else{
+						thisTimeDate = date.year+"0"+(date.month+1)+""+i;
+					}
+				}
+				else{
+					if(i<10){
+						thisTimeDate = date.year+""+(date.month+1)+"0"+i;
+					}
+					else{
+						thisTimeDate = date.year+""+(date.month+1)+""+i;
+					}
+				}
+				cccc.setAttribute("value", thisTimeDate);
+				ccc.appendChild(cccc);
+	            
+	            cc.appendChild(ccc);
+			}
+            return cc;
+		}
+		
+		// monthform에서 해당 월 1일 이전
+		function monthBeforeFormDate(i, date, NowMonth){
+			
+			if(typeof(i)=='undefined'||null){
+				return;
+			}
+			let cc;
+			let ccc;
+			let cccc;
+			
+			if(date.month==1){
+				
+				cc = document.createElement("div");
+	            cc.classList.add("monthBox"); 
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxTitle");
+	            
+	            cccc = document.createElement("span");
+	            cccc.classList.add("monthBoxTitleBox");
+	            cccc.innerHTML = (NowMonth-i) +"";
+	            ccc.appendChild(cccc);
+	            
+	            cc.appendChild(ccc);
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxBody");
+	            
+	            cccc = document.createElement("input");
+				cccc.classList.add("dateTag");
+				cccc.setAttribute("type", "text");
+				let thisTimeDate = "";
+				
+				if(i>10){
+					thisTimeDate = (date.year-1)+""+12+"0"+(NowMonth-i);
+				}
+				else{
+					thisTimeDate = (date.year-1)+""+12+""+(NowMonth-i);
+				}
+				
+				cccc.setAttribute("value", thisTimeDate);
+				ccc.appendChild(cccc);
+				
+	            cc.appendChild(ccc);
+			}
+			else{
+				cc = document.createElement("div");
+	            cc.classList.add("monthBox"); 
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxTitle");
+	            
+	            cccc = document.createElement("span");
+	            cccc.classList.add("monthBoxTitleBox");
+	            cccc.innerHTML = (NowMonth-i) +"";
+	            ccc.appendChild(cccc);
+	            
+	            cc.appendChild(ccc);
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxBody");
+	            
+	            cccc = document.createElement("input");
+				cccc.classList.add("dateTag");
+				cccc.setAttribute("type", "text");
+				let thisTimeDate = "";
+				
+				if(date.month<10){
+					if(i>10){
+						thisTimeDate = date.year+"0"+(date.month-1)+"0"+(NowMonth-i);
+					}
+					else{
+						thisTimeDate = date.year+"0"+(date.month-1)+""+(NowMonth-i);
+					}
+				}
+				else{
+					if(i>10){
+						thisTimeDate = date.year+"0"+(date.month-1)+"0"+(NowMonth-i);
+					}
+					else{
+						thisTimeDate = date.year+"0"+(date.month-1)+""+(NowMonth-i);
+					}
+				}
+				cccc.setAttribute("value", thisTimeDate);
+				ccc.appendChild(cccc);
+				
+	            cc.appendChild(ccc);
+			}
+            return cc;
 		}
 		
 		// 년 폼 요소 만들기 
@@ -1281,7 +1034,7 @@
             let ccc;
             let cccc;
             
-			if(typeof(date)!='undefined'&&date!=null){
+			if(typeof(date)!='undefined'||date!=null){
 				
 	            v = document.createElement("div");
 	            v.classList.add("calendarArea");
@@ -1315,134 +1068,32 @@
 	          	
 	           	if(yoil=="월"){
 	           		for(let i = 0; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="화"){
 	           		for(let i = 1; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="수"){
 	           		for(let i = 2; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="목"){
 	           		for(let i = 3; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="금"){
 	           		for(let i = 4; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="토"){
 	           		for(let i = 5; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	v.appendChild(c);
@@ -1464,6 +1115,32 @@
 	                
 	                ccc = document.createElement("div");
 	                ccc.classList.add("yearBoxBody");
+	                
+	                cccc = document.createElement("input");
+					cccc.classList.add("dateTag");
+					cccc.setAttribute("type", "text");
+					let thisTimeDate = "";
+					
+					if(date.month<10){
+						if(i<10){
+							thisTimeDate = date.year+"0"+date.month+"0"+i;
+						}
+						else{
+							thisTimeDate = date.year+"0"+date.month+""+i;
+						}
+					}
+					else{
+						if(i<10){
+							thisTimeDate = date.year+""+date.month+"0"+i;
+						}
+						else{
+							thisTimeDate = date.year+""+date.month+""+i;
+						}
+					}
+				
+					cccc.setAttribute("value", thisTimeDate);
+					ccc.appendChild(cccc);
+					
 	                cc.appendChild(ccc);
 	           		
 	                c.appendChild(cc);
@@ -1474,486 +1151,132 @@
 	            yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
 	 			let afterYoil;
 	            NowMonth = months[date.month];
-	          	
+	            
+	            // 배열 값이 없는 항목을 참조: 할때 실행, 말을 12로 설정함 (1월일 경우 실행됨)
+	            if(NowMonth==NaN||NowMonth==null){
+	            	NowMonth = months[11];
+	            }
+	            
 	           	if(yoil=="월"){
 	           		for(let i = 1; i < 7; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="화"){
 	           		for(let i = 1; i < 6 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="수"){
 	           		for(let i = 1; i < 5 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearhBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="목"){
 	           		for(let i = 1; i < 4 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="금"){
 	           		for(let i = 1; i < 3 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	else if(yoil=="토"){
 	           		for(let i = 1; i < 2 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
+	           			c.appendChild(yearDummyForm());
 	           		}
 	           	}
 	           	v.appendChild(c);
 			}
 			else{
-				let div = document.getElementsByClassName("calendarDiv")[0];
 				
-				while(div.hasChildNodes()){
-					div.removeChild(div.firstChild);
-					
-				}
-				
-	            v = document.createElement("div");
-	            v.classList.add("calendarArea");
-	        
-	            
-	            c = document.createElement("div");
-	            c.classList.add("yearAreaHead");
-	            
-	            for(let i = 0; i < 7; i++){
-	                cc = document.createElement("div");
-	                cc.classList.add("yearAreaHeadTitle");
-	                cc.innerHTML = monthDayTitle[i];
-	                c.appendChild(cc);
-	            }
-	            
-	            v.appendChild(c);
-	            
-	            c = document.createElement("div");
-	            c.classList.add("yearAreaBody");
-	            
-	            let today = getToday();
-	            let months = getMonthStructure();
-	            let flag = months[today.month-1];
-	            let yoil = getYoil(getThisDay(today.year, today.month, 1, 0, 0));
-	            let beforeYoil;
-	            let NowMonth = months[today.month-2];
-	          	
-	           	if(yoil=="월"){
-	           		for(let i = 0; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-                        cc.innerHTML = "";
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="화"){
-	           		for(let i = 1; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="수"){
-	           		for(let i = 2; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="목"){
-	           		for(let i = 3; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="금"){
-	           		for(let i = 4; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="토"){
-	           		for(let i = 5; i > -1 ; i--){
-	           			beforeYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	v.appendChild(c);
-	            
-	            for(let i = 1; i < flag+1; i++){
-	            	
-	                cc = document.createElement("div");
-	                cc.classList.add("yearBox"); 
-	                
-	                ccc = document.createElement("div");
-	                ccc.classList.add("yearBoxTitle");
-	                
-					cccc = document.createElement("span");
-	                cccc.classList.add("yearBoxTitleBox");
-	                cccc.innerHTML = i +"";
-	                ccc.appendChild(cccc);
-	            	
-	                cc.appendChild(ccc);
-	                
-	                ccc = document.createElement("div");
-	                ccc.classList.add("yearBoxBody");
-	                cc.appendChild(ccc);
-	           		
-	                c.appendChild(cc);
-	            }
-	            
-	            v.appendChild(c);
-	          
-	            yoil = getYoil(getThisDay(today.year, today.month+1, 1, 0, 0));
-	 			let afterYoil;
-	            NowMonth = months[today.month];
-	          	
-	          	
-	           	if(yoil=="월"){
-	           		for(let i = 1; i < 7; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="화"){
-	           		for(let i = 1; i < 6 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="수"){
-	           		for(let i = 1; i < 5 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="목"){
-	           		for(let i = 1; i < 4 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("myearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="금"){
-	           		for(let i = 1; i < 3 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	else if(yoil=="토"){
-	           		for(let i = 1; i < 2 ; i++){
-	           			afterYoil = NowMonth;
-	           			cc = document.createElement("div");
-	                    cc.classList.add("yearBoxDummy"); 
-	                    cc.innerHTML = "";
-                        
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxTitleDummy");
-	                    
-	                    cccc = document.createElement("span");
-	                    cccc.classList.add("yearBoxTitleBoxDummy");
-	                    ccc.appendChild(cccc);
-	                    
-	                    cc.appendChild(ccc);
-	                    
-	                    ccc = document.createElement("div");
-	                    ccc.classList.add("yearBoxBodyDummy");
-	                    cc.appendChild(ccc);
-	               		
-	                    c.appendChild(cc);
-	           		}
-	           	}
-	           	v.appendChild(c);
 			}
 			return v;
 		}
 		
+		function yearDummyForm(){
+			let c;
+			let cc;
+			let ccc;
+			
+			cc = document.createElement("div");
+            cc.classList.add("yearBoxDummy"); 
+            
+            ccc = document.createElement("div");
+            ccc.classList.add("yearBoxTitleDummy");
+            
+            cccc = document.createElement("span");
+            cccc.classList.add("yearBoxTitleBoxDummy");
+            ccc.appendChild(cccc);
+            
+            cc.appendChild(ccc);
+            
+            ccc = document.createElement("div");
+            ccc.classList.add("yearBoxBodyDummy");
+            cc.appendChild(ccc);
+       		
+            return cc;
+		}
+		
+		// 현재 그룹의 스케줄을 체크 
+		// 년 형식 스케줄
+		function scheduleCheckYear (date, user, group){
+			if(typeof(date)!='undefined'||typeof(user)!='undefined'||typeof(group)!='undefined'){
+				
+			}
+			else{
+				
+			}
+		}
+		
+		// 월 형식 스케줄
+		function scheduleCheckMonth (date, user, group){
+			if(typeof(date)!='undefined'||typeof(user)!='undefined'||typeof(group)!='undefined'){
+				
+			}
+			else{
+				date = getToday();
+				user = window.sessionStorage.getItem("loginUserId");
+				// 해당 페이지로 로드될 때 세션 값을 세팅해줘야함.
+				
+				if(user=='undefined'||user==null){
+					user = "DEMOUSER"
+				}
+				
+				if(group=='undefined'||group==null){
+					
+				}
+				
+				let yoil = getYoil(date);
+			}
+		}
+		
+		
+		 
+		// GroupCheck
+		function CheckGroup(){
+			
+		}
+		
+		function toDoList(){
+			
+		}
+		
+		function toDoListComplete(){
+			
+		}
+		
+		function toDoLostDelete(){
+			
+		}
+		
+		function toDoListChange(){
+			
+		}
+		
+		function addPlan(){
+			
+		}
 	</script>
 </html>
