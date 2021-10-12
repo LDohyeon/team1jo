@@ -39,10 +39,8 @@ public class MemberListServlet extends HttpServlet {
 		
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("memberList.jsp");
-		dispatcher.forward(request, response);
-		
+		dispatcher.forward(request, response);	
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -65,7 +63,6 @@ public class MemberListServlet extends HttpServlet {
 		
 		
 	}
-
 }
 
 

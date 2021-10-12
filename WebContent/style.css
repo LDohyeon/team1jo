@@ -62,3 +62,12 @@ form div span input{
 	font-size: 15px;
 	color: red;
 }
+.memberList{
+	border: 1px solid black;
+	padding: 20px;
+}
+
+.memberList td {
+	border: 1px solid black;
+	padding: 5px;
+}

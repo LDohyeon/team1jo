@@ -4,9 +4,8 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>회원가입</title>
+		<title>회원가입 페이지</title>
 		<link rel="stylesheet" href="style.css">
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	</head>
 	<body>
 		<div class="wrap1">
@@ -190,7 +189,7 @@
 					regMsg[0].style.display = "block";
 					frm.id.focus(); 
 				} else {
-					regMsg[0].innerHTML = "사용 가능한 아이디 입니다.";	
+					regMsg[0].innerHTML = "<span class='registerMsg' style='padding-left:0px; color:green;'>사용 가능한 아이디 입니다.</span>";	
 					regMsg[0].style.display = "block";
 					frm.id.focus();
 					overlapStatus = "Y";
