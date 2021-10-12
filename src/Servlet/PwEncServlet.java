@@ -1,17 +1,13 @@
 package Servlet;
 
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 
-import DAO.MemberDAO;
 import DTO.MemberDTO;
 
-@WebServlet("/pwEncServlet.do")
+@WebServlet("/pwEnc.do")
 public class PwEncServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +18,20 @@ public class PwEncServlet extends HttpServlet {
 		MemberDTO member=(MemberDTO)obj;
 		String pw=member.getPw();
 		
-		System.out.println(pw.length());
+		//pw Enc
+		char c=pw.charAt(0);
+		String str="";
+		for(int i=1;i<=(pw.length()-1);i++)
+		{
+			str+="*";
+		}
+		String pwEnc=c+str;
+		
+		//send
+		request.setAttribute("pwEnc",pwEnc);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("userInfo.jsp");
+		dispatcher.forward(request, response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

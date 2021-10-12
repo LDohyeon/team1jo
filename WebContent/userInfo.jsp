@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div id="wrap">
-			<form name="update" method="post" action="UserInfo.do">
+			<form name="update" method="post" action="userInfo.do">
 				<div id="wrap2">
 				
 					<div>
@@ -23,7 +23,7 @@
                     
 					<div>비밀번호</div>
 					<div>
-						<span>${loginUser.getPw()}</span>
+						<span>${pwEnc}</span>
 						<span><input type="button" value="수정" onclick="location.href='changePw.jsp'"></span>
 					</div>
 					
@@ -40,7 +40,6 @@
 					</div>
 					
 					<div>
-						<input type="hidden" value="${loginUser.getId()}" name="id">
 						<input name="submit" type="submit" value="적용" onclick="return check()">
 						<input type="button" value="취소" onclick="location.href='index.jsp'">
 					</div>

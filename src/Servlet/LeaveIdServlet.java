@@ -6,37 +6,39 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 import DAO.MemberDAO;
-import DTO.MemberDTO;
 
 
-@WebServlet("/LeaveId.do")
+@WebServlet("/leaveId.do")
 public class LeaveIdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		RequestDispatcher dispatcher= request.getRequestDispatcher("leaveId.jsp");
+		dispatcher.forward(request, response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//setting
+		request.setCharacterEncoding("utf-8");
 		MemberDAO mDAO=MemberDAO.getInstance();
 		
-		//get session
+		//get session, id
 		HttpSession session=request.getSession();
-		Object obj=session.getAttribute("loginUser");
-		MemberDTO member=(MemberDTO)obj;
-		String id=member.getId();
-		
-		///////////////////////
-		System.out.println(id);
-		//////////////////////
+		String id=(String)session.getAttribute("loginUserId");
 		
 		//delete member
-		//mDAO.MemberDelete(member);
+		mDAO.MemberDelete(id);
 		
 		//change page
-		//RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-		//dispatcher.forward(request, response);
+		response.sendRedirect("index.jsp");
 	}
 
 }
+
+
+
+
+
+
+

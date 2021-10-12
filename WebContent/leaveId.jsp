@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<div id="wrap">
-			<form name="update" method="post" action="LeaveId.do">
+			<form name="update" method="post" action="leaveId.do">
 				<div id="wrap2">
 					<h2>탈퇴 안내</h2>
 					<p>회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요</p>

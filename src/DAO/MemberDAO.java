@@ -1,7 +1,7 @@
 package DAO;
 
 import java.sql.*;
-
+import java.util.*;
 
 import DTO.MemberDTO;
 
@@ -206,16 +206,156 @@ public class MemberDAO {
 		return result;
 		
 	}
-	
 	//id 중복 체크 끝
+	
+	//비밀 번후 수정 시작
+	
+	public void MemberPwUpdate(String pw, String id)
+	{
+		String sql="update member set pw=? where id=?";
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn= getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pw);
+			pstmt.setString(2, id);
+			
+			pstmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("비밀번호 수정 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+		
+	}
+	
+	//비밀 번호 수정 끝
+	
+	
+	//회원 정보 수정 시작
+
+	public void MemberUpdate(String name, String email, String id)
+	{
+		String sql="update Member set name=?, email=? where id=?";
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			pstmt.setString(3, id);
+			
+			pstmt.executeUpdate();
+			
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("회원 수정 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+	}
+	
+	//회원 정보 수정 끝
+	
+	//회원 탈퇴 시작
+	
+	public void MemberDelete(String id)
+	{
+		String sql="delete from member where id =?";
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("회원 탈퇴 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+		
+	}
+	
+	//회원 탈퇴 끝
+	
+	
+	//관리자 회원 관리 시작
+	
+	public List<MemberDTO> memberList()
+	{
+		List<MemberDTO> list = new ArrayList<MemberDTO>();
+		
+		String sql="select * from member order by num desc limit 20";
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs=null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				MemberDTO mDTO = new MemberDTO();
+			
+				mDTO.setNum(rs.getInt("num"));
+				mDTO.setId(rs.getString("id"));
+				mDTO.setName(rs.getString("name"));
+				mDTO.setEmail(rs.getString("email"));
+				mDTO.setAuthority(rs.getString("authority"));
+				
+				list.add(mDTO);	
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("회원 관리 목록 출력 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return list;
+	}
+	
+	//관리자 회원 관리 끝
 	
 	
 }
-
-
-
-
-
 
 
 

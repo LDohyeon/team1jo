@@ -16,7 +16,9 @@ public class LoginServelt extends HttpServlet {
        
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
+		request.setAttribute("loginMsg", "아이디 또는 비밀번호가 일치하지 않습니다");
+		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("login.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -24,10 +26,10 @@ public class LoginServelt extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String url="index.jsp";//���� main.jsp ��� index.jsp�� ��ü 
-		
-		
+		String url="index.jsp";
+
 		request.setCharacterEncoding("utf-8");
+		
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		
@@ -38,23 +40,20 @@ public class LoginServelt extends HttpServlet {
 		if(mDTO == null)
 		{
 			// 로그인 실패시
-			url="login.jsp";
-			request.setAttribute("loginMsg", "아이디 또는 비밀번호가 일치하지 않습니다");
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-			dispatcher.forward(request, response);	
+			url="login.do";
 		}
 		else
 		{	
 			HttpSession session= request.getSession();
 			session.setAttribute("loginUser", mDTO);//로그인 성공시
 			session.setAttribute("loginUserId", mDTO.getId());
-
-			response.sendRedirect(url);
 		}		
+		response.sendRedirect(url);
 	}
 
+	
 }
+
 
 
 
