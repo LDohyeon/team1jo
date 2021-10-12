@@ -1220,6 +1220,73 @@
 		}
 		
 		// 현재 그룹의 스케줄을 체크 
+	
+		// AJAX 기본 세팅
+		let XHRCalendar;//XHR + cal
+		let xmlParser;
+		
+		function createXHRCalendar(){
+			if(window.ActiveXObject){ 
+				XHRCalendar=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			else if(window.XMLHttpRequest){
+				XHRCalendar=new XMLHttpRequest();
+			}
+		}
+		
+		// GroupCheck
+		function checkGroup(){
+			
+			
+		}
+		
+		function getGroup(user){
+			let xmlGroup;
+			createXHRCalendar();
+			XHRCalendar.onreadystatechange=function(){
+				if(XHRCalendar.readyState==4){
+		            if(XHRCalendar.status==200){
+		            	xmlParser = new DOMParser();
+		            	xmlGroup = xmlParser.parseFromString(XHRCalendar.responseText, "text/xml");
+		            	
+		            	group = xmlGroup.getElementsByTagName("group");
+						
+		            	for(let i = 0; i < group.length; i++){
+		            		console.log(group[i]);
+		            		console.log(group[i].getElementsByTagName("schedule")[0]);
+		            	}
+		            }
+				}
+			};
+			XHRCalendar.open("POST", "../getGroup", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send("userKey="+user);
+		}
+		
+		function createElement(group, schedule){
+			
+		}
+		
+		function toDoList(){
+			
+		}
+		
+		function toDoListComplete(){
+			
+		}
+		
+		function toDoLostDelete(){
+			
+		}
+		
+		function toDoListChange(){
+			
+		}
+		
+		function addPlan(){
+			
+		}
+		
 		// 년 형식 스케줄
 		function scheduleCheckYear (date, user, group){
 			if(typeof(date)!='undefined'||typeof(user)!='undefined'||typeof(group)!='undefined'){
@@ -1243,35 +1310,11 @@
 				if(user=='undefined'||user==null){
 					user = "DEMOUSER"
 				}
-				
-				
+				getGroup(user);
 				
 			}
 		}
 		
-		// GroupCheck
-		function CheckGroup(){
-			
-		}
-		
-		function toDoList(){
-			
-		}
-		
-		function toDoListComplete(){
-			
-		}
-		
-		function toDoLostDelete(){
-			
-		}
-		
-		function toDoListChange(){
-			
-		}
-		
-		function addPlan(){
-			
-		}
+		scheduleCheckMonth();
 	</script>
 </html>
