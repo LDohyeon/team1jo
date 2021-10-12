@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>회원가입</title>
+		<title>로그인 페이지</title>
 		<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
@@ -15,15 +15,14 @@
 		<div class="wrap1">
 			<form name="login" method="post" action="login.do">
 				<h1>로그인</h1>
-				<% 
-					// 로그인 실패시 메세지 출력
+				<%
 					if(loginMsg != null){
 				%>
 						<div>
 							<span class="loginMsg"><%=loginMsg %></span>
 						</div>
 				<%
-					} 
+					}
 				%>
 				<div>
 					<span>아이디 : </span>
@@ -52,7 +51,6 @@
 			// 로그인 유효성 검사
 			function loginCheck(){			
 				for(i=0; i<loginIdPw.length; i++){
-					loginMsg[0].style.display = "none";
 					loginIdPw[i].style.display = "none";	
 				}
 				
