@@ -71,3 +71,12 @@ form div span input{
 	border: 1px solid black;
 	padding: 5px;
 }
+
+.mListPage{
+	list-style:none;
+	padding-left: 0px;
+}
+.mListPage li{
+	float: left;
+	padding-left: 10px;
+}

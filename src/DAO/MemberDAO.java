@@ -311,11 +311,15 @@ public class MemberDAO {
 	
 	//관리자 회원 관리 시작
 	
-	public List<MemberDTO> memberList()
+	public List<MemberDTO> memberList(int startPage, int lastPage)
 	{
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		
-		String sql="select * from member order by num desc limit 20";
+		String sql="select * from member order by num desc limit ?, ?";
+		
+		int start=startPage*lastPage-lastPage;
+		
+		
 		Connection conn=null;
 		PreparedStatement pstmt = null;
 		ResultSet rs=null;
@@ -324,6 +328,8 @@ public class MemberDAO {
 		{
 			conn=getConnection();
 			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, lastPage);
 			
 			rs = pstmt.executeQuery();
 			
@@ -352,6 +358,156 @@ public class MemberDAO {
 		return list;
 	}
 	//관리자 회원 관리 끝
+	
+	//관리자 회원 관리 검색 시작
+	
+	public List<MemberDTO> memberSerachList(String id, String name)
+	{
+		String ids=id+"%";
+		String names=name+"%";
+		
+		List<MemberDTO> list = new ArrayList<MemberDTO>();
+		
+		String sql="select * from member where id like ? or name like ?";
+		
+		Connection conn =null;
+		PreparedStatement pstmt =null;
+		ResultSet rs=null;
+		
+		
+		try
+		{
+			conn= getConnection();
+			pstmt= conn.prepareStatement(sql);
+			
+			pstmt.setString(1, ids);
+			pstmt.setString(2, names);
+			rs=pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				MemberDTO mDTO = new MemberDTO();
+				
+				mDTO.setNum(rs.getInt("num"));
+				mDTO.setId(rs.getString("id"));
+				mDTO.setName(rs.getString("name"));
+				mDTO.setEmail(rs.getString("email"));
+				mDTO.setAuthority(rs.getString("authority"));
+				
+				list.add(mDTO);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("회원 관리 검색 출력 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+
+		return list;
+	}
+	
+	
+	public List<MemberDTO> memberSerachList(String id, String name, String authority)
+	{
+		String ids=id+"%";
+		String names=name+"%";
+		
+		List<MemberDTO> list = new ArrayList<MemberDTO>();
+		
+		String sql="select * from member where id like ? and authority=? or name like ? and authority=?";
+		
+		Connection conn =null;
+		PreparedStatement pstmt =null;
+		ResultSet rs=null;
+		
+		
+		try
+		{
+			conn= getConnection();
+			pstmt= conn.prepareStatement(sql);
+			
+			pstmt.setString(1, ids);
+			pstmt.setString(2, authority);
+			pstmt.setString(3, names);
+			pstmt.setString(4, authority);
+			
+			System.out.println("mem : "+ pstmt);
+
+			rs=pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				MemberDTO mDTO = new MemberDTO();
+				
+				mDTO.setNum(rs.getInt("num"));
+				mDTO.setId(rs.getString("id"));
+				mDTO.setName(rs.getString("name"));
+				mDTO.setEmail(rs.getString("email"));
+				mDTO.setAuthority(rs.getString("authority"));
+				
+				list.add(mDTO);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("회원 관리 검색 출력 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+
+		return list;
+	}
+	
+	//관리자 회원 관리 검색 끝
+	
+	
+	//페이지 버튼 시작 312번째 메소드와 연결
+	
+	public int memberListPageBtn()
+	{
+		String sql="select count(num) from member";
+		
+		int pagebtn=0;
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs= null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			rs=pstmt.executeQuery();
+			
+			rs.next();
+			
+			pagebtn = rs.getInt(1);
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("member page 버튼 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return pagebtn;
+	}
+	
+	///페이지 버튼 끝 312번째 메소드와 연결
+	
+	
+	
+	
+
 }
 
 

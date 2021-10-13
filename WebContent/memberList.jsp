@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ page import="DAO.MemberDAO" %>
 <%@ page import="DTO.MemberDTO" %>
 <%@ page import="java.sql.*" %>
@@ -20,15 +21,20 @@
 			
 		<div class="wrap1">
 			<div>
-				<h1>회원 리스트</h1>
-				<form method="post" action="memberList.do">
-					<select name="sel_serch">
+				<h1><a href="">회원 리스트</a></h1>
+				<form name="frm" method="post" action="memberList.do">
+					<select name="selSerch1">
 						<option value="">==선택==</option>
 						<option value="id">아이디</option>
 						<option value="name">이름</option>
 					</select>
-					<input type="text" name="serch">
-					<input type="submit" value="검색">
+					<select name="selSerch2">
+						<option value="0">전체 보기</option>
+						<option value="3">댓글 정지(3)</option>
+						<option value="4">글 정지(4)</option>
+					</select>
+					<input type="text" name="selValue" placeholder="검색어를 입력해주세요">
+					<input type="submit" value="검색" onclick="return serchCheck()">
 				</form>
 			</div>
 			<div class="wrap2">
@@ -59,6 +65,40 @@
 					%>					
 				</table>
 			</div>
+			<ul class="mListPage">
+				<c:if test="${startPage != 1}">
+					<li><a href="memberList.do?startPage=${startPage-1}&lastPage=${lastPage}">이전</a></li>
+				</c:if>
+				<c:forEach begin="1" end="${totalPage}" var="i">
+					<c:choose>
+						<c:when test="${startPage eq i}">
+							<li>${i}</li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="memberList.do?startPage=${i}&lastPage=${lastPage}">${i}</a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+				<c:if test="${startPage lt totalPage}">
+					<li><a href="memberList.do?startPage=${startPage+1}&lastPage=${lastPage}">다음</a></li>
+				</c:if>
+			</ul>
 		</div>
+		<script>
+			var selSerch1 = frm.selSerch1;		
+			var selValue = frm.selValue;		
+			function serchCheck(){
+				if(selSerch1.value == ""){
+					alert("선택을 변경해주세요");
+					return false;
+				}
+				
+				if(selValue.value == "" || selValue.value.length < 1){
+					alert("검색어를 입력해주세요");
+					return false;
+				}
+				return true;
+			}
+		</script>
 	</body>
 </html>
