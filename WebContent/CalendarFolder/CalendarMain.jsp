@@ -1241,9 +1241,10 @@
 			
 		}
 		
-		function getGroup(user){
+		function getGroup(user, date){
 			let xmlGroup;
 			createXHRCalendar();
+			
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
@@ -1269,7 +1270,7 @@
 		            			scheduleData.push(temp);
 		            		}
 		            	}
-		            	createScheduleElement(scheduleData);
+		            	createScheduleElement(scheduleData, date);
 		            }
 				}
 			};
@@ -1278,14 +1279,209 @@
 			XHRCalendar.send("userKey="+user);
 		}
 		
-		function createScheduleElement(scheduleData){
+		function createScheduleElement(scheduleData, date){
+			let nowYear = date.year;
+			let nowMonth = date.month;
+			let nowDay = date.day;
+			let dateTags = document.getElementsByClassName("dateTag");
+			
 			for(let i = 0; i < scheduleData.length; i++){
-				let end = scheduleData.end;
 				
-				if(end<getToday()){
+				let startYear = parseInt(scheduleData[i].start.substring(0,4));
+				let startMonth = parseInt(scheduleData[i].start.substring(5,7));
+				let startDay = parseInt(scheduleData[i].start.substring(8,10));
+				
+				let endYear = parseInt(scheduleData[i].end.substring(0,4));
+				let endMonth = parseInt(scheduleData[i].end.substring(5,7));
+				let endDay = parseInt(scheduleData[i].end.substring(8,10));
+				
+				// 이어와 몬스에 따라 리턴해서 불필요한 경우 포문이 계속 돌게함 
+				if(endYear<nowYear){
+					continue;
+				}
+				else if(endYear==nowYear){
+					if(endMonth<nowMonth){
+						continue;
+					}
+				}
+				
+				if(startYear>nowYear){
+					continue;
+				}
+				else if(startYear==nowYear){
+					if(startMonth>nowMonth){
+						continue;
+					}
+				}
+				
+				for(let j = 0; j < dateTags.length; j++){
+					let dateTagYear = parseInt(dateTags[j].value.substring(0,4));
+					let dateTagMonth = parseInt(dateTags[j].value.substring(4,6));
+					let dateTagDay = parseInt(dateTags[j].value.substring(6,8));
 					
+					if(dateTagYear>startYear){
+						if(dateTagMonth>startMonth){
+							//데이터 태그 몬스가 더크면 그달 1일에 그리면됩
+							if(j==0){
+								
+							}
+							else{
+								continue;
+							}
+						}
+						else if(dateTagMonth==startMonth){
+							if(dateTagDay==startDay){
+								let dateTagInfo = getThisDay(dateTagYear, dateTagMonth, dateTagDay, 0, 0);
+								let dateTagInfoYoil = getYoil(dateTagInfo);
+								
+								if(dateTagMonth==endMonth){
+									// 현재 월수가 끝나는 월가 같으면 일을 비교
+									if(dateTagDay==endDay){
+										// 현재 일수랑 끝나는 일수 같으면 1줄짜리로 그리면 됨 
+									}
+									else if(dateTagDay<endDay){
+										// 끝나는 일수가 더 크면, 요일에 따라 해당 숫자의 차이만큼 7로 나누고 나머지로 모양 그려줘야함
+										let calcDay = startDay-endDay;
+										
+										for(let l = j; l <= calcDay; l++){
+											createScheduleBox(scheduleData[i], dateTags[l]);
+										}
+									}
+								}
+								else if(dateTagMonth<endMonth){
+									// 현재 월보다 끝나는 월이 크면 마지막 일수까지 그리면 됨
+								}
+							}
+							else{
+								continue;
+							}
+						}										
+					}
+					else if(dateTagYear==startYear){
+						if(dateTagMonth>startMonth){
+							//데이터 태그 몬스가 더크면 그달 1일에 그리면됩
+							if(j==0){
+								
+							}
+							else{
+								continue;
+							}
+						}
+						else if(dateTagMonth==startMonth){
+							if(dateTagDay==startDay){
+								let dateTagInfo = getThisDay(dateTagYear, dateTagMonth, dateTagDay, 0, 0);
+								let dateTagInfoYoil = getYoil(dateTagInfo);
+								
+								if(dateTagMonth==endMonth){
+									// 현재 월수가 끝나는 월가 같으면 일을 비교
+									if(dateTagDay==endDay){
+										// 현재 일수랑 끝나는 일수 같으면 1줄짜리로 그리면 됨 
+										createScheduleBox(scheduleData[i], dateTags[j]);
+									}
+									else if(dateTagDay<endDay){
+										// 끝나는 일수가 더 크면, 요일에 따라 해당 숫자의 차이만큼 7로 나누고 나머지로 모양 그려줘야함
+										let calcDay = endDay-startDay;
+										
+										for(let l = j; l <= j+calcDay; l++){
+											createScheduleBox(scheduleData[i], dateTags[l]);
+										}
+									}
+								}
+								else if(dateTagMonth<endMonth){
+									// 현재 월보다 끝나는 월이 크면 마지막 일수까지 그리면 됨
+								}
+							}
+							else{
+								continue;
+							}
+						}	
+					}
 				}
 			}
+		}
+		console.log("1300 줄 쯤 스케줄 그리는거 알고리즘 짜고 있었다. 잊지말자 종현아.")
+		
+		function createScheduleBox(scheduleData, dateTags){
+			let p;
+			let v;
+			let c;
+			let cc;
+			let ccc;
+			
+			p = dateTags.parentNode; 
+			
+			v = document.createElement("div");
+			v.classList.add("scheduleBox"); 
+            
+			c = document.createElement("span");
+			c.classList.add("scheduleInfos"); 
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupKey"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.key);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupName"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.name);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleNum"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.num);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleTitle"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.title);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleStart"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.start);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleEnd"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.end);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleContent"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.content);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleUser"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.user);
+			
+			c.appendChild(cc);
+			
+			v.appendChild(c);
+			p.appendChild(v);
 		}
 		
 		function toDoList(){
@@ -1319,9 +1515,12 @@
 		}
 		
 		// 월 형식 스케줄
-		function scheduleCheckMonth (date, user, group){
+		function scheduleCheckMonth (date, user){
 			if(typeof(date)!='undefined'||typeof(user)!='undefined'||typeof(group)!='undefined'){
+				user = window.sessionStorage.getItem("loginUserId");
+				// 해당 페이지로 로드될 때 세션 값을 세팅해줘야함.
 				
+				getGroup(user, date);
 			}
 			else{
 				date = getToday();
@@ -1331,8 +1530,7 @@
 				if(user=='undefined'||user==null){
 					user = "DEMOUSER"
 				}
-				getGroup(user);
-				
+				getGroup(user, date);
 			}
 		}
 		
