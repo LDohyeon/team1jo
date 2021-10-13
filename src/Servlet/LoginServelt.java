@@ -15,6 +15,7 @@ public class LoginServelt extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		RequestDispatcher dispatcher= request.getRequestDispatcher("login.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -33,7 +34,8 @@ public class LoginServelt extends HttpServlet {
 		MemberDTO mDTO = mDAO.loginMember(id, pw);
 		
 		if(mDTO == null)
-		{	
+
+		{
 			// 로그인 실패시			url="login.jsp"; 
 			request.setAttribute("loginMsg", "아이디 또는 비밀번호가 일치하지 않습니다");
 		}
@@ -44,7 +46,9 @@ public class LoginServelt extends HttpServlet {
 			session.setAttribute("loginUser", mDTO); 
 			session.setAttribute("loginUserId", mDTO.getId());
 		}		
-		RequestDispatcher dispatcher= request.getRequestDispatcher(url);
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+
 		dispatcher.forward(request, response);
 	}
 
