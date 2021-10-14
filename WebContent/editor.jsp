@@ -68,14 +68,14 @@
 	                            <button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
 	                            <button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
 	                            <button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
-	                            <input type="color" id="fontColor"><button class="divColor" type="button" onclick="document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
-	                            <input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
+	                            <input type="color" id="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
+	                            <input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
 	                        </div>
 	                        <div class="fontAlign">
-	                            <button class="divColor" type="button" onclick="btnColor(3); document.execCommand('justifyleft');">왼쪽</button>
-	                            <button class="divColor" type="button" onclick="btnColor(4); document.execCommand('justifycenter');">가운데</button>
-	                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyRight');">오른쪽</button>
-	                            <button class="divColor" type="button" onclick="btnColor(6); document.execCommand('removeFormat');">서식삭제</button>
+	                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
+	                            <button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
+	                            <button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
+	                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>
 	                        </div>
 	                        <div class="img">
 	                            <button class="divColor" type="button">사진</button>
@@ -109,8 +109,8 @@
 		}
 
 		function btnColor(i){
-			if(i==6){
-				for(var i=0;i<6;i++){
+			if(i==8){
+				for(var i=0;i<8;i++){
 					divColor[i].style.backgroundColor="white";
 				}
 			}else if(divColor[i].style.backgroundColor=="gray"){

@@ -17,7 +17,6 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("editor.jsp");
 		dispatcher.forward(request, response);
 		
