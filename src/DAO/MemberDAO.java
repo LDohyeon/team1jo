@@ -600,6 +600,158 @@ public class MemberDAO {
 		return pagebtn;
 	}
 	
+	
+	public int memberListIdPageBtn(String id)
+	{
+		String sql="select count(num) from member where id like ?";
+		String ids= id+"%";
+		
+		int pagebtn=0;
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs= null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, ids);
+			
+			rs=pstmt.executeQuery();
+			
+			rs.next();
+			
+			pagebtn = rs.getInt(1);
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("member page 버튼 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return pagebtn;
+	}
+	
+	
+	public int memberListNamePageBtn(String name)
+	{
+		String sql="select count(num) from member where name like ?";
+		String names= name+"%";
+		
+		int pagebtn=0;
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs= null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, names);
+			
+			rs=pstmt.executeQuery();
+			
+			rs.next();
+			
+			pagebtn = rs.getInt(1);
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("member page 버튼 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return pagebtn;
+	}
+	
+	public int memberListIdPageBtn(String id, String authority)
+	{
+		String sql="select count(num) from member where id like ? and authority=?";
+		String ids= id+"%";
+		
+		int pagebtn=0;
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs= null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, ids);
+			pstmt.setString(2, authority);
+			
+			rs=pstmt.executeQuery();
+			
+			rs.next();
+			
+			pagebtn = rs.getInt(1);
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("member page 버튼 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return pagebtn;
+	}
+	
+	public int memberListNamePageBtn(String name, String authority)
+	{
+		String sql="select count(num) from member where name like ? and authority=?";
+		String names= name+"%";
+		
+		int pagebtn=0;
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs= null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, names);
+			pstmt.setString(2, authority);
+			
+			rs=pstmt.executeQuery();
+			
+			rs.next();
+			
+			pagebtn = rs.getInt(1);
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("member page 버튼 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return pagebtn;
+	}
+	
 	///페이지 버튼 끝 312번째 메소드와 연결
 	
 	
