@@ -1290,10 +1290,12 @@
 				let startYear = parseInt(scheduleData[i].start.substring(0,4));
 				let startMonth = parseInt(scheduleData[i].start.substring(5,7));
 				let startDay = parseInt(scheduleData[i].start.substring(8,10));
+				// 추후 팀원 중 주 및 일 일정은 day 변수까지 사용
 				
 				let endYear = parseInt(scheduleData[i].end.substring(0,4));
 				let endMonth = parseInt(scheduleData[i].end.substring(5,7));
 				let endDay = parseInt(scheduleData[i].end.substring(8,10));
+				// 추후 팀원 중 주 및 일 일정은 day 변수까지 사용
 				
 				// 이어와 몬스에 따라 리턴해서 불필요한 경우 포문이 계속 돌게함 
 				if(endYear<nowYear){
@@ -1320,58 +1322,46 @@
 					let dateTagDay = parseInt(dateTags[j].value.substring(6,8));
 					
 					if(dateTagYear>startYear){
-						if(dateTagMonth>startMonth){
-							//데이터 태그 몬스가 더크면 그달 1일에 그리면됩
-							if(j==0){
-								
+						if(dateTagYear<endYear){
+							// 가운데 끼는 상황, 전체 반복해서 월에 다 표시
+							createScheduleBox(scheduleData[i], dateTags[j]);
+						}
+						else if(dateTagYear==endYear){
+							// 몬스 값을 비교해야함
+							if(dateTagMonth<endMonth){
+								// 가운데 끼는 상활, 전체 월에 표시
+								createScheduleBox(scheduleData[i], dateTags[j]);
+							}
+							else if(dateTagMonth==endMonth){
+								// 일 비교
+								if(dateTagDay<=endDay){
+									createScheduleBox(scheduleData[i], dateTags[j]);
+									// 해당 요소에서 가장 처음에 모양 넣어주는 메서드를 따로 만들어서 한번 돌리는 식으로 해야함
+								}
+								else{
+									continue;
+								}
 							}
 							else{
+								// 몬스 비교했는데 끝나는 달이 지금 달보다 전이면 넘김
 								continue;
 							}
 						}
-						else if(dateTagMonth==startMonth){
-							if(dateTagDay==startDay){
-								let dateTagInfo = getThisDay(dateTagYear, dateTagMonth, dateTagDay, 0, 0);
-								let dateTagInfoYoil = getYoil(dateTagInfo);
-								
-								if(dateTagMonth==endMonth){
-									// 현재 월수가 끝나는 월가 같으면 일을 비교
-									if(dateTagDay==endDay){
-										// 현재 일수랑 끝나는 일수 같으면 1줄짜리로 그리면 됨 
-									}
-									else if(dateTagDay<endDay){
-										// 끝나는 일수가 더 크면, 요일에 따라 해당 숫자의 차이만큼 7로 나누고 나머지로 모양 그려줘야함
-										let calcDay = startDay-endDay;
-										
-										for(let l = j; l <= calcDay; l++){
-											createScheduleBox(scheduleData[i], dateTags[l]);
-										}
-									}
-								}
-								else if(dateTagMonth<endMonth){
-									// 현재 월보다 끝나는 월이 크면 마지막 일수까지 그리면 됨
-								}
-							}
-							else{
-								continue;
-							}
-						}										
+						else{
+							//시작하는 년보다 현재 년이 높기는 한데, 끝나는 년이 현재 년보다 전이면 넘김
+							// 이미 위에 해당 알고리즘을 넣었으나 같이 협업하는 팀원의 이해를 돕기 위해 넣음.
+							continue;
+						}
 					}
 					else if(dateTagYear==startYear){
 						if(dateTagMonth>startMonth){
-							//데이터 태그 몬스가 더크면 그달 1일에 그리면됩
-							if(j==0){
-								
-							}
-							else{
-								continue;
-							}
+							// 일정이 시작 안한 상태랑 같음 >
+							continue;
 						}
 						else if(dateTagMonth==startMonth){
+							// 일정 달이 겹치므로 일 비교해야함 
+							// 해당 일정이 해당 달에 시작하기 때문에 값이 일치하는 부분에서 포문으로 한번 그려주면 끝
 							if(dateTagDay==startDay){
-								let dateTagInfo = getThisDay(dateTagYear, dateTagMonth, dateTagDay, 0, 0);
-								let dateTagInfoYoil = getYoil(dateTagInfo);
-								
 								if(dateTagMonth==endMonth){
 									// 현재 월수가 끝나는 월가 같으면 일을 비교
 									if(dateTagDay==endDay){
@@ -1382,13 +1372,16 @@
 										// 끝나는 일수가 더 크면, 요일에 따라 해당 숫자의 차이만큼 7로 나누고 나머지로 모양 그려줘야함
 										let calcDay = endDay-startDay;
 										
-										for(let l = j; l <= j+calcDay; l++){
+										for(let l = j; l < j+calcDay; l++){
 											createScheduleBox(scheduleData[i], dateTags[l]);
 										}
 									}
 								}
 								else if(dateTagMonth<endMonth){
 									// 현재 월보다 끝나는 월이 크면 마지막 일수까지 그리면 됨
+									for(let l = j; l < dateTags.length; l++){
+										createScheduleBox(scheduleData[i], dateTags[l]);
+									}
 								}
 							}
 							else{
@@ -1399,7 +1392,6 @@
 				}
 			}
 		}
-		console.log("1300 줄 쯤 스케줄 그리는거 알고리즘 짜고 있었다. 잊지말자 종현아.")
 		
 		function createScheduleBox(scheduleData, dateTags){
 			let p;
@@ -1482,6 +1474,12 @@
 			
 			v.appendChild(c);
 			p.appendChild(v);
+		}
+		console.log("각 스케줄 박스의 처음 항목, 넘쳐나는 부분 모양 표시하는 클래스 부여하는 펑션짜야함");
+		
+		function checkMonthScheduleFirst(){
+			let dateTagInfo = getThisDay(dateTagYear, dateTagMonth, dateTagDay, 0, 0);
+			let dateTagInfoYoil = getYoil(dateTagInfo);
 		}
 		
 		function toDoList(){
