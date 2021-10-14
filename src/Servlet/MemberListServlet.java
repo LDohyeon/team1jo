@@ -58,22 +58,25 @@ public class MemberListServlet extends HttpServlet {
 		
 		List<MemberDTO> list1 = null;
 		int row=0;
+		
+		int startPage = 5;
+		int lastPage = 5;
 	
 		
 		if(selSerch1.equals("id") && selSerch2.equals("0")) {
-			list1 = mDAO.memberIdSerachList(selValue);
+			list1 = mDAO.memberIdSerachList(selValue, startPage, lastPage);
 			row = mDAO.memberListIdPageBtn(selValue);
 
 		} else if(selSerch1.equals("name") && selSerch2.equals("0")) {
-			list1 = mDAO.memberNameSerachList(selValue);
+			list1 = mDAO.memberNameSerachList(selValue, startPage, lastPage);
 			row = mDAO.memberListNamePageBtn(selValue);
 			
 		} else if(selSerch1.equals("id") && selSerch2.equals("3")) {
-			list1 = mDAO.memberIdSerachList(selValue, selSerch2);
+			list1 = mDAO.memberIdSerachList(selValue, selSerch2, startPage, lastPage);
 			row = mDAO.memberListIdPageBtn(selValue, selSerch2);
 			
 		}else if(selSerch1.equals("name") && selSerch2.equals("3")) {
-			list1 = mDAO.memberNameSerachList(selValue, selSerch2);//이거 아이디라고 적혀있던데
+			list1 = mDAO.memberNameSerachList(selValue, selSerch2, startPage, lastPage);//이거 아이디라고 적혀있던데
 			row = mDAO.memberListNamePageBtn(selValue, selSerch2);
 		}
 		
