@@ -456,7 +456,6 @@ public class MemberDAO {
 		return list;
 	}
 	
-	
 	public List<MemberDTO> memberIdSerachList(String id, String authority)
 	{
 		String ids=id+"%";
