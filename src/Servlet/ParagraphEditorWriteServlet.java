@@ -13,6 +13,11 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		
+		request.setCharacterEncoding("utf-8");
+
+		
+		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("editor.jsp");
 		dispatcher.forward(request, response);
 		
@@ -21,6 +26,12 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		request.setCharacterEncoding("utf-8");
+		String title=request.getParameter("title");
+		String content=request.getParameter("content");
+		
+		System.out.println("제목: "+title);
+		System.out.println("내용: "+content);
 	}
 
 }

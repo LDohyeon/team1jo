@@ -62,8 +62,8 @@ public class MemberListServlet extends HttpServlet {
 		
 		MemberDAO mDAO= MemberDAO.getInstance();
 		
-		List<MemberDTO> list1 = mDAO.memberSerachList(selSerch1, selValue);
-		List<MemberDTO> list2 = mDAO.memberSerachList(selSerch1, selSerch2, selValue);
+		List<MemberDTO> list1 = mDAO.memberIdSerachList(selSerch1, selValue);
+		List<MemberDTO> list2 = mDAO.memberNameSerachList(selSerch2, selValue);
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("memberList.jsp");
 		dispatcher.forward(request, response);	
