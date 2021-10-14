@@ -1555,14 +1555,22 @@
 							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
 							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
 							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
-							boxArray[l].innerHTML = temp2;
+					
+							c = document.createElement("span");
+							c.classList.add("scheduleTitleInSpan")
+							c.innerHTML = temp2;
+							boxArray[l].appendChild(c);
 						}
 						else{
 							// 사이즈 만큼 그리고 빈 수만큼 
 							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
 							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
 							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
-							boxArray[l].innerHTML = temp2;
+							
+							c = document.createElement("span");
+							c.classList.add("scheduleTitleInSpan")
+							c.innerHTML = temp2;
+							boxArray[l].appendChild(c);
 						}
 					}
 					else{

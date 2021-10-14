@@ -70,9 +70,11 @@
 }
 .monthAreaHead{
 	width: 100%;
+	display:flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
 }
 .monthAreaHeadTitle{
-	width: calc(100%/7.07);
     height: 3vw;
     text-align: center;
     display: inline-block;
@@ -80,7 +82,8 @@
     border-top: 1px solid lightgray;
     border-left: 1px solid lightgray;
     font-size: 10px;
-    
+    flex: 1 1;
+   	flex-basis: calc(100%/7.08);
 }
 .monthAreaHeadTitle:nth-child(7n){
     border-right: 1px solid lightgray;
@@ -88,9 +91,11 @@
 .monthAreaBody{
     width: 100%;
     min-width: 800px;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
 }
 .monthBox{
-    width: calc(100%/7.07);
     min-height: 40px;
     height: 8vw;
     padding-top: 1vw;
@@ -99,6 +104,9 @@
     border-bottom: 1px solid lightgray;
     border-left: 1px solid lightgray;
     font-size: 13px;
+   	flex: 1 1;
+   	flex-basis: calc(100%/7.08);
+
 }
 .monthBox:nth-child(7n){
     border-right: 1px solid lightgray;
@@ -118,6 +126,8 @@
 }
 .monthBoxTitleBoxOne{
     padding: 1px;
+    height: 20px;
+    display: inline-block;
     text-align: center;
     border-radius: 50%;
 }
@@ -201,6 +211,7 @@
     width: 100%;
     height: 100%;
     background-color: lavenderblush;
+  
 }
 
 /*Schedule*/
@@ -208,8 +219,66 @@
 	display:none;
 }
 .scheduleBox{
-	float: left;
 	width: 100%;
-	height: 10px;
+	height: 20px;
+	text-align: left;
+	overflow: hidden;
+}
+.cmpb1{
+	width: 100%;
+	height: 20px;
+	overflow: hidden;
+	background-color:#25b5aa;
+	z-index: 10;
+	
+}
+.cmpb1:hover{
+	background-color: blue;
+}
+.cmpb3:hover{
+	background-color: blue;
+}
+.cmpb7:hover{
+	background-color: blue;
+}
+.cmpb2{
+	width: 200%;
+	height: 20px;
+	overflow: hidden;
 	background-color:green;
+}
+.cmpb3{
+	width: 300%;
+	margin-bottom: 2vw;
+	height: 20px;
+	overflow: hidden;
+	background-color:green;
+}
+.cmpb4{
+	width: 400%;
+	height: 20px;
+	overflow: hidden;
+	background-color:green;
+}
+.cmpb5{
+	width: 500%;
+	height: 20px;
+	overflow: hidden;
+	background-color:green;
+	z-index: 40;
+}
+.cmpb6{
+	width: 600%;
+	height: 20px;
+	overflow: hidden;
+	background-color:green;
+}
+.cmpb7{
+	width: 700%;
+	height: 20px;
+	overflow: hidden;
+	background-color:green;
+}
+.scheduleTitleInSpan{
+	text-overflow: ellipsis;
 }
