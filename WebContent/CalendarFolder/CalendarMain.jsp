@@ -1580,6 +1580,7 @@
 			
 			let v;
             let c;
+            let yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
             
 			if((typeof(date)!='undefined'||date!=null){
 				
@@ -1591,9 +1592,11 @@
 	           	
 	            cc= document.createElement("div");
 	            cc.classList.add("DayAreaHeadTitle");
-	            cc.innerHTML= 
+	            cc.innerHTML= yoil+"";
+	            
+	            c.appendChild(cc);
 			}
-			v.appendChild(c);
+			v.appendChild(c); //일간 form head 생성
 			
          
 		}//일간 formElement
