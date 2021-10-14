@@ -361,14 +361,13 @@ public class MemberDAO {
 	
 	//관리자 회원 관리 검색 시작
 	
-	public List<MemberDTO> memberSerachList(String id, String name)
+	public List<MemberDTO> memberIdSerachList(String id)
 	{
 		String ids=id+"%";
-		String names=name+"%";
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		
-		String sql="select * from member where id like ? or name like ?";
+		String sql="select * from member where id like ?";
 		
 		Connection conn =null;
 		PreparedStatement pstmt =null;
@@ -381,8 +380,55 @@ public class MemberDAO {
 			pstmt= conn.prepareStatement(sql);
 			
 			pstmt.setString(1, ids);
-			pstmt.setString(2, names);
-<<<<<<< HEAD
+
+			rs=pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				MemberDTO mDTO = new MemberDTO();
+				
+				mDTO.setNum(rs.getInt("num"));
+				mDTO.setId(rs.getString("id"));
+				mDTO.setName(rs.getString("name"));
+				mDTO.setEmail(rs.getString("email"));
+				mDTO.setAuthority(rs.getString("authority"));
+				
+				list.add(mDTO);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("회원 관리 검색 출력 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+
+		return list;
+	}
+	
+
+	public List<MemberDTO> memberNameSerachList(String name)
+	{
+		String names=name+"%";
+		
+		List<MemberDTO> list = new ArrayList<MemberDTO>();
+		
+		String sql="select * from member where name like ?";
+		
+		Connection conn =null;
+		PreparedStatement pstmt =null;
+		ResultSet rs=null;
+		
+		
+		try
+		{
+			conn= getConnection();
+			pstmt= conn.prepareStatement(sql);
+			
+			pstmt.setString(1, names);
+
 			rs=pstmt.executeQuery();
 			
 			while(rs.next())
@@ -411,14 +457,15 @@ public class MemberDAO {
 	}
 	
 	
-	public List<MemberDTO> memberSerachList(String id, String name, String authority)
+
+	
+	public List<MemberDTO> memberIdSerachList(String id, String authority)
 	{
 		String ids=id+"%";
-		String names=name+"%";
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		
-		String sql="select * from member where id like ? and authority=? or name like ? and authority=?";
+		String sql="select * from member where id like ? and authority=?";
 		
 		Connection conn =null;
 		PreparedStatement pstmt =null;
@@ -432,12 +479,8 @@ public class MemberDAO {
 			
 			pstmt.setString(1, ids);
 			pstmt.setString(2, authority);
-			pstmt.setString(3, names);
-			pstmt.setString(4, authority);
 			
 			System.out.println("mem : "+ pstmt);
-
-=======
 			
 			rs=pstmt.executeQuery();
 			
@@ -467,14 +510,13 @@ public class MemberDAO {
 	}
 	
 	
-	public List<MemberDTO> memberSerachList(String id, String name, String authority)
+	public List<MemberDTO> memberNameSerachList(String name, String authority)
 	{
-		String ids=id+"%";
 		String names=name+"%";
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		
-		String sql="select * from member where id like ? and authority=? or name like ? and authority=?";
+		String sql="select * from member where name like ? and authority=?";
 		
 		Connection conn =null;
 		PreparedStatement pstmt =null;
@@ -486,14 +528,11 @@ public class MemberDAO {
 			conn= getConnection();
 			pstmt= conn.prepareStatement(sql);
 			
-			pstmt.setString(1, ids);
+			pstmt.setString(1, names);
 			pstmt.setString(2, authority);
-			pstmt.setString(3, names);
-			pstmt.setString(4, authority);
 			
 			System.out.println("mem : "+ pstmt);
 			
->>>>>>> branch 'member' of https://github.com/LDohyeon/team1jo.git
 			rs=pstmt.executeQuery();
 			
 			while(rs.next())
@@ -520,6 +559,7 @@ public class MemberDAO {
 
 		return list;
 	}
+	
 	
 	//관리자 회원 관리 검색 끝
 	
