@@ -1271,6 +1271,7 @@
 		            		}
 		            	}
 		            	createScheduleElement(scheduleData, date);
+		            	checkMonthScheduleFirst();
 		            }
 				}
 			};
@@ -1372,7 +1373,7 @@
 										// 끝나는 일수가 더 크면, 요일에 따라 해당 숫자의 차이만큼 7로 나누고 나머지로 모양 그려줘야함
 										let calcDay = endDay-startDay;
 										
-										for(let l = j; l < j+calcDay; l++){
+										for(let l = j; l <=j+calcDay; l++){
 											createScheduleBox(scheduleData[i], dateTags[l]);
 										}
 									}
@@ -1475,11 +1476,129 @@
 			v.appendChild(c);
 			p.appendChild(v);
 		}
-		console.log("각 스케줄 박스의 처음 항목, 넘쳐나는 부분 모양 표시하는 클래스 부여하는 펑션짜야함");
 		
 		function checkMonthScheduleFirst(){
-			let dateTagInfo = getThisDay(dateTagYear, dateTagMonth, dateTagDay, 0, 0);
-			let dateTagInfoYoil = getYoil(dateTagInfo);
+			let scheduleBoxs = document.getElementsByClassName("scheduleBox");
+			let scheduleNums = document.getElementsByClassName("scheduleNum");
+			let scheduleTotal = [];
+			
+			for(let i = 0; i<scheduleNums.length; i++){
+				let sn = parseInt(scheduleNums[i].value);//스케쥴 넘버의 값
+				scheduleTotal.push(sn);
+			}
+			// 현재 페이지의 스케쥴 태그의 넘버를 가져옴 
+			scheduleTotal = Array.from(new Set(scheduleTotal));
+			
+			for(let i = 0; i<scheduleTotal.length; i++){
+				let boxArray = [];
+				
+				for(let j = 0; j <scheduleBoxs.length; j++){
+					let sv = scheduleBoxs[j].getElementsByClassName("scheduleNum");
+					
+					if(sv.length==1){
+						sv = sv[0].value;
+					}
+				
+					if(scheduleTotal[i]==sv){
+						boxArray.push(scheduleBoxs[j]);
+					}
+				}
+				
+				let flagSize = 0;
+				let flagYoil;
+				let flagDrawn = 0;
+				
+				for(let l = 0; l<boxArray.length; l++){
+					// 해당 태그의 첫 요소의 데이터를 가져와서, 날짜를 파악> 요일 구해서 요일따라 길이 정해야함
+					let dateTag = boxArray[l].parentElement.getElementsByClassName("dateTag")[0];
+					let dateTagYear = parseInt(dateTag.value.substring(0,4));
+					let dateTagMonth = parseInt(dateTag.value.substring(4,6));
+					let dateTagDay = parseInt(dateTag.value.substring(6,8));
+					
+					let dateTagYoil = getYoil(getThisDay(dateTagYear, dateTagMonth, dateTagDay, 0, 0));
+					
+					if(l==0||flagDrawn==0){
+						
+						if(dateTagYoil=="일"){
+							flagSize = 7;
+							flagDrawn = 7;
+						}
+						else if(dateTagYoil=="월"){
+							flagSize = 6;
+							flagDrawn = 6;
+						}
+						else if(dateTagYoil=="화"){
+							flagSize = 5;
+							flagDrawn = 5;
+						}
+						else if(dateTagYoil=="수"){
+							flagSize = 4;
+							flagDrawn = 4;
+						}
+						else if(dateTagYoil=="목"){
+							flagSize = 3;
+							flagDrawn = 3;
+						}
+						else if(dateTagYoil=="금"){
+							flagSize = 2;
+							flagDrawn = 2;
+						}
+						else if(dateTagYoil=="토"){
+							flagSize = 1;
+							flagDrawn = 1;
+						}
+						
+						if(flagSize>boxArray.length-l){
+							// 사이즈칸 짜리 플래그 넣어주면 됨.
+							flagSize=boxArray.length-l;
+							
+							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
+							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
+							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
+							boxArray[l].innerHTML = temp2;
+						}
+						else{
+							// 사이즈 만큼 그리고 빈 수만큼 
+							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
+							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
+							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
+							boxArray[l].innerHTML = temp2;
+						}
+					}
+					else{
+						boxArray[l].classList.add("cmpb0");
+					}
+					flagDrawn--;
+				}
+			}
+		}
+		
+		
+		function checkMonthPlanBar(flagSize){
+			let name;
+			
+			if(flagSize==1){
+				name="cmpb1";
+			}
+			else if(flagSize==2){
+				name="cmpb2";
+			}
+			else if(flagSize==3){
+				name="cmpb3";			
+			}
+			else if(flagSize==4){
+				name="cmpb4";
+			}
+			else if(flagSize==5){
+				name="cmpb5";
+			}
+			else if(flagSize==6){
+				name="cmpb6";
+			}
+			else if(flagSize==7){
+				name="cmpb7";
+			}	
+			return name;
 		}
 		
 		function toDoList(){
