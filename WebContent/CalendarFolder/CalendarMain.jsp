@@ -1661,4 +1661,69 @@
 		
 		scheduleCheckMonth();
 	</script>
+	<script> //제민_ 일간/주간 form.
+		function createWeekFormElement(){
+			
+			let v;
+            let c;
+            let cc;
+            let ccc;    
+            
+			if((typeof(date)!='undefined'||date!=null){
+				v = document.createElement("div");
+		        v.classList.add("calendarArea");
+		        		         
+				c = document.createElement("div");
+	            c.classList.add("WeekAreaHead");
+	            
+	            for(let i = 0; i < 7; i++){
+	                cc = document.createElement("div");
+	                cc.classList.add("weekAreaHeadTitle");
+	                cc.innerHTML = monthDayTitle[i];
+	                c.appendChild(cc);
+			}
+			v.appendChild(c); //주간 form Head 생성
+			
+			c=document.createElement("div");
+			c.classList.add("weekAreaBody");
+			
+			for(let i=0; i<7; i++){
+				cc=document.createElement("div");
+				cc.classList.add("weekDayBox");
+				for(let j=0; j<24; j++){
+					ccc=document.createElement("div");
+					ccc.classList.add("WeekDayTimeBox");
+					cc.appendChild(ccc);
+				}
+				c.appendChild(cc);
+			}
+			v.appendChild(c);//주간 form body 생성
+			
+		}//주간 formElement
+		
+		function createDayFormElement(){
+			
+			let v;
+            let c;
+            let yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
+            
+			if((typeof(date)!='undefined'||date!=null){
+				
+				v = document.createElement("div");
+		        v.classList.add("calendarArea");
+		        		         
+				c = document.createElement("div");
+	            c.classList.add("DayAreaHead");
+	           	
+	            cc= document.createElement("div");
+	            cc.classList.add("DayAreaHeadTitle");
+	            cc.innerHTML= yoil+"";
+	            
+	            c.appendChild(cc);
+			}
+			v.appendChild(c); //일간 form head 생성
+			
+         
+		}//일간 formElement
+	</script>
 </html>
