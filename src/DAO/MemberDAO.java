@@ -455,13 +455,13 @@ public class MemberDAO {
 
 		return list;
 	}
-	
+
 	public List<MemberDTO> memberIdSerachList(String id, String authority)
 	{
 		String ids=id+"%";
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
-		
+
 		String sql="select * from member where id like ? and authority=?";
 		
 		Connection conn =null;

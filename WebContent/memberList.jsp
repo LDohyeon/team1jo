@@ -110,4 +110,8 @@
 			}
 		</script>
 	</body>
+<<<<<<< HEAD
+=======
+
+>>>>>>> branch 'member' of https://github.com/LDohyeon/team1jo.git
 </html>
