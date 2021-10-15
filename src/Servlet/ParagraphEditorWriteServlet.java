@@ -50,14 +50,6 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 		response.sendRedirect("paragraphEditorWrite.do");
 		
 		
-		
-		
-		
-		
-
-		
-		
-		
 	}
 
 }
