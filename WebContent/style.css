@@ -68,6 +68,20 @@ form div span input{
 	padding: 20px;
 }
 
+.memberListSelect1{
+	margin-left: 30px;
+}
+
+.memberListSelect2{
+	width: 173px;
+}
+
+.memberListUpdate{
+	display: inline-block;
+	width: 445px;
+	text-align: right;
+}
+
 .memberList td {
 	border: 1px solid black;
 	padding: 5px;

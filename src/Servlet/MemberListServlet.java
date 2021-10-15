@@ -18,16 +18,12 @@ public class MemberListServlet extends HttpServlet {
 
 		request.setCharacterEncoding("utf-8");
 		
-
 		int startPage = Integer.parseInt(request.getParameter("startPage"));
 		int lastPage = 5;
 		
-
 		MemberDAO mDAO= MemberDAO.getInstance();
 		
 		List<MemberDTO> list=mDAO.memberList(startPage, lastPage);
-
-		int pagebtn= mDAO.memberListPageBtn();
 		
 		int row = mDAO.memberListPageBtn();
 		
@@ -40,8 +36,7 @@ public class MemberListServlet extends HttpServlet {
 		request.setAttribute("lastPage", lastPage);
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("memberList", list);
-		
-		
+				
 		RequestDispatcher dispatcher= request.getRequestDispatcher("memberList.jsp");
 		dispatcher.forward(request, response);	
 	}
@@ -53,23 +48,33 @@ public class MemberListServlet extends HttpServlet {
 		String selSerch1 = request.getParameter("selSerch1"); // 아이디,네임
 		String selSerch2 = request.getParameter("selSerch2"); // 권한
 		String selValue = request.getParameter("selValue"); // 텍스트값
+		int startPage = Integer.parseInt(request.getParameter("startPage"));
+		int lastPage = 5;
 		
 		MemberDAO mDAO= MemberDAO.getInstance();
 		
+		List<MemberDTO> list1 = null;
+		int row=0;
+			
 		if(selSerch1.equals("id") && selSerch2.equals("0")) {
-			List<MemberDTO> list1 = mDAO.memberIdSerachList(selValue);
-			request.setAttribute("list1", list1);
-		} else if(selSerch1.equals("name") && selSerch2.equals("0")) {
-			List<MemberDTO> list1 = mDAO.memberNameSerachList(selValue);
-			request.setAttribute("list1", list1);
-		} else if(selSerch1.equals("id") && selSerch2.equals("3")) {
-			List<MemberDTO> list1 = mDAO.memberIdSerachList(selSerch1, selValue);
-			request.setAttribute("list1", list1);
-		}else if(selSerch1.equals("name") && selSerch2.equals("3")) {
-			List<MemberDTO> list1 = mDAO.memberIdSerachList(selSerch1, selValue);
-			request.setAttribute("list1", list1);
-		}
+			list1 = mDAO.memberIdSerachList(selValue);
+			row = mDAO.memberListIdPageBtn(selValue);
 
+		} else if(selSerch1.equals("name") && selSerch2.equals("0")) {
+			list1 = mDAO.memberNameSerachList(selValue);
+			row = mDAO.memberListNamePageBtn(selValue);
+			
+		} else if(selSerch1.equals("id") && selSerch2.equals("3")) {
+			list1 = mDAO.memberIdSerachList(selValue, selSerch2);
+			row = mDAO.memberListIdPageBtn(selValue, selSerch2);
+			
+		}else if(selSerch1.equals("name") && selSerch2.equals("3")) {
+			list1 = mDAO.memberNameSerachList(selValue, selSerch2);
+			row = mDAO.memberListNamePageBtn(selValue, selSerch2);
+		}
+		
+		request.setAttribute("list1", list1);
+	
 		RequestDispatcher dispatcher= request.getRequestDispatcher("memberList.jsp");
 		dispatcher.forward(request, response);	
 	}
