@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.*;
+import java.util.*;
 
 import DTO.ParagraphDTO;
 
@@ -83,9 +84,7 @@ public class ParagraphDAO {
 	
 	public void paragraphInsert(ParagraphDTO pDTO)
 	{
-
-
-		String sql="insert into paragraph(id, name, title, contents, category, date) values(?, ?, ?, ?, ?, NOW())";
+		String sql="insert into paragraph(id, name, title, contents, category, date, hits) values(?, ?, ?, ?, ?, NOW(), 0)";
 		
 		Connection conn=null;
 		PreparedStatement pstmt = null;
@@ -107,27 +106,139 @@ public class ParagraphDAO {
 		catch(Exception e)
 		{
 			System.out.println("paragraphInsert 중 문제 발생 : "+ e);
+		}	
+	}
+	
+	public List<ParagraphDTO> paragraphList(int StartPage, int lastPage)
+	{
+		List<ParagraphDTO> list= new ArrayList<ParagraphDTO>();
+		int start = StartPage*lastPage-lastPage;
+		
+		
+		String sql="select * from paragraph order by date desc limit ?, ?";
+		
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, lastPage);
+			
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next())
+			{
+				ParagraphDTO pDTO = new ParagraphDTO();
+				
+				pDTO.setNum(rs.getInt("num"));
+				pDTO.setId(rs.getString("id"));
+				pDTO.setName(rs.getString("name"));
+				pDTO.setTitle(rs.getString("title"));
+				pDTO.setContents(rs.getString("contents"));
+				pDTO.setCategory(rs.getString("category"));
+				pDTO.setDatetime(rs.getString("date"));
+				pDTO.setHits(rs.getInt("hits"));
+				
+				list.add(pDTO);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("paragraphList 중 문제 발생 : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
 		}
 
+		return list;
+	}
+	
+	public int ParagraphPage()
+	{
+		String sql="select count(num) from paragraph";
 		
+		int page=0;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn= getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+		
+			page= rs.getInt(1);
+		}
+		catch(Exception e)
+		{
+			System.out.println("ParagraphPage 중 문제 발생 : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return page;
+	}
+	
+	
+	public ParagraphDTO ParagraphContents(int num)
+	{
+		ParagraphDTO pDTO = new ParagraphDTO();
+		
+		String sql="select * from paragraph where num =?";
+		Connection conn =null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			pDTO.setNum(rs.getInt("num"));
+			pDTO.setId(rs.getString("id"));
+			pDTO.setName(rs.getString("name"));
+			pDTO.setTitle(rs.getString("title"));
+			pDTO.setContents(rs.getString("contents"));
+			pDTO.setCategory(rs.getString("category"));
+			pDTO.setDatetime(rs.getString("date"));
+			pDTO.setHits(rs.getInt("hits"));
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("ParagraphDTO 중 문제 발생 : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		
+		return pDTO;
 	}
 	
 	
 	
 	
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
