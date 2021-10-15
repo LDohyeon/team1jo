@@ -264,8 +264,8 @@
         function createToCalendar(){
             let calendar = document.getElementById("calendar");
             calendar.appendChild(createToHeaderLayout());
-            calendar.appendChild(createToBodyLayout());
-            MonthForm();
+            calendar.appendChild(createToBodyLayout()); 
+            changeForm("M");
         }
         
         // 달력 조작 헤더 요소 만들기
@@ -273,31 +273,50 @@
             let v; 
             let c;
             let cc;
+            let ccc;
+            let cccc;
+            
             v = document.createElement("div");
             v.classList.add("calendarHeader");
             
+            c = document.createElement("input");
+            c.setAttribute("type", "hidden");
+    		c.classList.add("calendarHeadDateInfo");
+    		v.appendChild(c);
+            
             c = document.createElement("div");
             c.classList.add("calendarHeadMenu");
+            c.innerHTML="메뉴";
+            c.addEventListener("click", calendarMenu);
             v.appendChild(c);
             
             c = document.createElement("div");
             c.classList.add("calendarHeadNow");
+            c.innerHTML="오늘";
+            c.addEventListener("click", goCalendarToday);
             v.appendChild(c);
             
             c = document.createElement("div");
             c.classList.add("calendarHeadPre");
+            c.innerHTML="과거";
+            c.addEventListener("click", goCalendarPrevious);
             v.appendChild(c);
             
             c = document.createElement("div");
             c.classList.add("calendarHeadNext");
+            c.innerHTML="미래";
+            c.addEventListener("click", goCalendarNext);
             v.appendChild(c);
             
             c = document.createElement("div");
             c.classList.add("calendarHeadDate");
+            
             v.appendChild(c);
             
             c = document.createElement("div");
             c.classList.add("calendarHeadSearch");
+            c.innerHTML="찾기";
+            c.addEventListener("click", visiableCalendarSearch);
             v.appendChild(c);
             
             
@@ -306,24 +325,25 @@
             cc = document.createElement("select");
             cc.classList.add("selectForm");
             ccc = document.createElement("option");
-            ccc.innerHTML = "년"
-            ccc.setAttribute("value", "Y")
+            ccc.innerHTML = "년";
+            ccc.setAttribute("value", "Y");
+            cc.appendChild(ccc);
+            
+            
+            ccc = document.createElement("option");
+            ccc.innerHTML = "월";
+            ccc.setAttribute("value", "M");
+            ccc.setAttribute("selected", "true");
             cc.appendChild(ccc);
             
             ccc = document.createElement("option");
-            ccc.innerHTML = "월"
-            ccc.setAttribute("value", "M")
-            ccc.setAttribute("selected", "true")
+            ccc.innerHTML = "주";
+            ccc.setAttribute("value", "W");
             cc.appendChild(ccc);
             
             ccc = document.createElement("option");
-            ccc.innerHTML = "주"
-            ccc.setAttribute("value", "W")
-            cc.appendChild(ccc);
-            
-            ccc = document.createElement("option");
-            ccc.innerHTML = "일"
-            ccc.setAttribute("value", "D")
+            ccc.innerHTML = "일";
+            ccc.setAttribute("value", "D");
             cc.appendChild(ccc);
             
             c.appendChild(cc);
@@ -340,6 +360,191 @@
         	changeForm(selectForm.value);
         });
         
+        function calendarMenu(){
+        	
+        }
+        function goCalendarToday(){
+			select = document.getElementsByClassName("selectForm")[0].value;
+        	
+        	if(select=="Y"){
+				let date = getToday();
+				
+				changeForm("Y", date);
+        	}
+        	else if(select=="M"){
+				let date = getToday();
+				
+				changeForm("M", date);
+        	}
+			else if(select=="W"){
+        		// 현재의 구간을 구하고, 해당 구간을 기준으로 더라기 빼기 
+        	}
+			else if(select=="D"){
+				
+			}
+        }
+
+        function goCalendarPrevious(){
+        	select = document.getElementsByClassName("selectForm")[0].value;
+        	
+        	if(select=="Y"){
+        		let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				let changeYear = inputYear-1;
+				let changeMonth = inputMonth;
+				let changeDay = inputDay;
+				
+				let date = getThisDay(changeYear, changeMonth, changeDay, 0, 0);
+				
+				changeForm("Y", date);
+        	}
+        	else if(select=="M"){
+        		let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				let changeYear = inputYear;
+				let changeMonth = inputMonth-1;
+				let changeDay = inputDay;
+				
+				if(changeMonth<1){
+					changeMonth=12;
+					changeYear=changeYear-1;
+				}
+				
+				let date = getThisDay(changeYear, changeMonth, changeDay, 0, 0);
+				
+				changeForm("M", date);
+        	}
+			else if(select=="W"){
+        		// 현재의 구간을 구하고, 해당 구간을 기준으로 더라기 빼기 
+        	}
+			else if(select=="D"){
+				
+			}
+        }
+
+        function goCalendarNext(){
+			select = document.getElementsByClassName("selectForm")[0].value;
+        	
+        	if(select=="Y"){
+        		let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				let changeYear = inputYear+1;
+				let changeMonth = inputMonth;
+				let changeDay = inputDay;
+				
+				let date = getThisDay(changeYear, changeMonth, changeDay, 0, 0);
+				
+				changeForm("Y", date);
+        	}
+        	else if(select=="M"){
+        		let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				let changeYear = inputYear;
+				let changeMonth = inputMonth+1;
+				let changeDay = inputDay;
+				
+				if(changeMonth>12){
+					changeMonth=1;
+					changeYear=changeYear+1;
+				}
+				
+				let date = getThisDay(changeYear, changeMonth, changeDay, 0, 0);
+				
+				changeForm("M", date);
+        	}
+			else if(select=="W"){
+        		
+        	}
+			else if(select=="D"){
+				
+			}
+        }
+
+        function visiableCalendarSearch(){
+        	
+        }
+        
+        function whatIsDateInfo(form, date){
+        	let v = document.getElementsByClassName("calendarHeadDate")[0];
+        	
+        	while(v.hasChildNodes()){
+        		v.removeChild(v.firstChild);
+        	}
+        	
+        	if(form=="Y"){
+        		v.innerHTML += date.year+"년";
+        		let info = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let month = date.month;
+        		let day = date.day;
+        		
+        		if(date.month<10){
+        			month = "0"+date.month;
+        		}
+        		if(date.day<10){
+        			day = "0"+date.day;
+        		}
+        		
+        		info.value = date.year+""+month+""+date.day;
+        	}
+        	else if(form="M"){
+        		v.innerHTML += date.year+"년 "+date.month+"월";
+        		let info = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let month = date.month;
+        		let day = date.day;
+        		
+        		if(date.month<10){
+        			month = "0"+date.month;
+        		}
+        		if(date.day<10){
+        			day = "0"+date.day;
+        		}
+        		
+        		info.value = date.year+""+month+""+date.day;
+        	}
+        	else if(form="W"){
+        		v.innerHTML += date.year+"년 "+date.month+"월";
+        		let info = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let month = date.month;
+        		let day = date.day;
+        		
+        		if(date.month<10){
+        			month = "0"+date.month;
+        		}
+        		if(date.day<10){
+        			day = "0"+date.day;
+        		}
+        		
+        		info.value = date.year+""+month+""+date.day;
+        	}
+        	else if(form="D"){
+        		v.innerHTML += date.year+"년 "+date.month+"월 "+date.day+"일";
+        		let info = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let month = date.month;
+        		let day = date.day;
+        		
+        		if(date.month<10){
+        			month = "0"+date.month;
+        		}
+        		if(date.day<10){
+        			day = "0"+date.day;
+        		}
+        		// 달비교하고 초과할 경우에 대한 변수도 마련해야함
+        		info.value = date.year+""+month+""+date.day;
+        	}
+        }
+
         // Calendar Body 영역 만들기 
         function createToBodyLayout(){
             let v = document.createElement("div");
@@ -352,6 +557,8 @@
             
             let centerBox = document.createElement("div");
             centerBox.classList.add("centerBox");
+            
+            centerBox.appendChild(createScheduleLayout());
             centerBox.appendChild(createCalanderLayout());
             
             let leftBox = document.createElement("div");
@@ -361,6 +568,112 @@
             v.appendChild(rightBox);
             v.appendChild(centerBox);
             v.appendChild(leftBox);
+            
+            return v;
+        }
+        
+        // 플랜 스케쥴 기능 
+        function createScheduleLayout(){
+			v = document.createElement("div");
+			v.classList.add("calendarSchedule");
+			
+            c = document.createElement("div");
+            c.classList.add("scheduleForm");
+            
+            cc = document.createElement("input");
+            cc.setAttribute("type", "text");
+            cc.setAttribute("name", "title");
+            cc.setAttribute("placeholder", "제목 추가");
+            cc.classList.add("scheduleFormTitle");
+            c.appendChild(cc);
+            
+            cc = document.createElement("input");
+            cc.setAttribute("type", "date");
+            cc.setAttribute("name", "start");
+            cc.setAttribute("min", "1900-01-01");
+            cc.classList.add("scheduleFormStart");
+            c.appendChild(cc);
+            
+            cc = document.createElement("input");
+            cc.setAttribute("type", "date");
+            cc.setAttribute("name", "end");
+            cc.setAttribute("min", "1900-01-01");
+            cc.classList.add("scheduleFormEnd");
+            c.appendChild(cc);
+            
+            cc = document.createElement("div");
+            cc.classList.add("scheduleFormContentVsiable");
+            cc.innerHTML = "상세 설명";
+            cc.addEventListener("click", scContentVisable);
+            c.appendChild(cc);
+            
+            cc = document.createElement("div");
+            cc.setAttribute("contenteditable", "true");
+            cc.setAttribute("name", "content");
+            cc.classList.add("scheduleFormContent");
+            c.appendChild(cc);
+            
+           	cc = document.createElement("div");
+            cc.classList.add("scheduleFormGroups");
+            c.appendChild(cc);
+            
+            cc = document.createElement("div");
+            cc.classList.add("scheduleColor");
+            
+            ccc = document.createElement("div");
+            ccc.classList.add("scheduleColorSmall");
+            
+            let c4;
+            let c5;
+            let c6;
+            
+            c4 = document.createElement("div");
+            c5 = document.createElement("span");
+            c5.classList.add("smallColor")
+            
+            c6 = document.createElement("span");
+            c6.classList.add("colors");
+            c6.setAttribute("background-color", "rgb(244, 201, 107)");
+            c5.appendChild(c6);
+            
+            c6 = document.createElement("span");
+            c6.classList.add("colorsPointer");
+            c5.appendChild(c6);
+            
+            c4.appendChild(c5);
+            
+            ccc.appendChild(c4);
+            cc.appendChild(ccc);
+            
+            ccc = document.createElement("div");
+            ccc.classList.add("scheduleColorBig");
+            
+            c4 = document.createElement("div");
+            c5 = document.createElement("span");
+            c5.classList.add("BigColor")
+            
+            for(let i = 0; i<10; i++){
+            	c6 = document.createElement("span");
+                c6.classList.add("colors");
+                c6.classList.add("colorsData")
+                c6.setAttribute("background-color", "rgb(244, 201, 107)");
+                c5.appendChild(c6);
+            }
+            
+            c4.appendChild(c5);
+            ccc.appendChild(c4);
+            cc.appendChild(ccc);
+            
+            ccc=document.createElement("input");
+            ccc.setAttribute("type", "text");
+            ccc.setAttribute("name", "color")
+            ccc.classList.add("scheduleFormColor");
+            ccc.classList.add("scheduleFormHidden");
+            
+            cc.appendChild(ccc);
+            c.appendChild(cc);
+            
+            v.appendChild(c);
             
             return v;
         }
@@ -418,18 +731,47 @@
         };
         
 		// ChangeForm: 매개변수에 따라 현재 달력 폼을 변경
-		function changeForm(selectForm){
-			if(selectForm=="Y"){
-				YearForm();
+		function changeForm(selectForm, date){
+			if(selectForm=='undefined'){
+				console.log('undefined');
 			}
-			else if(selectForm=="M"){
-				MonthForm();
+			if(typeof(date)!='undefined'||date!=null){
+				if(selectForm=="Y"){
+					YearForm(date);
+					whatIsDateInfo(selectForm, date);
+				}
+				else if(selectForm=="M"){
+					MonthForm(date);
+					scheduleCheckMonth();
+					whatIsDateInfo(selectForm, date);
+				}
+				else if(selectForm=="W"){
+					WeekForm(date);	
+					whatIsDateInfo(selectForm, date);	
+				}
+				else if(selectForm=="D"){
+					DayForm(date);
+					whatIsDateInfo(selectForm, date);
+				}
 			}
-			else if(selectForm=="W"){
-				WeekForm();			
-			}
-			else if(selectForm=="D"){
-				DayForm();
+			else{
+				if(selectForm=="Y"){
+					YearForm();
+					whatIsDateInfo(selectForm, getToday());
+				}
+				else if(selectForm=="M"){
+					MonthForm();
+					scheduleCheckMonth();
+					whatIsDateInfo(selectForm, getToday());
+				}
+				else if(selectForm=="W"){
+					WeekForm();		
+					whatIsDateInfo(selectForm, getToday());
+				}
+				else if(selectForm=="D"){
+					DayForm();
+					whatIsDateInfo(selectForm, getToday());
+				}
 			}	
 		}
         
@@ -442,7 +784,7 @@
 				div.removeChild(div.firstChild);
 			}
             
-			if(typeof(date)!='undefined'&&year!=null){
+			if(typeof(date)!='undefined'&&date!=null){
 				for(let box = 1; box < 13; box++){
                     
                     let p = document.createElement("div");
@@ -455,7 +797,6 @@
                     p.appendChild(c);
                     
 					date.month = box;
-                    
                     
 					p.appendChild(createYearFormElement(date));
                     div.appendChild(p);
@@ -483,22 +824,18 @@
         
 		// 몬스 폼을 만들기 
 		function MonthForm(date){
-			if(typeof(date)!='undefined'&&year!=null){
+			if(typeof(date)!='undefined'&&date!=null){
 				let div = document.getElementsByClassName("calendarDiv")[0];
 				
 				while(div.hasChildNodes()){
 					div.removeChild(div.firstChild);
-					
 				}
-				
-	            div.appendChild(createMonthFormElement());
+	            div.appendChild(createMonthFormElement(date));
 			}
 			else{
-				let div = document.getElementsByClassName("calendarDiv")[0];
-				
+				let div = document.getElementsByClassName("calendarDiv")[0];	
 				while(div.hasChildNodes()){
 					div.removeChild(div.firstChild);
-					
 				}
 
 	            div.appendChild(createMonthFormElement());
@@ -513,8 +850,6 @@
 				div.removeChild(div.firstChild);
 				
 			}
-			
-			
 		}
 		
 		// 일 폼 만들기 
@@ -613,18 +948,40 @@
 	                cc = document.createElement("div");
 	                cc.classList.add("monthBox"); 
 	                
+	                let thisTimeDate="";
+	                
+					if(i<10){
+						if(date.month<10){
+							thisTimeDate = date.year+"0"+date.month+"0"+i
+						}
+						else{
+							thisTimeDate = date.year+""+date.month+"0"+i
+						}
+					}
+					else{
+						if(date.month<10){
+							thisTimeDate = date.year+"0"+date.month+""+i	
+						}	
+						else{
+							thisTimeDate = date.year+""+date.month+""+i;
+						}
+					}					
+
+	                cc.addEventListener("click", visibleSchedule);
+
 	                ccc = document.createElement("div");
 	                ccc.classList.add("monthBoxTitle");
 	                
 					if(i==1){
 						cccc = document.createElement("span");
-		                cccc.classList.add("monthBoxTitleBox");
+		                cccc.classList.add("monthBoxTitleBoxOne");
 		                cccc.innerHTML = date.month+"월 "+ i +"일";
 		                ccc.appendChild(cccc);
 	            	}
 	            	else{
 	            		cccc = document.createElement("span");
 	                    cccc.classList.add("monthBoxTitleBox");
+	         
 	                    cccc.innerHTML = i +"";
 	                    ccc.appendChild(cccc);
 	            	}
@@ -637,16 +994,8 @@
 	                cccc = document.createElement("input");
 					cccc.classList.add("dateTag");
 					cccc.setAttribute("type", "text");
-					let thisTimeDate;
 					
-					if(i<10){
-						thisTimeDate = date.year+""+date.month+"0"+i
-					}
-					else{
-						thisTimeDate = date.year+""+date.month+""+i;
-					}
-					
-					cccc.setAttrubute("value", thisTimeDate);
+					cccc.setAttribute("value", thisTimeDate);
 					ccc.appendChild(cccc);
 					
 	                cc.appendChild(ccc);
@@ -763,6 +1112,17 @@
 	                cc = document.createElement("div");
 	                cc.classList.add("monthBox"); 
 	                
+	                let thisTimeDate = "";
+	                
+	                if(i<10){
+						thisTimeDate = getToday().year+""+getToday().month+"0"+i
+					}
+					else{
+						thisTimeDate = getToday().year+""+getToday().month+""+i;
+					}
+	                
+	                cc.addEventListener("click", visibleSchedule);
+	                
 	                ccc = document.createElement("div");
 	                ccc.classList.add("monthBoxTitle");
 	                
@@ -787,14 +1147,6 @@
 	                cccc = document.createElement("input");
 					cccc.classList.add("dateTag");
 					cccc.setAttribute("type", "text");
-					let thisTimeDate = "";
-					
-					if(i<10){
-						thisTimeDate = getToday().year+""+getToday().month+"0"+i
-					}
-					else{
-						thisTimeDate = getToday().year+""+getToday().month+""+i;
-					}
 					
 					cccc.setAttribute("value", thisTimeDate);
 					ccc.appendChild(cccc);
@@ -859,6 +1211,16 @@
 				cc = document.createElement("div");
 	            cc.classList.add("monthBox"); 
 	            
+				let thisTimeDate = "";
+				
+				if(i<10){
+					thisTimeDate = (date.year+1)+"0"+1+"0"+i
+				}
+				else{
+					thisTimeDate = (date.year+1)+"0"+1+""+i;
+				}
+				cc.addEventListener("click", visibleSchedule);
+				
 	            ccc = document.createElement("div");
 	            ccc.classList.add("monthBoxTitle");
 	            
@@ -875,14 +1237,7 @@
 	            cccc = document.createElement("input");
 				cccc.classList.add("dateTag");
 				cccc.setAttribute("type", "text");
-				let thisTimeDate = "";
-				
-				if(i<10){
-					thisTimeDate = (date.year+1)+"0"+1+"0"+i
-				}
-				else{
-					thisTimeDate = (date.year+1)+"0"+1+""+i;
-				}
+		
 				cccc.setAttribute("value", thisTimeDate);
 				ccc.appendChild(cccc);
 	            
@@ -892,22 +1247,6 @@
 				cc = document.createElement("div");
 	            cc.classList.add("monthBox"); 
 	            
-	            ccc = document.createElement("div");
-	            ccc.classList.add("monthBoxTitle");
-	            
-	            cccc = document.createElement("span");
-	            cccc.classList.add("monthBoxTitleBox");
-	            cccc.innerHTML = i +"";
-	            ccc.appendChild(cccc);
-	            
-	            cc.appendChild(ccc);
-	            
-	            ccc = document.createElement("div");
-	            ccc.classList.add("monthBoxBody");
-	            
-	            cccc = document.createElement("input");
-				cccc.classList.add("dateTag");
-				cccc.setAttribute("type", "text");
 				let thisTimeDate = "";
 				
 				if(date.month<10){
@@ -926,6 +1265,25 @@
 						thisTimeDate = date.year+""+(date.month+1)+""+i;
 					}
 				}
+				cc.addEventListener("click", visibleSchedule);
+				
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxTitle");
+	            
+	            cccc = document.createElement("span");
+	            cccc.classList.add("monthBoxTitleBox");
+	            cccc.innerHTML = i +"";
+	            ccc.appendChild(cccc);
+	            
+	            cc.appendChild(ccc);
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxBody");
+	            
+	            cccc = document.createElement("input");
+				cccc.classList.add("dateTag");
+				cccc.setAttribute("type", "text");
+				
 				cccc.setAttribute("value", thisTimeDate);
 				ccc.appendChild(cccc);
 	            
@@ -949,6 +1307,17 @@
 				cc = document.createElement("div");
 	            cc.classList.add("monthBox"); 
 	            
+	            let thisTimeDate = "";
+	            
+	            if(i>10){
+					thisTimeDate = (date.year-1)+""+12+"0"+(NowMonth-i);
+				}
+				else{
+					thisTimeDate = (date.year-1)+""+12+""+(NowMonth-i);
+				}
+				
+	            cc.addEventListener("click", visibleSchedule);
+	            
 	            ccc = document.createElement("div");
 	            ccc.classList.add("monthBoxTitle");
 	            
@@ -965,14 +1334,6 @@
 	            cccc = document.createElement("input");
 				cccc.classList.add("dateTag");
 				cccc.setAttribute("type", "text");
-				let thisTimeDate = "";
-				
-				if(i>10){
-					thisTimeDate = (date.year-1)+""+12+"0"+(NowMonth-i);
-				}
-				else{
-					thisTimeDate = (date.year-1)+""+12+""+(NowMonth-i);
-				}
 				
 				cccc.setAttribute("value", thisTimeDate);
 				ccc.appendChild(cccc);
@@ -983,6 +1344,27 @@
 				cc = document.createElement("div");
 	            cc.classList.add("monthBox"); 
 	            
+	            let thisTimeDate = "";
+	            
+	            if(date.month<10){
+					if(i>10){
+						thisTimeDate = date.year+"0"+(date.month-1)+"0"+(NowMonth-i);
+					}
+					else{
+						thisTimeDate = date.year+"0"+(date.month-1)+""+(NowMonth-i);
+					}
+				}
+				else{
+					if(i>10){
+						thisTimeDate = date.year+"0"+(date.month-1)+"0"+(NowMonth-i);
+					}
+					else{
+						thisTimeDate = date.year+"0"+(date.month-1)+""+(NowMonth-i);
+					}
+				}
+	            
+	            cc.addEventListener("click", visibleSchedule);
+	            
 	            ccc = document.createElement("div");
 	            ccc.classList.add("monthBoxTitle");
 	            
@@ -999,24 +1381,7 @@
 	            cccc = document.createElement("input");
 				cccc.classList.add("dateTag");
 				cccc.setAttribute("type", "text");
-				let thisTimeDate = "";
 				
-				if(date.month<10){
-					if(i>10){
-						thisTimeDate = date.year+"0"+(date.month-1)+"0"+(NowMonth-i);
-					}
-					else{
-						thisTimeDate = date.year+"0"+(date.month-1)+""+(NowMonth-i);
-					}
-				}
-				else{
-					if(i>10){
-						thisTimeDate = date.year+"0"+(date.month-1)+"0"+(NowMonth-i);
-					}
-					else{
-						thisTimeDate = date.year+"0"+(date.month-1)+""+(NowMonth-i);
-					}
-				}
 				cccc.setAttribute("value", thisTimeDate);
 				ccc.appendChild(cccc);
 				
@@ -1222,10 +1587,12 @@
 		// 현재 그룹의 스케줄을 체크 
 	
 		// AJAX 기본 세팅
-		let XHRCalendar;//XHR + cal
+		var XHRCalendar;//XHR + cal
+		// let으로 선언하는 경우 > 레퍼런스 오류; create 단계에서 해당 변수 차몾를 해야하는데 변수 스코프를 벗어남
+		// 레퍼런스 오류가 발생, 호이스팅 우선 순위 생각해서 var로 고쳐서 해결, 만약 let으로 사용해야하면 함수 선언 시점에 대한 알고리즘을 짜야함
 		let xmlParser;
 		let scheduleData = [];
-		
+
 		function createXHRCalendar(){
 			if(window.ActiveXObject){ 
 				XHRCalendar=new ActiveXObject("Microsoft.XMLHTTP");
@@ -1272,6 +1639,7 @@
 		            	}
 		            	createScheduleElement(scheduleData, date);
 		            	checkMonthScheduleFirst();
+		            	scheduleData = []; // 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
 		            }
 				}
 			};
@@ -1289,7 +1657,7 @@
 			for(let i = 0; i < scheduleData.length; i++){
 				
 				let startYear = parseInt(scheduleData[i].start.substring(0,4));
-				let startMonth = parseInt(scheduleData[i].start.substring(5,7));
+				let startMonth = parseInt(scheduleData[i].start.substring(4,6));
 				let startDay = parseInt(scheduleData[i].start.substring(8,10));
 				// 추후 팀원 중 주 및 일 일정은 day 변수까지 사용
 				
@@ -1609,6 +1977,33 @@
 			return name;
 		}
 		
+		// 스케줄 추가
+		
+		function visibleSchedule(){
+			// 클릭했을때 현제 요소를 가져오고 안에 숨겨논 잇풋 감 가져옴
+			// 가져온 값을 기초로 현재 폼에 지정된 데이터를 변경할 수 있다.
+			
+			let formStart = document.getElementsByClassName("scheduleFormStart")[0];
+			let formEnd = document.getElementsByClassName("scheduleFormEnd")[0];
+			
+			let thisElement = event.currentTarget;
+			
+			let thisDay = thisElement.getElementsByClassName("dateTag")[0].value;
+		
+			let tempYear = thisDay.substring(0,4);
+			let tempMonth = thisDay.substring(4,6);
+			let tempDay = thisDay.substring(6,8);
+			
+			formStart.value = tempYear+"-"+tempMonth+"-"+tempDay;
+			formEnd.value = tempYear+"-"+tempMonth+"-"+tempDay;
+		
+		}
+		
+		function scContentVisable(){
+			console.log("work")
+			
+		}
+		
 		function toDoList(){
 			
 		}
@@ -1625,9 +2020,6 @@
 			
 		}
 		
-		function addPlan(){
-			
-		}
 		
 		// 년 형식 스케줄
 		function scheduleCheckYear (date, user, group){
@@ -1659,9 +2051,11 @@
 			}
 		}
 		
-		scheduleCheckMonth();
 	</script>
+	
+	
 	<script> //제민_ 일간/주간 form.
+	// for, if 쓰실때 {}, () 확인하고 잘닫아주셔야 합니다.
 		function createWeekFormElement(){
 			
 			let v;
@@ -1669,7 +2063,7 @@
             let cc;
             let ccc;    
             
-			if((typeof(date)!='undefined'||date!=null){
+			if((typeof(date)!='undefined'||date!=null)){
 				v = document.createElement("div");
 		        v.classList.add("calendarArea");
 		        		         
@@ -1681,6 +2075,7 @@
 	                cc.classList.add("weekAreaHeadTitle");
 	                cc.innerHTML = monthDayTitle[i];
 	                c.appendChild(cc);
+	            }
 			}
 			v.appendChild(c); //주간 form Head 생성
 			
@@ -1707,7 +2102,7 @@
             let c;
             let yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
             
-			if((typeof(date)!='undefined'||date!=null){
+			if((typeof(date)!='undefined'||date!=null)){
 				
 				v = document.createElement("div");
 		        v.classList.add("calendarArea");
@@ -1722,7 +2117,6 @@
 	            c.appendChild(cc);
 			}
 			v.appendChild(c); //일간 form head 생성
-			
          
 		}//일간 formElement
 	</script>
