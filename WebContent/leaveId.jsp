@@ -23,7 +23,7 @@
 		<script>
 			var checkbox=document.getElementById("check");
 			function check1()
-			{
+			{ 
 				if(checkbox.checked==false)
 				{
 					alert("안내사항을 동의해야 탈퇴가 가능합니다.");

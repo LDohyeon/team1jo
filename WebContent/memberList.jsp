@@ -64,7 +64,7 @@
 									<td><%=list.get(i).getEmail() %></td>
 									<td><%=list.get(i).getAuthority() %></td>
 									<td><a href="">수정</a></td>
-									<td><a href="ListLeaveldServlet.do?getId=<%=list.get(i).getId() %>">삭제</a></td>
+									<td><a href="ListLeaveldServlet.do?getId=<%=list.get(i).getId() %>&startPage=${startPage}">삭제</a></td>
 								</tr>			
 					<% 
 							}
