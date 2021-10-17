@@ -28,7 +28,7 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
-		String category = "ì§ˆë¬¸";
+		String category = "Áú¹®";
 		
 		HttpSession session = request.getSession();
 		
