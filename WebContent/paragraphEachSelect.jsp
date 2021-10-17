@@ -40,8 +40,14 @@
         </style>
 	</head>
 	<body>
+	<c:if test="${report!=null }">
+		<script>
+			alert("신고가 완료되었습니다.");
+		</script>
+	</c:if>
+	
+	
 	<%
-		String userid=(String) session.getAttribute("loginUserId");
 		int num=Integer.parseInt(request.getParameter("num"));
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		ParagraphDTO pDTO = pDAO.ParagraphContents(num);
@@ -53,16 +59,20 @@
         <div class="content">
         	<h2>Title ${pDTO.getTitle() }</h2>
         	<p>Id ${pDTO.getId() },Num ${pDTO.getNum() },Name ${pDTO.getName() },Date ${pDTO.getDatetime() },Category ${pDTO.getCategory() },Hits ${pDTO.getHits() }</p><hr><br>
-			<p>내용 ${pDTO.getContents() }</p><br><hr>
-			<%
-		 		if(userid!=null && (userid.equals(pDTO.getId()))){
-	 		%>
-	 				<a href="paragraphUpdate.do?num=<%=num%>">수정</a>
-	 				<a onclick="return confirm('정말 삭제하시겠습니까?')" href="paragraphDelete.do?num=<%=num%>">삭제</a>
-	 		<%
-	 			}
-		 	%>
-			<button type="button" class="button">신고</button><br><br>
+			<p>내용 ${pDTO.getContents() }</p>
+			
+			<br>
+			<hr>
+			
+		 	<c:if test="${loginUserId == pDTO.getId() }">
+		 		<a href="paragraphUpdate.do?num=<%=num%>">수정</a>
+	 			<a onclick="return confirm('정말 삭제하시겠습니까?')" href="paragraphDelete.do?num=<%=num%>">삭제</a>
+		 	</c:if>
+
+			<a onclick="return confirm('정말 삭제하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button">신고</button></a>
+			
+			<br>
+			<br>
 			
 			<div class="reply">
 			댓글

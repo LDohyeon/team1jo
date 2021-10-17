@@ -22,13 +22,12 @@ public class ParagraphDeleteServlet extends HttpServlet {
 		int num=Integer.parseInt(request.getParameter("num"));
 
 		
-		ParagraphDTO pDTO=new ParagraphDTO();
-		pDTO.setNum(num);
-		
 		ParagraphDAO pDAO=ParagraphDAO.getInstance();
-		pDAO.paragraphDelete(pDTO.getNum());
+		pDAO.paragraphDelete(num);
 		
-		System.out.println("paragraphDelete Num: "+num);
+		
+
+		response.sendRedirect("paragraphList.do?startPage=1");
 		
 	}
 

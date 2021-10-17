@@ -25,18 +25,21 @@ public class ParagraphUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
-		
-		System.out.println("update title: "+title);
-		System.out.println("update content: "+content);
+		int num = Integer.parseInt(request.getParameter("num"));
 		
 		ParagraphDTO pDTO=new ParagraphDTO();
 		pDTO.setTitle(title);
 		pDTO.setContents(content);
+		pDTO.setNum(num);
 		
 		ParagraphDAO pDAO=ParagraphDAO.getInstance();
 		
 		pDAO.paragraphUpdate(pDTO);
 
+		
+		response.sendRedirect("paragraphEachSelect.do?num="+num);
+		
+		
 	}
 
 }

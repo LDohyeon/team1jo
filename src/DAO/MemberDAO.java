@@ -767,6 +767,37 @@ public class MemberDAO {
 	///페이지 버튼 끝 312번째 메소드와 연결
 	
 	
+	//신고 기능
+	
+	public void memberReport(String id)
+	{
+		String sql = "update member set authority=3 where id=?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("member 신고 버튼 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+		
+	}
+	
+	//신고 기능
 	
 	
 

@@ -88,9 +88,10 @@
 	                        </div>
 	                    </div>
 	                    <!-- 여기 value 대신 값 넣는 방법 못 찾아서 일단 냅뒀습니다 -->
-	                    <div id="writeContent" class="writeContent" contenteditable="true" value="<%=pDTO.getContents()%>"></div>
+	                    <div id="writeContent" class="writeContent" contenteditable="true"><%=pDTO.getContents()%></div>
 	                    <input id="content" type="hidden" value="" name="content">
-	                	</div>
+	                    <input id="content" type="hidden" value="<%=num %>" name="num">
+	             </div>
 	                <input type="submit" value="수정" onclick="return writeCheck();">
 	            </div>
         	</form>

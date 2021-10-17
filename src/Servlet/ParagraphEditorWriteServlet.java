@@ -28,8 +28,9 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
-		String category = "Áú¹®";
+		String category = "ì§ˆë¬¸";
 		
+
 		HttpSession session = request.getSession();
 		
 		MemberDTO mDTO = (MemberDTO)session.getAttribute("loginUser");
@@ -47,7 +48,7 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 		pDAO.paragraphInsert(pDTO);
 		
 
-		response.sendRedirect("paragraphEditorWrite.do");
+		response.sendRedirect("paragraphList.do?startPage=1");
 		
 		
 	}
