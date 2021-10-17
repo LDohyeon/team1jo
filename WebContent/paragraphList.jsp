@@ -30,12 +30,18 @@
 				display :inline-block;
 				width:19%;
 			}
+			.writebutton{
+
+			}
 			
 		</style>
 	</head>
 	<body>
 		<div class ="paragraphListWrap">
 			<h2>게시판</h2>
+			<c:if test="${loginUser.id!=null}">
+				<input class="writebutton" type="button" value="글쓰기" onclick="location.href='paragraphEditorWrite.do';">
+			</c:if>
 			<div class="spanWrap">
 				<span>
 					<span>번호</span>
