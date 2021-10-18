@@ -12,8 +12,6 @@ public class ParagraphDTO {
 	private int hits;
 
 
-	
-	
 	public int getHits() {
 		return hits;
 	}
