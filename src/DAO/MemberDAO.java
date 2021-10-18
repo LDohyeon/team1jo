@@ -767,6 +767,7 @@ public class MemberDAO {
 	///페이지 버튼 끝 312번째 메소드와 연결
 	
 	
+	//신고 기능
 	
 	public void memberReport(String id)
 	{

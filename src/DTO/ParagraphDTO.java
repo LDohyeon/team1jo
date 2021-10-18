@@ -9,8 +9,17 @@ public class ParagraphDTO {
 	private String contents;
 	private String category;
 	private String datetime;
+	private int hits;
+
+
 	
 	
+	public int getHits() {
+		return hits;
+	}
+	public void setHits(int hits) {
+		this.hits = hits;
+	}
 	public int getNum() {
 		return num;
 	}
@@ -64,7 +73,7 @@ public class ParagraphDTO {
 //			contents text,
 //			category text,
 //			date datetime);
-	
-	
+//alter table paragraph add hits int;	
+
 	
 }

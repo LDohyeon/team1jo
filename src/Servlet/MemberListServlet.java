@@ -17,7 +17,7 @@ public class MemberListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		request.setCharacterEncoding("utf-8");
-		
+
 		int startPage = Integer.parseInt(request.getParameter("startPage"));
 		int lastPage = 5;
 		
@@ -49,7 +49,7 @@ public class MemberListServlet extends HttpServlet {
 		String selSerch2 = request.getParameter("selSerch2"); 
 		String selValue = request.getParameter("selValue"); 
 		int startPage = Integer.parseInt(request.getParameter("startPage"));
-		int lastPage = 3;
+		int lastPage = 5;
 		int row=0;
 		
 		List<MemberDTO> list1 = null;

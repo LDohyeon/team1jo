@@ -50,6 +50,7 @@
 							<td>이름</td>
 							<td>이메일</td>
 							<td>권한</td>
+							<td>삭제</td>
 						</tr>
 						<%
 							try{				
@@ -60,6 +61,7 @@
 										<td><%=list.get(i).getId() %></td>
 										<td><%=list.get(i).getName() %></td>
 										<td><%=list.get(i).getEmail() %></td>
+										<td><a href="ListLeaveldServlet.do?getId=<%=list.get(i).getId() %>&startPage=${startPage}">삭제</a></td>
 										<td>
 											<select name="selAuValue" onchange="request_doGet(this, '<%=list.get(i).getId() %>')">
 												<option value="2" <% if(list.get(i).getAuthority().equals("2")){%>selected<%}%>>2</option>
