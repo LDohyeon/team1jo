@@ -227,7 +227,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ParagraphDTO 중 문제 발생 : "+ e);
+			System.out.println("ParagraphContents 게시판 보기 중 문제 발생 : "+ e);
 		}
 		finally
 		{
@@ -238,7 +238,109 @@ public class ParagraphDAO {
 		return pDTO;
 	}
 	
+
+	//게시판 수정
+	public void paragraphUpdate(ParagraphDTO pDTO)
+	{
+		String sql="update paragraph set title=?, contents = ? where num = ?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pDTO.getTitle());
+			pstmt.setString(2, pDTO.getContents());
+			pstmt.setInt(3, pDTO.getNum());
+			
+			pstmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("ParagraphContents 게시판 수정 중 문제 발생 : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+
+	}
+	//게시판 수정
+	
+	//게시판 삭제
+	public void paragraphDelete(int num)
+	{
+		String sql ="delete from paragraph where num = ?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, num);
+			
+			pstmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("ParagraphContents 게시판 삭제 중 문제 발생 : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+
+	}
+	//게시판 수정
 	
 	
+	//조회수 업
+	
+	public void paragraphHitsUp(int num)
+	{
+		String sql = "update paragraph set hits = hits+1 where num=? ";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+			
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, num);
+			
+			pstmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("paragraphHitsUp 게시판 조회수 업 중 문제 발생 : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+	}
+	
+	//조회수 업
 	
 }
+
+
+
+
+
+
+
+
+
+

@@ -30,6 +30,7 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 		String content=request.getParameter("content");
 		String category = "질문";
 		
+
 		HttpSession session = request.getSession();
 		
 		MemberDTO mDTO = (MemberDTO)session.getAttribute("loginUser");
@@ -47,7 +48,7 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 		pDAO.paragraphInsert(pDTO);
 		
 
-		response.sendRedirect("paragraphEditorWrite.do");
+		response.sendRedirect("paragraphList.do?startPage=1");
 		
 		
 	}
