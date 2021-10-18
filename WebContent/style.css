@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+.wrap1{
+	width: 750px;
+	padding: 30px;
+	border: 2px solid gray;
+}
+
+.wrap2{
+	width: 700px;
+	padding: 5px;
+	border: 1px solid lightgray;
+}
+
+h1, h4{
+	padding: 10px;
+	margin: 0;
+}
+
+form div span{
+	padding: 10px;
+	text-align: left;
+	margin-right: 10px;
+	display: inline-block;
+	width: 80px;	
+}
+
+form div span input{
+	display: inline-block;
+	width: 140px;	
+}
+
+.registerIdCheck{
+	display: inline-block;
+	width: 120px;	
+	margin-left: 50px;
+}
+
+.registerIdCheckMsg{
+	display: inline-block;	
+	font-size: 13px;
+	margin: 0;
+	color: red;
+}
+
+.registerIdCheckMsg > input{
+	display: inline-block;
+	width: 200px;
+}
+	
+.registerMsg, .loginIdPw{
+	width: 300px;
+	padding-top: 0;
+	padding-left: 127px;
+	font-size: 13px;
+	color: red;
+}
+
+.loginMsg{
+	width: 300px;
+	padding-left: 10px;
+	font-size: 15px;
+	color: red;
+}
+
+.memberList{
+	border: 1px solid black;
+	padding: 20px;
+}
+
+.memberList td {
+	border: 1px solid black;
+	padding: 5px;
+}
+
+.mListPage{
+	list-style:none;
+	padding-left: 0px;
+}
+.mListPage li{
+	float: left;
+	padding-left: 10px;
+}
