@@ -125,7 +125,6 @@
 	display: none;
 }
 .monthBoxTitleBoxOne{
-    padding: 1px;
     height: 20px;
     display: inline-block;
     text-align: center;
@@ -220,16 +219,18 @@
 }
 .scheduleBox{
 	width: 100%;
-	height: 20px;
+	height: 30px;
 	text-align: left;
 	overflow: hidden;
 }
 .cmpb0{
-	
+	height: 30px;
+	text-align: left;
+	overflow: hidden;
 }
 .cmpb1{
 	width: 100%;
-	height: 20px;
+	height: 30px;
 	overflow: hidden;
 	background-color:#25b5aa;
 	z-index: 10;
@@ -246,39 +247,39 @@
 }
 .cmpb2{
 	width: 200%;
-	height: 20px;
+	height: 30px;
 	overflow: hidden;
 	background-color:green;
 }
 .cmpb3{
 	width: 300%;
 	margin-bottom: 2vw;
-	height: 20px;
+	height: 30px;
 	overflow: hidden;
 	background-color:green;
 }
 .cmpb4{
 	width: 400%;
-	height: 20px;
+	height: 30px;
 	overflow: hidden;
 	background-color:green;
 }
 .cmpb5{
 	width: 500%;
-	height: 20px;
+	height: 30px;
 	overflow: hidden;
 	background-color:green;
 	z-index: 40;
 }
 .cmpb6{
 	width: 600%;
-	height: 20px;
+	height: 30px;
 	overflow: hidden;
 	background-color:green;
 }
 .cmpb7{
 	width: 700%;
-	height: 20px;
+	height: 30px;
 	overflow: hidden;
 	background-color:green;
 }

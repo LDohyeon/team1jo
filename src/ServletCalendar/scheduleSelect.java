@@ -14,7 +14,7 @@ import DAO.ScheduleDAO;
 import DTO.GroupDTO;
 import DTO.ScheduleDTO;
 
-@WebServlet("/getGroup")
+@WebServlet("/scheduleSelect")
 public class scheduleSelect extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -91,6 +91,7 @@ public class scheduleSelect extends HttpServlet {
 					+ "<end>2021-10-30 13:00:00</end>"
 					+ "<content></content>"
 					+ "<writer>DEMOUSER</writer>"
+					+ "<color>#A8C8F9</color>"
 				+ "</schedule>"
 			+ "</group>"
 			+ "<group>"
@@ -104,6 +105,7 @@ public class scheduleSelect extends HttpServlet {
 					+ "<end>2021-10-03 18:00:00</end>"
 					+ "<content></content>"
 					+ "<writer>DEMOUSER</writer>"
+					+ "<color>#FFDDA6</color>"
 				+ "</schedule>"
 			+ "</group>"
 			+ "<group>"
@@ -117,6 +119,7 @@ public class scheduleSelect extends HttpServlet {
 					+ "<end>2021-10-02 13:00:00</end>"
 					+ "<content></content>"
 					+ "<writer>DEMOUSER</writer>"
+					+ "<color>#FC9EBD</color>"
 				+ "</schedule>"
 			+ "</group>"
 			+ "<group>"
@@ -130,6 +133,7 @@ public class scheduleSelect extends HttpServlet {
 					+ "<end>2021-10-17 13:00:00</end>"
 					+ "<content></content>"
 					+ "<writer>DEMOUSER</writer>"
+					+ "<color>#B8F3B8</color>"
 				+ "</schedule>"
 				+ "<schedule>"
 					+ "<num>5</num>"
@@ -138,6 +142,7 @@ public class scheduleSelect extends HttpServlet {
 					+ "<end>2021-10-24 13:00:00</end>"
 					+ "<content></content>"
 					+ "<writer>DEMOUSER</writer>"
+					+ "<color>#FFCCCC</color>"
 				+ "</schedule>"
 			+ "</group>"
 		+ "</data>";

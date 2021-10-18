@@ -570,7 +570,7 @@
             return v;
         }
         
-        // 플랜 스케쥴 기능 
+        // 스케줄 추가하기. 
         function createScheduleLayout(){
 			v = document.createElement("div");
 			v.classList.add("calendarSchedule");
@@ -600,7 +600,7 @@
             c.appendChild(cc);
             
             cc = document.createElement("div");
-            cc.classList.add("scheduleFormContentVsiable");
+            cc.classList.add("scheduleFormContentVisiable");
             cc.innerHTML = "상세 설명";
             cc.addEventListener("click", scContentVisable);
             c.appendChild(cc);
@@ -669,6 +669,12 @@
             ccc.classList.add("scheduleFormHidden");
             
             cc.appendChild(ccc);
+            c.appendChild(cc);
+            
+            cc = document.createElement("input");
+            cc.setAttribute("type", "button");
+ 			cc.setAttribute("value", "제출");
+            cc.classList.add("scheduleFormTitle");
             c.appendChild(cc);
             
             v.appendChild(c);
@@ -1631,7 +1637,7 @@
 		            				start: schedules[j].getElementsByTagName("start")[0].innerHTML,
 		            				end: schedules[j].getElementsByTagName("end")[0].innerHTML,
 		            				content: schedules[j].getElementsByTagName("content")[0].innerHTML,
-		            				writer: schedules[j].getElementsByTagName("writer")[0].innerHTML
+		            				writer: schedules[j].getElementsByTagName("writer")[0].innerHTML,
 		            				color: schedules[j].getElementsByTagName("color")[0].innerHTML
 		            			}  
 		            			scheduleData.push(temp);
@@ -1643,7 +1649,7 @@
 		            }
 				}
 			};
-			XHRCalendar.open("POST", "../getGroupSchedule", true);
+			XHRCalendar.open("POST", "../scheduleSelect", true);
 			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 			XHRCalendar.send("userKey="+user);
 		}
@@ -1767,6 +1773,7 @@
 		}
 		
 		function createScheduleBox(scheduleData, dateTags){
+			console.log(scheduleData);
 			let p;
 			let v;
 			let c;
@@ -1777,6 +1784,7 @@
 			
 			v = document.createElement("div");
 			v.classList.add("scheduleBox"); 
+			v.setAttribute("style", "background-color:"+scheduleData.color);
             
 			c = document.createElement("span");
 			c.classList.add("scheduleInfos"); 
@@ -1785,7 +1793,7 @@
 			cc.classList.add("scInfo"); 
 			cc.classList.add("groupNum"); 
 			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.key);
+			cc.setAttribute("value", scheduleData.groupnum);
 			
 			c.appendChild(cc);
 			
@@ -1793,7 +1801,7 @@
 			cc.classList.add("scInfo"); 
 			cc.classList.add("groupName"); 
 			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.name);
+			cc.setAttribute("value", scheduleData.groupname);
 			
 			c.appendChild(cc);
 			

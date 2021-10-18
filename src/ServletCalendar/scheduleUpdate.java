@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import DAO.ScheduleDAO;
 import DTO.ScheduleDTO;
 
-@WebServlet("/updateSchedule")
+@WebServlet("/scheduleUpdate")
 public class scheduleUpdate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
