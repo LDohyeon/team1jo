@@ -368,12 +368,10 @@
         	
         	if(select=="Y"){
 				let date = getToday();
-				
 				changeForm("Y", date);
         	}
         	else if(select=="M"){
 				let date = getToday();
-				
 				changeForm("M", date);
         	}
 			else if(select=="W"){
@@ -742,7 +740,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm(date);
-					scheduleCheckMonth();
+					scheduleCheckMonth(date);
 					whatIsDateInfo(selectForm, date);
 				}
 				else if(selectForm=="W"){
@@ -761,7 +759,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm();
-					scheduleCheckMonth();
+					scheduleCheckMonth(getToday());
 					whatIsDateInfo(selectForm, getToday());
 				}
 				else if(selectForm=="W"){
@@ -1619,7 +1617,7 @@
 		            	xmlGroup = xmlParser.parseFromString(XHRCalendar.responseText, "text/xml");
 		            	
 		            	groups = xmlGroup.getElementsByTagName("group");
-						
+		            	
 		            	for(let i = 0; i < groups.length; i++){
 		            		schedules = groups[i].getElementsByTagName("schedule");
 		            		
@@ -1633,7 +1631,7 @@
 		            				end: schedules[j].getElementsByTagName("end")[0].innerHTML,
 		            				content: schedules[j].getElementsByTagName("content")[0].innerHTML,
 		            				user: schedules[j].getElementsByTagName("user")[0].innerHTML
-		            			}
+		            			}  
 		            			scheduleData.push(temp);
 		            		}
 		            	}
@@ -1656,8 +1654,9 @@
 			
 			for(let i = 0; i < scheduleData.length; i++){
 				
+				console.log("DATE ")
 				let startYear = parseInt(scheduleData[i].start.substring(0,4));
-				let startMonth = parseInt(scheduleData[i].start.substring(4,6));
+				let startMonth = parseInt(scheduleData[i].start.substring(5,7));
 				let startDay = parseInt(scheduleData[i].start.substring(8,10));
 				// 추후 팀원 중 주 및 일 일정은 day 변수까지 사용
 				
@@ -1667,6 +1666,7 @@
 				// 추후 팀원 중 주 및 일 일정은 day 변수까지 사용
 				
 				// 이어와 몬스에 따라 리턴해서 불필요한 경우 포문이 계속 돌게함 
+				
 				if(endYear<nowYear){
 					continue;
 				}
@@ -1723,6 +1723,7 @@
 						}
 					}
 					else if(dateTagYear==startYear){
+						
 						if(dateTagMonth>startMonth){
 							// 일정이 시작 안한 상태랑 같음 >
 							continue;
@@ -1731,6 +1732,7 @@
 							// 일정 달이 겹치므로 일 비교해야함 
 							// 해당 일정이 해당 달에 시작하기 때문에 값이 일치하는 부분에서 포문으로 한번 그려주면 끝
 							if(dateTagDay==startDay){
+								
 								if(dateTagMonth==endMonth){
 									// 현재 월수가 끝나는 월가 같으면 일을 비교
 									if(dateTagDay==endDay){
@@ -2032,24 +2034,28 @@
 		}
 		
 		// 월 형식 스케줄
-		function scheduleCheckMonth (date, user){
-			if(typeof(date)!='undefined'||typeof(user)!='undefined'||typeof(group)!='undefined'){
-				user = window.sessionStorage.getItem("loginUserId");
-				// 해당 페이지로 로드될 때 세션 값을 세팅해줘야함.
-				
+		function scheduleCheckMonth (date){
+			user = window.sessionStorage.getItem("loginUserId");
+			console.log(date);
+			
+			if(typeof(user)=='undefined'||user==null){
+				user = "DEMOUSER"
+				console.log(user);
+			}
+			
+			if(typeof(date)!='undefined'){
 				getGroup(user, date);
 			}
 			else{
 				date = getToday();
-				user = window.sessionStorage.getItem("loginUserId");
-				// 해당 페이지로 로드될 때 세션 값을 세팅해줘야함.
-				
-				if(user=='undefined'||user==null){
-					user = "DEMOUSER"
-				}
 				getGroup(user, date);
 			}
 		}
+		console.log("스케줄 서버 통해서 DB 넣어야함");
+		console.log("스케줄 서버 통해서 DB에서 가져와야함");
+		console.log("서치 기능");
+		
+				
 		
 	</script>
 	
