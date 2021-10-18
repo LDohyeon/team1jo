@@ -674,7 +674,7 @@
             cc = document.createElement("input");
             cc.setAttribute("type", "button");
  			cc.setAttribute("value", "제출");
-            cc.classList.add("scheduleFormTitle");
+            cc.classList.add("scheduleFormSubmit");
             c.appendChild(cc);
             
             v.appendChild(c);
@@ -2022,12 +2022,28 @@
 			
 			formStart.value = tempYear+"-"+tempMonth+"-"+tempDay;
 			formEnd.value = tempYear+"-"+tempMonth+"-"+tempDay;
-		
 		}
+		
 		
 		function scContentVisable(){
 			console.log("work")
 			
+		}
+		
+		// 스케줄 서버에 전송 및 저장, JSON 포맷 필요
+		function scheduleSubmit(){
+			createXHRCalendar();
+			
+			XHRCalendar.onreadystatechange=function(){
+				if(XHRCalendar.readyState==4){
+		            if(XHRCalendar.status==200){
+		            	
+		            }   
+				}
+			};
+			XHRCalendar.open("POST", "../scheduleInsert", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send(datas);
 		}
 		
 		function toDoList(){

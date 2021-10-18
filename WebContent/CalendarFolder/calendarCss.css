@@ -249,40 +249,40 @@
 	width: 200%;
 	height: 30px;
 	overflow: hidden;
-	background-color:green;
+	z-index: 40;
 }
 .cmpb3{
 	width: 300%;
 	margin-bottom: 2vw;
 	height: 30px;
 	overflow: hidden;
-	background-color:green;
+	z-index: 40;
 }
 .cmpb4{
 	width: 400%;
 	height: 30px;
 	overflow: hidden;
-	background-color:green;
 }
 .cmpb5{
 	width: 500%;
 	height: 30px;
 	overflow: hidden;
-	background-color:green;
 	z-index: 40;
 }
 .cmpb6{
 	width: 600%;
 	height: 30px;
 	overflow: hidden;
-	background-color:green;
 }
 .cmpb7{
 	width: 700%;
 	height: 30px;
 	overflow: hidden;
-	background-color:green;
 }
 .scheduleTitleInSpan{
 	text-overflow: ellipsis;
+}
+
+.smallColor{
+	width: 10px;
 }

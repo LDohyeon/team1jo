@@ -239,7 +239,7 @@ public class ScheduleDAO {
 		List<GroupDTO> list= new ArrayList<GroupDTO>();
 		
 		String searchWord = "%"+userKey+"%";
-		String sql="select * from groupnum where members like ?";
+		String sql="select * from groupData where members like ?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -285,7 +285,7 @@ public class ScheduleDAO {
 }
 
 	
-/*
+/* create table groupData(groupnum int primary key auto_increment, groupname text, members text, modifier text);
  * create table schedule(num int primary key auto_increment, title text, content text, start text, end text, color text, writer text, groupnum text);
  * 
  * */
