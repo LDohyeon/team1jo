@@ -115,6 +115,20 @@ public class SuspensionServlet extends HttpServlet {
 		}
 		return day;
 	}
+	
+	protected String getFormDate(int month)
+	{
+		String month_s=null;
+		if(month<10)
+		{
+			month_s="0"+month;
+		}
+		else if(month>=10&&month<13)
+		{
+			month_s=month+"";
+		}
+		return month_s;
+	}
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 방법 1
@@ -158,18 +172,16 @@ public class SuspensionServlet extends HttpServlet {
 			day=getDay(thisYearLean,susLastDay);
 		}	
 		//날짜 예쁜 포맷으로 바꿔주기
-		System.out.println(thisYear+"-"+month+"-"+day);
-		
+		String month_s=getFormDate(month);
+		String date=thisYear+"-"+month_s+"-"+day;
 		//DB에 넣을 준비
 		MemberDAO mDAO=MemberDAO.getInstance();
 		//id 가져오기
 		request.setCharacterEncoding("utf-8");
-		String startPage=request.getParameter("startPage");
-		startPage="1";
 		String authority=request.getParameter("authority");
 		String id=request.getParameter("id");
-		
-		//mDAO.updateSuspension(authority,susLastDay, id);
+		//쿼리문으로 던지기
+		//mDAO.updateSuspension(authority,date,id);
 		
 		/*
 		// 방법 2
@@ -181,11 +193,12 @@ public class SuspensionServlet extends HttpServlet {
 		mDAO.updateSuspension(, plus90, id);
 		*/
 		
-		response.sendRedirect("memberList.do?startPage="+startPage);
+		//String startPage=request.getParameter("startPage");
+		//response.sendRedirect("memberList.do?startPage="+startPage);
 
 		/*
 		/////////////////쿼리문 작성///////////////////
-		public void updateSuspension(String authority,String plus90, String id)
+		public void updateSuspension(String authority,String date, String id)
 		{
 			String sql="update Member set authority=? date=? where id=?";
 			Connection conn=null;
