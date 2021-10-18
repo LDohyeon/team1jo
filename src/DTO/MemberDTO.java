@@ -64,6 +64,8 @@ public class MemberDTO {
 //			name text,
 //			authority text,
 //			email text);
-//alter table member add stopdate datetime;	
+//alter table member add stopdate date;	
+	
+
 	
 }

@@ -799,7 +799,33 @@ public class MemberDAO {
 	
 	//신고 기능
 	
-	
+	//권한 수정
+	public void memberListAuthorityUpdate(String selAuIdValue, String authority) {
+	      
+	      String sql="update member set authority=? where id=?";
+	      
+	      Connection conn=null;
+	      PreparedStatement pstmt = null;
+	      
+	      try
+	      {
+	         conn=getConnection();
+	         pstmt=conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, authority);
+	         pstmt.setString(2, selAuIdValue);
+	         pstmt.executeUpdate();   
+	      }
+	      catch(Exception e)
+	      {
+	         System.out.println("회원 권한 수정 실패"+e);
+	      }
+	      finally
+	      {
+	         close(conn, pstmt);
+	      }
+	   }
+	//권한 수정
 
 }
 
