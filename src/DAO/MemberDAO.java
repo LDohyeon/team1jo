@@ -361,13 +361,14 @@ public class MemberDAO {
 	
 	//관리자 회원 관리 검색 시작
 	
-	public List<MemberDTO> memberIdSerachList(String id)
+	public List<MemberDTO> memberIdSerachList(String id, int startPage, int lastPage)
 	{
 		String ids=id+"%";
+		int start=startPage*lastPage-lastPage;
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		
-		String sql="select * from member where id like ?";
+		String sql="select * from member where id like ? order by num desc limit ?, ?";
 		
 		Connection conn =null;
 		PreparedStatement pstmt =null;
@@ -380,6 +381,8 @@ public class MemberDAO {
 			pstmt= conn.prepareStatement(sql);
 			
 			pstmt.setString(1, ids);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, lastPage);
 
 			rs=pstmt.executeQuery();
 			
@@ -409,13 +412,14 @@ public class MemberDAO {
 	}
 	
 
-	public List<MemberDTO> memberNameSerachList(String name)
+	public List<MemberDTO> memberNameSerachList(String name, int startPage, int lastPage)
 	{
 		String names=name+"%";
+		int start=startPage*lastPage-lastPage;
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		
-		String sql="select * from member where name like ?";
+		String sql="select * from member where name like ? order by num desc limit ?, ?";
 		
 		Connection conn =null;
 		PreparedStatement pstmt =null;
@@ -428,6 +432,8 @@ public class MemberDAO {
 			pstmt= conn.prepareStatement(sql);
 			
 			pstmt.setString(1, names);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, lastPage);
 
 			rs=pstmt.executeQuery();
 			
@@ -459,13 +465,14 @@ public class MemberDAO {
 	
 
 	
-	public List<MemberDTO> memberIdSerachList(String id, String authority)
+	public List<MemberDTO> memberIdSerachList(String id, String authority, int startPage, int lastPage)
 	{
 		String ids=id+"%";
+		int start=startPage*lastPage-lastPage;
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		
-		String sql="select * from member where id like ? and authority=?";
+		String sql="select * from member where id like ? and authority=? order by num desc limit ?, ?";
 		
 		Connection conn =null;
 		PreparedStatement pstmt =null;
@@ -479,6 +486,8 @@ public class MemberDAO {
 			
 			pstmt.setString(1, ids);
 			pstmt.setString(2, authority);
+			pstmt.setInt(3, start);
+			pstmt.setInt(4, lastPage);
 			
 			System.out.println("mem : "+ pstmt);
 			
@@ -510,13 +519,14 @@ public class MemberDAO {
 	}
 	
 	
-	public List<MemberDTO> memberNameSerachList(String name, String authority)
+	public List<MemberDTO> memberNameSerachList(String name, String authority, int startPage, int lastPage)
 	{
 		String names=name+"%";
+		int start=startPage*lastPage-lastPage;
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		
-		String sql="select * from member where name like ? and authority=?";
+		String sql="select * from member where name like ? and authority=? order by num desc limit ?, ?";
 		
 		Connection conn =null;
 		PreparedStatement pstmt =null;
@@ -530,6 +540,8 @@ public class MemberDAO {
 			
 			pstmt.setString(1, names);
 			pstmt.setString(2, authority);
+			pstmt.setInt(3, start);
+			pstmt.setInt(4, lastPage);
 			
 			System.out.println("mem : "+ pstmt);
 			
@@ -756,7 +768,63 @@ public class MemberDAO {
 	
 	
 	
+	public void memberReport(String id)
+	{
+		String sql = "update member set authority=3 where id=?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("member 신고 버튼 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+		
+	}
 	
+	//신고 기능
+	
+	//권한 수정
+	public void memberListAuthorityUpdate(String selAuIdValue, String authority) {
+	      
+	      String sql="update member set authority=? where id=?";
+	      
+	      Connection conn=null;
+	      PreparedStatement pstmt = null;
+	      
+	      try
+	      {
+	         conn=getConnection();
+	         pstmt=conn.prepareStatement(sql);
+	         
+	         pstmt.setString(1, authority);
+	         pstmt.setString(2, selAuIdValue);
+	         pstmt.executeUpdate();   
+	      }
+	      catch(Exception e)
+	      {
+	         System.out.println("회원 권한 수정 실패"+e);
+	      }
+	      finally
+	      {
+	         close(conn, pstmt);
+	      }
+	   }
+	//권한 수정
 
 }
 

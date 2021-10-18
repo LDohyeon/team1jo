@@ -25,7 +25,7 @@ public class MemberListServlet extends HttpServlet {
 		
 		List<MemberDTO> list=mDAO.memberList(startPage, lastPage);
 		
-		int row = mDAO.memberListPageBtn();
+		int row = mDAO.memberListPageBtn(); 
 		
 		int totalPage = row/lastPage;
 		if(row%lastPage > 0) {
@@ -45,36 +45,42 @@ public class MemberListServlet extends HttpServlet {
 
 		request.setCharacterEncoding("utf-8");
 		
-		String selSerch1 = request.getParameter("selSerch1"); // 아이디,네임
-		String selSerch2 = request.getParameter("selSerch2"); // 권한
-		String selValue = request.getParameter("selValue"); // 텍스트값
+		String selSerch1 = request.getParameter("selSerch1"); 
+		String selSerch2 = request.getParameter("selSerch2"); 
+		String selValue = request.getParameter("selValue"); 
 		int startPage = Integer.parseInt(request.getParameter("startPage"));
-		int lastPage = 5;
-		
-		MemberDAO mDAO= MemberDAO.getInstance();
+		int lastPage = 3;
+		int row=0;
 		
 		List<MemberDTO> list1 = null;
-		int row=0;
-			
+		MemberDAO mDAO= MemberDAO.getInstance();
+					
 		if(selSerch1.equals("id") && selSerch2.equals("0")) {
-			list1 = mDAO.memberIdSerachList(selValue);
+			list1 = mDAO.memberIdSerachList(selValue, startPage, lastPage);
 			row = mDAO.memberListIdPageBtn(selValue);
-
 		} else if(selSerch1.equals("name") && selSerch2.equals("0")) {
-			list1 = mDAO.memberNameSerachList(selValue);
+			list1 = mDAO.memberNameSerachList(selValue, startPage, lastPage);
 			row = mDAO.memberListNamePageBtn(selValue);
 			
 		} else if(selSerch1.equals("id") && selSerch2.equals("3")) {
-			list1 = mDAO.memberIdSerachList(selValue, selSerch2);
+			list1 = mDAO.memberIdSerachList(selValue, selSerch2, startPage, lastPage);
 			row = mDAO.memberListIdPageBtn(selValue, selSerch2);
 			
 		}else if(selSerch1.equals("name") && selSerch2.equals("3")) {
-			list1 = mDAO.memberNameSerachList(selValue, selSerch2);
+			list1 = mDAO.memberNameSerachList(selValue, selSerch2, startPage, lastPage );
 			row = mDAO.memberListNamePageBtn(selValue, selSerch2);
 		}
-		
+
+		int totalPage = row/lastPage;
+		if(row%lastPage > 0) {
+			totalPage++;
+		}
+
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("lastPage", lastPage);
+		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("list1", list1);
-	
+		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("memberList.jsp");
 		dispatcher.forward(request, response);	
 	}

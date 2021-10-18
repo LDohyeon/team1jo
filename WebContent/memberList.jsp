@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
@@ -19,7 +18,7 @@
 		<%
 			List<MemberDTO> list = (List<MemberDTO>)request.getAttribute("memberList");
 			List<MemberDTO> list1 = (List<MemberDTO>)request.getAttribute("list1");
-			
+						
 			if(list1 != null){
 				list = list1;
 			}
@@ -28,7 +27,7 @@
 		<div class="wrap1">
 			<div>
 				<h1>회원 리스트</h1>
-				<form name="frm" method="post" action="memberList.do">
+				<form name="frm" method="post" action="memberList.do?startPage=1">
 					<select name="selSerch1" class="memberListSelect1">
 						<option value="">==선택==</option>
 						<option value="id">아이디</option>
@@ -43,10 +42,7 @@
 				</form>
 			</div>
 			<div class="wrap2">
-				<form>
-					<span class="memberListUpdate">
-						<input type="submit" value="수정">
-					</span>
+				<form name="frm2" method="post" action="AuthorityUpdate.do">
 					<table class="memberList">
 						<tr>
 							<td>번호</td>
@@ -65,9 +61,9 @@
 										<td><%=list.get(i).getName() %></td>
 										<td><%=list.get(i).getEmail() %></td>
 										<td>
-											<select name="memberListAuthority">
-												<option value="<%=list.get(i).getAuthority() %>"><%=list.get(i).getAuthority() %></option>
-												<% if(list.get(i).getAuthority().equals("2")){ %> <option value="3">3</option><% }else if(list.get(i).getAuthority().equals("3")){ %> <option value="2">2</option><% }											%>
+											<select name="selAuValue" onchange="request_doGet(this, '<%=list.get(i).getId() %>')">
+												<option value="2" <% if(list.get(i).getAuthority().equals("2")){%>selected<%}%>>2</option>
+												<option value="3" <% if(list.get(i).getAuthority().equals("3")){%>selected<%}%>>3</option>
 											</select>
 										</td>
 									</tr>			
@@ -99,9 +95,9 @@
 				</c:if>
 			</ul>
 		</div>
-		<script>
-			var selSerch1 = frm.selSerch1;		
-			var selValue = frm.selValue;		
+		<script>		
+			var selSerch1 = document.frm.selSerch1;		
+			var selValue = document.frm.selValue;		
 			function serchCheck(){
 				if(selSerch1.value == ""){
 					alert("선택을 변경해주세요");
@@ -113,6 +109,35 @@
 					return false;
 				}
 				return true;
+			}
+	
+			var XHR;
+			function createXMLHttpRequest(){
+				if(window.ActiveXObject){
+					XHR = new ActiveXObject("Microsoft.XMLHttp");
+				}else if(window.XMLHttpRequest){
+					XHR = new XMLHttpRequest();
+				}
+			}
+			function createDataString(){
+				var dataString = "AuthorityUpdate.do"
+				return dataString;
+			}
+			function request_doGet(obj, selAuIdValue){
+				var val = obj.value;
+				createXMLHttpRequest();
+				dataString = createDataString();
+				dataValue = dataString+"?selAuValue="+val+"&selAuIdValue="+selAuIdValue;
+				XHR.onreadystatechange = handleStateChange;
+				XHR.open("GET", dataValue, true);
+				XHR.send(null);
+			}
+			function handleStateChange(){
+				if(XHR.readyState == 4){
+					if(XHR.status == 200){
+						alert("권한이 수정되었습니다.");
+					}
+				}
 			}
 		</script>
 	</body>
