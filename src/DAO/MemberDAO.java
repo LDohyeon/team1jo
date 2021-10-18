@@ -19,6 +19,7 @@ public class MemberDAO {
 	{
 		return instance;
 	}
+	
 	public Connection getConnection()
 	{
 		Connection conn=null;
@@ -26,7 +27,7 @@ public class MemberDAO {
 		String db_id="root";
 		String db_pw="iotiot";
 		//String db_pw="iotiot12*";
-		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
+		//吏��븷 :: �젣 db 鍮꾨�踰덊샇媛� �떖�씪�꽌 �옞源� �닔�젙�빀�땲�떎.
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -34,7 +35,7 @@ public class MemberDAO {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("MemberDAO의 MemberInsert에서 회선 문제 발생"+e);	
+			System.out.println("MemberDAO�쓽 MemberInsert�뿉�꽌 �쉶�꽑 臾몄젣 諛쒖깮"+e);	
 		}
 
 		return conn;
@@ -59,7 +60,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회선 종료 중 문제 발생 : "+ e);
+			System.out.println("�쉶�꽑 醫낅즺 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 	}
 	public static void close(Connection conn, Statement stmt)
@@ -77,11 +78,11 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회선 종료 중 문제 발생 : "+ e);
+			System.out.println("�쉶�꽑 醫낅즺 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 	}
 	
-	public void MemberInsert(MemberDTO mDTO)//회원가입 시작
+	public void MemberInsert(MemberDTO mDTO)//�쉶�썝媛��엯 �떆�옉
 	{
 		
 		String sql="insert into Member(id, pw, name, email, authority) values(?,?,?,?, 2)";
@@ -102,7 +103,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("MemberDAO의 MemberInsert에서 문제 발생"+e);
+			System.out.println("MemberDAO�쓽 MemberInsert�뿉�꽌 臾몄젣 諛쒖깮"+e);
 		}
 		finally
 		{
@@ -110,10 +111,10 @@ public class MemberDAO {
 			
 		}
 
-	}//회원 가입 끝
+	}//�쉶�썝 媛��엯 �걹
 	
 
-	//login 시작
+	//login �떆�옉
 	
 	
 
@@ -154,20 +155,17 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("MemberDAO의 MemberLogin에서 문제 발생"+e);
+			System.out.println("MemberDAO�쓽 MemberLogin�뿉�꽌 臾몄젣 諛쒖깮"+e);
 		}
 		finally
 		{
 			close(conn, pstmt, rs);
 		}
-	
-		
 		return mDTO;
-		
 	}
-	//login 끝
+	//login �걹
 	
-	//id 중복 체크 시작
+	//id 以묐났 泥댄겕 �떆�옉
 
 	public int idCheck(String id)
 	{
@@ -196,7 +194,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("오류인 건 아니고 그냥 id 중복체크 실패"+e);
+			System.out.println("�삤瑜섏씤 嫄� �븘�땲怨� 洹몃깷 id 以묐났泥댄겕 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -206,9 +204,9 @@ public class MemberDAO {
 		return result;
 		
 	}
-	//id 중복 체크 끝
+	//id 以묐났 泥댄겕 �걹
 	
-	//비밀 번후 수정 시작
+	//鍮꾨� 踰덊썑 �닔�젙 �떆�옉
 	
 	public void MemberPwUpdate(String pw, String id)
 	{
@@ -230,7 +228,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("비밀번호 수정 실패"+e);
+			System.out.println("鍮꾨�踰덊샇 �닔�젙 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -239,10 +237,10 @@ public class MemberDAO {
 		
 	}
 	
-	//비밀 번호 수정 끝
+	//鍮꾨� 踰덊샇 �닔�젙 �걹
 	
 	
-	//회원 정보 수정 시작
+	//�쉶�썝 �젙蹂� �닔�젙 �떆�옉
 
 	public void MemberUpdate(String name, String email, String id)
 	{
@@ -266,7 +264,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회원 수정 실패"+e);
+			System.out.println("�쉶�썝 �닔�젙 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -274,9 +272,9 @@ public class MemberDAO {
 		}
 	}
 	
-	//회원 정보 수정 끝
+	//�쉶�썝 �젙蹂� �닔�젙 �걹
 	
-	//회원 탈퇴 시작
+	//�쉶�썝 �깉�눜 �떆�옉
 	
 	public void MemberDelete(String id)
 	{
@@ -297,7 +295,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회원 탈퇴 실패"+e);
+			System.out.println("�쉶�썝 �깉�눜 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -306,10 +304,10 @@ public class MemberDAO {
 		
 	}
 	
-	//회원 탈퇴 끝
+	//�쉶�썝 �깉�눜 �걹
 	
 	
-	//관리자 회원 관리 시작
+	//愿�由ъ옄 �쉶�썝 愿�由� �떆�옉
 	
 	public List<MemberDTO> memberList(int startPage, int lastPage)
 	{
@@ -348,7 +346,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회원 관리 목록 출력 실패"+e);
+			System.out.println("�쉶�썝 愿�由� 紐⑸줉 異쒕젰 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -357,9 +355,9 @@ public class MemberDAO {
 		
 		return list;
 	}
-	//관리자 회원 관리 끝
+	//愿�由ъ옄 �쉶�썝 愿�由� �걹
 	
-	//관리자 회원 관리 검색 시작
+	//愿�由ъ옄 �쉶�썝 愿�由� 寃��깋 �떆�옉
 	
 	public List<MemberDTO> memberIdSerachList(String id, int startPage, int lastPage)
 	{
@@ -401,7 +399,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회원 관리 검색 출력 실패"+e);
+			System.out.println("�쉶�썝 愿�由� 寃��깋 異쒕젰 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -452,7 +450,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회원 관리 검색 출력 실패"+e);
+			System.out.println("�쉶�썝 愿�由� 寃��깋 異쒕젰 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -508,7 +506,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회원 관리 검색 출력 실패"+e);
+			System.out.println("�쉶�썝 愿�由� 寃��깋 異쒕젰 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -562,7 +560,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회원 관리 검색 출력 실패"+e);
+			System.out.println("�쉶�썝 愿�由� 寃��깋 異쒕젰 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -573,10 +571,10 @@ public class MemberDAO {
 	}
 	
 	
-	//관리자 회원 관리 검색 끝
+	//愿�由ъ옄 �쉶�썝 愿�由� 寃��깋 �걹
 	
 	
-	//페이지 버튼 시작 312번째 메소드와 연결
+	//�럹�씠吏� 踰꾪듉 �떆�옉 312踰덉㎏ 硫붿냼�뱶�� �뿰寃�
 	
 	public int memberListPageBtn()
 	{
@@ -602,7 +600,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 버튼 실패"+e);
+			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -640,7 +638,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 버튼 실패"+e);
+			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -678,7 +676,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 버튼 실패"+e);
+			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -716,7 +714,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 버튼 실패"+e);
+			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -754,7 +752,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 버튼 실패"+e);
+			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -764,10 +762,10 @@ public class MemberDAO {
 		return pagebtn;
 	}
 	
-	///페이지 버튼 끝 312번째 메소드와 연결
+	///�럹�씠吏� 踰꾪듉 �걹 312踰덉㎏ 硫붿냼�뱶�� �뿰寃�
 	
 	
-	//신고 기능
+	//�떊怨� 湲곕뒫
 	
 	public void memberReport(String id)
 	{
@@ -788,7 +786,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member 신고 버튼 실패"+e);
+			System.out.println("member �떊怨� 踰꾪듉 �떎�뙣"+e);
 		}
 		finally
 		{
@@ -797,9 +795,9 @@ public class MemberDAO {
 		
 	}
 	
-	//신고 기능
+	//�떊怨� 湲곕뒫
 	
-	//권한 수정
+	//沅뚰븳 �닔�젙
 	public void memberListAuthorityUpdate(String selAuIdValue, String authority) {
 	      
 	      String sql="update member set authority=? where id=?";
@@ -818,14 +816,14 @@ public class MemberDAO {
 	      }
 	      catch(Exception e)
 	      {
-	         System.out.println("회원 권한 수정 실패"+e);
+	         System.out.println("�쉶�썝 沅뚰븳 �닔�젙 �떎�뙣"+e);
 	      }
 	      finally
 	      {
 	         close(conn, pstmt);
 	      }
 	   }
-	//권한 수정
+	//沅뚰븳 �닔�젙
 
 }
 

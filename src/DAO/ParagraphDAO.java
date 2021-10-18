@@ -34,10 +34,9 @@ public class ParagraphDAO {
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("ParagraphDAO의 conn 에서 회선 문제 발생"+e);	
+			System.out.println("ParagraphDAO�쓽 conn �뿉�꽌 �쉶�꽑 臾몄젣 諛쒖깮"+e);	
 		}
 		return conn;
-		
 	}
 	
 	public static void close(Connection conn, Statement stmt, ResultSet rs)
@@ -59,7 +58,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회선 종료 중 문제 발생 : "+ e);
+			System.out.println("�쉶�꽑 醫낅즺 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 	}
 	public static void close(Connection conn, Statement stmt)
@@ -77,7 +76,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회선 종료 중 문제 발생 : "+ e);
+			System.out.println("�쉶�꽑 醫낅즺 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 	}
 	
@@ -105,7 +104,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("paragraphInsert 중 문제 발생 : "+ e);
+			System.out.println("paragraphInsert 以� 臾몄젣 諛쒖깮 : "+ e);
 		}	
 	}
 	
@@ -151,7 +150,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("paragraphList 중 문제 발생 : "+ e);
+			System.out.println("paragraphList 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 		finally
 		{
@@ -184,7 +183,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ParagraphPage 중 문제 발생 : "+ e);
+			System.out.println("ParagraphPage 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 		finally
 		{
@@ -227,7 +226,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ParagraphContents 게시판 보기 중 문제 발생 : "+ e);
+			System.out.println("ParagraphContents 寃뚯떆�뙋 蹂닿린 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 		finally
 		{
@@ -239,7 +238,7 @@ public class ParagraphDAO {
 	}
 	
 
-	//게시판 수정
+	//寃뚯떆�뙋 �닔�젙
 	public void paragraphUpdate(ParagraphDTO pDTO)
 	{
 		String sql="update paragraph set title=?, contents = ? where num = ?";
@@ -261,7 +260,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ParagraphContents 게시판 수정 중 문제 발생 : "+ e);
+			System.out.println("ParagraphContents 寃뚯떆�뙋 �닔�젙 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 		finally
 		{
@@ -269,9 +268,9 @@ public class ParagraphDAO {
 		}
 
 	}
-	//게시판 수정
+	//寃뚯떆�뙋 �닔�젙
 	
-	//게시판 삭제
+	//寃뚯떆�뙋 �궘�젣
 	public void paragraphDelete(int num)
 	{
 		String sql ="delete from paragraph where num = ?";
@@ -291,7 +290,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ParagraphContents 게시판 삭제 중 문제 발생 : "+ e);
+			System.out.println("ParagraphContents 寃뚯떆�뙋 �궘�젣 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 		finally
 		{
@@ -299,10 +298,10 @@ public class ParagraphDAO {
 		}
 
 	}
-	//게시판 수정
+	//寃뚯떆�뙋 �닔�젙
 	
 	
-	//조회수 업
+	//議고쉶�닔 �뾽
 	
 	public void paragraphHitsUp(int num)
 	{
@@ -323,7 +322,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("paragraphHitsUp 게시판 조회수 업 중 문제 발생 : "+ e);
+			System.out.println("paragraphHitsUp 寃뚯떆�뙋 議고쉶�닔 �뾽 以� 臾몄젣 諛쒖깮 : "+ e);
 		}
 		finally
 		{
@@ -331,7 +330,7 @@ public class ParagraphDAO {
 		}
 	}
 	
-	//조회수 업
+	//議고쉶�닔 �뾽
 	
 }
 

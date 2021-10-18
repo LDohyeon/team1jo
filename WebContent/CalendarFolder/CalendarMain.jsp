@@ -1606,7 +1606,7 @@
 			
 		}
 		
-		function getGroup(user, date){
+		function getGroupSchedule(user, date){
 			let xmlGroup;
 			createXHRCalendar();
 			
@@ -1623,14 +1623,16 @@
 		            		
 		            		for(let j = 0; j < schedules.length; j++){
 		            			let temp = {
-		            				key: groups[i].getElementsByTagName("key")[0].innerHTML,
-		            				name: groups[i].getElementsByTagName("name")[0].innerHTML,
+		            				groupnum: groups[i].getElementsByTagName("groupnum")[0].innerHTML,
+		            				groupname: groups[i].getElementsByTagName("groupname")[0].innerHTML,
+		            				modifier: groups[i].getElementsByTagName("modifier")[0].innerHTML,
 		            				num: schedules[j].getElementsByTagName("num")[0].innerHTML,
 		            				title: schedules[j].getElementsByTagName("title")[0].innerHTML,
 		            				start: schedules[j].getElementsByTagName("start")[0].innerHTML,
 		            				end: schedules[j].getElementsByTagName("end")[0].innerHTML,
 		            				content: schedules[j].getElementsByTagName("content")[0].innerHTML,
-		            				user: schedules[j].getElementsByTagName("user")[0].innerHTML
+		            				writer: schedules[j].getElementsByTagName("writer")[0].innerHTML
+		            				color: schedules[j].getElementsByTagName("color")[0].innerHTML
 		            			}  
 		            			scheduleData.push(temp);
 		            		}
@@ -1641,7 +1643,7 @@
 		            }
 				}
 			};
-			XHRCalendar.open("POST", "../getGroup", true);
+			XHRCalendar.open("POST", "../getGroupSchedule", true);
 			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 			XHRCalendar.send("userKey="+user);
 		}
@@ -1781,7 +1783,7 @@
 			
 			cc = document.createElement("input");
 			cc.classList.add("scInfo"); 
-			cc.classList.add("groupKey"); 
+			cc.classList.add("groupNum"); 
 			cc.setAttribute("type", "text");
 			cc.setAttribute("value", scheduleData.key);
 			
@@ -1792,6 +1794,14 @@
 			cc.classList.add("groupName"); 
 			cc.setAttribute("type", "text");
 			cc.setAttribute("value", scheduleData.name);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("modifier"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.modifier);
 			
 			c.appendChild(cc);
 			
@@ -1837,9 +1847,15 @@
 			
 			cc = document.createElement("input");
 			cc.classList.add("scInfo"); 
-			cc.classList.add("scheduleUser"); 
+			cc.classList.add("scheduleWriter"); 
 			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.user);
+			cc.setAttribute("value", scheduleData.writer);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleColor"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.color);
 			
 			c.appendChild(cc);
 			
@@ -2044,11 +2060,11 @@
 			}
 			
 			if(typeof(date)!='undefined'){
-				getGroup(user, date);
+				getGroupSchedule(user, date);
 			}
 			else{
 				date = getToday();
-				getGroup(user, date);
+				getGroupSchedule(user, date);
 			}
 		}
 		console.log("스케줄 서버 통해서 DB 넣어야함");

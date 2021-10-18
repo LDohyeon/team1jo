@@ -2,17 +2,18 @@ package DTO;
 
 public class GroupDTO {
 
-	private int num;
+	private int groupnum;
 	private String groupname;
 	private String members;
-	private String scasuleacess;
-	private String writeracess;
-	public int getNum() {
-		return num;
+	private String modifier;
+	
+	public int getGroupnum() {
+		return groupnum;
 	}
-	public void setNum(int num) {
-		this.num = num;
+	public void setGroupnum(int groupnum) {
+		this.groupnum = groupnum;
 	}
+	
 	public String getGroupname() {
 		return groupname;
 	}
@@ -25,18 +26,11 @@ public class GroupDTO {
 	public void setMembers(String members) {
 		this.members = members;
 	}
-	public String getScasuleacess() {
-		return scasuleacess;
+	public String getModifier() {
+		return modifier;
 	}
-	public void setScasuleacess(String scasuleacess) {
-		this.scasuleacess = scasuleacess;
+	public void setModifier(String modifier) {
+		this.modifier = modifier;
 	}
-	public String getWriteracess() {
-		return writeracess;
-	}
-	public void setWriteracess(String writeracess) {
-		this.writeracess = writeracess;
-	}
-	
 	
 }
