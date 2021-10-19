@@ -29,7 +29,7 @@ public class CommentServlet extends HttpServlet {
 		
 		String id = (String)session.getAttribute("loginUserId");
 		
-		String comment=request.getParameter("content");//Ïù¥Î¶Ñ Îã§Î¶Ñ Ï£ºÏùò
+		String comment=request.getParameter("content");//¿Ã∏ß ¥Ÿ∏ß ¡÷¿«
 		int paragraph_num = Integer.parseInt(request.getParameter("paragraph_num"));
 
 		CommentDTO cDTO = new CommentDTO();
@@ -38,7 +38,7 @@ public class CommentServlet extends HttpServlet {
 		cDTO.setParagraph_num(paragraph_num);
 		cDTO.setComment(comment);
 		
-		CommentDAO cDAO = CommentDAO.getInstatce();
+		CommentDAO cDAO = CommentDAO.getInstance();
 		
 		cDAO.insertComment(cDTO);
 		

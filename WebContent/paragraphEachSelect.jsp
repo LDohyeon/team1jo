@@ -3,6 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <%@ page import="DTO.ParagraphDTO" %>
 <%@ page import="DAO.ParagraphDAO" %>
+<%@ page import="DTO.CommentDTO" %>
+<%@ page import="DAO.CommentDAO" %>
+<%@page import="java.util.List" %>
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -57,7 +60,6 @@
 		</script>
 	</c:if>
 	
-	
 	<%
 		int num=Integer.parseInt(request.getParameter("num"));
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
@@ -68,9 +70,9 @@
         </div>
         
         <div class="content">
-        	<h2>Title ${pDTO.getTitle() }</h2>
+        	<h2>${pDTO.getTitle() }</h2>
         	<p>Id ${pDTO.getId() },Num ${pDTO.getNum() },Name ${pDTO.getName() },Date ${pDTO.getDatetime() },Category ${pDTO.getCategory() },Hits ${pDTO.getHits() }</p><hr><br>
-			<p>내용 ${pDTO.getContents() }</p>
+			<p>${pDTO.getContents() }</p>
 			<input id="language" type="hidden" value="${language }">
 			<input id="langValue" type="hidden" value="${langValue }">
 			
@@ -114,6 +116,21 @@
 			<!-- 댓글 부분 -->
 			<div class="reply">
 			댓글
+			</div>
+			<div>
+				<c:forEach items="${list }" var="list">
+					<span id="comment">
+						<span>${list.getNum() }</span>
+						<span>${list.getId()}</span>
+						<span>${list.getTime()}</span>
+						<span>${list.getComment()}</span>
+						<c:if test="${loginUserId == list.getId() }">
+							<a href="commentUpdate.do?num=${list.getNum() }">수정</a>
+	 						<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${list.getNum() }">삭제</a>
+						</c:if>
+					</span>
+					<br>		
+				</c:forEach>
 			</div>
 			<form method="post" action="comment.do" name="frm">
 				<div class="editor">
@@ -223,6 +240,12 @@
 			document.getElementById('content').value=text;
 			return true;
  		}
-
+		
+		function updateOpen(num){
+	        var url="commentUpdate.do?num="+num;
+			var popupX=(window.screen.width/2-(450/2));
+			var popupY=(window.screen.height/2-(200/2));
+			window.open(url,"_blank_1","toolbar=no, menubar=no, scrollbar=yes, resizable=no, width=450, height=200" );
+		}
 	</script>
 </html>

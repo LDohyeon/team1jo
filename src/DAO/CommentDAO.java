@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 
 import DTO.CommentDTO;
+import DTO.ParagraphDTO;
 
 public class CommentDAO {
 
@@ -14,7 +15,7 @@ public class CommentDAO {
 	
 	private static CommentDAO instance = new CommentDAO();
 	
-	public static CommentDAO getInstatce()
+	public static CommentDAO getInstance()
 	{
 		return instance;
 	}
@@ -32,7 +33,7 @@ public class CommentDAO {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("MemberDAOì˜ MemberInsertì—ì„œ íšŒì„  ë¬¸ì œ ë°œìƒ"+e);	
+			System.out.println("MemberDAOÀÇ MemberInsert¿¡¼­ È¸¼± ¹®Á¦ ¹ß»ı"+e);	
 		}
 
 		return conn;
@@ -57,7 +58,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("íšŒì„  ì¢…ë£Œ ì¤‘ ë¬¸ì œ ë°œìƒ : "+ e);
+			System.out.println("È¸¼± Á¾·á Áß ¹®Á¦ ¹ß»ı : "+ e);
 		}
 	}
 	public static void close(Connection conn, Statement stmt)
@@ -75,7 +76,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("íšŒì„  ì¢…ë£Œ ì¤‘ ë¬¸ì œ ë°œìƒ : "+ e);
+			System.out.println("È¸¼± Á¾·á Áß ¹®Á¦ ¹ß»ı : "+ e);
 		}
 	}
 	
@@ -103,7 +104,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ëŒ“ê¸€ ì €ì¥ ì¤‘ ì˜¤ë¥˜ ë°œìƒ : "+ e);
+			System.out.println("´ñ±Û ÀúÀå Áß ¿À·ù ¹ß»ı : "+ e);
 		}
 		finally
 		{
@@ -144,7 +145,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥ ì¤‘ ì˜¤ë¥˜ ë°œìƒ : "+ e);
+			System.out.println("´ñ±Û ¸®½ºÆ® Ãâ·Â Áß ¿À·ù ¹ß»ı : "+ e);
 		}
 		finally
 		{
@@ -174,7 +175,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ëŒ“ê¸€ ìˆ˜ì • ì¤‘ ì˜¤ë¥˜ ë°œìƒ : "+ e);
+			System.out.println("´ñ±Û ¼öÁ¤ Áß ¿À·ù ¹ß»ı : "+ e);
 		}
 		finally
 		{
@@ -198,12 +199,52 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ëŒ“ê¸€ ì‚­ì œ ì¤‘ ì˜¤ë¥˜ ë°œìƒ : "+ e);
+			System.out.println("´ñ±Û »èÁ¦ Áß ¿À·ù ¹ß»ı : "+ e);
 		}
 		finally
 		{
 			close(conn, stmt);
 		}
+	}
+	
+	public CommentDTO CommentContents(int num)
+	{
+		CommentDTO cDTO = new CommentDTO();
+		
+		String sql="select * from comment where num =?";
+		Connection conn =null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, num);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			cDTO.setNum(rs.getInt("num"));
+			cDTO.setId(rs.getString("id"));
+			cDTO.setComment(rs.getString("comment"));
+			cDTO.setTime(rs.getString("time"));
+			cDTO.setParagraph_num(rs.getInt("paragraph_num"));
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("CommentContents ´ñ±Û º¸±â Áß ¹®Á¦ ¹ß»ı : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		
+		return cDTO;
 	}
 	
 	
