@@ -30,8 +30,8 @@
 				display :inline-block;
 				width:19%;
 			}
-			.writebutton{
-
+			.pageNum{
+				text-align: center;
 			}
 			
 		</style>
@@ -59,7 +59,18 @@
 						<span>${list.getHits()}</span>
 					</span>				
 				</c:forEach>
-				
+			</div>
+			<div class="pageNum">
+				<c:forEach begin="1" end="${ nOfPages}" var="i">
+					<c:choose>
+						<c:when test="${StartPage eq i}">
+							<a>${i}(현재)</a>
+						</c:when>
+						<c:otherwise>
+							<a href="paragraphList.do?startPage=${i}">${i}</a>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 			</div>
 		</div>
 	</body>
