@@ -25,14 +25,7 @@
 				</select>
 			<br>
 			정지 기간 :
-				<select name="selAuDay">
-					<option value="1">1일</option>
-					<option value="7">7일</option>
-					<option value="10">10일</option>
-					<option value="30">30일</option>
-					<option value="90">90일</option>
-					<option value="365">365일</option>
-				</select>
+				<input type="number" name="selAuDay" min="1">일
 			<br>
 			<br>
 			<input type="submit" value="수정">

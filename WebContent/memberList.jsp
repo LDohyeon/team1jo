@@ -107,7 +107,7 @@
 			}
 			
 			function authorityPopUp(selAuIdValue,selAuValue){
-				window.open("auUpdatePopUp.jsp?selAuIdValue="+selAuIdValue+"&selAuValue="+selAuValue,,update","width=500,height=250,left=650,top=240");
+				window.open("auUpdatePopUp.jsp?selAuIdValue="+selAuIdValue+"&selAuValue="+selAuValue,"update","width=500,height=250,left=650,top=240");
 			}
 		</script>
 	</body>
