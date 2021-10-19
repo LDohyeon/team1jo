@@ -23,7 +23,6 @@
 				list = list1;
 			}
 		%>
-			
 		<div class="wrap1">
 			<div>
 				<h1>회원 리스트</h1>
@@ -42,15 +41,15 @@
 				</form>
 			</div>
 			<div class="wrap2">
-				<form name="frm2" method="post" action="AuthorityUpdate.do">
 					<table class="memberList">
 						<tr>
 							<td>번호</td>
 							<td>아이디</td>
 							<td>이름</td>
 							<td>이메일</td>
-							<td>권한</td>
 							<td>삭제</td>
+							<td>권한</td>
+							<td>권한 수정</td>
 						</tr>
 						<%
 							try{				
@@ -62,12 +61,8 @@
 										<td><%=list.get(i).getName() %></td>
 										<td><%=list.get(i).getEmail() %></td>
 										<td><a href="ListLeaveldServlet.do?getId=<%=list.get(i).getId() %>&startPage=${startPage}">삭제</a></td>
-										<td>
-											<select name="selAuValue" onchange="request_doGet(this, '<%=list.get(i).getId() %>')">
-												<option value="2" <% if(list.get(i).getAuthority().equals("2")){%>selected<%}%>>2</option>
-												<option value="3" <% if(list.get(i).getAuthority().equals("3")){%>selected<%}%>>3</option>
-											</select>
-										</td>
+										<td><%=list.get(i).getAuthority() %></td>
+										<td><input type="button" name="popUp" value="설정" onclick="authorityPopUp('<%=list.get(i).getId() %>','<%=list.get(i).getAuthority() %>')"></td>
 									</tr>			
 						<% 
 								}
@@ -76,7 +71,6 @@
 							} 
 						%>					
 					</table>
-				</form>
 			</div>
 			<ul class="mListPage">
 				<c:if test="${startPage != 1}">
@@ -105,41 +99,15 @@
 					alert("선택을 변경해주세요");
 					return false;
 				}
-				
 				if(selValue.value == "" || selValue.value.length < 1){
 					alert("검색어를 입력해주세요");
 					return false;
 				}
 				return true;
 			}
-	
-			var XHR;
-			function createXMLHttpRequest(){
-				if(window.ActiveXObject){
-					XHR = new ActiveXObject("Microsoft.XMLHttp");
-				}else if(window.XMLHttpRequest){
-					XHR = new XMLHttpRequest();
-				}
-			}
-			function createDataString(){
-				var dataString = "AuthorityUpdate.do"
-				return dataString;
-			}
-			function request_doGet(obj, selAuIdValue){
-				var val = obj.value;
-				createXMLHttpRequest();
-				dataString = createDataString();
-				dataValue = dataString+"?selAuValue="+val+"&selAuIdValue="+selAuIdValue;
-				XHR.onreadystatechange = handleStateChange;
-				XHR.open("GET", dataValue, true);
-				XHR.send(null);
-			}
-			function handleStateChange(){
-				if(XHR.readyState == 4){
-					if(XHR.status == 200){
-						alert("권한이 수정되었습니다.");
-					}
-				}
+			
+			function authorityPopUp(selAuIdValue,selAuValue){
+				window.open("auUpdatePopUp.jsp?selAuIdValue="+selAuIdValue+"&selAuValue="+selAuValue,,update","width=500,height=250,left=650,top=240");
 			}
 		</script>
 	</body>

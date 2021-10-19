@@ -87,7 +87,6 @@
 	                            <button class="divColor" type="button">사진</button>
 	                        </div>
 	                    </div>
-	                    <!-- 여기 value 대신 값 넣는 방법 못 찾아서 일단 냅뒀습니다 -->
 	                    <div id="writeContent" class="writeContent" contenteditable="true"><%=pDTO.getContents()%></div>
 	                    <input id="content" type="hidden" value="" name="content">
 	                    <input id="content" type="hidden" value="<%=num %>" name="num">

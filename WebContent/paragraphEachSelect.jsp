@@ -8,6 +8,17 @@
 	<head>
 		<meta charset="utf-8">
 		<title>게시판 내용 보기</title>
+		<link rel="stylesheet" href="codeMirror/codemirror.css">
+		<script src="codeMirror/codemirror.js"></script>
+		<script src="codeMirror/xml.js"></script>
+		<link rel="stylesheet" href="codeMirror/darcula.css">
+		<link rel="stylesheet" href="codeMirror/eclipse.css">
+		<script src="codeMirror/closetag.js"></script>
+		
+		<script src="codeMirror/python.js"></script>
+		<script src="codeMirror/javascript.js"></script>
+		<script src="codeMirror/sql.js"></script>
+		<script src="codeMirror/clike.js"></script>
 		<style>			
             .writeContent{ 
                 width: 800px;
@@ -60,6 +71,8 @@
         	<h2>Title ${pDTO.getTitle() }</h2>
         	<p>Id ${pDTO.getId() },Num ${pDTO.getNum() },Name ${pDTO.getName() },Date ${pDTO.getDatetime() },Category ${pDTO.getCategory() },Hits ${pDTO.getHits() }</p><hr><br>
 			<p>내용 ${pDTO.getContents() }</p>
+			<input id="language" type="hidden" value="${language }">
+			<input id="langValue" type="hidden" value="${langValue }">
 			
 			<br>
 			<hr>
@@ -73,7 +86,32 @@
 			
 			<br>
 			<br>
+			<script>
+				var language =document.getElementById("language").value;
+				var langValue =document.getElementById("langValue").value;
+				var languages= language.split(",");
+				var langValues= langValue.split(",");
+	
+				for(var i=0; i<languages.length-1; i++)
+				{
+					var textArea= document.getElementById(langValues[i]);
+	
+					textArea = CodeMirror.fromTextArea(textArea, {
+						lineNumbers: true,
+						theme: "darcula",
+						mode: languages[i],
+						//mode: "text/x-python",
+						spellcheck: true,
+						autocorrect: true,
+						autocapitalize: true,
+						readOnly: true,
+						autoCloseTags: true
+					});
+					textArea.setSize("800", "250");
+				}
+			</script>
 			
+			<!-- 댓글 부분 -->
 			<div class="reply">
 			댓글
 			</div>
@@ -106,10 +144,10 @@
 							<button class="divColor" type="button">사진</button>
 						</div>
 					</div>
-					<div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요."></div>
-						<input id="content" type="hidden" value="" name="content">
+					<div id="writeContent" class="writeContent" contenteditable="true"></div>
+					<input id="content" type="hidden" value="" name="content">
 				</div>
-				<input type="submit" class="button" value="글쓰기" onclick="return writeCheck();">
+				<input type="submit" class="button" value="댓글쓰기" onclick="return writeCheck();">
 			</form>
         </div>
 		
@@ -118,6 +156,7 @@
         </div>
 	</body>
 	<script>
+
 		function selectFont(){
 			var select=document.getElementById("fontType");
 			var selectValue=select.options[select.selectedIndex].value;
