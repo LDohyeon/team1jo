@@ -82,7 +82,7 @@
 	 			<a onclick="return confirm('정말 삭제하시겠습니까?')" href="paragraphDelete.do?num=<%=num%>">삭제</a>
 		 	</c:if>
 
-			<a onclick="return confirm('정말 삭제하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button">신고</button></a>
+			<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button">신고</button></a>
 			
 			<br>
 			<br>
@@ -143,9 +143,22 @@
 						<div class="img">
 							<button class="divColor" type="button">사진</button>
 						</div>
+						<select id="commentLanguage">
+                       		<option value="none">질문할 언어를 선택하세요</option>
+                       		<option value="text/xml">html/xml</option>
+                           	<option value="text/x-python">python</option>
+                           	<option value="text/x-java">java</option>
+                           	<option value="text/x-sql">sql</option>
+                           	<option value="text/javascript">javascript</option>
+                       	</select>
+                       	<input class="divColor" type="button" onclick="code()" value="코드 작성 하러 가기">
+					</div>
+					<div>
+						<br>
 					</div>
 					<div id="writeContent" class="writeContent" contenteditable="true"></div>
 					<input id="content" type="hidden" value="" name="content">
+					<input name="paragraph_num" type="hidden" value="${pDTO.getNum() }">
 				</div>
 				<input type="submit" class="button" value="댓글쓰기" onclick="return writeCheck();">
 			</form>
@@ -156,6 +169,24 @@
         </div>
 	</body>
 	<script>
+	
+		function code()
+		{
+			var commentLanguage=document.getElementById("commentLanguage");
+			
+			if(commentLanguage.value == "none")
+			{
+				alert("언어를 선택해주세요");
+				return;
+			}
+	
+			var url="code.do?language="+commentLanguage.value;
+			
+			var popupX=(window.screen.width/2)-(800/2);
+			var popupY=(window.screen.height/2)-(600/2);
+			
+			window.open(url, "_blank_1","toolbar=no, menubar=no, scrollber=yes, resizable=no, width=800, height=600, left="+popupX+", top="+popupY);
+		}
 
 		function selectFont(){
 			var select=document.getElementById("fontType");

@@ -4,11 +4,17 @@ public class CommentDTO {
 
 	private int num;
 	private int paragraph_num;
-	private String content;
+	private String comment;
 	private String time;
 	private String id;
 	
 	
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 	public int getNum() {
 		return num;
 	}
@@ -20,12 +26,6 @@ public class CommentDTO {
 	}
 	public void setParagraph_num(int paragraph_num) {
 		this.paragraph_num = paragraph_num;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
 	}
 	public String getTime() {
 		return time;

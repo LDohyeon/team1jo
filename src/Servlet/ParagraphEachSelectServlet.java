@@ -1,12 +1,15 @@
 package Servlet;
 
 import java.io.*;
+import java.util.List;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
+import DAO.CommentDAO;
 import DAO.ParagraphDAO;
+import DTO.CommentDTO;
 import DTO.ParagraphDTO;
 
 @WebServlet("/paragraphEachSelect.do")
@@ -35,11 +38,6 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		
 		for(int i=0; i<contents.length; i++)
 		{
-			System.out.println("contents : "+ contents[i]+", i= "+i);
-			System.out.println();
-			
-
-			
 			if(i%3==0)
 			{
 				code+=contents[i];
@@ -59,6 +57,23 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		}
 		
 		pDTO.setContents(code);
+		
+		
+		
+		//코멘트 List
+		CommentDAO cDAO = CommentDAO.getInstatce();
+		
+		List<CommentDTO> list = cDAO.commentList(num);
+		
+		for(int i=0; i<list.size(); i++)
+		{
+			System.out.println("list : "+list.get(i).getId());
+		}
+		
+		
+		//코멘트 List
+		
+		
 		
 		request.setAttribute("pDTO", pDTO);
 		request.setAttribute("language", language);
