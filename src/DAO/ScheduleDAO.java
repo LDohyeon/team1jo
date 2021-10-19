@@ -32,7 +32,6 @@ public class ScheduleDAO {
 		}
 
 		return conn;
-		
 	}
 	public static void close(Connection conn, Statement stmt, ResultSet rs){
 		try{
@@ -68,7 +67,7 @@ public class ScheduleDAO {
 	// Schedule add to table. 
 	public void scheduleInsert(ScheduleDTO sDTO){
 		
-		String sql="insert into schedule(title, content, start, end, user, groupnum, color) values(?,?,?,?,?,?,?)";
+		String sql="insert into schedule(title, content, start, end, writer, groupnum, color) values(?,?,?,?,?,?,?)";
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		

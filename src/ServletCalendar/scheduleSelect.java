@@ -45,6 +45,7 @@ public class scheduleSelect extends HttpServlet {
 			info += getXmlTag("groupnum", glist.get(i).getGroupnum());
 			info += getXmlTag("groupname", glist.get(i).getGroupname());
 			info += getXmlTag("modifier", glist.get(i).getModifier());
+			
 			for(int j = 0; j<slist.size(); j++) {
 				info += "<schedule>";
 				info += getXmlTag("num", slist.get(j).getNum());

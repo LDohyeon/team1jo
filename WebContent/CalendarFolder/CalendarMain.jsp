@@ -1,7 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <!DOCTYPE html>
-<!-- Login User Key: loginUserId -->
+<!-- LoginUserKey: loginUserId -->
+<% 
+	String userKey = null;
+	try{
+		userKey = session.getAttribute("LoginUserKey").toString(); 
+	}
+	catch(Exception e){
+		System.out.println("Session get Error: calendarMain.jsp: line 10: >>" +e);
+	}
+	
+	if(userKey==null){
+		userKey="DEMOUSER";
+	}
+%>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -618,57 +631,13 @@
             cc = document.createElement("div");
             cc.classList.add("scheduleColor");
             
-            ccc = document.createElement("div");
-            ccc.classList.add("scheduleColorSmall");
-            
-            let c4;
-            let c5;
-            let c6;
-            
-            c4 = document.createElement("div");
-            c5 = document.createElement("span");
-            c5.classList.add("smallColor")
-            
-            c6 = document.createElement("span");
-            c6.classList.add("colors");
-            c6.setAttribute("background-color", "rgb(244, 201, 107)");
-            c5.appendChild(c6);
-            
-            c6 = document.createElement("span");
-            c6.classList.add("colorsPointer");
-            c5.appendChild(c6);
-            
-            c4.appendChild(c5);
-            
-            ccc.appendChild(c4);
-            cc.appendChild(ccc);
-            
-            ccc = document.createElement("div");
-            ccc.classList.add("scheduleColorBig");
-            
-            c4 = document.createElement("div");
-            c5 = document.createElement("span");
-            c5.classList.add("BigColor")
-            
-            for(let i = 0; i<10; i++){
-            	c6 = document.createElement("span");
-                c6.classList.add("colors");
-                c6.classList.add("colorsData")
-                c6.setAttribute("background-color", "rgb(244, 201, 107)");
-                c5.appendChild(c6);
-            }
-            
-            c4.appendChild(c5);
-            ccc.appendChild(c4);
-            cc.appendChild(ccc);
-            
-            ccc=document.createElement("input");
-            ccc.setAttribute("type", "text");
-            ccc.setAttribute("name", "color")
+            ccc = document.createElement("input");
+            ccc.setAttribute("type", "color");
+            ccc.setAttribute("name", "color");
             ccc.classList.add("scheduleFormColor");
-            ccc.classList.add("scheduleFormHidden");
             
             cc.appendChild(ccc);
+
             c.appendChild(cc);
             
             cc = document.createElement("input");
@@ -1612,8 +1581,18 @@
 			
 		}
 		
-		function getGroupSchedule(user, date){
+		function getGroupSchedule(userKey, date){
 			let xmlGroup;
+			let scheduleTitleInSpans = document.getElementsByClassName("scheduleTitleInSpan");
+			
+			if(typeof(scheduleTitleInSpans)!='undefined'){
+				for(let i = 0; i < scheduleTitleInSpans.length; i++){
+					if(scheduleTitleInSpans[i].hasChildNodes()){
+						scheduleTitleInSpans[i].removeChild(scheduleTitleInSpans[i].firstChild);
+					}
+				}
+			}
+			
 			createXHRCalendar();
 			
 			XHRCalendar.onreadystatechange=function(){
@@ -1651,7 +1630,7 @@
 			};
 			XHRCalendar.open("POST", "../scheduleSelect", true);
 			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRCalendar.send("userKey="+user);
+			XHRCalendar.send("userKey="+userKey);
 		}
 		
 		function createScheduleElement(scheduleData, date){
@@ -1661,8 +1640,7 @@
 			let dateTags = document.getElementsByClassName("dateTag");
 			
 			for(let i = 0; i < scheduleData.length; i++){
-				
-				console.log("DATE ")
+		
 				let startYear = parseInt(scheduleData[i].start.substring(0,4));
 				let startMonth = parseInt(scheduleData[i].start.substring(5,7));
 				let startDay = parseInt(scheduleData[i].start.substring(8,10));
@@ -2064,8 +2042,8 @@
 		
 		
 		// 년 형식 스케줄
-		function scheduleCheckYear (date, user, group){
-			if(typeof(date)!='undefined'||typeof(user)!='undefined'||typeof(group)!='undefined'){
+		function scheduleCheckYear (date, userKey, group){
+			if(typeof(date)!='undefined'||typeof(userKey)!='undefined'||typeof(userKey)!=null||typeof(group)!='undefined'){
 				
 			}
 			else{
@@ -2075,27 +2053,79 @@
 		
 		// 월 형식 스케줄
 		function scheduleCheckMonth (date){
-			user = window.sessionStorage.getItem("loginUserId");
-			console.log(date);
-			
-			if(typeof(user)=='undefined'||user==null){
-				user = "DEMOUSER"
-				console.log(user);
+
+			if(typeof(userKey)=='undefined'||userKey==null){
+				userKey = "DEMOUSER"
 			}
 			
 			if(typeof(date)!='undefined'){
-				getGroupSchedule(user, date);
+				getGroupSchedule(userKey, date);
 			}
 			else{
 				date = getToday();
-				getGroupSchedule(user, date);
+				getGroupSchedule(userKey, date);
 			}
 		}
 		console.log("스케줄 서버 통해서 DB 넣어야함");
 		console.log("스케줄 서버 통해서 DB에서 가져와야함");
 		console.log("서치 기능");
 		
-				
+		// 스케줄 추가 버튼
+		let scheduleFormBtn = document.getElementsByClassName("scheduleFormSubmit")[0];
+		
+		scheduleFormBtn.addEventListener("click", function(){
+			let temp = document.getElementsByClassName("calendarHeadDateInfo")[0].value;
+			
+			let year = parseInt(temp.substring(0,4));
+			let month = parseInt(temp.substring(5,7));
+			let day = parseInt(temp.substring(8,10));
+			
+			let date = getThisDay(year, month, day, 0, 0);
+			
+			addGroupSchedule(date);
+		})
+		
+		// 스케줄 추가 
+		function addGroupSchedule(date){
+			let jsonSchedule;
+			
+			let title = document.getElementsByClassName("scheduleFormTitle")[0].value;
+			let content = document.getElementsByClassName("scheduleFormContent")[0].innerHTML;
+			let start = document.getElementsByClassName("scheduleFormStart")[0].value;
+			let end = document.getElementsByClassName("scheduleFormEnd")[0].value;
+			let color = document.getElementsByClassName("scheduleFormColor")[0].value;
+			console.log(color);
+			let writer = userKey;
+			let groupnum = document.getElementsByClassName("scheduleFormTitle")[0].value;
+			
+			jsonSchedule = JSON.stringify(createJsonSchedule(title, content, start, end, color, writer, groupnum));
+			createXHRCalendar();
+			
+			XHRCalendar.onreadystatechange=function(){
+				if(XHRCalendar.readyState==4){
+		            if(XHRCalendar.status==200){
+		            	 getGroupSchedule(userKey, date);
+		            }
+				}
+			};
+			XHRCalendar.open("POST", "../scheduleInsert", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send(jsonSchedule);
+		}
+		
+		// JSON SCHEDULE 객체 데이터 생성 
+		function createJsonSchedule(title, content, start, end, color, writer, groupnum){
+			let json = {
+				title: title,
+				content: content,
+				start: start,
+				end: end,
+				color: color,
+				writer: writer,
+				groupnum: groupnum
+			}
+			return json;
+		}
 		
 	</script>
 	
