@@ -826,7 +826,7 @@ public class MemberDAO {
 	      }
 	   }
 	//권한 수정
-
+	
 }
 
 

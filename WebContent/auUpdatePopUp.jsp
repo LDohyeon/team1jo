@@ -22,10 +22,11 @@
 				<select name="selAuValue">
 					<option value="2"<% if(selAuValue.equals("2")){%>selected<%}%>>2</option>
 					<option value="3"<% if(selAuValue.equals("3")){%>selected<%}%>>3</option>
+					<option value="4"<% if(selAuValue.equals("4")){%>selected<%}%>>4</option>
 				</select>
 			<br>
 			정지 기간 :
-				<input type="number">
+				<input type="number" name="selAuDay" min="1">일
 			<br>
 			<br>
 			<input type="submit" value="수정">
