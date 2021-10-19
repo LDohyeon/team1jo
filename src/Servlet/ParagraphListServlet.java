@@ -23,13 +23,20 @@ public class ParagraphListServlet extends HttpServlet {
 
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		
-		int page = pDAO.ParagraphPage();//이걸로 페이지 처리 해주시면 됩니다.
+		int page = pDAO.ParagraphPage();//�씠嫄몃줈 �럹�씠吏� 泥섎━ �빐二쇱떆硫� �맗�땲�떎.
 		
 		System.out.println("paragraphList page : "+ page);
 		
 		List<ParagraphDTO> list = pDAO.paragraphList(StartPage, lastPage);
 		
 		request.setAttribute("list", list);
+		
+		int nOfPages=page/10;
+		if(nOfPages%10>0) {
+			nOfPages++;
+		}
+		request.setAttribute("nOfPages",nOfPages);
+		request.setAttribute("StartPage", StartPage);
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("paragraphList.jsp");
 		dispatcher.forward(request, response);
