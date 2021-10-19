@@ -91,7 +91,10 @@
                         	</select>
                         	<input class="divColor" type="button" onclick="code()" value="코드 작성 하러 가기">
 	                    </div>
-	                    <br>
+	                    <div>
+	                    	<br>
+	                    </div>
+	                    
 	                    
 	                    <div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요."></div>
 	                    <input id="content" type="hidden" value="" name="content">

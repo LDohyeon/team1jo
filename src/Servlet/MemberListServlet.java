@@ -84,6 +84,7 @@ public class MemberListServlet extends HttpServlet {
 			list1 = mDAO.memberNameSerachList(selValue, selSerch2, startPage, lastPage );
 			row = mDAO.memberListNamePageBtn(selValue, selSerch2);
 		}
+		
 
 		int totalPage = row/lastPage;
 		if(row%lastPage > 0) {
