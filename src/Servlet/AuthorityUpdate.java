@@ -39,6 +39,7 @@ public class AuthorityUpdate extends HttpServlet {
 		while(susLastDay>0)
 		{
 			thisYearLean=isLean(thisYear);
+			System.out.println("getYear에서 윤달 확인 "+thisYearLean);
 			if(thisYearLean==1)
 			{
 				if(susLastDay>366)
@@ -84,11 +85,13 @@ public class AuthorityUpdate extends HttpServlet {
 				if(susLastDay>months[i])
 				{
 					susLastDay=susLastDay-months[i];
+					System.out.println("getDate에서 "+i+", "+months[i]+" 빼줌 "+susLastDay);
 					continue;
 				}
 				else
 				{
 					month=i+1;
+					System.out.println("월 계산 "+month);
 					break;
 				}
 			}
@@ -101,11 +104,13 @@ public class AuthorityUpdate extends HttpServlet {
 				if(susLastDay>months[i])
 				{
 					susLastDay=susLastDay-months[i];
+					System.out.println("getDate에서 "+i+", "+months[i]+" 빼줌 "+susLastDay);
 					continue;
 				}
 				else
 				{
 					month=i+1;
+					System.out.println("월 계산 "+month);
 					break;
 				}
 			}
@@ -149,6 +154,7 @@ public class AuthorityUpdate extends HttpServlet {
 	int month=0;
 	int susLastDay=0;
 	int thisYear=0;
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
