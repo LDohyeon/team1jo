@@ -84,7 +84,7 @@ public class MemberDAO {
 	public void MemberInsert(MemberDTO mDTO)//회원가입 시작
 	{
 		
-		String sql="insert into Member(id, pw, name, email, authority) values(?,?,?,?, 2)";
+		String sql="insert into Member(id, pw, name, email, authority, createDate) values(?,?,?,?, 2, NOW())";
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		try
@@ -149,7 +149,7 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
-
+				
 			}								
 		}
 		catch(Exception e)
@@ -342,6 +342,8 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);	
 			}
@@ -395,6 +397,8 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);
 			}
@@ -446,6 +450,8 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);
 			}
@@ -502,6 +508,8 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);
 			}
@@ -543,8 +551,6 @@ public class MemberDAO {
 			pstmt.setInt(3, start);
 			pstmt.setInt(4, lastPage);
 			
-			System.out.println("mem : "+ pstmt);
-			
 			rs=pstmt.executeQuery();
 			
 			while(rs.next())
@@ -556,6 +562,8 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);
 			}
