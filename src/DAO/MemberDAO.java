@@ -24,8 +24,8 @@ public class MemberDAO {
 		Connection conn=null;
 		String url="jdbc:mysql://127.0.0.1:3306/status200";
 		String db_id="root";
-		//String db_pw="iotiot";
-		String db_pw="iotiot12*";
+		String db_pw="iotiot";
+		//String db_pw="iotiot12*";
 		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
 		
 		try {
@@ -827,6 +827,33 @@ public class MemberDAO {
 	   }
 	//권한 수정
 	
+	//정지 기간 설정
+	public void updateSuspension(String date, String selAuIdValue)
+	{
+		String sql="update Member set stopdate=? where id=?";
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+	
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, date);
+			pstmt.setString(2, selAuIdValue);
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			System.out.println("회원 정지 날짜 세팅 실패"+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+	}
+	//정지 기간 설정
 }
 
 
