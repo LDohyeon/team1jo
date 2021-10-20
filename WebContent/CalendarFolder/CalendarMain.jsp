@@ -48,6 +48,8 @@
             group: thisGroup // 유저가 속한 그룹 데이터 > 이를 기반으로 DB와 통신
         }
         
+        let tempData; 
+        
         // 오늘 날짜 
         function getToday(){
         	let date = new Date();
@@ -451,7 +453,7 @@
 				
 				let changeYear = inputYear+1;
 				let changeMonth = inputMonth;
-				let changeDay = inputDay;
+				let changeDay = "10";
 				
 				let date = getThisDay(changeYear, changeMonth, changeDay, 0, 0);
 				
@@ -465,7 +467,7 @@
 				
 				let changeYear = inputYear;
 				let changeMonth = inputMonth+1;
-				let changeDay = inputDay;
+				let changeDay = "10";
 				
 				if(changeMonth>12){
 					changeMonth=1;
@@ -571,7 +573,7 @@
             
             let centerBox = document.createElement("div");
             centerBox.classList.add("centerBox");
-            
+           
             centerBox.appendChild(createScheduleLayout());
             centerBox.appendChild(createCalanderLayout());
             
@@ -593,6 +595,12 @@
 			
             c = document.createElement("div");
             c.classList.add("scheduleForm");
+            
+            cc = document.createElement("input");
+            cc.setAttribute("type", "hidden");
+            cc.setAttribute("name", "scheduleNum");
+            cc.classList.add("scheduleFormNum");
+            c.appendChild(cc);
             
             cc = document.createElement("input");
             cc.setAttribute("type", "text");
@@ -629,6 +637,16 @@
             
            	cc = document.createElement("div");
             cc.classList.add("scheduleFormGroups");
+            
+            ccc = document.createElement("select");
+            ccc.classList.add("scheduleFormGroupSelect");
+            cc.appendChild(ccc);
+            
+            ccc = document.createElement("input");
+            ccc.setAttribute("type", "hidden");
+            ccc.setAttribute("name", "groupnum");
+            ccc.classList.add("scheduleFormGroupnum");
+            cc.appendChild(ccc);
             c.appendChild(cc);
             
             cc = document.createElement("div");
@@ -640,7 +658,6 @@
             ccc.classList.add("scheduleFormColor");
             
             cc.appendChild(ccc);
-
             c.appendChild(cc);
             
             cc = document.createElement("input");
@@ -961,19 +978,19 @@
 	                    cccc.innerHTML = i +"";
 	                    ccc.appendChild(cccc);
 	            	}
-	              
-	                cc.appendChild(ccc);
-	                
-	                ccc = document.createElement("div");
-	                ccc.classList.add("monthBoxBody");
-	                
-	                cccc = document.createElement("input");
+					
+					cccc = document.createElement("input");
 					cccc.classList.add("dateTag");
 					cccc.setAttribute("type", "text");
 					
 					cccc.setAttribute("value", thisTimeDate);
 					ccc.appendChild(cccc);
 					
+	                cc.appendChild(ccc);
+	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxBody");
+	                
 	                cc.appendChild(ccc);
 	           		
 	                c.appendChild(cc);
@@ -1114,19 +1131,17 @@
 	                    cccc.innerHTML = i +"";
 	                    ccc.appendChild(cccc);
 	            	}
-	              
-	                cc.appendChild(ccc);
-	                
-	                ccc = document.createElement("div");
-	                ccc.classList.add("monthBoxBody");
-	                
-	                cccc = document.createElement("input");
+					cccc = document.createElement("input");
 					cccc.classList.add("dateTag");
 					cccc.setAttribute("type", "text");
 					
 					cccc.setAttribute("value", thisTimeDate);
 					ccc.appendChild(cccc);
+	                cc.appendChild(ccc);
 	                
+	                ccc = document.createElement("div");
+	                ccc.classList.add("monthBoxBody");
+      
 	                cc.appendChild(ccc);
 	           		
 	                c.appendChild(cc);
@@ -1205,17 +1220,17 @@
 	            cccc.innerHTML = i +"";
 	            ccc.appendChild(cccc);
 	            
-	            cc.appendChild(ccc);
-	            
-	            ccc = document.createElement("div");
-	            ccc.classList.add("monthBoxBody");
-	            
 	            cccc = document.createElement("input");
 				cccc.classList.add("dateTag");
 				cccc.setAttribute("type", "text");
 		
 				cccc.setAttribute("value", thisTimeDate);
 				ccc.appendChild(cccc);
+				
+	            cc.appendChild(ccc);
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxBody");
 	            
 	            cc.appendChild(ccc);
 			}
@@ -1251,11 +1266,6 @@
 	            cccc.innerHTML = i +"";
 	            ccc.appendChild(cccc);
 	            
-	            cc.appendChild(ccc);
-	            
-	            ccc = document.createElement("div");
-	            ccc.classList.add("monthBoxBody");
-	            
 	            cccc = document.createElement("input");
 				cccc.classList.add("dateTag");
 				cccc.setAttribute("type", "text");
@@ -1263,6 +1273,11 @@
 				cccc.setAttribute("value", thisTimeDate);
 				ccc.appendChild(cccc);
 	            
+	            cc.appendChild(ccc);
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxBody");
+
 	            cc.appendChild(ccc);
 			}
             return cc;
@@ -1302,11 +1317,6 @@
 	            cccc.innerHTML = (NowMonth-i) +"";
 	            ccc.appendChild(cccc);
 	            
-	            cc.appendChild(ccc);
-	            
-	            ccc = document.createElement("div");
-	            ccc.classList.add("monthBoxBody");
-	            
 	            cccc = document.createElement("input");
 				cccc.classList.add("dateTag");
 				cccc.setAttribute("type", "text");
@@ -1314,6 +1324,11 @@
 				cccc.setAttribute("value", thisTimeDate);
 				ccc.appendChild(cccc);
 				
+	            cc.appendChild(ccc);
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxBody");
+
 	            cc.appendChild(ccc);
 			}
 			else{
@@ -1349,11 +1364,6 @@
 	            cccc.innerHTML = (NowMonth-i) +"";
 	            ccc.appendChild(cccc);
 	            
-	            cc.appendChild(ccc);
-	            
-	            ccc = document.createElement("div");
-	            ccc.classList.add("monthBoxBody");
-	            
 	            cccc = document.createElement("input");
 				cccc.classList.add("dateTag");
 				cccc.setAttribute("type", "text");
@@ -1361,6 +1371,11 @@
 				cccc.setAttribute("value", thisTimeDate);
 				ccc.appendChild(cccc);
 				
+	            cc.appendChild(ccc);
+	            
+	            ccc = document.createElement("div");
+	            ccc.classList.add("monthBoxBody");
+	            
 	            cc.appendChild(ccc);
 			}
             return cc;
@@ -1460,6 +1475,7 @@
 	                cccc = document.createElement("input");
 					cccc.classList.add("dateTag");
 					cccc.setAttribute("type", "text");
+					
 					let thisTimeDate = "";
 					
 					if(date.month<10){
@@ -1579,10 +1595,366 @@
 			}
 		}
 		
-		// GroupCheck
-		function checkGroup(){
+		// 스케줄 자세한 정보 창
+		function scheduleDetailInfo(){
+			let target = event.target;
 			
+			if(target.childElementCount!=0){
+				
+			}
+			else if(target.childElementCount==0){
+				target = target.parentElement;
+			}
 			
+			let Infos = target.getElementsByClassName("scheduleInfos")[0];
+			let num = Infos.getElementsByClassName("scheduleNum")[0].value;
+			let title = Infos.getElementsByClassName("scheduleTitle")[0].value;
+			let content = Infos.getElementsByClassName("scheduleContent")[0].value;
+			let start = Infos.getElementsByClassName("scheduleStart")[0].value;
+			let end = Infos.getElementsByClassName("scheduleEnd")[0].value;
+			let color = Infos.getElementsByClassName("scheduleColor")[0].value;
+			let groupnum = Infos.getElementsByClassName("groupNum")[0].value;
+			let groupname = Infos.getElementsByClassName("groupName")[0].value;
+			
+			let data = {
+				num: num,
+				title: title,
+				content: content,
+				start: start,
+				end: end,
+				color: color,
+				groupnum: groupnum,
+				groupname: groupname
+			}
+			tempData = data;
+			
+			let body = document.getElementsByTagName("body")[0];
+
+			body.appendChild(createScheduleDetail(data));
+		}
+		
+		// 스케줄 자세한 정보 창 만들기
+		function createScheduleDetail(data){
+			let v;
+			let c;
+			let cc;
+			let ccc;
+			
+			let body = document.getElementsByTagName("body")[0];
+			let sDetails = document.getElementsByClassName("sDetail");
+			
+			// 자식 노드에 이전 노드가 있으면 다 삭제해버림
+			while(body.getElementsByClassName("sDetail").length!=0){
+				body.removeChild(sDetails[0]);
+			}
+			
+			v = document.createElement("div"); 
+			v.classList.add("sDetail");
+			
+			c = document.createElement("div"); 
+			c.classList.add("sDetailMenu");
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailMenuEmpty");
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailMenuFix");
+			cc.addEventListener("click", scheduleDetailInfoFix);
+			// 아이콘 만들어지면 삭제
+			cc.innerHTML="수정";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailMenuDelete");
+			cc.addEventListener("click", delGroupSchedule);
+			// 아이콘 만들어지면 삭제
+			cc.innerHTML="삭제";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailMenuQuit");
+			cc.addEventListener("click", quitScheduleDetail);
+			// 아이콘 만들어지면 삭제
+			cc.innerHTML="끄기";
+			c.appendChild(cc);
+			v.appendChild(c);
+			
+			c = document.createElement("div"); 
+			c.classList.add("sDetailMain");
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailMainColor");
+			
+			ccc = document.createElement("div");
+			ccc.classList.add("sDetailMainColorBox");
+			let t = "background-color"+data.color;
+			ccc.setAttribute("style", t);
+			cc.appendChild(ccc);
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailMainTitle");
+			cc.innerHTML = data.title;
+			c.appendChild(cc);
+			
+			cc = document.createElement("div"); 
+			cc.classList.add("sDetailTime");
+			
+			let startDay = data.start.substring(0,10);
+			let startTime = data.start.substring(11,20);
+			let endDay = data.end.substring(0,10);
+			let endTime = data.end.substring(11,20);
+			
+			if(startDay==endDay){
+				t = startDay + " " + startTime + " ~ " + endTime;
+				cc.innerHTML = t;
+			}
+			else{
+				t = data.start + " ~ " + data.end;
+				cc.innerHTML = t;
+			}
+			c.appendChild(cc);
+			v.appendChild(c);
+			
+			c = document.createElement("div"); 
+			c.classList.add("sDetailContent");
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailContentLogo");
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailContentText");
+			cc.innerHTML = data.content;
+			c.appendChild(cc);
+			v.appendChild(c);
+			
+			c = document.createElement("div"); 
+			c.classList.add("sDetailGroup");
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailGroupLogo");
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("sDetailGroupName");
+			cc.innerHTML = data.groupname;
+				
+			c.appendChild(cc);
+			
+			v.appendChild(c);
+			
+			return v;
+		}
+		
+		function quitScheduleDetail(){
+			console.log("quit ");
+		}
+		
+		// 스케줄 수정
+		function scheduleDetailInfoFix(){
+			let data = tempData;
+			
+			let startDay = data.start.substring(0,10);
+			let startTime = data.start.substring(11,20);
+			
+			let endDay = data.end.substring(0,10);
+			let endTime = data.end.substring(11,20);
+			
+			let form = document.getElementsByClassName("scheduleForm")[0];
+			let formnum = form.getElementsByClassName("scheduleFormNum")[0];
+			let formtitle = form.getElementsByClassName("scheduleFormTitle")[0];
+			let formcontent = form.getElementsByClassName("scheduleFormContent")[0];
+			let formstart = form.getElementsByClassName("scheduleFormStart")[0];
+			let formend = form.getElementsByClassName("scheduleFormEnd")[0];
+			let formcolor = form.getElementsByClassName("scheduleFormColor")[0];
+			let formgroupSelect = form.getElementsByClassName("scheduleFormGroupSelect")[0];
+			let options = formgroupSelect.getElementsByClassName("scheduleFormGroupSelectOption");
+			
+			formnum.setAttribute("value", data.num);
+			formtitle.setAttribute("value", data.title);
+			formcontent.setAttribute("value", data.content);
+			formstart.setAttribute("value", startDay);
+			formstart.value=startDay;
+			formend.setAttribute("value", endDay);
+			formend.value=endDay;
+			formcolor.setAttribute("value", data.color);
+			
+			for(let i = 0; i<options.length; i++){
+				if(options[i].value==data.groupnum){
+					options[i].setAttribute("selected", "true");
+				}
+			}
+		}
+		
+		// 스케줄 수정 창 보이기: 현재 클릭 요소 날짜 세팅
+		function visibleSchedule(){
+			// 클릭했을때 현제 요소를 가져오고 안에 숨겨논 잇풋 감 가져옴
+			// 가져온 값을 기초로 현재 폼에 지정된 데이터를 변경할 수 있다.
+			
+			let formStart = document.getElementsByClassName("scheduleFormStart")[0];
+			let formEnd = document.getElementsByClassName("scheduleFormEnd")[0];
+			
+			let thisElement = event.currentTarget;
+			
+			let thisDay = thisElement.getElementsByClassName("dateTag")[0].value;
+		
+			let tempYear = thisDay.substring(0,4);
+			let tempMonth = thisDay.substring(4,6);
+			let tempDay = thisDay.substring(6,8);
+			let s = tempYear+"-"+tempMonth+"-"+tempDay;
+			let e = tempYear+"-"+tempMonth+"-"+tempDay
+			formStart.value = s;
+			formStart.setAttribute("value", s);
+			
+			formEnd.value = s;
+			formEnd.setAttribute("value", s);
+		}
+		
+		// 스케줄 데이터에 따른 Group 데이터 > div로 생성 
+		function createGroupDivs(groupDivs){
+			let v = document.getElementsByClassName("groupDiv")[0];
+			
+			while(v.hasChildNodes()){
+				return;
+			}
+			
+	        let c;
+	        let cc;
+	        let ccc;
+
+			for(let i = 0; i<groupDivs.length; i++){
+				c = document.createElement("div");
+				c.classList.add("groupEl");
+				c.innerHTML = groupDivs[i].groupname;
+				c.addEventListener("click", viewGroupForSchedule);
+				
+				cc = document.createElement("input");
+				cc.classList.add("groupDataNum");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", groupDivs[i].groupnum);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("groupDataName");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", groupDivs[i].groupname);
+				c.appendChild(cc);
+				
+				// 그룹 요소를 클릭할 경우, 해당 요소가 보일지 말지를 결정
+				cc = document.createElement("input");
+				cc.classList.add("groupDataFlag");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", "true");
+				c.appendChild(cc);
+				
+				v.appendChild(c);
+			}
+			
+			let select = document.getElementsByClassName("scheduleFormGroupSelect")[0];
+			
+			while(select.hasChildNodes()){
+				return;
+			}
+			
+			for(let i = 0; i<groupDivs.length; i++){
+				c = document.createElement("option");
+				c.classList.add("scheduleFormGroupSelectOption");
+				c.setAttribute("value", groupDivs[i].groupnum);
+				c.innerHTML = groupDivs[i].groupname;
+				select.appendChild(c);
+			}
+		}
+		// 그룹 클릭에 따라 스케줄 보이거나 감추기
+		function viewGroupForSchedule(){
+			let groupDiv = event.target;
+			let num = groupDiv.getElementsByClassName("groupDataNum")[0].value;
+			let flag = groupDiv.getElementsByClassName("groupDataFlag")[0];
+			
+			if(flag.value=="true"){
+				flag.setAttribute("value", "false"); // 안보이는 상태
+				groupDiv.classList.add("lineThrough");
+			}
+			else if(flag.value=="false"){
+				flag.setAttribute("value", "true"); // 보이는 상태 
+				groupDiv.classList.remove("lineThrough");
+				console.log("d");
+			}
+			
+			viewScheduleElementFlag();
+		}
+		
+		// 스케줄 보이거나 감추기 작동
+		function viewScheduleElementFlag(){
+			let groupDiv = document.getElementsByClassName("groupEl");
+			
+			let schedules = document.getElementsByClassName("scheduleBox");
+			
+			for(let i = 0; i < groupDiv.length; i++){
+				let flag = groupDiv[i].getElementsByClassName("groupDataFlag")[0].value+"";
+				let num = groupDiv[i].getElementsByClassName("groupDataNum")[0].value+"";;
+				for(let j = 0; j <schedules.length; j++){
+					let scheduleNum = schedules[j].getElementsByClassName("groupNum")[0].value+"";
+					
+					if(num==scheduleNum){
+						if(flag=="true"){
+							schedules[j].classList.remove("hiddenElement");
+						}
+						else if(flag=="false"){
+							schedules[j].classList.add("hiddenElement");
+						}
+					}
+				}
+			}
+		}
+		
+		
+		function scContentVisable(){
+			console.log("work")
+		}
+		
+		function toDoList(){
+			
+		}
+		
+		function toDoListComplete(){
+			
+		}
+		
+		function toDoLostDelete(){
+			
+		}
+		
+		function toDoListChange(){
+			
+		}
+		
+		
+		// 년 형식 스케줄
+		function scheduleCheckYear (date, userKey, group){
+			if(typeof(date)!='undefined'||typeof(userKey)!='undefined'||typeof(userKey)!=null||typeof(group)!='undefined'){
+				
+			}
+			else{
+				
+			}
+		}
+		
+		// 월 형식 스케줄
+		function scheduleCheckMonth (date){
+
+			if(typeof(userKey)=='undefined'||userKey==null){
+				userKey = "DEMOUSER"
+			}
+			
+			if(typeof(date)!='undefined'){
+				getGroupSchedule(userKey, date);
+			}
+			else{
+				date = getToday();
+				getGroupSchedule(userKey, date);
+			}
 		}
 		
 		// 유저키와 데이터로 그룹 및 스케줄 데이터 가져옴 
@@ -1590,6 +1962,7 @@
 			let xmlGroup;
 			let scheduleTitleInSpans = document.getElementsByClassName("scheduleTitleInSpan");
 			
+			/*
 			if(typeof(scheduleTitleInSpans)!='undefined'){
 				for(let i = 0; i < scheduleTitleInSpans.length; i++){
 					if(scheduleTitleInSpans[i].hasChildNodes()){
@@ -1597,17 +1970,20 @@
 					}
 				}
 			}
+			*/
 			
 			createXHRCalendar();
 			
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
+		            	clearMonthBoxBody();
 		            	xmlParser = new DOMParser();
 		            	xmlGroup = xmlParser.parseFromString(XHRCalendar.responseText, "text/xml");
 		            	
 		            	groups = xmlGroup.getElementsByTagName("group");
 		            	groupDivs = [];
+		            	
 		            	for(let i = 0; i < groups.length; i++){
 		            		schedules = groups[i].getElementsByTagName("schedule");
 		            		
@@ -1767,17 +2143,21 @@
 		
 		// 스케줄 박스 요소 제작
 		function createScheduleBox(scheduleData, dateTags){
-			console.log(scheduleData);
+			
 			let p;
 			let v;
 			let c;
 			let cc;
 			let ccc;
 			
-			p = dateTags.parentNode; 
+			p = dateTags.parentNode;
+			pp = p.parentNode;
+			
+			let monthBoxBody = pp.getElementsByClassName("monthBoxBody")[0];
 			
 			v = document.createElement("div");
 			v.classList.add("scheduleBox"); 
+			v.addEventListener("click", scheduleDetailInfo)
 			v.setAttribute("style", "background-color:"+scheduleData.color);
             
 			c = document.createElement("span");
@@ -1870,13 +2250,14 @@
 			c.appendChild(cc);
 			
 			v.appendChild(c);
-			p.appendChild(v);
+			monthBoxBody.appendChild(v);
 		}
 		
 		// 스케줄의 첫 요소 확인,
 		function checkMonthScheduleFirst(){
 			let scheduleBoxs = document.getElementsByClassName("scheduleBox");
 			let scheduleNums = document.getElementsByClassName("scheduleNum");
+			
 			let scheduleTotal = [];
 			
 			for(let i = 0; i<scheduleNums.length; i++){
@@ -1907,7 +2288,7 @@
 				
 				for(let l = 0; l<boxArray.length; l++){
 					// 해당 태그의 첫 요소의 데이터를 가져와서, 날짜를 파악> 요일 구해서 요일따라 길이 정해야함
-					let dateTag = boxArray[l].parentElement.getElementsByClassName("dateTag")[0];
+					let dateTag = boxArray[l].parentElement.parentElement.getElementsByClassName("dateTag")[0];
 					let dateTagYear = parseInt(dateTag.value.substring(0,4));
 					let dateTagMonth = parseInt(dateTag.value.substring(4,6));
 					let dateTagDay = parseInt(dateTag.value.substring(6,8));
@@ -2020,195 +2401,39 @@
 			return name;
 		}
 		
-		// 스케줄 추가
-		function visibleSchedule(){
-			// 클릭했을때 현제 요소를 가져오고 안에 숨겨논 잇풋 감 가져옴
-			// 가져온 값을 기초로 현재 폼에 지정된 데이터를 변경할 수 있다.
-			
-			let formStart = document.getElementsByClassName("scheduleFormStart")[0];
-			let formEnd = document.getElementsByClassName("scheduleFormEnd")[0];
-			
-			let thisElement = event.currentTarget;
-			
-			let thisDay = thisElement.getElementsByClassName("dateTag")[0].value;
-		
-			let tempYear = thisDay.substring(0,4);
-			let tempMonth = thisDay.substring(4,6);
-			let tempDay = thisDay.substring(6,8);
-			
-			formStart.value = tempYear+"-"+tempMonth+"-"+tempDay;
-			formEnd.value = tempYear+"-"+tempMonth+"-"+tempDay;
-		}
-		
-		// 스케줄 데이터에 따른 Group 데이터 > div로 생성 
-		function createGroupDivs(groupDivs){
-			let v = document.getElementsByClassName("groupDiv")[0];
-			
-			while(v.hasChildNodes()){
-				return;
-			}
-			
-	        let c;
-	        let cc;
-	        let ccc;
-
-			for(let i = 0; i<groupDivs.length; i++){
-				c = document.createElement("div");
-				c.classList.add("groupEl");
-				c.innerHTML = groupDivs[i].groupname;
-				c.addEventListener("click", viewGroupForSchedule);
-				
-				cc = document.createElement("input");
-				cc.classList.add("groupDataNum");
-				cc.setAttribute("type", "hidden");
-				cc.setAttribute("value", groupDivs[i].groupnum);
-				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.classList.add("groupDataName");
-				cc.setAttribute("type", "hidden");
-				cc.setAttribute("value", groupDivs[i].groupname);
-				c.appendChild(cc);
-				
-				// 그룹 요소를 클릭할 경우, 해당 요소가 보일지 말지를 결정
-				cc = document.createElement("input");
-				cc.classList.add("groupDataFlag");
-				cc.setAttribute("type", "hidden");
-				cc.setAttribute("value", "true");
-				c.appendChild(cc);
-				
-				v.appendChild(c);
-			}
-		}
-		// 그룹 클릭에 따라 스케줄 보이거나 감추기
-		function viewGroupForSchedule(){
-			let groupDiv = event.target;
-			let num = groupDiv.getElementsByClassName("groupDataNum")[0].value;
-			let flag = groupDiv.getElementsByClassName("groupDataFlag")[0];
-			
-			if(flag.value=="true"){
-				flag.setAttribute("value", "false"); // 안보이는 상태
-				groupDiv.classList.add("lineThrough");
-			}
-			else if(flag.value=="false"){
-				flag.setAttribute("value", "true"); // 보이는 상태 
-				groupDiv.classList.remove("lineThrough");
-				console.log("d");
-			}
-			
-			viewScheduleElementFlag();
-		}
-		
-		// 스케줄 보이거나 감추기 작동
-		function viewScheduleElementFlag(){
-			let groupDiv = document.getElementsByClassName("groupEl");
-			
-			let schedules = document.getElementsByClassName("scheduleBox");
-			
-			for(let i = 0; i < groupDiv.length; i++){
-				let flag = groupDiv[i].getElementsByClassName("groupDataFlag")[0].value+"";
-				let num = groupDiv[i].getElementsByClassName("groupDataNum")[0].value+"";
-				//console.log(groupDiv[i]);
-				//console.log(flag);
-				for(let j = 0; j <schedules.length; j++){
-					let scheduleNum = schedules[j].getElementsByClassName("groupNum")[0].value+"";
-					
-					if(num==scheduleNum){
-						if(flag=="true"){
-							schedules[j].classList.remove("hiddenElement");
-						}
-						else if(flag=="false"){
-							schedules[j].classList.add("hiddenElement");
-						}
-					}
-				}
-			}
-		}
-		
-		function scContentVisable(){
-			console.log("work")
-			
-		}
-		
-		function toDoList(){
-			
-		}
-		
-		function toDoListComplete(){
-			
-		}
-		
-		function toDoLostDelete(){
-			
-		}
-		
-		function toDoListChange(){
-			
-		}
-		
-		
-		// 년 형식 스케줄
-		function scheduleCheckYear (date, userKey, group){
-			if(typeof(date)!='undefined'||typeof(userKey)!='undefined'||typeof(userKey)!=null||typeof(group)!='undefined'){
-				
-			}
-			else{
-				
-			}
-		}
-		
-		// 월 형식 스케줄
-		function scheduleCheckMonth (date){
-
-			if(typeof(userKey)=='undefined'||userKey==null){
-				userKey = "DEMOUSER"
-			}
-			
-			if(typeof(date)!='undefined'){
-				getGroupSchedule(userKey, date);
-			}
-			else{
-				date = getToday();
-				getGroupSchedule(userKey, date);
-			}
-		}
-		console.log("서치 기능");
-		
 		// 스케줄 추가 버튼
 		let scheduleFormBtn = document.getElementsByClassName("scheduleFormSubmit")[0];
 		
-		scheduleFormBtn.addEventListener("click", function(){
+		scheduleFormBtn.addEventListener("click", function (){
 			let temp = document.getElementsByClassName("calendarHeadDateInfo")[0].value;
-			
 			let year = parseInt(temp.substring(0,4));
-			let month = parseInt(temp.substring(5,7));
-			let day = parseInt(temp.substring(8,10));
-			
+			let month = parseInt(temp.substring(4,6));
+			let day = parseInt(temp.substring(6,8));
 			let date = getThisDay(year, month, day, 0, 0);
-			
-			addGroupSchedule(date);
+			addGroupSchedule(temp);
 		})
 		
 		// 스케줄 추가 
 		function addGroupSchedule(date){
 			let jsonSchedule;
 			
+			let num = document.getElementsByClassName("scheduleFormNum")[0].value;
 			let title = document.getElementsByClassName("scheduleFormTitle")[0].value;
 			let content = document.getElementsByClassName("scheduleFormContent")[0].innerHTML;
 			let start = document.getElementsByClassName("scheduleFormStart")[0].value;
 			let end = document.getElementsByClassName("scheduleFormEnd")[0].value;
 			let color = document.getElementsByClassName("scheduleFormColor")[0].value;
-			console.log(color);
 			let writer = userKey;
-			let groupnum = document.getElementsByClassName("scheduleFormTitle")[0].value;
+			let groupnum = document.getElementsByClassName("scheduleFormGroupSelect")[0].value;
 			
-			jsonSchedule = JSON.stringify(createJsonSchedule(title, content, start, end, color, writer, groupnum));
+			jsonSchedule = JSON.stringify(createJsonSchedule(num, title, content, start, end, color, writer, groupnum));
+			
 			createXHRCalendar();
 			
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	 getGroupSchedule(userKey, date);
+		            	getGroupSchedule(userKey, date);
 		            }
 				}
 			};
@@ -2217,9 +2442,34 @@
 			XHRCalendar.send(jsonSchedule);
 		}
 		
+		// 스케줄 삭제 기능
+		function delGroupSchedule(date){
+			let data = tempData;
+			createXHRCalendar();
+			
+			if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+			}
+			
+			XHRCalendar.onreadystatechange=function(){
+				if(XHRCalendar.readyState==4){
+		            if(XHRCalendar.status==200){
+		            	getGroupSchedule(userKey, date);
+		            }
+				}
+			};
+			XHRCalendar.open("POST", "../scheduleDelete", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send("num="+data.num);
+		}
+		
 		// JSON SCHEDULE 객체 데이터 생성 
-		function createJsonSchedule(title, content, start, end, color, writer, groupnum){
+		function createJsonSchedule(num, title, content, start, end, color, writer, groupnum){
 			let json = {
+				num: num,
 				title: title,
 				content: content,
 				start: start,
@@ -2229,6 +2479,17 @@
 				groupnum: groupnum
 			}
 			return json;
+		}
+		
+		// 스케줄 Box 영역 초기화
+		function clearMonthBoxBody(){
+			let v = document.getElementsByClassName("monthBoxBody");
+			
+			for(let i = 0; i < v.length; i++){
+				while(v[i].hasChildNodes()){
+					v[i].removeChild(v[i].firstChild);
+				}
+			}
 		}
 		
 		

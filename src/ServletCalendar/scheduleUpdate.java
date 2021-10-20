@@ -47,9 +47,21 @@ public class scheduleUpdate extends HttpServlet {
 		sDTO.setWriter(writer);
 		sDTO.setGroupnum(groupnum);
 		
+		if(groupnum.equals("")){
+			System.out.println("인설트");
+		}
+		else {
+			System.out.print("업뎃");
+		}
+		
 		ScheduleDAO sDAO = ScheduleDAO.getInstance();
 		
-		sDAO.scheduleUpdate(sDTO);	
+		if(groupnum.equals("")) {
+			sDAO.scheduleInsert(sDTO);	
+		}
+		else {
+			sDAO.scheduleUpdate(sDTO);
+		}
 	}
 	
 	protected String readJSON(HttpServletRequest request) { 

@@ -2,7 +2,7 @@ package DTO;
 
 public class ScheduleDTO {
 
-	private int num;
+	private String num;
 	private String title;
 	private String content;
 	private String start;
@@ -21,10 +21,10 @@ public class ScheduleDTO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getNum() {
+	public String getNum() {
 		return num;
 	}
-	public void setNum(int num) {
+	public void setNum(String num) {
 		this.num = num;
 	}
 	public String getTitle() {

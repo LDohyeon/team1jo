@@ -2,6 +2,8 @@
 
 #calendar{
     width: 100%;
+    position: relative; 
+	z-index: 1;
 }
 
 .calendarHeader{
@@ -297,6 +299,12 @@
 	width: 1vw;
 	
 }
+.sDetail{
+	position: relative; 
+	z-index: 20;
+}
+
+
 /*제민-일간 주간 작업중... 오늘까지 마무리*/
 
 .dayAreaBody{

@@ -107,7 +107,7 @@ public class ScheduleDAO {
 		{
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, sDTO.getNum());
+			pstmt.setString(1, sDTO.getNum());
 			pstmt.executeUpdate();
 			
 		}
@@ -120,7 +120,7 @@ public class ScheduleDAO {
 	}
 	
 	public void scheduleUpdate(ScheduleDTO sDTO){
-		String sql="update schedule set title=?, contents=?, start=?, end=?, color=? where num=?";
+		String sql="update schedule set title=?, content=?, start=?, end=?, color=? where num=?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -134,7 +134,7 @@ public class ScheduleDAO {
 			pstmt.setString(3, sDTO.getStart());
 			pstmt.setString(4, sDTO.getEnd());
 			pstmt.setString(5, sDTO.getColor());
-			pstmt.setLong(6, sDTO.getNum());
+			pstmt.setString(6, sDTO.getNum());
 			
 			pstmt.executeUpdate();
 		}
@@ -171,7 +171,7 @@ public class ScheduleDAO {
 			{
 				ScheduleDTO sDTO = new ScheduleDTO();
 				
-				sDTO.setNum(rs.getInt("num"));
+				sDTO.setNum(rs.getString("num"));
 				sDTO.setTitle(rs.getString("title"));
 				sDTO.setContent(rs.getString("content"));
 				sDTO.setStart(rs.getString("start"));
@@ -213,7 +213,7 @@ public class ScheduleDAO {
 			{
 				ScheduleDTO sDTO = new ScheduleDTO();
 				
-				sDTO.setNum(rs.getInt("num"));
+				sDTO.setNum(rs.getString("num"));
 				sDTO.setTitle(rs.getString("title"));
 				sDTO.setContent(rs.getString("content"));
 				sDTO.setStart(rs.getString("start"));

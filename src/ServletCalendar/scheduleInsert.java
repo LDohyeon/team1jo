@@ -29,7 +29,8 @@ public class scheduleInsert extends HttpServlet {
 		String json = readJSON(request);
 		System.out.println(json); 
 		JSONObject data = objJSON(json);
-
+		
+		String num=(String) data.get("num");
 		String title=(String) data.get("title");
 		String content=(String) data.get("content");
 		String start=(String) data.get("start");
@@ -39,6 +40,7 @@ public class scheduleInsert extends HttpServlet {
 		String groupnum=(String) data.get("groupnum");
 		
 		ScheduleDTO sDTO = new ScheduleDTO();
+		sDTO.setNum(num);
 		sDTO.setTitle(title);
 		sDTO.setContent(content);
 		sDTO.setStart(start);
@@ -47,9 +49,22 @@ public class scheduleInsert extends HttpServlet {
 		sDTO.setWriter(writer);
 		sDTO.setGroupnum(groupnum);
 		
+		if(num.equals("")){
+			System.out.println("인설트");
+		}
+		else {
+			System.out.print("업뎃");
+		}
+		
+		
 		ScheduleDAO sDAO = ScheduleDAO.getInstance();
 		
-		sDAO.scheduleInsert(sDTO);	
+		if(num.equals("")) {;
+			sDAO.scheduleInsert(sDTO);	
+		}
+		else {
+			sDAO.scheduleUpdate(sDTO);
+		}
 	}
 	
 	protected String readJSON(HttpServletRequest request) { 
