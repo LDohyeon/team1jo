@@ -2269,7 +2269,7 @@
 				cc.classList.add("weekDayBox");
 				for(let j=0; j<24; j++){
 					ccc=document.createElement("div");
-					ccc.classList.add("WeekDayTimeBox");
+					ccc.classList.add("weekDayTimeBox");
 					cc.appendChild(ccc);
 				}
 				c.appendChild(cc);
@@ -2282,6 +2282,7 @@
 			
 			let v;
             let c;
+            let cc;
             let yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
             
 			if((typeof(date)!='undefined'||date!=null)){
@@ -2290,16 +2291,28 @@
 		        v.classList.add("calendarArea");
 		        		         
 				c = document.createElement("div");
-	            c.classList.add("DayAreaHead");
+	            c.classList.add("dayAreaHead");
 	           	
 	            cc= document.createElement("div");
-	            cc.classList.add("DayAreaHeadTitle");
+	            cc.classList.add("dayAreaHeadTitle");
 	            cc.innerHTML= yoil+"";
 	            
 	            c.appendChild(cc);
 			}
 			v.appendChild(c); //일간 form head 생성
-         
+         	
+			c= document.createElement("div");
+			c.classList.add("dayAreaBody");
+			
+			for(let i=0; i<24; i++){
+				cc=document.createElement("div");
+				cc.classList.add("dayTimeBox");
+				c.appendChild(cc);
+			}
+			v.appendChild(c);//일간 form body생성
+			
 		}//일간 formElement
+		
+		
 	</script>
 </html>

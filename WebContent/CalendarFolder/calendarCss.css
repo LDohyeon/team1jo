@@ -286,6 +286,7 @@
 .smallColor{
 	width: 10px;
 }
+
 .lineThrough{
 	text-decoration-line: line-through;
 }
@@ -294,4 +295,18 @@
 }
 .scheduleGroupColor{
 	width: 1vw;
+	
+}
+/*제민-일간 주간 작업중... 오늘까지 마무리*/
+
+.dayAreaBody{
+	width: 100%;
+    min-width: 800px;
+    display:flex;
+    flex-flow: column wrap;
+}
+
+.dayTimeBox{
+	height: 48px;
+
 }
