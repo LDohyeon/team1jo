@@ -95,3 +95,7 @@ form div span input{
 	float: left;
 	padding-left: 10px;
 }
+
+.stopDay{
+	display: none;
+}

@@ -202,7 +202,6 @@ public class AuthorityUpdate extends HttpServlet {
 			String month_s=getFormMonth(month);
 			String day_s=getFormDay(susLastDay);
 			String date=thisYear+"-"+month_s+"-"+day_s;
-			System.out.println(date);
 			
 			//쿼리문으로 던지기
 			mDAO.updateSuspension(date, selAuIdValue);
