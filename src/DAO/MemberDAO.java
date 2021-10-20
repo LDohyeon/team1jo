@@ -24,8 +24,8 @@ public class MemberDAO {
 		Connection conn=null;
 		String url="jdbc:mysql://127.0.0.1:3306/status200";
 		String db_id="root";
-		//String db_pw="iotiot";
-		String db_pw="iotiot12*";
+		String db_pw="iotiot";
+		//String db_pw="iotiot12*";
 		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
 		
 		try {
@@ -84,7 +84,7 @@ public class MemberDAO {
 	public void MemberInsert(MemberDTO mDTO)//회원가입 시작
 	{
 		
-		String sql="insert into Member(id, pw, name, email, authority, createDate) values(?,?,?,?, 2, NOW())";
+		String sql="insert into Member(id, pw, name, email, authority, createDate) values(?,?,?,?, ?, NOW())";
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		try
@@ -95,6 +95,7 @@ public class MemberDAO {
 			pstmt.setString(2, mDTO.getPw());
 			pstmt.setString(3, mDTO.getName());
 			pstmt.setString(4, mDTO.getEmail());
+			 pstmt.setString(5, mDTO.getAuthority());
 
 			System.out.println(pstmt);
 			pstmt.executeUpdate();
