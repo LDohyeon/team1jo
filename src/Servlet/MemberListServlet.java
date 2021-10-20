@@ -65,7 +65,7 @@ public class MemberListServlet extends HttpServlet {
 		} else if(selSerch1.equals("id") && selSerch2.equals("1")) {
 			list1 = mDAO.memberIdSerachList(selValue, selSerch2, startPage, lastPage);
 			row = mDAO.memberListIdPageBtn(selValue, selSerch2);
-		} else if(selSerch1.equals("name") && selSerch2.equals("2")) {
+		} else if(selSerch1.equals("name") && selSerch2.equals("1")) {
 			list1 = mDAO.memberNameSerachList(selValue, selSerch2, startPage, lastPage );
 			row = mDAO.memberListNamePageBtn(selValue, selSerch2);	
 		

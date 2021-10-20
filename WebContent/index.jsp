@@ -17,7 +17,7 @@
 		<a href="changePw.do">비밀번호 수정</a>
 		<a href="userInfo.do">회원정보 수정</a>
 		<a href="leaveId.do">회원 탈퇴</a>
-		<a href="memberList.do?startPage=1&">회원 관리(관리자)</a>
+		<a href="memberList.do?startPage=1">회원 관리(관리자)</a>
 		<a href="paragraphEditorWrite.do">에디터 작성</a>
 		<a href="paragraphList.do?startPage=1">게시판 확인</a>
 		<a href="suspension.do?">회원정지 날짜 계산하기</a>
