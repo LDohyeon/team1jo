@@ -4,6 +4,7 @@ public class GroupDTO {
 
 	private int groupnum;
 	private String groupname;
+	private String groupcolor;
 	private String members;
 	private String modifier;
 	
@@ -31,6 +32,12 @@ public class GroupDTO {
 	}
 	public void setModifier(String modifier) {
 		this.modifier = modifier;
+	}
+	public String getGroupcolor() {
+		return groupcolor;
+	}
+	public void setGroupcolor(String groupcolor) {
+		this.groupcolor = groupcolor;
 	}
 	
 }

@@ -438,7 +438,8 @@
 				
 			}
         }
-
+		
+        // 캘린더 다음
         function goCalendarNext(){
 			select = document.getElementsByClassName("selectForm")[0].value;
         	
@@ -482,11 +483,13 @@
 				
 			}
         }
-
+		
+        // 캘린더 검색
         function visiableCalendarSearch(){
         	
         }
         
+        // 캘린더 현재 월이나 년수 표현
         function whatIsDateInfo(form, date){
         	let v = document.getElementsByClassName("calendarHeadDate")[0];
         	
@@ -1533,6 +1536,7 @@
 			return v;
 		}
 		
+		// 년도의 표시되지 않으나 영역을 차지하는 폼 
 		function yearDummyForm(){
 			let c;
 			let cc;
@@ -1581,6 +1585,7 @@
 			
 		}
 		
+		// 유저키와 데이터로 그룹 및 스케줄 데이터 가져옴 
 		function getGroupSchedule(userKey, date){
 			let xmlGroup;
 			let scheduleTitleInSpans = document.getElementsByClassName("scheduleTitleInSpan");
@@ -1602,7 +1607,7 @@
 		            	xmlGroup = xmlParser.parseFromString(XHRCalendar.responseText, "text/xml");
 		            	
 		            	groups = xmlGroup.getElementsByTagName("group");
-		            	
+		            	groupDivs = [];
 		            	for(let i = 0; i < groups.length; i++){
 		            		schedules = groups[i].getElementsByTagName("schedule");
 		            		
@@ -1610,6 +1615,7 @@
 		            			let temp = {
 		            				groupnum: groups[i].getElementsByTagName("groupnum")[0].innerHTML,
 		            				groupname: groups[i].getElementsByTagName("groupname")[0].innerHTML,
+		            				groupcolor: groups[i].getElementsByTagName("groupcolor")[0].innerHTML,
 		            				modifier: groups[i].getElementsByTagName("modifier")[0].innerHTML,
 		            				num: schedules[j].getElementsByTagName("num")[0].innerHTML,
 		            				title: schedules[j].getElementsByTagName("title")[0].innerHTML,
@@ -1618,13 +1624,21 @@
 		            				content: schedules[j].getElementsByTagName("content")[0].innerHTML,
 		            				writer: schedules[j].getElementsByTagName("writer")[0].innerHTML,
 		            				color: schedules[j].getElementsByTagName("color")[0].innerHTML
-		            			}  
+		            			} 
 		            			scheduleData.push(temp);
 		            		}
+		            		
+		            		let tempDiv = {
+		            			groupnum: groups[i].getElementsByTagName("groupnum")[0].innerHTML,
+			            		groupname: groups[i].getElementsByTagName("groupname")[0].innerHTML,
+		            		}
+		            		groupDivs.push(tempDiv);
 		            	}
 		            	createScheduleElement(scheduleData, date);
 		            	checkMonthScheduleFirst();
+		            	createGroupDivs(groupDivs);
 		            	scheduleData = []; // 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
+		            	viewScheduleElementFlag();
 		            }
 				}
 			};
@@ -1633,6 +1647,7 @@
 			XHRCalendar.send("userKey="+userKey);
 		}
 		
+		// 스케줄 요소를 제작
 		function createScheduleElement(scheduleData, date){
 			let nowYear = date.year;
 			let nowMonth = date.month;
@@ -1750,6 +1765,7 @@
 			}
 		}
 		
+		// 스케줄 박스 요소 제작
 		function createScheduleBox(scheduleData, dateTags){
 			console.log(scheduleData);
 			let p;
@@ -1780,6 +1796,14 @@
 			cc.classList.add("groupName"); 
 			cc.setAttribute("type", "text");
 			cc.setAttribute("value", scheduleData.groupname);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupColor"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.groupcolor);
 			
 			c.appendChild(cc);
 			
@@ -1849,6 +1873,7 @@
 			p.appendChild(v);
 		}
 		
+		// 스케줄의 첫 요소 확인,
 		function checkMonthScheduleFirst(){
 			let scheduleBoxs = document.getElementsByClassName("scheduleBox");
 			let scheduleNums = document.getElementsByClassName("scheduleNum");
@@ -1927,7 +1952,14 @@
 							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
 							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
 							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
-					
+							let temp3 = temp1.getElementsByClassName("groupColor")[0].value;
+							
+							c = document.createElement("span");
+							c.classList.add("scheduleGroupColor")
+							let thisColor = "background-color: "+temp3;
+							c.setAttribute("style", thisColor);
+							boxArray[l].appendChild(c);
+							
 							c = document.createElement("span");
 							c.classList.add("scheduleTitleInSpan")
 							c.innerHTML = temp2;
@@ -1938,12 +1970,19 @@
 							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
 							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
 							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
+							let temp3 = temp1.getElementsByClassName("groupColor")[0].value;
+							
+							c = document.createElement("span");
+							c.classList.add("scheduleGroupColor")
+							let thisColor = "background-color: "+temp3;
+							c.setAttribute("style", thisColor);
+							boxArray[l].appendChild(c);
 							
 							c = document.createElement("span");
 							c.classList.add("scheduleTitleInSpan")
 							c.innerHTML = temp2;
 							boxArray[l].appendChild(c);
-						}
+						}	
 					}
 					else{
 						boxArray[l].classList.add("cmpb0");
@@ -1953,7 +1992,7 @@
 			}
 		}
 		
-		
+		// 현재 스케줄의 Bar 길이를 확인
 		function checkMonthPlanBar(flagSize){
 			let name;
 			
@@ -1982,7 +2021,6 @@
 		}
 		
 		// 스케줄 추가
-		
 		function visibleSchedule(){
 			// 클릭했을때 현제 요소를 가져오고 안에 숨겨논 잇풋 감 가져옴
 			// 가져온 값을 기초로 현재 폼에 지정된 데이터를 변경할 수 있다.
@@ -2002,26 +2040,94 @@
 			formEnd.value = tempYear+"-"+tempMonth+"-"+tempDay;
 		}
 		
+		// 스케줄 데이터에 따른 Group 데이터 > div로 생성 
+		function createGroupDivs(groupDivs){
+			let v = document.getElementsByClassName("groupDiv")[0];
+			
+			while(v.hasChildNodes()){
+				return;
+			}
+			
+	        let c;
+	        let cc;
+	        let ccc;
+
+			for(let i = 0; i<groupDivs.length; i++){
+				c = document.createElement("div");
+				c.classList.add("groupEl");
+				c.innerHTML = groupDivs[i].groupname;
+				c.addEventListener("click", viewGroupForSchedule);
+				
+				cc = document.createElement("input");
+				cc.classList.add("groupDataNum");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", groupDivs[i].groupnum);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("groupDataName");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", groupDivs[i].groupname);
+				c.appendChild(cc);
+				
+				// 그룹 요소를 클릭할 경우, 해당 요소가 보일지 말지를 결정
+				cc = document.createElement("input");
+				cc.classList.add("groupDataFlag");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", "true");
+				c.appendChild(cc);
+				
+				v.appendChild(c);
+			}
+		}
+		// 그룹 클릭에 따라 스케줄 보이거나 감추기
+		function viewGroupForSchedule(){
+			let groupDiv = event.target;
+			let num = groupDiv.getElementsByClassName("groupDataNum")[0].value;
+			let flag = groupDiv.getElementsByClassName("groupDataFlag")[0];
+			
+			if(flag.value=="true"){
+				flag.setAttribute("value", "false"); // 안보이는 상태
+				groupDiv.classList.add("lineThrough");
+			}
+			else if(flag.value=="false"){
+				flag.setAttribute("value", "true"); // 보이는 상태 
+				groupDiv.classList.remove("lineThrough");
+				console.log("d");
+			}
+			
+			viewScheduleElementFlag();
+		}
+		
+		// 스케줄 보이거나 감추기 작동
+		function viewScheduleElementFlag(){
+			let groupDiv = document.getElementsByClassName("groupEl");
+			
+			let schedules = document.getElementsByClassName("scheduleBox");
+			
+			for(let i = 0; i < groupDiv.length; i++){
+				let flag = groupDiv[i].getElementsByClassName("groupDataFlag")[0].value+"";
+				let num = groupDiv[i].getElementsByClassName("groupDataNum")[0].value+"";
+				//console.log(groupDiv[i]);
+				//console.log(flag);
+				for(let j = 0; j <schedules.length; j++){
+					let scheduleNum = schedules[j].getElementsByClassName("groupNum")[0].value+"";
+					
+					if(num==scheduleNum){
+						if(flag=="true"){
+							schedules[j].classList.remove("hiddenElement");
+						}
+						else if(flag=="false"){
+							schedules[j].classList.add("hiddenElement");
+						}
+					}
+				}
+			}
+		}
 		
 		function scContentVisable(){
 			console.log("work")
 			
-		}
-		
-		// 스케줄 서버에 전송 및 저장, JSON 포맷 필요
-		function scheduleSubmit(){
-			createXHRCalendar();
-			
-			XHRCalendar.onreadystatechange=function(){
-				if(XHRCalendar.readyState==4){
-		            if(XHRCalendar.status==200){
-		            	
-		            }   
-				}
-			};
-			XHRCalendar.open("POST", "../scheduleInsert", true);
-			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRCalendar.send(datas);
 		}
 		
 		function toDoList(){
@@ -2066,8 +2172,6 @@
 				getGroupSchedule(userKey, date);
 			}
 		}
-		console.log("스케줄 서버 통해서 DB 넣어야함");
-		console.log("스케줄 서버 통해서 DB에서 가져와야함");
 		console.log("서치 기능");
 		
 		// 스케줄 추가 버튼
@@ -2126,6 +2230,8 @@
 			}
 			return json;
 		}
+		
+		
 		
 	</script>
 	

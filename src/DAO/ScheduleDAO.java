@@ -257,14 +257,15 @@ public class ScheduleDAO {
 				
 				gDTO.setGroupnum(rs.getInt("groupnum"));
 				gDTO.setGroupname(rs.getString("groupname"));
+				gDTO.setGroupcolor(rs.getString("groupcolor"));
 				gDTO.setMembers(rs.getString("members"));
 				gDTO.setModifier(rs.getString("modifier"));
 				
 				temp.add(gDTO);
 			}
 			
-			for(int i = 0; i<list.size(); i++) {
-				String member[] = list.get(i).getMembers().split("@");
+			for(int i = 0; i<temp.size(); i++) {
+				String member[] = temp.get(i).getMembers().split("@");
 				
 				for(int j = 0; j<member.length; j++) {
 					if(userKey.equals(member[j])) {
@@ -284,7 +285,7 @@ public class ScheduleDAO {
 }
 
 	
-/* create table groupData(groupnum int primary key auto_increment, groupname text, members text, modifier text);
+/* create table groupData(groupnum int primary key auto_increment, groupname text, groupcolor text, members text, modifier text);
  * create table schedule(num int primary key auto_increment, title text, content text, start text, end text, color text, writer text, groupnum text);
  * 
  * */

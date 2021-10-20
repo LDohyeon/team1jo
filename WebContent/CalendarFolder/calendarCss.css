@@ -286,3 +286,12 @@
 .smallColor{
 	width: 10px;
 }
+.lineThrough{
+	text-decoration-line: line-through;
+}
+.hiddenElement{
+	display: none;
+}
+.scheduleGroupColor{
+	width: 1vw;
+}
