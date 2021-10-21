@@ -24,8 +24,8 @@ public class MemberDAO {
 		Connection conn=null;
 		String url="jdbc:mysql://127.0.0.1:3306/status200";
 		String db_id="root";
-		String db_pw="iotiot";
-		//String db_pw="iotiot12*";
+		//String db_pw="iotiot";
+		String db_pw="iotiot12*";
 		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
 		
 		try {
@@ -855,7 +855,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("회원 정지 날짜 세팅 실패"+e);
+			System.out.println("MemberDAO의 updateSuspension에서 문제 발생"+e);
 		}
 		finally
 		{
@@ -863,6 +863,41 @@ public class MemberDAO {
 		}
 	}
 	//정지 기간 설정
+	
+	//정지 기간 가져오기
+	public String getSusLastDay(String id)
+	{
+		String susLastDay="";
+		String sql="select stopdate from member where id = ?";
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+		
+			rs.next();
+			susLastDay = rs.getString("stopdate");
+										
+		}
+		catch(Exception e)
+		{
+			System.out.println("MemberDAO의 getSusLastDay에서 문제 발생"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		return susLastDay;
+	}
+	//정지 기간 가져오기
 }
 
 

@@ -26,7 +26,7 @@
 				</select>
 			<br>
 			정지 기간 :
-				<input type="number" name="selAuDay" min="1">일
+			<input type="number" name="selAuDay" min="1">일
 			<br>
 			<br>
 			<input type="submit" value="수정">

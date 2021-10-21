@@ -1,16 +1,16 @@
 package Servlet;
 
 import java.io.*;
-import java.util.*;
+//import java.util.*;
 import java.util.Calendar;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
 import DAO.MemberDAO;
-import DTO.MemberDTO;
+//import DTO.MemberDTO;
 
 @WebServlet("/AuthorityUpdate.do")
 public class AuthorityUpdate extends HttpServlet {
