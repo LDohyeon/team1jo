@@ -4,20 +4,22 @@
 <!-- LoginUserKey: loginUserId -->
 <% 
 	String userKey = null;
+
 	try{
-		userKey = session.getAttribute("LoginUserKey").toString(); 
+		userKey = "'"+session.getAttribute("loginUserId").toString()+"'"; 
 	}
 	catch(Exception e){
 		System.out.println("Session get Error: calendarMain.jsp: line 10: >>" +e);
 	}
 	
 	if(userKey==null){
-		userKey="DEMOUSER";
+		userKey="'DEMOUSER'";
 	}
 %>
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>calendar</title>
         <link href="calendarCss.css" rel="stylesheet">
 	</head>
@@ -27,6 +29,7 @@
 		</div>
 	</body>
 	<script>
+		let userKey = <%=userKey%>;
 		let calendar = document.getElementById("calendar");
    		
         let thisGroup = ["1", "A", "B", "C"]; // 견본
@@ -50,6 +53,23 @@
         
         let tempData; 
         
+        function getTodayDateString(){
+        	let date = new Date();
+        	let year = date.getFullYear();
+        	let month = (1 + date.getMonth());
+        	let day = date.getDate();
+        
+			let str = year+"-"+month+"-"+day;
+			return str;
+        }
+        function getTodayTimeString(){
+        	let date = new Date();
+        	let hour = ("0" + date.getHours()).slice(-2);
+			let minute = ("0" + date.getMinutes()).slice(-2);
+			
+			let str = hour+":"+minute;
+			return str;
+        }
         // 오늘 날짜 
         function getToday(){
         	let date = new Date();
@@ -63,7 +83,7 @@
             	year: year, 
             	month: month, 
             	day: day,
-            	hour: hour, 
+              	hour: hour, 
             	minute: minute	
             }
         	return today;
@@ -179,7 +199,7 @@
         
         // 윤년 여부 보기
         function getYunNyen(y){
-        	let yunNyen; 
+			let yunNyen; 
         	
       		if(typeof(y)!='undefined'||y!=null){
     			
@@ -201,7 +221,7 @@
             		yunNyen=false;
             	}
       		}	
-      		else{
+    		else{
       			let date = getToday();
             	let year = date.year;
     			
@@ -273,7 +293,10 @@
             cc = child
             v = 기준 요소
         */
+        
+        // 달력 만들기 실행
         createToCalendar();
+        
         
         // 달력 모양 만들기
         function createToCalendar(){
@@ -281,6 +304,7 @@
             calendar.appendChild(createToHeaderLayout());
             calendar.appendChild(createToBodyLayout()); 
             changeForm("M");
+            createToDoListBasic();
         }
         
         // 달력 조작 헤더 요소 만들기
@@ -403,7 +427,7 @@
         	if(select=="Y"){
         		let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
         		let inputYear = parseInt(input.value.substring(0,4));
-				let inputMonth = parseInt(input.value.substring(4,6));
+        		let inputMonth = parseInt(input.value.substring(4,6));
 				let inputDay = parseInt(input.value.substring(6,8));
 				
 				let changeYear = inputYear-1;
@@ -422,7 +446,7 @@
 				
 				let changeYear = inputYear;
 				let changeMonth = inputMonth-1;
-				let changeDay = inputDay;
+				let changeDay = 10;
 				
 				if(changeMonth<1){
 					changeMonth=12;
@@ -453,7 +477,7 @@
 				
 				let changeYear = inputYear+1;
 				let changeMonth = inputMonth;
-				let changeDay = "10";
+				let changeDay = 10;
 				
 				let date = getThisDay(changeYear, changeMonth, changeDay, 0, 0);
 				
@@ -467,7 +491,7 @@
 				
 				let changeYear = inputYear;
 				let changeMonth = inputMonth+1;
-				let changeDay = "10";
+				let changeDay = 10;
 				
 				if(changeMonth>12){
 					changeMonth=1;
@@ -706,6 +730,20 @@
             
             v = document.createElement("div");
             v.classList.add("groupDiv");
+            
+            c = document.createElement("div");
+            c.classList.add("groupMenu");
+            
+            cc = document.createElement("div");
+            cc.classList.add("groupName");
+            c.appendChild(cc);
+            
+            cc = document.createElement("div");
+            cc.classList.add("groupAdd");
+            cc.innerHTML = "추가";
+            c.appendChild(cc);
+            
+            v.appendChild(c);
             
             return v;
         }
@@ -1337,7 +1375,7 @@
 	            
 	            let thisTimeDate = "";
 	            
-	            if(date.month<10){
+	            if(date.month<=10){
 					if(i>10){
 						thisTimeDate = date.year+"0"+(date.month-1)+"0"+(NowMonth-i);
 					}
@@ -1347,10 +1385,10 @@
 				}
 				else{
 					if(i>10){
-						thisTimeDate = date.year+"0"+(date.month-1)+"0"+(NowMonth-i);
+						thisTimeDate = date.year+""+(date.month-1)+"0"+(NowMonth-i);
 					}
 					else{
-						thisTimeDate = date.year+"0"+(date.month-1)+""+(NowMonth-i);
+						thisTimeDate = date.year+""+(date.month-1)+""+(NowMonth-i);
 					}
 				}
 	            
@@ -1592,6 +1630,17 @@
 			}
 			else if(window.XMLHttpRequest){
 				XHRCalendar=new XMLHttpRequest();
+			}
+		}
+		
+		// TodoList용 AJAX
+		var XHRTodolist;
+		function createXHRTodolist(){
+			if(window.ActiveXObject){ 
+				XHRTodolist=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			else if(window.XMLHttpRequest){
+				XHRTodolist=new XMLHttpRequest();
 			}
 		}
 		
@@ -1914,22 +1963,343 @@
 			console.log("work")
 		}
 		
+		//TO DO LIST
 		function toDoList(){
+			createXHRTodolist();
+			console.log(XHRTodolist);
 			
+			XHRTodolist.onreadystatechange=function(){
+				if(XHRTodolist.readyState==4){
+		            if(XHRTodolist.status==200){
+		            	let jsons = JSON.parse(XHRTodolist.responseText, "text/json");
+		            	createToDoList(jsons);
+		            }
+				}
+			}
+			XHRTodolist.open("POST", "../todolistSelect", true);
+			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRTodolist.send("userKey="+userKey);
 		}
 		
-		function toDoListComplete(){
+		function createToDoListBasic(){
+			let toDoListDiv = document.getElementsByClassName("toDoListDiv")[0];
 			
+			v = document.createElement("div");
+			v.classList.add("toDoListElements");
+			
+			c = document.createElement("div");
+			c.classList.add("toDoListMenu");
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListTitle");
+			cc.innerHTML = "오늘 할 일";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListAdd");
+			cc.addEventListener("click", todolistAdd);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "추가";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListDel");
+			cc.addEventListener("click", todolistDel);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "삭제";
+			
+			ccc = document.createElement("input");
+			ccc.classList.add("toDoListDelFlag");
+			ccc.setAttribute("type", "hidden");
+			ccc.setAttribute("value", "false");
+			cc.appendChild(ccc);
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListCom");
+			cc.addEventListener("click", todolistCom);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "완료된 것 삭제";
+			c.appendChild(cc);
+			v.appendChild(c);
+			
+			c = document.createElement("div");
+			c.classList.add("toDoListMain");
+			v.appendChild(c);
+			
+			toDoListDiv.appendChild(v);
 		}
 		
-		function toDoLostDelete(){
+		function createToDoList(jsons){
+	
+			let v;
+			let c;
+			let cc;
+			let ccc;
+			let cccc;
 			
+			v = document.getElementsByClassName("toDoListMain")[0];
+			
+			// 매개변수 객체 가져와서 데이터 정제 > 정제한 데이터로 폼 모양 그림
+			// 정제는 DB에서 값 던질때 함 
+			for(let i = 0; i<jsons.length; i++){
+				cc = document.createElement("div");
+				cc.classList.add("toDoLists");
+				
+				ccc = document.createElement("span");
+				ccc.classList.add("toDoListCheckBox");
+				ccc.innerHTML = "완료하기";
+				ccc.addEventListener("click", todolistChecked);
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.setAttribute("type", "text");
+				ccc.setAttribute("value", jsons[i].title);
+				ccc.classList.add("toDoListTitle");
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.setAttribute("type", "text");
+				ccc.setAttribute("value", jsons[i].content);
+				ccc.classList.add("toDoListContent");
+				ccc.classList.add("toDoListView");
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.setAttribute("type", "text");
+				ccc.setAttribute("value", jsons[i].date);
+				ccc.classList.add("toDoListDate");
+				ccc.classList.add("toDoListView");
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.setAttribute("type", "text");
+				ccc.setAttribute("value", jsons[i].time);
+				ccc.classList.add("toDoListTime");
+				ccc.classList.add("toDoListView");
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("select");
+				ccc.classList.add("toDoListImportance");
+				ccc.classList.add("toDoListView");
+				
+				for(let j = 1; j < 5; j++){
+					cccc = document.createElement("option");
+					cccc.classList.add("toDoListImportanceOption");
+					cccc.setAttribute("value", j);
+					cccc.innerHTML = j;
+					ccc.appendChild(cccc);
+					
+					if(cccc.value==json[i].importance){
+						cccc.setAttribute("selected", "true");
+					}
+				}
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.setAttribute("type", "hidden");
+				ccc.setAttribute("value", jsons[i].num);
+				ccc.classList.add("toDoListNum");
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.setAttribute("type", "hidden");
+				ccc.setAttribute("value", jsons[i].id);
+				ccc.classList.add("toDoListId");
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.setAttribute("type", "hidden");
+				ccc.setAttribute("value", jsons[i].checked);
+				ccc.classList.add("toDoListChecked");
+				cc.appendChild(ccc);
+				
+				c.appendChild(cc);
+				v.appendChild(c)
+			}
 		}
 		
-		function toDoListChange(){
+		function toDoListUpdate(data){
 			
+			createXHRTodolist();
+			
+			XHRTodolist.onreadystatechange=function(){
+				if(XHRTodolist.readyState==4){
+		            if(XHRTodolist.status==200){
+
+		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
+		            	toDoList();
+		            }
+				}
+			}
+			XHRTodolist.open("POST", "../todolistUpdate", true);
+			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRTodolist.send(data);
+		}
+
+		function toDoLostDelete(data){
+			
+			if(data.length==null){
+				return;
+			}
+			
+			createXHRTodolist();
+			
+			XHRTodolist.onreadystatechange=function(){
+				if(XHRTodolist.readyState==4){
+		            if(XHRTodolist.status==200){
+
+		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
+		            	toDoList();
+		            }
+				}
+			}
+			XHRTodolist.open("POST", "../todolistDelete", true);
+			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRTodolist.send(data);
 		}
 		
+		function toDoListInsert(data){
+			createJsonTodolist();
+			XHRTodolist.onreadystatechange=function(){
+				if(XHRTodolist.readyState==4){
+		            if(XHRTodolist.status==200){
+		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
+		            	
+		            	toDoList();
+		            }
+				}
+			}
+			XHRTodolist.open("POST", "../todolistInsert", true);
+			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRTodolist.send(data);
+		}
+		
+		function todolistAdd (){
+			let v;
+			let c;
+			let cc;
+			let ccc;
+			
+			v = document.getElementsByClassName("toDoListMain")[0];
+			
+			c = document.createElement("div");
+			c.classList.add("toDoLists");
+			
+			cc = document.createElement("span");
+			cc.classList.add("toDoListCheckBox");
+			cc.innerHTML = "완료하기";
+			cc.addEventListener("click", todolistChecked);
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			let temp = cc;
+			cc.setAttribute("type", "text");
+			cc.classList.add("toDoListTitle");
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "text");
+			cc.classList.add("toDoListContent");
+			cc.classList.add("toDoListView");
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "date");
+			cc.setAttribute("value", getTodayDateString());
+			cc.innerHTML = getTodayDateString();
+			cc.classList.add("toDoListDate");
+			cc.classList.add("toDoListView");
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", getTodayTimeString());
+			cc.classList.add("toDoListTime");
+			cc.classList.add("toDoListView");
+			c.appendChild(cc);
+			
+			cc = document.createElement("select");
+			cc.classList.add("toDoListImportance");
+			cc.classList.add("toDoListView");
+			
+			for(let j = 1; j < 5; j++){
+				ccc = document.createElement("option");
+				ccc.classList.add("toDoListImportanceOption");
+				ccc.setAttribute("value", j);
+				ccc.innerHTML = j;
+				cc.appendChild(ccc);
+			}
+			c.appendChild(cc);
+			
+			ccc = document.createElement("input");
+			ccc.setAttribute("type", "hidden");
+			ccc.classList.add("toDoListNum");
+			cc.appendChild(ccc);
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", userKey);
+			cc.classList.add("toDoListId");
+			c.appendChild(cc);
+
+			cc = document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", "false");
+			cc.classList.add("toDoListChecked");
+			c.appendChild(cc);
+			
+			c.appendChild(cc);
+			
+			v.appendChild(c);
+			
+			temp.focus();
+		}
+		
+		function todolistDel(){
+			let flag = document.getElementsByClassName("toDoListDelFlag")[0];
+			let tdl = document.getElementsByClassName("toDoLists");
+			
+			if(flag.value=="false"){
+				flag.setAttribute("value", "true");
+				
+				for(let i = 0; i < tdl.length; i++){
+					tdl[i].classList.add("deleteable");
+					tdl[i].addEventListener("click", todolistdelBtn);
+				}
+			}
+			else if(flag.value=="true"){
+				flag.setAttribute("value", "false");
+				
+				for(let i = 0; i < tdl.length; i++){
+					tdl[i].classList.remove("deleteable");
+					tdl[i].removeEventListener("click", todolistdelBtn);
+				}
+			}
+		}
+		
+		function todolistdelBtn(){
+			let el = event.taget;
+			
+		}
+		function todolistChecked(){
+			let el = event.taget;
+		}
+		
+		function todolistCom(){
+			let tdl = document.getElementsByClassName("toDoLists");
+			let data={};
+			for(let i = 0; i < tdl.length; i++){
+				let checked = tdl[i].getElementsByClassName("toDoListChecked")[0].value;
+				
+				// 체크된 상태
+				if(checked=="true"){
+					let num = tdl[i].getElementsByClassName("toDoListNum")[0].value;
+					data.i = num;
+				}
+			}
+			toDoLostDelete(data);
+		};
 		
 		// 년 형식 스케줄
 		function scheduleCheckYear (date, userKey, group){
@@ -1943,11 +2313,10 @@
 		
 		// 월 형식 스케줄
 		function scheduleCheckMonth (date){
-
+			console.log(date);
 			if(typeof(userKey)=='undefined'||userKey==null){
 				userKey = "DEMOUSER"
 			}
-			
 			if(typeof(date)!='undefined'){
 				getGroupSchedule(userKey, date);
 			}
@@ -1955,6 +2324,8 @@
 				date = getToday();
 				getGroupSchedule(userKey, date);
 			}
+			
+			
 		}
 		
 		// 유저키와 데이터로 그룹 및 스케줄 데이터 가져옴 
@@ -1971,11 +2342,14 @@
 				}
 			}
 			*/
-			
 			createXHRCalendar();
 			
 			XHRCalendar.onreadystatechange=function(){
+				if(XHRCalendar.readyState==3){
+					toDoList();
+				}
 				if(XHRCalendar.readyState==4){
+					
 		            if(XHRCalendar.status==200){
 		            	clearMonthBoxBody();
 		            	xmlParser = new DOMParser();
@@ -1983,6 +2357,7 @@
 		            	
 		            	groups = xmlGroup.getElementsByTagName("group");
 		            	groupDivs = [];
+		            	console.log(XHRCalendar);
 		            	
 		            	for(let i = 0; i < groups.length; i++){
 		            		schedules = groups[i].getElementsByTagName("schedule");
@@ -2002,6 +2377,7 @@
 		            				color: schedules[j].getElementsByTagName("color")[0].innerHTML
 		            			} 
 		            			scheduleData.push(temp);
+		            			console.log(temp);
 		            		}
 		            		
 		            		let tempDiv = {
@@ -2010,10 +2386,10 @@
 		            		}
 		            		groupDivs.push(tempDiv);
 		            	}
-		            	createScheduleElement(scheduleData, date);
+		            	createScheduleElement(scheduleData);
 		            	checkMonthScheduleFirst();
-		            	createGroupDivs(groupDivs);
 		            	scheduleData = []; // 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
+		            	createGroupDivs(groupDivs);
 		            	viewScheduleElementFlag();
 		            }
 				}
@@ -2024,14 +2400,12 @@
 		}
 		
 		// 스케줄 요소를 제작
-		function createScheduleElement(scheduleData, date){
-			let nowYear = date.year;
-			let nowMonth = date.month;
-			let nowDay = date.day;
+		function createScheduleElement(scheduleData){
 			let dateTags = document.getElementsByClassName("dateTag");
 			
+			
 			for(let i = 0; i < scheduleData.length; i++){
-		
+				
 				let startYear = parseInt(scheduleData[i].start.substring(0,4));
 				let startMonth = parseInt(scheduleData[i].start.substring(5,7));
 				let startDay = parseInt(scheduleData[i].start.substring(8,10));
@@ -2043,26 +2417,9 @@
 				// 추후 팀원 중 주 및 일 일정은 day 변수까지 사용
 				
 				// 이어와 몬스에 따라 리턴해서 불필요한 경우 포문이 계속 돌게함 
-				
-				if(endYear<nowYear){
-					continue;
-				}
-				else if(endYear==nowYear){
-					if(endMonth<nowMonth){
-						continue;
-					}
-				}
-				
-				if(startYear>nowYear){
-					continue;
-				}
-				else if(startYear==nowYear){
-					if(startMonth>nowMonth){
-						continue;
-					}
-				}
-				
+
 				for(let j = 0; j < dateTags.length; j++){
+					
 					let dateTagYear = parseInt(dateTags[j].value.substring(0,4));
 					let dateTagMonth = parseInt(dateTags[j].value.substring(4,6));
 					let dateTagDay = parseInt(dateTags[j].value.substring(6,8));
@@ -2073,69 +2430,101 @@
 							createScheduleBox(scheduleData[i], dateTags[j]);
 						}
 						else if(dateTagYear==endYear){
-							// 몬스 값을 비교해야함
-							if(dateTagMonth<endMonth){
-								// 가운데 끼는 상활, 전체 월에 표시
+							if(dateTagMonth>endMonth){
+								// 일정 끝남 
+							}
+							else if(dateTagMonth<endMonth){
 								createScheduleBox(scheduleData[i], dateTags[j]);
 							}
 							else if(dateTagMonth==endMonth){
-								// 일 비교
-								if(dateTagDay<=endDay){
+								if(dateTagDay>endDay){
+									
+								}
+								else if(dateTagDay<=endDay){
 									createScheduleBox(scheduleData[i], dateTags[j]);
-									// 해당 요소에서 가장 처음에 모양 넣어주는 메서드를 따로 만들어서 한번 돌리는 식으로 해야함
 								}
-								else{
-									continue;
-								}
-							}
-							else{
-								// 몬스 비교했는데 끝나는 달이 지금 달보다 전이면 넘김
-								continue;
 							}
 						}
-						else{
-							//시작하는 년보다 현재 년이 높기는 한데, 끝나는 년이 현재 년보다 전이면 넘김
-							// 이미 위에 해당 알고리즘을 넣었으나 같이 협업하는 팀원의 이해를 돕기 위해 넣음.
-							continue;
+						else if(dateTagYear>endYear){
+							// 끝난 일정
 						}
 					}
 					else if(dateTagYear==startYear){
-						
-						if(dateTagMonth>startMonth){
-							// 일정이 시작 안한 상태랑 같음 >
-							continue;
+						if(dateTagYear<endYear){
+							// 가운데 끼는 상황, 전체 반복해서 월에 다 표시
+							if(dateTagMonth<startMonth){
+							
+							}
+							else if(dateTagMonth>startMonth){
+								createScheduleBox(scheduleData[i], dateTags[j]);
+							}
+							else if(dateTagMonth==startMonth){
+								if(dateTagDay<startDay){
+									
+								}
+								else if(dateTagDay=>startDay){
+									createScheduleBox(scheduleData[i], dateTags[j]);
+								}
+							}
 						}
-						else if(dateTagMonth==startMonth){
-							// 일정 달이 겹치므로 일 비교해야함 
-							// 해당 일정이 해당 달에 시작하기 때문에 값이 일치하는 부분에서 포문으로 한번 그려주면 끝
-							if(dateTagDay==startDay){
-								
-								if(dateTagMonth==endMonth){
-									// 현재 월수가 끝나는 월가 같으면 일을 비교
-									if(dateTagDay==endDay){
-										// 현재 일수랑 끝나는 일수 같으면 1줄짜리로 그리면 됨 
+						else if(dateTagYear==endYear){
+							if(dateTagMonth<startMonth){
+								// 일정이 시작 안한 상태랑 같음 >
+							}
+							else if(dateTagMonth>startMonth){
+								if(dateTagMonth>endMonth){
+									// 일정 끝남 
+								}
+								else if(dateTagMonth==endMonth){
+									// 날짜를 비교함
+									if(dateTagDay>endDay){
+										// 끝 날짜보다 크면 그리지 말아야함
+									}
+									else if(dateTagDay<=endDay){
+										// 같거나 끝나짜가 크면 그려야함
 										createScheduleBox(scheduleData[i], dateTags[j]);
 									}
-									else if(dateTagDay<endDay){
-										// 끝나는 일수가 더 크면, 요일에 따라 해당 숫자의 차이만큼 7로 나누고 나머지로 모양 그려줘야함
-										let calcDay = endDay-startDay;
-										
-										for(let l = j; l <=j+calcDay; l++){
-											createScheduleBox(scheduleData[i], dateTags[l]);
+								}
+								else if(dateTagMonth<endMonth){
+									// 현재 달이 끝나는 달보다 크므로 모두 그려줌
+									createScheduleBox(scheduleData[i], dateTags[j]);
+								}
+							}
+							else if(dateTagMonth==startMonth){
+								// 일정 달이 겹치므로 일 비교해야함 
+								// 해당 일정이 해당 달에 시작하기 때문에 값이 일치하는 부분에서 포문으로 한번 그려주면 끝
+								if(dateTagMonth==endMonth){
+									if(dateTagDay<startDay){
+										// 일정 시작 안함 
+									}
+									else if(dateTagDay=>startDay){
+										// 일정은 시작됨, 마지막 날 비교
+										if(dateTagDay>endDay){
+											
+										}
+										else if(dateTagDay<=endDay){
+											createScheduleBox(scheduleData[i], dateTags[j]);
 										}
 									}
 								}
 								else if(dateTagMonth<endMonth){
-									// 현재 월보다 끝나는 월이 크면 마지막 일수까지 그리면 됨
-									for(let l = j; l < dateTags.length; l++){
-										createScheduleBox(scheduleData[i], dateTags[l]);
+									// 시작 날짜 비교
+									if(dateTagDay<startDay){
+										// 일정 시작 안함 
+									}
+									else if(dateTagDay=>startDay){
+										// 일정은 시작됨, 마지막 날 비교
+										createScheduleBox(scheduleData[i], dateTags[j]);
 									}
 								}
-							}
-							else{
-								continue;
-							}
+							}	
+						}
+						else if(dateTagYear>endYeat){
+							// 존재할 수 없는 경우
 						}	
+					}
+					else if(dateTagYear<startYear){
+						// 일정 시작 안함
 					}
 				}
 			}
@@ -2143,7 +2532,7 @@
 		
 		// 스케줄 박스 요소 제작
 		function createScheduleBox(scheduleData, dateTags){
-			
+			console.log(scheduleData);
 			let p;
 			let v;
 			let c;
@@ -2477,6 +2866,20 @@
 				color: color,
 				writer: writer,
 				groupnum: groupnum
+			}
+			return json;
+		}
+		
+		// JSON To Do List객체 데이터 생성 
+		function createJsonTodolist(num, title, content, id, date, importance, checked){
+			let json = {
+				num: num,
+				title: title,
+				content: content,
+				id: id,
+				date: date,
+				impotance: importance,
+				checked: checked
 			}
 			return json;
 		}

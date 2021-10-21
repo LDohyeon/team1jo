@@ -4,8 +4,12 @@ public class TodoDTO {
 
 	private int num;
 	private String id;
+	private String title;
 	private String content;
+	private int importance;
 	private String checked;
+	private String date;
+	private String time;
 	
 	
 	public int getNum() {
@@ -31,6 +35,30 @@ public class TodoDTO {
 	}
 	public void setChecked(String checked) {
 		this.checked = checked;
+	}
+	public int getImportance() {
+		return importance;
+	}
+	public void setImportance(int importance) {
+		this.importance = importance;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
 	}
 	
 	

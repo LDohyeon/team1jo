@@ -251,14 +251,12 @@
 	width: 200%;
 	height: 30px;
 	overflow: hidden;
-	z-index: 40;
 }
 .cmpb3{
 	width: 300%;
 	margin-bottom: 2vw;
 	height: 30px;
 	overflow: hidden;
-	z-index: 40;
 }
 .cmpb4{
 	width: 400%;
@@ -269,7 +267,6 @@
 	width: 500%;
 	height: 30px;
 	overflow: hidden;
-	z-index: 40;
 }
 .cmpb6{
 	width: 600%;
@@ -301,7 +298,6 @@
 }
 .sDetail{
 	position: relative; 
-	z-index: 20;
 }
 
 

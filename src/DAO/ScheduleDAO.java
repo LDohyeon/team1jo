@@ -218,6 +218,7 @@ public class ScheduleDAO {
 				sDTO.setContent(rs.getString("content"));
 				sDTO.setStart(rs.getString("start"));
 				sDTO.setEnd(rs.getString("end"));
+				sDTO.setColor(rs.getString("color"));
 				sDTO.setWriter(rs.getString("writer"));
 				sDTO.setGroupnum(rs.getString("groupnum"));
 				
@@ -250,26 +251,36 @@ public class ScheduleDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, searchWord);
 			
+			System.out.println(pstmt);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()){
 				GroupDTO gDTO = new GroupDTO();
-				
 				gDTO.setGroupnum(rs.getInt("groupnum"));
 				gDTO.setGroupname(rs.getString("groupname"));
 				gDTO.setGroupcolor(rs.getString("groupcolor"));
 				gDTO.setMembers(rs.getString("members"));
 				gDTO.setModifier(rs.getString("modifier"));
-				
+
 				temp.add(gDTO);
 			}
-			
+
 			for(int i = 0; i<temp.size(); i++) {
 				String member[] = temp.get(i).getMembers().split("@");
 				
 				for(int j = 0; j<member.length; j++) {
 					if(userKey.equals(member[j])) {
 						list.add(temp.get(i));
+					}
+				}
+			}
+			
+			for(int i = 0; i<list.size(); i++) {
+				String member[] = list.get(i).getModifier().split("@");
+				
+				for(int j = 0; j<member.length; j++) {
+					if(userKey.equals(member[j])) {
+						list.get(i).setModifier(userKey);
 					}
 				}
 			}
