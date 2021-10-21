@@ -2947,6 +2947,7 @@
 			let v;
             let c;
             let cc;
+            let ccc;
             let yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
             
 			if((typeof(date)!='undefined'||date!=null)){
@@ -2958,21 +2959,50 @@
 	            c.classList.add("dayAreaHead");
 	           	
 	            cc= document.createElement("div");
-	            cc.classList.add("dayAreaHeadTitle");
+	            cc.classList.add("dayAreaHeadYoil");
 	            cc.innerHTML= yoil+"";
 	            
 	            c.appendChild(cc);
+	            
+	            cc = document.createElement("div");
+	            cc.classList.add("dayAreaHeadDate");
+	            cc.innerHTML= getToday().day+"";
 			}
 			v.appendChild(c); //일간 form head 생성
          	
 			c= document.createElement("div");
 			c.classList.add("dayAreaBody");
-			
+			cc=document.createElement("div");
+			cc.classList.add("dayTimeWrap");
 			for(let i=0; i<24; i++){
-				cc=document.createElement("div");
-				cc.classList.add("dayTimeBox");
-				c.appendChild(cc);
+				ccc=document.createElement("div");
+				ccc.classList.add("dayTimeBox");
+				cccc=document.createElement("span");
+				cccc.classList.add("dayTime");
+				if(i==0){
+					cccc.innerHTML="오전"+12+"시";
+				}
+				else if(i<12){
+					cccc.innerHTML="오전"+i+"시";
+				}
+				else if(i==12){
+					cccc.innerHTML="오후"+i+"시";
+				}
+				else{
+					cccc.innerHTML="오후"+(i+12)+"시";
+				}
+				ccc.appendChild(cccc);
+				cc.appendChild(ccc);
 			}
+			c.appendChild(cc);//일간form 좌측 시간표시
+			
+			cc=document.createElement("div");
+			cc.classList.add("dayBoxWrap");
+			for(let i=0; i<24; i++){
+				ccc=document.createElement("div");
+				ccc.classList.add("dayBox");
+				cc.appendChild(ccc);
+			}		
 			v.appendChild(c);//일간 form body생성
 			
 		}//일간 formElement
