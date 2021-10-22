@@ -34,6 +34,7 @@
 					</select>
 					<select name="selSerch2" >
 						<option value="0">전체 보기</option>
+						<option value="1">관리자(1)</option>
 						<option value="2">일반 회원(2)</option>
 						<option value="3">신고 당한 사람(3)</option>
 						<option value="4">정지 권한(4)</option>
@@ -73,6 +74,9 @@
 							} 
 						%>					
 					</table>
+					<div>
+						<input type="button" value="회원추가!" onclick="register_add()">
+					</div>
 			</div>
 			<ul class="mListPage">
 				<c:if test="${startPage != 1}">
@@ -110,6 +114,10 @@
 			
 			function authorityPopUp(selAuIdValue,selAuValue){
 				window.open("auUpdatePopUp.jsp?selAuIdValue="+selAuIdValue+"&selAuValue="+selAuValue,"update","width=500,height=250,left=650,top=240");
+			}
+			
+			function register_add(){
+				location.href="register.do";
 			}
 		</script>
 	</body>

@@ -1,16 +1,16 @@
 package Servlet;
 
 import java.io.*;
-import java.util.*;
+//import java.util.*;
 import java.util.Calendar;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
 import DAO.MemberDAO;
-import DTO.MemberDTO;
+//import DTO.MemberDTO;
 
 @WebServlet("/AuthorityUpdate.do")
 public class AuthorityUpdate extends HttpServlet {
@@ -44,9 +44,7 @@ public class AuthorityUpdate extends HttpServlet {
 				if(susLastDay>366)
 				{
 					susLastDay=susLastDay-366;
-					System.out.println("getYear에서 366일 빼줌 "+susLastDay);
 					thisYear++;
-					System.out.println("getYear에서 연도를 ++ 해줌 "+thisYear);
 				}
 				else
 				{
@@ -58,9 +56,7 @@ public class AuthorityUpdate extends HttpServlet {
 				if(susLastDay>365)
 				{
 					susLastDay=susLastDay-365;
-					System.out.println("getYear에서 365일 빼줌 "+susLastDay);
 					thisYear++;
-					System.out.println("getYear에서 연도를 ++ 해줌 "+thisYear);
 				}
 				else
 				{
@@ -149,93 +145,73 @@ public class AuthorityUpdate extends HttpServlet {
 	int month=0;
 	int susLastDay=0;
 	int thisYear=0;
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		
-		//권한
-		String selAuValue = request.getParameter("selAuValue");
-		//아이디
-		String selAuIdValue = request.getParameter("selAuIdValue");	
-		//일수
-		int selAuDay = Integer.parseInt(request.getParameter("selAuDay"));
-		
+		//기본 세팅
 		MemberDAO mDAO= MemberDAO.getInstance();
-		//권한 바꿔주는 함수
+		String selAuValue = request.getParameter("selAuValue");//권한
+		String selAuIdValue = request.getParameter("selAuIdValue");//아이디
+		int selAuDay = Integer.parseInt(request.getParameter("selAuDay"));//일수
+		//권한 바꿔주는 함수 실행
 		mDAO.memberListAuthorityUpdate(selAuIdValue,selAuValue);
-		
-		// 방법 1
-		//기본세팅
-		Calendar calendar=Calendar.getInstance();
-		int thisYearLean=0;
-		//오늘 날짜와 올해 연도 받아오기
-		thisYear=calendar.get(Calendar.YEAR);
-		int today=calendar.get(Calendar.DAY_OF_YEAR);
-		//오늘 날짜에서 정지일수 더하기
-		susLastDay=today+selAuDay;
-		//올해에 정지가 풀리나? 아니면 다른 해에 정지가 풀리나?
-		//올해가 윤년이면 366일로 나눠주고, 올해가 윤년이 아니면 365일로 나눠주기
-		//나눴을 때 몫이 0이 아니라면 다른 해에 정지가 풀린다.
-		thisYearLean=isLean(thisYear);
-		if(thisYearLean==1)
+		//권한이 4면 회원정지 함수 실행
+		if(selAuValue.equals("4"))
 		{
-			System.out.println("올해는 윤년 "+thisYearLean);
-			System.out.println("올해 연도 "+thisYear);
-			System.out.println("정지 끝나는 날 "+susLastDay);
-			if((susLastDay/366)>0)
-			{
-				//몫이 0이 아니라면 무조건 몫은 1 이상이다.
-				//따라서 366일을 빼주고 올해 연도에 ++를 해주면 다음 연도로 넘어간다.
-				susLastDay=susLastDay-366;
-				thisYear++;
-				System.out.println("바로 다음 해 "+thisYear);
-				System.out.println("정지 끝나는 날-366 "+susLastDay);
-				//연도, 날짜 정재하기
-				getYear();
-				System.out.println("getYear 이후의 연도 "+thisYear);
-				System.out.println("getYear 이후의 정지 끝나는 날 "+susLastDay);
-			}
-			System.out.println("최종 연도 "+thisYear);
+			//기본세팅
+			Calendar calendar=Calendar.getInstance();
+			int thisYearLean=0;
+			//오늘 날짜와 올해 연도 받아오기
+			thisYear=calendar.get(Calendar.YEAR);
+			int today=calendar.get(Calendar.DAY_OF_YEAR);
+			//오늘 날짜에서 정지일수 더하기
+			susLastDay=today+selAuDay;
+			//올해에 정지가 풀리나? 아니면 다른 해에 정지가 풀리나?
+			//올해가 윤년이면 366일로 나눠주고, 올해가 윤년이 아니면 365일로 나눠주기
+			//나눴을 때 몫이 0이 아니라면 다른 해에 정지가 풀린다.
 			thisYearLean=isLean(thisYear);
-			getDate(thisYearLean);
-			System.out.println("최종 연도 윤달 여부 "+thisYearLean);
-			System.out.println("최종 날짜 "+thisYear+", "+month+", "+susLastDay);
-		}
-		else
-		{
-			//만약 몫이 1이라면 올해 연도에서 1을 더해주기
-			System.out.println("올해는 평년 "+thisYearLean);
-			System.out.println("올해 연도 "+thisYear);
-			System.out.println("정지 끝나는 날 "+susLastDay);
-			if((susLastDay/365)>0)
+			if(thisYearLean==1)
 			{
-				susLastDay=susLastDay-365;
-				thisYear++;
-				System.out.println("바로 다음 해 "+thisYear);
-				System.out.println("정지 끝나는 날-365 "+susLastDay);
-				//연도, 날짜 정재하기
-				getYear();
-				System.out.println("getYear 이후의 연도 "+thisYear);
-				System.out.println("getYear 이후의 정지 끝나는 날 "+susLastDay);
+				if((susLastDay/366)>0)
+				{
+					//몫이 0이 아니라면 무조건 몫은 1 이상이다.
+					//따라서 366일을 빼주고 올해 연도에 ++를 해주면 다음 연도로 넘어간다.
+					susLastDay=susLastDay-366;
+					thisYear++;
+					//연도, 날짜 정재하기
+					getYear();
+				}
+				thisYearLean=isLean(thisYear);
+				getDate(thisYearLean);
 			}
-			System.out.println("최종 연도 "+thisYear);
-			thisYearLean=isLean(thisYear);
-			getDate(thisYearLean);
-			System.out.println("최종 연도 윤달 여부 "+thisYearLean);
-			System.out.println("최종 날짜 "+thisYear+", "+month+", "+susLastDay);
+			else
+			{
+				//만약 몫이 1이라면 올해 연도에서 1을 더해주기
+				if((susLastDay/365)>0)
+				{
+					susLastDay=susLastDay-365;
+					thisYear++;
+					//연도, 날짜 정재하기
+					getYear();
+				}
+				thisYearLean=isLean(thisYear);
+				getDate(thisYearLean);
+			}
+			
+			//날짜 예쁜 포맷으로 바꿔주기
+			String month_s=getFormMonth(month);
+			String day_s=getFormDay(susLastDay);
+			String date=thisYear+"-"+month_s+"-"+day_s;
+			
+			//쿼리문으로 던지기
+			mDAO.updateSuspension(date, selAuIdValue);
 		}
 		
-		//날짜 예쁜 포맷으로 바꿔주기
-		String month_s=getFormMonth(month);
-		String day_s=getFormDay(susLastDay);
-		String date=thisYear+"-"+month_s+"-"+day_s;
-		System.out.println(date);
-		
-		//id 가져오기
-		request.setCharacterEncoding("utf-8");
-		String authority=request.getParameter("authority");
-		String id=request.getParameter("id");
-		//쿼리문으로 던지기
-		//mDAO.updateSuspension(authority,date,id);
+		//팝업으로 돌아가기
+		String val = "T";
+		request.setAttribute("val", val);		
+		RequestDispatcher dispatcher= request.getRequestDispatcher("auUpdatePopUp.jsp");
+		dispatcher.forward(request, response);
 		
 		/*
 		// 방법 2
@@ -246,44 +222,5 @@ public class AuthorityUpdate extends HttpServlet {
 		
 		mDAO.updateSuspension(, plus90, id);
 		*/
-		
-		//String startPage=request.getParameter("startPage");
-		//response.sendRedirect("memberList.do?startPage="+startPage);
-
-		/*
-		/////////////////쿼리문 작성///////////////////
-		public void updateSuspension(String authority,String date, String id)
-		{
-			String sql="update Member set authority=? date=? where id=?";
-			Connection conn=null;
-			PreparedStatement pstmt = null;
-		
-			try
-			{
-				conn=getConnection();
-				pstmt=conn.prepareStatement(sql);
-				
-				pstmt.setString(1, authority);
-				pstmt.setString(2, date);
-				pstmt.setString(3, id);
-				
-				pstmt.executeUpdate();
-			}
-			catch(Exception e)
-			{
-				System.out.println("회원 정지 날짜 세팅 실패"+e);
-			}
-			finally
-			{
-				close(conn, pstmt);
-			}
-		}
-		*/
-		
-		//팝업으로 돌아가기
-		String val = "T";
-		request.setAttribute("val", val);		
-		RequestDispatcher dispatcher= request.getRequestDispatcher("auUpdatePopUp.jsp");
-		dispatcher.forward(request, response);	
 	}
 }

@@ -836,6 +836,68 @@ public class MemberDAO {
 	   }
 	//권한 수정
 	
+	//정지 기간 설정
+	public void updateSuspension(String date, String selAuIdValue)
+	{
+		String sql="update Member set stopdate=? where id=?";
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+	
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, date);
+			pstmt.setString(2, selAuIdValue);
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			System.out.println("MemberDAO의 updateSuspension에서 문제 발생"+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+	}
+	//정지 기간 설정
+	
+	//정지 기간 가져오기
+	public String getSusLastDay(String id)
+	{
+		String susLastDay="";
+		String sql="select stopdate from member where id = ?";
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+		
+			rs.next();
+			susLastDay = rs.getString("stopdate");
+										
+		}
+		catch(Exception e)
+		{
+			System.out.println("MemberDAO의 getSusLastDay에서 문제 발생"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		return susLastDay;
+	}
+	//정지 기간 가져오기
 }
 
 

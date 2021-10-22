@@ -20,11 +20,15 @@ public class CommentUpdateServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int num=Integer.parseInt(request.getParameter("num"));
+		//System.out.println("::::::수정버튼 클릭 시 이동확인:::::::");
 		CommentDAO cDAO = CommentDAO.getInstance();
 		CommentDTO cDTO = cDAO.CommentContents(num);
 		System.out.println();
 		request.setAttribute("comment", cDTO);
-		RequestDispatcher dispatcher=request.getRequestDispatcher("commentUpdate.jsp");
+		request.setAttribute("flag", "u");
+		request.setAttribute("num", num);
+		//System.out.println(cDTO.getParagraph_num());
+		RequestDispatcher dispatcher=request.getRequestDispatcher("paragraphEachSelect.do?num="+cDTO.getParagraph_num());
 		dispatcher.forward(request, response);
 	}
 

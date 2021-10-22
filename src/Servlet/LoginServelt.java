@@ -27,6 +27,7 @@ public class LoginServelt extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		String id = request.getParameter("id");
+		
 		String pw = request.getParameter("pw");
 		
 		MemberDAO mDAO = MemberDAO.getInstance();
@@ -45,6 +46,7 @@ public class LoginServelt extends HttpServlet {
 			HttpSession session= request.getSession();
 			session.setAttribute("loginUser", mDTO); 
 			session.setAttribute("loginUserId", mDTO.getId());
+			session.setAttribute("Authority", mDTO.getAuthority());
 		}		
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
