@@ -37,6 +37,11 @@
                 margin: 0px 5px 0px 0px;
                 float: left;
             }
+            .codeWrite
+           	{
+           		float: right;
+           	}
+           
         </style>
 	</head>
 	<body>
@@ -75,28 +80,36 @@
 	                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
 	                            <button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
 	                            <button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
-	                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>                      
+	                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>    
+	                                            
 	                        </div>
 
 	                        <div class="img">
 	                            <button class="divColor" type="button">사진</button>
 	                        </div>
-	                        <select id="language">
-                        		<option value="none">질문할 언어를 선택하세요</option>
-                        		<option value="text/xml">html/xml</option>
-                            	<option value="text/x-python">python</option>
-                            	<option value="text/x-java">java</option>
-                            	<option value="text/x-sql">sql</option>
-                            	<option value="text/javascript">javascript</option>
-                        	</select>
-                        	<input class="divColor" type="button" onclick="code()" value="코드 작성 하러 가기">
+	                        
+	                        <div class="codeWrite">   
+	                        	<select id="language">
+	                        		<option value="none">질문할 언어를 선택하세요</option>
+	                        		<option value="text/xml">html/xml</option>
+	                            	<option value="text/x-python">python</option>
+	                            	<option value="text/x-java">java</option>
+	                            	<option value="text/x-sql">sql</option>
+	                            	<option value="text/javascript">javascript</option>
+	                        	</select>
+	                        	<input class="divColor" type="button" onclick="code()" value="코드 작성 하러 가기">  
+	                        	<input class="divColor" type="button" onclick="codeUpdate()" value="코드 수정하러 가기">
+	                        </div>
+
 	                    </div>
 	                    <div>
 	                    	<br>
 	                    </div>
 	                    
 	                    
-	                    <div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요."></div>
+	                    <div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">
+
+	                    </div>
 	                    <input id="content" type="hidden" value="" name="content">
 	                     
 	            	 </div>
@@ -111,7 +124,11 @@
         <div class="footer">
             footer
         </div>
+
         <!--푸터 종료-->
+        <!-- 코드를 수정한 다음 기존 코드를 삭제할 때 필요한 버튼 -->
+        <button id="btn" style="display:none;" onclick="document.execCommand('fontSize', false, 4);">
+        </button>  
 	</body>
 	<script>
 	
@@ -125,12 +142,45 @@
 				return;
 			}
 
-			var url="code.do?language="+language.value;
+			var url="code.do?flag=0&language="+language.value;
 			
 			var popupX=(window.screen.width/2)-(800/2);
 			var popupY=(window.screen.height/2)-(600/2);
 			
 			window.open(url, "_blank_1","toolbar=no, menubar=no, scrollber=yes, resizable=no, width=800, height=600, left="+popupX+", top="+popupY);
+		}
+		
+		function codeUpdate()
+		{
+			if(document.getSelection().isCollapsed==true)
+			{
+				alert("수정하고 싶은 코드를 드래그 해주세요");
+			}
+			else if(document.getSelection().isCollapsed==false)
+			{
+				
+				var btn= document.getElementById("btn");
+				btn.click();
+				
+				
+				
+				var fon = document.getElementsByTagName("font")[0];
+				
+				fon.setAttribute("id", "fontDel");
+				
+				document.getElementById("writeContent").removeChild(document.getElementById("fontDel"));
+				
+				
+				
+				var url="code.do?flag=1&drag="+document.getSelection();
+				
+				var popupX=(window.screen.width/2)-(800/2);
+				var popupY=(window.screen.height/2)-(600/2);
+				
+				window.open(url, "_blank_1","toolbar=no, menubar=no, scrollber=yes, resizable=no, width=800, height=600, left="+popupX+", top="+popupY);
+			}
+			
+			
 		}
 	
 	

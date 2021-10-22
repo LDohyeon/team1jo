@@ -21,10 +21,10 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 
 		int num = Integer.parseInt(request.getParameter("num"));
 		
-		String code="";//ÀüÃ¼ ±Û
-		String language = "";//¼±ÅÃµÈ ¾ð¾î
-		String lang="";//id ÇÒ´ç
-		String langValue="";//¾ÆÀÌµð ÇÒ´çÇÑ °É jsp·Î º¸³»±â
+		String code="";
+		String language = "";
+		String lang="";
+		String langValue="";
 				
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		
@@ -34,8 +34,8 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		
 		String content= pDTO.getContents();
 		
-		String[] contents=content.split("¡Ø");
-		
+		String[] contents=content.split("â€»");
+
 		for(int i=0; i<contents.length; i++)
 		{
 			if(i%3==0)
@@ -60,19 +60,15 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		
 		
 		
-		//ÄÚ¸àÆ® List
+
 		CommentDAO cDAO = CommentDAO.getInstance();
 		
 		List<CommentDTO> list = cDAO.commentList(num);
 		
-		//for(int i=0; i<list.size(); i++)
-		//{
-		//	System.out.println("list : "+list.get(i).getId());
-		//}
+
 		
 		request.setAttribute("list", list);
-		
-		//ÄÚ¸àÆ® List
+
 		
 		
 		
