@@ -58,7 +58,7 @@
 .groupDiv{
     width: 100%;
     height: 50%;
-    background-color: firebrick;
+    background-color: lightgray;
 }
 
 .centerBox{
@@ -226,60 +226,69 @@
 	overflow: hidden;
 }
 .cmpb0{
-	height: 30px;
-	text-align: left;
+	height: 0px;
+	margin-bottom: 22px;
 	overflow: hidden;
 }
 .cmpb1{
 	width: 100%;
-	height: 30px;
-	overflow: hidden;
-	background-color:#25b5aa;
-	z-index: 10;
-	
-}
-.cmpb1:hover{
-	background-color: blue;
-}
-.cmpb3:hover{
-	background-color: blue;
-}
-.cmpb7:hover{
-	background-color: blue;
+	height: 22px;
+	float: left;
 }
 .cmpb2{
 	width: 200%;
-	height: 30px;
-	overflow: hidden;
+	height: 22px;
+	float: left;
 }
 .cmpb3{
 	width: 300%;
-	margin-bottom: 2vw;
-	height: 30px;
-	overflow: hidden;
+	height: 22px;
+	float: left;
 }
 .cmpb4{
 	width: 400%;
-	height: 30px;
-	overflow: hidden;
+	height: 22px;
+	float: left;
 }
 .cmpb5{
 	width: 500%;
-	height: 30px;
-	overflow: hidden;
+	height: 22px;
+	float: left;
 }
 .cmpb6{
 	width: 600%;
-	height: 30px;
-	overflow: hidden;
+	height: 22px;
+	float: left;
 }
 .cmpb7{
 	width: 700%;
-	height: 30px;
-	overflow: hidden;
+	height: 22px;
+	float: left;
+}
+.cmpb1:hover{
+	filter: hue-rotate(20deg);
+}
+.cmpb2:hover{
+	filter: hue-rotate(20deg);
+}
+.cmpb3:hover{
+	filter: hue-rotate(20deg);
+}
+.cmpb4:hover{
+	filter: hue-rotate(20deg);
+}
+.cmpb5:hover{
+	filter: hue-rotate(20deg);
+}
+.cmpb6:hover{
+	filter: hue-rotate(20deg);
+}
+.cmpb7:hover{
+	filter: hue-rotate(20deg);
 }
 .scheduleTitleInSpan{
 	text-overflow: ellipsis;
+	color: black;
 }
 
 .smallColor{
@@ -293,8 +302,7 @@
 	display: none;
 }
 .scheduleGroupColor{
-	width: 1vw;
-	
+	width: 10px;
 }
 .sDetail{
 	position: relative; 

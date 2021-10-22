@@ -49,7 +49,7 @@ public class scheduleInsert extends HttpServlet {
 		sDTO.setWriter(writer);
 		sDTO.setGroupnum(groupnum);
 		
-		if(num.equals("")){
+		if(sDTO.getNum().equals("")){
 			System.out.println("인설트");
 		}
 		else {

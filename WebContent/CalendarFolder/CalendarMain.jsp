@@ -718,7 +718,25 @@
             v = document.createElement("div");
             v.classList.add("naviDiv");
             
+            c = document.createElement("div");
+            c.classList.add("goToCalendar");
+            c.addEventListener("click", gotoCalendar);
+            v.appendChild(c);
+            
+            c = document.createElement("div");
+            c.classList.add("goToCategory");
+            c.addEventListener("click", gotoCategory);
+            v.appendChild(c);
+            
             return v;
+        }
+        
+        function gotoCalendar(){
+        	
+        }
+        
+		function gotoCategory(){
+        	
         }
         
         // 달력 그룹 항목 만들기
@@ -745,6 +763,9 @@
             
             v.appendChild(c);
             
+            c = document.createElement("div");
+            c.classList.add("groupMain");
+            v.appendChild(c);
             return v;
         }
 		
@@ -1278,7 +1299,7 @@
 	            
 				let thisTimeDate = "";
 				
-				if(date.month<10){
+				if(date.month<9){
 					if(i<10){
 						thisTimeDate = date.year+"0"+(date.month+1)+"0"+i;
 					}
@@ -1647,7 +1668,7 @@
 		// 스케줄 자세한 정보 창
 		function scheduleDetailInfo(){
 			let target = event.target;
-			
+			console.log(target);
 			if(target.childElementCount!=0){
 				
 			}
@@ -1861,9 +1882,10 @@
 			formEnd.setAttribute("value", s);
 		}
 		
+		console.log("그룹 기능 개발중, 그룹 멤버 추가, 수정 삭제 등 전반 기능 구현 필요")
 		// 스케줄 데이터에 따른 Group 데이터 > div로 생성 
 		function createGroupDivs(groupDivs){
-			let v = document.getElementsByClassName("groupDiv")[0];
+			let v = document.getElementsByClassName("groupMain")[0];
 			
 			while(v.hasChildNodes()){
 				return;
@@ -1875,20 +1897,71 @@
 
 			for(let i = 0; i<groupDivs.length; i++){
 				c = document.createElement("div");
-				c.classList.add("groupEl");
-				c.innerHTML = groupDivs[i].groupname;
-				c.addEventListener("click", viewGroupForSchedule);
+				c.classList.add("groupElement");
+				
+				cc = document.createElement("div");
+				cc.classList.add("groupCheckBox");
+				cc.addEventListener("click", viewGroupForSchedule);
+				cc.innerHTML = "보기/끄기";
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("groupNameVisible");
+				cc.innerHTML = groupDivs[i].groupname;
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("groupCheckBox");
+				cc.addEventListener("click", viewGroupTool);
+				cc.innerHTML = "설정";
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("groupDataName");
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", groupDivs[i].groupname);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("groupDataName");
+				cc.setAttribute("type", "color");
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("groupMemberList");
+				
+				ccc = document.createElement("div");
+				ccc.classList.add("groupMemberAdd");
+				ccc.innerHTML="멤버 추가";
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("div");
+				ccc.classList.add("groupMemberSearch");
+				ccc.setAttribute("contenteditable", "true");
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("div");
+				ccc.classList.add("groupMembers");
+				ccc.innerHTML=groupDivs[i].groupmembers;
+				cc.appendChild(ccc);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("groupDataDelBtn");
+				cc.setAttribute("type", "button");
+				cc.setAttribute("value", "삭제");
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("groupDataAddBtn");
+				cc.setAttribute("type", "button");
+				cc.setAttribute("value", "완료");
+				c.appendChild(cc);
 				
 				cc = document.createElement("input");
 				cc.classList.add("groupDataNum");
 				cc.setAttribute("type", "hidden");
 				cc.setAttribute("value", groupDivs[i].groupnum);
-				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.classList.add("groupDataName");
-				cc.setAttribute("type", "hidden");
-				cc.setAttribute("value", groupDivs[i].groupname);
 				c.appendChild(cc);
 				
 				// 그룹 요소를 클릭할 경우, 해당 요소가 보일지 말지를 결정
@@ -1915,9 +1988,13 @@
 				select.appendChild(c);
 			}
 		}
+		function viewGroupTool(){
+			
+		}
 		// 그룹 클릭에 따라 스케줄 보이거나 감추기
 		function viewGroupForSchedule(){
-			let groupDiv = event.target;
+			let clicked = event.target;
+			let groupDiv = clicked.parentNode;
 			let num = groupDiv.getElementsByClassName("groupDataNum")[0].value;
 			let flag = groupDiv.getElementsByClassName("groupDataFlag")[0];
 			
@@ -1936,7 +2013,7 @@
 		
 		// 스케줄 보이거나 감추기 작동
 		function viewScheduleElementFlag(){
-			let groupDiv = document.getElementsByClassName("groupEl");
+			let groupDiv = document.getElementsByClassName("groupElement");
 			
 			let schedules = document.getElementsByClassName("scheduleBox");
 			
@@ -1972,6 +2049,7 @@
 				if(XHRTodolist.readyState==4){
 		            if(XHRTodolist.status==200){
 		            	let jsons = JSON.parse(XHRTodolist.responseText, "text/json");
+
 		            	createToDoList(jsons);
 		            }
 				}
@@ -2003,19 +2081,6 @@
 			c.appendChild(cc);
 			
 			cc = document.createElement("div");
-			cc.classList.add("toDoListDel");
-			cc.addEventListener("click", todolistDel);
-			// 아이콘 만들어지면 지울거
-			cc.innerHTML = "삭제";
-			
-			ccc = document.createElement("input");
-			ccc.classList.add("toDoListDelFlag");
-			ccc.setAttribute("type", "hidden");
-			ccc.setAttribute("value", "false");
-			cc.appendChild(ccc);
-			c.appendChild(cc);
-			
-			cc = document.createElement("div");
 			cc.classList.add("toDoListCom");
 			cc.addEventListener("click", todolistCom);
 			// 아이콘 만들어지면 지울거
@@ -2031,7 +2096,7 @@
 		}
 		
 		function createToDoList(jsons){
-	
+			
 			let v;
 			let c;
 			let cc;
@@ -2040,105 +2105,110 @@
 			
 			v = document.getElementsByClassName("toDoListMain")[0];
 			
+        	while(v.hasChildNodes()){
+        		v.removeChild(v.firstChild);
+        	}
+        	
 			// 매개변수 객체 가져와서 데이터 정제 > 정제한 데이터로 폼 모양 그림
 			// 정제는 DB에서 값 던질때 함 
 			for(let i = 0; i<jsons.length; i++){
+				c = document.createElement("div");
+				c.classList.add("toDoLists");
+				
+				cc = document.createElement("span");
+				cc.classList.add("toDoListCheckBox");
+				cc.innerHTML = "완료하기";
+				cc.addEventListener("click", todolistCheckedBtn);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", jsons[i].title);
+				cc.classList.add("toDoListTitle");
+				c.appendChild(cc);
+				
 				cc = document.createElement("div");
-				cc.classList.add("toDoLists");
+				cc.classList.add("toDoListFixBtn");
+				cc.addEventListener("click", todolistFixBtn);
+				// 아이콘 만들어지면 지울거
+				cc.innerHTML = "수정";
+				c.appendChild(cc);
 				
-				ccc = document.createElement("span");
-				ccc.classList.add("toDoListCheckBox");
-				ccc.innerHTML = "완료하기";
-				ccc.addEventListener("click", todolistChecked);
-				cc.appendChild(ccc);
+				cc = document.createElement("input");
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", jsons[i].content);
+				cc.classList.add("toDoListContent");
+				cc.classList.add("toDoListView");
+				c.appendChild(cc);
 				
-				ccc = document.createElement("input");
-				ccc.setAttribute("type", "text");
-				ccc.setAttribute("value", jsons[i].title);
-				ccc.classList.add("toDoListTitle");
-				cc.appendChild(ccc);
+				cc = document.createElement("input");
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", jsons[i].date);
+				cc.classList.add("toDoListDate");
+				cc.classList.add("toDoListView");
+				c.appendChild(cc);
 				
-				ccc = document.createElement("input");
-				ccc.setAttribute("type", "text");
-				ccc.setAttribute("value", jsons[i].content);
-				ccc.classList.add("toDoListContent");
-				ccc.classList.add("toDoListView");
-				cc.appendChild(ccc);
+				cc = document.createElement("input");
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", jsons[i].time);
+				cc.classList.add("toDoListTime");
+				cc.classList.add("toDoListView");
+				c.appendChild(cc);
 				
-				ccc = document.createElement("input");
-				ccc.setAttribute("type", "text");
-				ccc.setAttribute("value", jsons[i].date);
-				ccc.classList.add("toDoListDate");
-				ccc.classList.add("toDoListView");
-				cc.appendChild(ccc);
-				
-				ccc = document.createElement("input");
-				ccc.setAttribute("type", "text");
-				ccc.setAttribute("value", jsons[i].time);
-				ccc.classList.add("toDoListTime");
-				ccc.classList.add("toDoListView");
-				cc.appendChild(ccc);
-				
-				ccc = document.createElement("select");
-				ccc.classList.add("toDoListImportance");
-				ccc.classList.add("toDoListView");
+				cc = document.createElement("select");
+				cc.classList.add("toDoListImportance");
+				cc.classList.add("toDoListView");
 				
 				for(let j = 1; j < 5; j++){
-					cccc = document.createElement("option");
-					cccc.classList.add("toDoListImportanceOption");
-					cccc.setAttribute("value", j);
-					cccc.innerHTML = j;
-					ccc.appendChild(cccc);
+					ccc = document.createElement("option");
+					ccc.classList.add("toDoListImportanceOption");
+					ccc.setAttribute("value", j);
+					ccc.innerHTML = j;
+					cc.appendChild(ccc);
 					
-					if(cccc.value==json[i].importance){
-						cccc.setAttribute("selected", "true");
+					if(ccc.value==jsons[i].importance){
+						ccc.setAttribute("selected", "true");
 					}
 				}
-				cc.appendChild(ccc);
-				
-				ccc = document.createElement("input");
-				ccc.setAttribute("type", "hidden");
-				ccc.setAttribute("value", jsons[i].num);
-				ccc.classList.add("toDoListNum");
-				cc.appendChild(ccc);
-				
-				ccc = document.createElement("input");
-				ccc.setAttribute("type", "hidden");
-				ccc.setAttribute("value", jsons[i].id);
-				ccc.classList.add("toDoListId");
-				cc.appendChild(ccc);
-				
-				ccc = document.createElement("input");
-				ccc.setAttribute("type", "hidden");
-				ccc.setAttribute("value", jsons[i].checked);
-				ccc.classList.add("toDoListChecked");
-				cc.appendChild(ccc);
-				
 				c.appendChild(cc);
-				v.appendChild(c)
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].num);
+				cc.classList.add("toDoListNum");
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].id);
+				cc.classList.add("toDoListId");
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].checked);
+				cc.classList.add("toDoListChecked");
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("toDoListDelBtn");
+				cc.addEventListener("click", todolistDelBtn);
+				// 아이콘 만들어지면 지울거
+				cc.innerHTML = "삭제";
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("toDoListAddBtn");
+				cc.addEventListener("click", todolistAddBtn);
+				// 아이콘 만들어지면 지울거
+				cc.innerHTML = "완료";
+				c.appendChild(cc);
+				
+				v.appendChild(c);
 			}
 		}
 		
-		function toDoListUpdate(data){
-			
-			createXHRTodolist();
-			
-			XHRTodolist.onreadystatechange=function(){
-				if(XHRTodolist.readyState==4){
-		            if(XHRTodolist.status==200){
-
-		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
-		            	toDoList();
-		            }
-				}
-			}
-			XHRTodolist.open("POST", "../todolistUpdate", true);
-			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRTodolist.send(data);
-		}
-
-		function toDoLostDelete(data){
-			
+		function toDoListDelete(data){
 			if(data.length==null){
 				return;
 			}
@@ -2148,7 +2218,6 @@
 			XHRTodolist.onreadystatechange=function(){
 				if(XHRTodolist.readyState==4){
 		            if(XHRTodolist.status==200){
-
 		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
 		            	toDoList();
 		            }
@@ -2160,12 +2229,12 @@
 		}
 		
 		function toDoListInsert(data){
-			createJsonTodolist();
+			createXHRTodolist();
+			
 			XHRTodolist.onreadystatechange=function(){
 				if(XHRTodolist.readyState==4){
 		            if(XHRTodolist.status==200){
 		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
-		            	
 		            	toDoList();
 		            }
 				}
@@ -2186,16 +2255,29 @@
 			c = document.createElement("div");
 			c.classList.add("toDoLists");
 			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			
+			cc.classList.add("toDoListNum");
+			c.appendChild(cc);
+			
 			cc = document.createElement("span");
 			cc.classList.add("toDoListCheckBox");
 			cc.innerHTML = "완료하기";
-			cc.addEventListener("click", todolistChecked);
+			cc.addEventListener("click", todolistCheckedBtn);
 			c.appendChild(cc);
 			
 			cc = document.createElement("input");
 			let temp = cc;
 			cc.setAttribute("type", "text");
 			cc.classList.add("toDoListTitle");
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListFixBtn");
+			cc.addEventListener("click", todolistFixBtn);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "수정";
 			c.appendChild(cc);
 			
 			cc = document.createElement("input");
@@ -2242,63 +2324,116 @@
 			cc.setAttribute("value", userKey);
 			cc.classList.add("toDoListId");
 			c.appendChild(cc);
-
+	
 			cc = document.createElement("input");
 			cc.setAttribute("type", "hidden");
 			cc.setAttribute("value", "false");
 			cc.classList.add("toDoListChecked");
 			c.appendChild(cc);
 			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListDelBtn");
+			cc.addEventListener("click", todolistDelBtn);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "삭제";
 			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListAddBtn");
+			cc.addEventListener("click", todolistAddBtn);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "완료";
+			c.appendChild(cc);
+
 			
 			v.appendChild(c);
 			
 			temp.focus();
 		}
 		
-		function todolistDel(){
-			let flag = document.getElementsByClassName("toDoListDelFlag")[0];
-			let tdl = document.getElementsByClassName("toDoLists");
+		function todolistDelBtn(){
+			let target = event.target;
+			let v = target.parentNode;
 			
-			if(flag.value=="false"){
-				flag.setAttribute("value", "true");
-				
-				for(let i = 0; i < tdl.length; i++){
-					tdl[i].classList.add("deleteable");
-					tdl[i].addEventListener("click", todolistdelBtn);
-				}
-			}
-			else if(flag.value=="true"){
-				flag.setAttribute("value", "false");
-				
-				for(let i = 0; i < tdl.length; i++){
-					tdl[i].classList.remove("deleteable");
-					tdl[i].removeEventListener("click", todolistdelBtn);
-				}
-			}
+			let num = v.getElementsByClassName("toDoListNum")[0].value; 
+			let temp = [];
+			temp.push(num);
+			data={
+				key: temp
+			};
+			
+			let json = JSON.stringify(data);
+			toDoListDelete(json);
 		}
 		
-		function todolistdelBtn(){
-			let el = event.taget;
+		function todolistAddBtn(){
+			let target = event.target;
+			let v = target.parentNode;
 			
+			let title = v.getElementsByClassName("toDoListTitle")[0].value; 
+			let content = v.getElementsByClassName("toDoListContent")[0].value; 
+			let date = v.getElementsByClassName("toDoListDate")[0].value; 
+			let time = v.getElementsByClassName("toDoListTime")[0].value; 
+			let importance = v.getElementsByClassName("toDoListImportance")[0].value; 
+			let num = v.getElementsByClassName("toDoListNum")[0].value; 
+			let id = v.getElementsByClassName("toDoListId")[0].value; 
+			let checked = v.getElementsByClassName("toDoListChecked")[0].value; 
+			
+			let data = createJsonTodolist(num, title, content, id, date, time, importance, checked);
+			let json = JSON.stringify(data);
+			toDoListInsert(json);
 		}
-		function todolistChecked(){
-			let el = event.taget;
+		
+		function todolistFixBtn(){
+			let target = event.target;
+			let v = target.parentNode;
+		}
+		
+		function todolistCheckedBtn(){
+			let target = event.target;
+			let v = target.parentNode;
+			let checked = v.getElementsByClassName("toDoListChecked")[0]; 
+			console.log(checked);
+			
+			if(checked.value=='true'){
+				checked.setAttribute("value", "false");
+			}
+			else{
+				checked.setAttribute("value", "true");
+			}
+			checked = v.getElementsByClassName("toDoListChecked")[0].value;
+			
+			let title = v.getElementsByClassName("toDoListTitle")[0].value; 
+			let content = v.getElementsByClassName("toDoListContent")[0].value; 
+			let date = v.getElementsByClassName("toDoListDate")[0].value; 
+			let time = v.getElementsByClassName("toDoListTime")[0].value; 
+			let importance = v.getElementsByClassName("toDoListImportance")[0].value; 
+			let num = v.getElementsByClassName("toDoListNum")[0].value; 
+			let id = v.getElementsByClassName("toDoListId")[0].value; 
+			
+			let data = createJsonTodolist(num, title, content, id, date, time, importance, checked);
+			let json = JSON.stringify(data);
+			
+			toDoListInsert(json);
 		}
 		
 		function todolistCom(){
 			let tdl = document.getElementsByClassName("toDoLists");
-			let data={};
+			let data;
+			let temp=[];
 			for(let i = 0; i < tdl.length; i++){
 				let checked = tdl[i].getElementsByClassName("toDoListChecked")[0].value;
-				
 				// 체크된 상태
-				if(checked=="true"){
+				if(checked=="true"&&checked!='undefined'){
 					let num = tdl[i].getElementsByClassName("toDoListNum")[0].value;
-					data.i = num;
+					temp.push(num);
 				}
 			}
-			toDoLostDelete(data);
+			data = {
+				key: temp	
+			}
+			let json = JSON.stringify(data);
+			toDoListDelete(json);
 		};
 		
 		// 년 형식 스케줄
@@ -2367,6 +2502,7 @@
 		            				groupnum: groups[i].getElementsByTagName("groupnum")[0].innerHTML,
 		            				groupname: groups[i].getElementsByTagName("groupname")[0].innerHTML,
 		            				groupcolor: groups[i].getElementsByTagName("groupcolor")[0].innerHTML,
+		            				groupmembers: groups[i].getElementsByTagName("groupmembers")[0].innerHTML,
 		            				modifier: groups[i].getElementsByTagName("modifier")[0].innerHTML,
 		            				num: schedules[j].getElementsByTagName("num")[0].innerHTML,
 		            				title: schedules[j].getElementsByTagName("title")[0].innerHTML,
@@ -2377,12 +2513,13 @@
 		            				color: schedules[j].getElementsByTagName("color")[0].innerHTML
 		            			} 
 		            			scheduleData.push(temp);
-		            			console.log(temp);
+		            			//console.log(temp);
 		            		}
 		            		
 		            		let tempDiv = {
 		            			groupnum: groups[i].getElementsByTagName("groupnum")[0].innerHTML,
 			            		groupname: groups[i].getElementsByTagName("groupname")[0].innerHTML,
+			            		groupmembers: groups[i].getElementsByTagName("groupmembers")[0].innerHTML
 		            		}
 		            		groupDivs.push(tempDiv);
 		            	}
@@ -2391,6 +2528,7 @@
 		            	scheduleData = []; // 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
 		            	createGroupDivs(groupDivs);
 		            	viewScheduleElementFlag();
+		            	changeScheduleBoxs();
 		            }
 				}
 			};
@@ -2532,7 +2670,6 @@
 		
 		// 스케줄 박스 요소 제작
 		function createScheduleBox(scheduleData, dateTags){
-			console.log(scheduleData);
 			let p;
 			let v;
 			let c;
@@ -2871,14 +3008,15 @@
 		}
 		
 		// JSON To Do List객체 데이터 생성 
-		function createJsonTodolist(num, title, content, id, date, importance, checked){
+		function createJsonTodolist(num, title, content, id, date, time, importance, checked){
 			let json = {
 				num: num,
 				title: title,
 				content: content,
 				id: id,
 				date: date,
-				impotance: importance,
+				time: time,
+				importance: importance,
 				checked: checked
 			}
 			return json;
@@ -2894,7 +3032,27 @@
 				}
 			}
 		}
-		
+		// 스케줄 BOX 면적용 요소 위로 올리기
+		function changeScheduleBoxs(){
+			let v;
+			let p;
+			let pp;
+			
+			v = document.getElementsByClassName("cmpb0");
+			for(let i = 0; i<v.length; i++){
+				v[i].removeAttribute("style");
+				p = v[i].parentNode;
+				p.insertBefore(v[i], p.firstChild);
+			}
+			/*
+			v = document.getElementsByClassName("scheduleNum");
+			for(let i = 0; i<v.length; i++){
+				p = v[i].parentNode;
+				pp = p.parentNode;
+				
+				p.insertBefore(v[i], p.firstChild);
+			}*/
+		}
 		
 		
 	</script>

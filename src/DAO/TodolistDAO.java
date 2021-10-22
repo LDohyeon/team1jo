@@ -8,18 +8,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import DTO.GroupDTO;
-import DTO.ScheduleDTO;
 import DTO.TodoDTO;
 
-public class todolistDAO {
-	private todolistDAO(){
+public class TodolistDAO {
+	private TodolistDAO(){
 		
 	}
 	
-	private static todolistDAO instance = new todolistDAO();
+	private static TodolistDAO instance = new TodolistDAO();
 	
-	public static todolistDAO getInstance(){
+	public static TodolistDAO getInstance(){
 		return instance;
 	}
 	
@@ -92,7 +90,7 @@ public class todolistDAO {
 			{
 				TodoDTO tDTO = new TodoDTO();
 				
-				tDTO.setNum(rs.getInt("num"));
+				tDTO.setNum(rs.getString("num"));
 				tDTO.setTitle(rs.getString("title"));
 				tDTO.setContent(rs.getString("content"));
 				tDTO.setId(rs.getString("id"));
@@ -112,6 +110,88 @@ public class todolistDAO {
 		}
 		
 		return list;
+	}
+	
+	public void todolistInsert(TodoDTO tDTO){
+		
+		String sql="insert into todolist(title, content, id, date, time, importance, checked) values(?,?,?,?,?,?,?)";
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		
+		try{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, tDTO.getTitle());
+			pstmt.setString(2, tDTO.getContent());
+			pstmt.setString(3, tDTO.getId());
+			pstmt.setString(4, tDTO.getDate());
+			pstmt.setString(5, tDTO.getTime());
+			pstmt.setInt(6, tDTO.getImportance());
+			pstmt.setString(7, tDTO.getChecked());
+
+			System.out.println(pstmt);
+			pstmt.executeUpdate();
+
+		}
+		catch(Exception e)
+		{
+			System.out.println("todolistDAO> Insert Error: "+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+	}
+	
+	public void todolistDelete(TodoDTO tDTO)
+	{
+		String sql ="delete from todolist where num = ?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(tDTO.getNum()));
+			pstmt.executeUpdate();
+			System.out.println(pstmt);
+		}
+		catch(Exception e){
+			System.out.println("todolistDAO> Delete Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
+	}
+	
+	public void todolistUpdate(TodoDTO tDTO){
+		String sql="update todolist set title=?, content=?, date=?, time=?, importance=?, checked=? where num=?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, tDTO.getTitle());
+			pstmt.setString(2, tDTO.getContent());
+			pstmt.setString(3, tDTO.getDate());
+			pstmt.setString(4, tDTO.getTime());
+			pstmt.setInt(5, tDTO.getImportance());
+			pstmt.setString(6, tDTO.getChecked());
+			pstmt.setString(7, tDTO.getNum());
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("ScheduleDAO > UPDATE Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
 	}
 }
 

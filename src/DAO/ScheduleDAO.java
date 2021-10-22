@@ -234,6 +234,52 @@ public class ScheduleDAO {
 		return list;
 	}
 	
+	public List<ScheduleDTO> scheduleListSearch(GroupDTO gDTO, String word){
+		
+		List<ScheduleDTO> list= new ArrayList<ScheduleDTO>();
+		
+		String searchWord = "%"+word+"%";
+		String sql="select * from schedule where groupnum=? and (title like=? or content like=?) order by num desc";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, gDTO.getGroupnum());
+			pstmt.setString(2, searchWord);
+			pstmt.setString(3, searchWord);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				ScheduleDTO sDTO = new ScheduleDTO();
+				
+				sDTO.setNum(rs.getString("num"));
+				sDTO.setTitle(rs.getString("title"));
+				sDTO.setContent(rs.getString("content"));
+				sDTO.setStart(rs.getString("start"));
+				sDTO.setEnd(rs.getString("end"));
+				sDTO.setColor(rs.getString("color"));
+				sDTO.setWriter(rs.getString("writer"));
+				sDTO.setGroupnum(rs.getString("groupnum"));
+				
+				list.add(sDTO);
+			}
+		}
+		catch(Exception e){
+			System.out.println("Schedule DAO> Select Error(val == 3) : "+ e);
+		}
+		finally{
+			close(conn, pstmt, rs);
+		}
+		return list;
+	}
+	
 	public List<GroupDTO> groupList(String userKey){
 		List<GroupDTO> temp= new ArrayList<GroupDTO>();
 		List<GroupDTO> list= new ArrayList<GroupDTO>();

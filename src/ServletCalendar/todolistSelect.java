@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.*;
 
-import DAO.todolistDAO;
+import DAO.TodolistDAO;
 import DTO.TodoDTO;
 
 @WebServlet("/todolistSelect")
@@ -28,7 +28,7 @@ public class todolistSelect extends HttpServlet {
 		TodoDTO todoDTO = new TodoDTO();
 		todoDTO.setId(userKey);
 		
-		todolistDAO tDAO = todolistDAO.getInstance();
+		TodolistDAO tDAO = TodolistDAO.getInstance();
 		
 		List<TodoDTO> list= tDAO.TodoLists(todoDTO);
 		List<JSONObject> jsons = new ArrayList<JSONObject>();
@@ -46,12 +46,12 @@ public class todolistSelect extends HttpServlet {
 			
 			jsons.add(i, json);
 		}
+		System.out.println(jsons);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		out.print(jsons.toString());
-		out.flush();// 버퍼 청소 
-		
+		out.flush();// 버퍼 청소 	
 	}
 
 }

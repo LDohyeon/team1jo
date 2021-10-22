@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class todolistUpdate
+ * Servlet implementation class groupDelete
  */
-@WebServlet("/todolistUpdate")
-public class todolistUpdate extends HttpServlet {
+@WebServlet("/groupDelete")
+public class groupDelete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public todolistUpdate() {
+    public groupDelete() {
         super();
         // TODO Auto-generated constructor stub
     }
