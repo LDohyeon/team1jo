@@ -51,6 +51,7 @@
             	float: right;
             	clear: both;
             }
+
         </style>
 	</head>
 	<body>
@@ -111,6 +112,7 @@
 					});
 					textArea.setSize("800", "250");
 				}
+				
 			</script>
 			
 			<!-- 댓글 부분 -->
@@ -119,17 +121,71 @@
 			</div>
 			<div>
 				<c:forEach items="${list }" var="list">
-					<span id="comment">
-						<span>${list.getNum() }</span>
-						<span>${list.getId()}</span>
-						<span>${list.getTime()}</span>
-						<span>${list.getComment()}</span>
-						<c:if test="${loginUserId == list.getId() }">
-							<a href="commentUpdate.do?num=${list.getNum() }">수정</a>
-	 						<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${list.getNum() }">삭제</a>
-						</c:if>
+					<c:choose>
+						<c:when test="${flag =='u' && num == list.getNum() }">
+							<form method="post" action="commentUpdate.do" name="frm">
+								<div class="editor" id="editor">
+							    	<div class="editorTool">
+							        	<div class="fontType">
+							            	<select id="fontType" onchange="selectFont()">
+							                	<option value="고딕">고딕</option>
+							                    <option value="굴림">굴림</option>
+							                    <option value="궁서">궁서</option>
+							                    <option value="돋움">돋움</option>
+							                    <option value="바탕">바탕</option>
+							                </select>
+										</div>
+										<div class="fontStyle">
+											<button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
+											<button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
+											<button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
+											<input type="color" id="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
+											<input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
+										</div>
+										<div class="fontAlign">
+											<button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
+											<button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
+											<button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
+											<button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>
+										</div>
+										<div class="img">
+											<button class="divColor" type="button">사진</button>
+										</div>
+										<select id="commentLanguage">
+				                       		<option value="none">질문할 언어를 선택하세요</option>
+				                       		<option value="text/xml">html/xml</option>
+				                           	<option value="text/x-python">python</option>
+				                           	<option value="text/x-java">java</option>
+				                           	<option value="text/x-sql">sql</option>
+				                           	<option value="text/javascript">javascript</option>
+				                       	</select>
+				                       	<input class="divColor" type="button" onclick="code()" value="코드 작성 하러 가기">
+									</div>
+									<div>
+										<br>
+									</div>
+									<div id="writeContent1" class="writeContent" contenteditable="true">${comment.comment }</div>
+									<input id="content1" type="hidden" value="" name="comment">
+									<input name="num" type="hidden" value="${comment.num }">
+								</div>
+								<input type="submit" class="button" value="수정" onclick="return writeCheck1()">
+							</form>
+						</c:when>
+						<c:otherwise>
+							<span id="comment">
+							<span>${flag }</span>
+							<span>${list.getNum() }</span>
+							<span>${list.getId()}</span>
+							<span>${list.getTime()}</span>
+							<span>${list.getComment()}</span>
+							<c:if test="${loginUserId == list.getId() }">
+								<a href="commentUpdate.do?num=${list.getNum() }">수정</a>
+		 						<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${list.getNum() }">삭제</a>
+							</c:if>
 					</span>
-					<br>		
+						</c:otherwise>
+					</c:choose>
+					<br>
 				</c:forEach>
 			</div>
 			<form method="post" action="comment.do" name="frm">
@@ -173,11 +229,11 @@
 					<div>
 						<br>
 					</div>
-					<div id="writeContent" class="writeContent" contenteditable="true"></div>
-					<input id="content" type="hidden" value="" name="content">
+					<div id="writeContent2" class="writeContent" contenteditable="true"></div>
+					<input id="content2" type="hidden" value="" name="content">
 					<input name="paragraph_num" type="hidden" value="${pDTO.getNum() }">
 				</div>
-				<input type="submit" class="button" value="댓글쓰기" onclick="return writeCheck();">
+				<input type="submit" class="button" value="댓글쓰기" onclick="return writeCheck2();">
 			</form>
         </div>
 		
@@ -228,24 +284,31 @@
 			}
 		}
 		//제목이나 내용이 입력되지 않은 채 submit 버튼이 눌렸을 때 alert 띄우는 함수
-		function writeCheck(){
-			if(document.getElementById("writeContent").innerHTML==""){
+		function writeCheck1(){
+			if(document.getElementById("writeContent1").innerHTML==""){
 				alert("내용을 입력해주세요.");
-				document.getElementById("writeContent").focus();
+				document.getElementById("writeContent1").focus();
 				return false;
 			}
 			
 			var text;
-			text=document.getElementById('writeContent').innerHTML;
-			document.getElementById('content').value=text;
+			text=document.getElementById('writeContent1').innerHTML;
+			document.getElementById('content1').value=text;
 			return true;
  		}
 		
-		function updateOpen(num){
-	        var url="commentUpdate.do?num="+num;
-			var popupX=(window.screen.width/2-(450/2));
-			var popupY=(window.screen.height/2-(200/2));
-			window.open(url,"_blank_1","toolbar=no, menubar=no, scrollbar=yes, resizable=no, width=450, height=200" );
-		}
+		function writeCheck2(){
+			if(document.getElementById("writeContent2").innerHTML==""){
+				alert("내용을 입력해주세요.");
+				document.getElementById("writeContent2").focus();
+				return false;
+			}
+			
+			var text;
+			text=document.getElementById('writeContent2').innerHTML;
+			document.getElementById('content2').value=text;
+			return true;
+ 		}
+		
 	</script>
 </html>
