@@ -35,8 +35,7 @@ public class SuspensionServlet extends HttpServlet {
 	            SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	            MemberDAO mDAO=MemberDAO.getInstance();
 	            String susLastDay_dao=mDAO.getSusLastDay(id);
-	            //String susLastDay_s=susLastDay_dao+" 23:59:59";
-	            String susLastDay_s="2021-10-20 23:59:59";
+	            String susLastDay_s=susLastDay_dao+" 23:59:59";
 	            Date susLastDay=dateFormat.parse(susLastDay_s);
 	            System.out.println(susLastDay);
 	            //현재 날짜와 정지 날짜 비교하기
