@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page import="DTO.ParagraphDTO" %>
 <%@ page import="DAO.ParagraphDAO" %>
 <%@ page import="DTO.CommentDTO" %>
@@ -51,6 +52,14 @@
             	float: right;
             	clear: both;
             }
+            .tagColor
+			{
+				color: blue;
+			    background-color: lightblue;
+			    border-color: blue;
+			    float:left;
+			    margin-right:5px;
+			}
 
         </style>
 	</head>
@@ -72,7 +81,17 @@
         
         <div class="content">
         	<h2>${pDTO.getTitle() }</h2>
-        	<p>Id ${pDTO.getId() },Num ${pDTO.getNum() },Name ${pDTO.getName() },Date ${pDTO.getDatetime() },Category ${pDTO.getCategory() },Hits ${pDTO.getHits() }</p><hr><br>
+        	<p>Id ${pDTO.getId() },Num ${pDTO.getNum() },Name ${pDTO.getName() },Date ${pDTO.getDatetime() },Category ${pDTO.getCategory() },Hits ${pDTO.getHits() }</p>
+        	<c:set var="tag" value="${fn:split(pDTO.getTag(),'★') }"></c:set>
+        	<c:forEach items="${tag }" var="tags">
+				<span class="tagColor">${tags }</span>
+			</c:forEach>
+			
+        	<br>
+        	<hr>
+        	
+			
+			
 			<p>${pDTO.getContents() }</p>
 			<input id="language" type="hidden" value="${language }">
 			<input id="langValue" type="hidden" value="${langValue }">

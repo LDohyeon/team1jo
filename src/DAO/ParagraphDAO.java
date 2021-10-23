@@ -86,7 +86,7 @@ public class ParagraphDAO {
 	
 	public void paragraphInsert(ParagraphDTO pDTO)
 	{
-		String sql="insert into paragraph(id, name, title, contents, category, date, hits) values(?, ?, ?, ?, ?, NOW(), 0)";
+		String sql="insert into paragraph(id, name, title, contents, category, date, hits, tag) values(?, ?, ?, ?, ?, NOW(), 0, ?)";
 		
 		Connection conn=null;
 		PreparedStatement pstmt = null;
@@ -101,6 +101,7 @@ public class ParagraphDAO {
 			pstmt.setString(3, pDTO.getTitle());
 			pstmt.setString(4, pDTO.getContents());
 			pstmt.setString(5, pDTO.getCategory());
+			pstmt.setString(6, pDTO.getTag());
 			
 			pstmt.execute();
 
@@ -146,6 +147,7 @@ public class ParagraphDAO {
 				pDTO.setCategory(rs.getString("category"));
 				pDTO.setDatetime(rs.getString("date"));
 				pDTO.setHits(rs.getInt("hits"));
+				pDTO.setTag(rs.getString("tag"));
 				
 				list.add(pDTO);
 			}
@@ -225,6 +227,7 @@ public class ParagraphDAO {
 			pDTO.setCategory(rs.getString("category"));
 			pDTO.setDatetime(rs.getString("date"));
 			pDTO.setHits(rs.getInt("hits"));
+			pDTO.setTag(rs.getString("tag"));
 			
 		}
 		catch(Exception e)

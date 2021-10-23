@@ -174,6 +174,7 @@
         <div class="footer">
             footer
         </div>
+
         <!--푸터 종료-->
         <!-- 코드를 수정한 다음 기존 코드를 삭제할 때 필요한 버튼 -->
 	
@@ -226,14 +227,11 @@
 				document.getElementById("writeContent").focus();
 				return false;
 			}
-			
 				var text;
 				text=document.getElementById('writeContent').innerHTML;
 				document.getElementById('content').value=text;
 				return true;
 			}
-		
-		
 
 		//도현
  		function langs()
@@ -241,8 +239,6 @@
 			language=document.getElementById("language").value;
 		}
 
-		
-		
  		var writeContentLib=null;
  		
  		function Lib(language)
@@ -266,19 +262,23 @@
 		var wrapPonup=document.getElementById("wrapPonup");
 		var btn = document.getElementById("btn");
 		var hid = document.getElementById.value;
+
 		
 		function code()
 		{
+			
+			langs();//온체인지
+			
 			if(language == "none")
 			{
 				alert("언어를 선택해주세요");
 				return;
 			}
 			
+			document.getElementById("writeContent").focus();
+			
 			insertSpan();
 			
-			langs();//온체인지
-	
 			hid=language;
 			
 			var ponup=document.getElementById("ponup");
@@ -383,14 +383,14 @@
 		function realGo()
 		{
 			var val="※"+hid+"※"+writeContentLib.getValue()+"※";
-			document.getElementById("focusValue").insertAdjacentHTML("afterend", val);
+			document.getElementById("focusValue").insertAdjacentText("afterend", val);
 			
 			cansle();
 		}
 		function realGoUpdate()
 		{
 			var val="※"+getSels[1]+"※"+writeContentLib.getValue()+"※";
-			document.getElementById("focusValue").insertAdjacentHTML("afterend", val);
+			document.getElementById("focusValue").insertAdjacentText("afterend", val);
 			
 			cansle();
 		}
