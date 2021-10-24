@@ -88,7 +88,7 @@ form div span input{
 }
 
 .mListPage{
-	list-style:none;
+	list-style: none;
 	padding-left: 0px;
 }
 .mListPage li{
@@ -98,4 +98,13 @@ form div span input{
 
 .stopDay{
 	display: none;
+}
+
+.chartCanvas{
+	margin: 200px auto;
+	width: 600px;
+	height: 510px;
+}
+#myChart{
+	margin: 0 auto;
 }

@@ -18,14 +18,17 @@
 		<a href="userInfo.do">회원정보 수정</a>
 		<a href="leaveId.do">회원 탈퇴</a>
 		<a href="memberList.do?startPage=1">회원 관리(관리자)</a>
+		<a href="registerNumberServlet.do">회원가입자 수(차트)</a>
 		<a href="paragraphEditorWrite.do">에디터 작성</a>
 		<a href="paragraphList.do?startPage=1">게시판 확인</a>
 		<a href="suspension.do?">회원정지 날짜 계산하기</a>
+		<a href="chart02Servlet.do?">작성한 글 관련 차트</a>
 
 		${loginUser.getId()}<!-- 로그인 잘 되는지 확인용 헤더가 없어서.. -->
 		${loginUser.getPw()}
 		${loginUser.getName()}
 		${loginUser.getEmail()}
+		${loginUser.getAuthority()}
 		
 	</body>
 </html>

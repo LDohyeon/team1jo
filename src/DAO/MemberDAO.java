@@ -835,41 +835,94 @@ public class MemberDAO {
 	      }
 	   }
 	//권한 수정
+	
 	//정지 기간 설정
-		public void updateSuspension(String date, String selAuIdValue)
+	public void updateSuspension(String date, String selAuIdValue)
+	{
+		String sql="update Member set stopdate=? where id=?";
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+	
+		try
 		{
-			String sql="update Member set stopdate=? where id=?";
-			Connection conn=null;
-			PreparedStatement pstmt = null;
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, date);
+			pstmt.setString(2, selAuIdValue);
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			System.out.println("MemberDAO의 updateSuspension에서 문제 발생"+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+	}
+	//정지 기간 설정
+	
+	//정지 기간 가져오기
+	public String getSusLastDay(String id)
+	{
+		String susLastDay="";
+		String sql="select stopdate from member where id = ?";
 		
-			try
-			{
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+		
+			rs.next();
+			susLastDay = rs.getString("stopdate");
+										
+		}
+		catch(Exception e)
+		{
+			System.out.println("MemberDAO의 getSusLastDay에서 문제 발생"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		return susLastDay;
+	}
+	//정지 기간 가져오기
+		
+	// 회원가입자 수 
+		public String registerMemberDateCount(String ymdDate) {
+			String sql="select count(*) from member where createdate=?"; 
+			Connection conn=null;
+			PreparedStatement pstmt=null;
+			ResultSet rs=null; 
+			try {
 				conn=getConnection();
 				pstmt=conn.prepareStatement(sql);
-				
-				pstmt.setString(1, date);
-				pstmt.setString(2, selAuIdValue);
-				
-				pstmt.executeUpdate();
+				pstmt.setString(1, ymdDate);
+				rs=pstmt.executeQuery();
+				rs.next();
+				ymdDate = rs.getString(1);		
 			}
-			catch(Exception e)
-			{
-				System.out.println("회원 정지 날짜 세팅 실패"+e);
+			catch(Exception e) {
+				System.out.println("회원가입자 수 오류 발생 +e");
 			}
 			finally
 			{
-				close(conn, pstmt);
+				close(conn, pstmt, rs);
 			}
+			return ymdDate;
 		}
-		//정지 기간 설정
+	// 회원가입자 수 
 }
-
-
-
-
-
-
-
-
 
 

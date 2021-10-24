@@ -47,14 +47,13 @@ public class LoginServelt extends HttpServlet {
 			session.setAttribute("loginUser", mDTO); 
 			session.setAttribute("loginUserId", mDTO.getId());
 			session.setAttribute("Authority", mDTO.getAuthority());
-		}		
+			System.out.println("로그인 : "+mDTO.getAuthority());		
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 
 		dispatcher.forward(request, response);
+		}
 	}
-
-	
 }
 
 

@@ -11,8 +11,6 @@ public class MemberDTO {
 	private String stopdate;
 	private String createDate;
 	
-
-	
 	public String getCreateDate() {
 		return createDate;
 	}
