@@ -10,8 +10,16 @@ public class ParagraphDTO {
 	private String category;
 	private String datetime;
 	private int hits;
+	private String tag;
 
 
+
+	public String getTag() {
+		return tag;
+	}
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 	public int getHits() {
 		return hits;
 	}
@@ -72,6 +80,7 @@ public class ParagraphDTO {
 //			category text,
 //			date datetime);
 //alter table paragraph add hits int;	
+//alter table paragraph add tag text;
 
 	
 }

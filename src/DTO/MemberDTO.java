@@ -73,6 +73,8 @@ public class MemberDTO {
 //alter table member add stopdate date;	
 //alter table member add createdate date;
 	
+	
+	
 
 	
 }

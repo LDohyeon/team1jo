@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
 	<html>
 	<head>
@@ -33,17 +34,25 @@
 	<body>
 		<h2>코드 작성</h2>
 		
-		<textarea id="writeContent"></textarea>
+		<textarea id="writeContent">${write }</textarea>
 
 		<input id="language" type="hidden" value="${language }">
 		
-		<input type="button" value="코드 작성 완료" onclick="codeEnd()">
+		<c:if test="${flag==0 }">
+			<input type="button" value="코드 작성 완료" onclick="codeEnd()">
+		</c:if>
+		<c:if test="${flag==1 }">
+			<input type="button" value="코드 수정 완료" onclick="codeEndUpdate()">
+		</c:if>
+		
 		
 		<input id="lang" type="hidden">
-		
-		<p></p>
+		<body onbeforeunload="moveCheckYn();">
+
+
 		
 		<script>
+
 
 			var language =document.getElementById("language").value;
 			var writeContent= document.getElementById("writeContent");
@@ -53,6 +62,7 @@
 				lineNumbers: true,
 				theme: "darcula",
 				mode: language,
+				//mode:"text/x-python",
 				spellcheck: true,
 				autocorrect: true,
 				autocapitalize: true,
@@ -63,15 +73,43 @@
 
 			function codeEnd()
 			{
-				writeContent.getValue();
-				console.log(writeContent.getValue());
 				
-				opener.document.getElementById("writeContent").innerHTML+="※"+language+"※";
-				opener.document.getElementById("writeContent").innerHTML+=writeContent.getValue()+"※";
-					
+				alert(writeContent.getValue());
+				
+				opener.document.getElementById("writeContent").innerText+="※"+language+"※";
+				opener.document.getElementById("writeContent").innerText+=writeContent.getValue()+"※";
+				
 				opener.document.getElementById("writeContent").innerHTML+="<div><br></div>";
-				self.close();
+				
+				if(opener.document.getSelection().isCollapsed==false)
+				{
+					self.close();
+				}
+				else
+				{
+					self.close();
+				}
 
+			}
+			function codeEndUpdate()
+			{
+				
+				opener.document.getElementById("writeContent").innerText+="※"+language+"※";
+				opener.document.getElementById("writeContent").innerText+=writeContent.getValue()+"※";
+				
+				opener.document.getElementById("writeContent").innerHTML+="<div><br></div>";
+				
+				
+
+				
+				if(opener.document.getSelection().isCollapsed==false)
+				{
+					self.close();
+				}
+				else
+				{
+					self.close();
+				}
 			}
 		</script>
 	</body>

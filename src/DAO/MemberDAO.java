@@ -900,29 +900,28 @@ public class MemberDAO {
 	//정지 기간 가져오기
 		
 	// 회원가입자 수 
-		public String registerMemberDateCount(String ymdDate) {
-			String sql="select count(*) from member where createdate=?"; 
-			Connection conn=null;
-			PreparedStatement pstmt=null;
-			ResultSet rs=null; 
-			try {
-				conn=getConnection();
-				pstmt=conn.prepareStatement(sql);
-				pstmt.setString(1, ymdDate);
-				rs=pstmt.executeQuery();
-				rs.next();
-				ymdDate = rs.getString(1);		
-			}
-			catch(Exception e) {
-				System.out.println("회원가입자 수 오류 발생 +e");
-			}
-			finally
-			{
-				close(conn, pstmt, rs);
-			}
-			return ymdDate;
+	public String registerMemberDateCount(String ymdDate) {
+		String sql="select count(*) from member where createdate=?"; 
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null; 
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, ymdDate);
+			rs=pstmt.executeQuery();
+			rs.next();
+			ymdDate = rs.getString(1);		
 		}
-	// 회원가입자 수 
+		catch(Exception e) {
+			System.out.println("회원가입자 수 오류 발생 +e");
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		return ymdDate;
+	}
 }
 
 

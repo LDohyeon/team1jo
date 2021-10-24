@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+
     
 <!DOCTYPE html>
 	<html>
@@ -15,7 +18,7 @@
 			}
 			.paragraphListWrap
 			{
-				width:900px;
+				width:1200px;
 				padding:15px;
 				border : 1px solid lightgray;
 				margin : 60px auto;			
@@ -32,6 +35,14 @@
 			}
 			.pageNum{
 				text-align: center;
+			}
+			.tagColor
+			{
+				color: blue;
+			    background-color: lightblue;
+			    border-color: blue;
+			    float:left;
+			    margin-right:5px;
 			}
 			
 		</style>
@@ -53,12 +64,31 @@
 				<c:forEach items="${list }" var="list">
 					<span>
 						<span>${list.getNum() }</span>
-						<span><a href="paragraphEachSelect.do?num=${list.getNum()}">[${list.getCategory()}]${list.getTitle()}</a></span>
+						<span>
+							<a href="paragraphEachSelect.do?num=${list.getNum()}">[${list.getCategory()}]${list.getTitle()}</a>
+							<br>
+							<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
+								
+							<c:if test="${fn:length(tag) <= 3}">
+								<c:forEach items="${tag }" var="tags">
+									<span class="tagColor">${tags }</span>
+								</c:forEach>
+							</c:if>
+							<c:if test="${fn:length(tag) > 3}">
+								<c:forEach begin="0" end="2" items="${tag }" var="tags">
+									<span class="tagColor">${tags }</span>
+								</c:forEach>
+							</c:if>
+
+
+
+						</span>
 						<span>${list.getId()}</span>
 						<span>${list.getDatetime()}</span>
 						<span>${list.getHits()}</span>
 					</span>				
 				</c:forEach>
+				
 			</div>
 			<div class="pageNum">
 				<c:forEach begin="1" end="${ nOfPages}" var="i">

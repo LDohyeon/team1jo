@@ -24,7 +24,9 @@ public class ParagraphDAO {
 		Connection conn = null;
 		String url = "jdbc:mysql://127.0.0.1:3306/status200";
 		String db_id = "root";
-		String db_pw = "iotiot";
+		String db_pw="iotiot";
+		//String db_pw="iotiot12*";
+		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
 		
 		try
 		{
@@ -84,7 +86,7 @@ public class ParagraphDAO {
 	
 	public void paragraphInsert(ParagraphDTO pDTO)
 	{
-		String sql="insert into paragraph(id, name, title, contents, category, date, hits) values(?, ?, ?, ?, ?, NOW(), 0)";
+		String sql="insert into paragraph(id, name, title, contents, category, date, hits, tag) values(?, ?, ?, ?, ?, NOW(), 0, ?)";
 		
 		Connection conn=null;
 		PreparedStatement pstmt = null;
@@ -99,6 +101,7 @@ public class ParagraphDAO {
 			pstmt.setString(3, pDTO.getTitle());
 			pstmt.setString(4, pDTO.getContents());
 			pstmt.setString(5, pDTO.getCategory());
+			pstmt.setString(6, pDTO.getTag());
 			
 			pstmt.execute();
 
@@ -144,6 +147,7 @@ public class ParagraphDAO {
 				pDTO.setCategory(rs.getString("category"));
 				pDTO.setDatetime(rs.getString("date"));
 				pDTO.setHits(rs.getInt("hits"));
+				pDTO.setTag(rs.getString("tag"));
 				
 				list.add(pDTO);
 			}
@@ -223,6 +227,7 @@ public class ParagraphDAO {
 			pDTO.setCategory(rs.getString("category"));
 			pDTO.setDatetime(rs.getString("date"));
 			pDTO.setHits(rs.getInt("hits"));
+			pDTO.setTag(rs.getString("tag"));
 			
 		}
 		catch(Exception e)
@@ -332,6 +337,43 @@ public class ParagraphDAO {
 	}
 	
 	//조회수 업
+	
+	//날짜별 작성글 개수 가져오기
+	public int countWritings(String date)
+	{
+		String sql="select count(num) from paragraph where DATE(date)=?;";
+		
+		int writings=0;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, date);
+			
+			rs=pstmt.executeQuery();
+			
+			rs.next();
+		
+			writings=rs.getInt(1);
+		}
+		catch(Exception e)
+		{
+			System.out.println("countWritings 중 문제 발생 : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return writings;
+	}
+	//날짜별 작성글 개수 가져오기
 	
 }
 
