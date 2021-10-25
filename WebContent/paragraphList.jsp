@@ -27,11 +27,20 @@
 			{
 				border : 1px solid lightgray;
 			}
-			.spanWrap > span > span
-			{
+			.narrow{
 				text-align:center;
 				display :inline-block;
-				width:19%;
+				width: 11%;
+			}
+			.medium{
+				text-align:center;
+				display :inline-block;
+				width: 19%;
+			}
+			.wide{
+				text-align:center;
+				display :inline-block;
+				width: 45%;
 			}
 			.pageNum{
 				text-align: center;
@@ -41,7 +50,7 @@
 				color: blue;
 			    background-color: lightblue;
 			    border-color: blue;
-			    float:left;
+			    
 			    margin-right:5px;
 			}
 			
@@ -55,18 +64,18 @@
 			</c:if>
 			<div class="spanWrap">
 				<span>
-					<span>번호</span>
-					<span>제목</span>
-					<span>글쓴이</span>
-					<span>날짜</span>
-					<span>조회수</span>
+					<span class="narrow">번호</span>
+					<span class="wide">제목</span>
+					<span class="narrow">글쓴이</span>
+					<span class="medium">날짜</span>
+					<span class="narrow">조회수</span>
 				</span>
 				<c:forEach items="${list }" var="list">
 					<span>
-						<span>${list.getNum() }</span>
-						<span>
+						<span class="narrow">${list.getNum() }</span>
+						<span class="wide">
 							<a href="paragraphEachSelect.do?num=${list.getNum()}">[${list.getCategory()}]${list.getTitle()}</a>
-							<br>
+							
 							<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
 								
 							<c:if test="${fn:length(tag) <= 3}">
@@ -83,9 +92,9 @@
 
 
 						</span>
-						<span>${list.getId()}</span>
-						<span>${list.getDatetime()}</span>
-						<span>${list.getHits()}</span>
+						<span class="narrow">${list.getId()}</span>
+						<span class="medium">${list.getDatetime()}</span>
+						<span class="narrow">${list.getHits()}</span>
 					</span>				
 				</c:forEach>
 				
