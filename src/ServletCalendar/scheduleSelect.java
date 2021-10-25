@@ -47,6 +47,8 @@ public class scheduleSelect extends HttpServlet {
 			info += getXmlTag("groupmembers", glist.get(i).getMembers());
 			info += getXmlTag("groupcolor", glist.get(i).getGroupcolor());
 			info += getXmlTag("modifier", glist.get(i).getModifier());
+			info += getXmlTag("master", glist.get(i).getMaster());
+			info += getXmlTag("searchable", glist.get(i).getSearchable());
 			
 			for(int j = 0; j<slist.size(); j++) {
 				info += "<schedule>";
@@ -63,13 +65,9 @@ public class scheduleSelect extends HttpServlet {
 			info += "</group>";
 		}
 		info += "<data>";
-		
-		if(userKey.equals("DEMOUSER")) {
-			xml.print(demoInfo());
-		}
-		else {
-			xml.print(info);
-		}
+	
+		xml.print(info);
+
 	}
 	protected String getXmlTag(String tag, String inner) {
 		String info = "<"+tag+">"+inner+"</"+tag+">";
@@ -77,82 +75,6 @@ public class scheduleSelect extends HttpServlet {
 	}
 	protected String getXmlTag(String tag, int inner) {
 		String info = "<"+tag+">"+inner+"</"+tag+">";
-		return info;
-	}
-	
-	protected String demoInfo() {
-		String info = 
-		"<data>"
-			+ "<group>"
-				+ "<groupnum>1</groupnum>"
-				+ "<groupname>DEMOUSER</groupname>"
-				+ "<groupcolor>#dc143c</groupcolor>"				
-				+ "<modifier>DEMOUSER</modifier>"
-				+ "<schedule>"
-					+ "<num>1</num>"
-					+ "<title>뮤지컬 관람 하기</title>"
-					+ "<start>2021-10-30 09:00:00</start>"
-					+ "<end>2021-10-30 13:00:00</end>"
-					+ "<content></content>"
-					+ "<writer>DEMOUSER</writer>"
-					+ "<color>#A8C8F9</color>"
-				+ "</schedule>"
-			+ "</group>"
-			+ "<group>"
-				+ "<groupnum>2</groupnum>"
-				+ "<groupname>DEMO1</groupname>"
-				+ "<groupcolor>#dc143c</groupcolor>"	
-				+ "<modifier>DEMOUSER</modifier>"
-				+ "<schedule>"
-					+ "<num>2</num>"
-					+ "<title>휴대전화 요금 내기</title>"
-					+ "<start>2021-10-01 12:00:00</start>"
-					+ "<end>2021-10-03 18:00:00</end>"
-					+ "<content></content>"
-					+ "<writer>DEMOUSER</writer>"
-					+ "<color>#FFDDA6</color>"
-				+ "</schedule>"
-			+ "</group>"
-			+ "<group>"
-				+ "<groupnum>3</groupnum>"
-				+ "<groupname>DEMO2</groupname>"
-				+ "<groupcolor>#dc143c</groupcolor>"	
-				+ "<modifier>DEMOUSER</modifier>"
-				+ "<schedule>"
-					+ "<num>3</num>"
-					+ "<title>어머니한테 전화</title>"
-					+ "<start>2021-10-02 12:00:00</start>"
-					+ "<end>2021-10-02 13:00:00</end>"
-					+ "<content></content>"
-					+ "<writer>DEMOUSER</writer>"
-					+ "<color>#FC9EBD</color>"
-				+ "</schedule>"
-			+ "</group>"
-			+ "<group>"
-				+ "<groupnum>4</groupnum>"
-				+ "<groupname>DEMO3</groupname>"
-				+ "<groupcolor>#dc143c</groupcolor>"	
-				+ "<modifier>DEMOUSER</modifier>"
-				+ "<schedule>"
-					+ "<num>4</num>"
-					+ "<title>논물 읽고 과제</title>"
-					+ "<start>2021-10-07 12:00:00</start>"
-					+ "<end>2021-10-17 13:00:00</end>"
-					+ "<content></content>"
-					+ "<writer>DEMOUSER</writer>"
-					+ "<color>#B8F3B8</color>"
-				+ "</schedule>"
-				+ "<schedule>"
-					+ "<num>5</num>"
-					+ "<title>휴가</title>"
-					+ "<start>2021-10-20 12:00:00</start>"
-					+ "<end>2021-10-24 13:00:00</end>"
-					+ "<content></content>"
-					+ "<writer>DEMOUSER</writer>"
-					+ "<color>#FFCCCC</color>"
-				+ "</schedule>"
-			+ "</group>"
-		+ "</data>";
 		return info;
 	}
 }

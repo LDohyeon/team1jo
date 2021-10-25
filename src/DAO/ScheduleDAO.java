@@ -305,6 +305,8 @@ public class ScheduleDAO {
 				gDTO.setGroupnum(rs.getInt("groupnum"));
 				gDTO.setGroupname(rs.getString("groupname"));
 				gDTO.setGroupcolor(rs.getString("groupcolor"));
+				gDTO.setMaster(rs.getString("master"));
+				gDTO.setSearchable(rs.getString("searchable"));
 				gDTO.setMembers(rs.getString("members"));
 				gDTO.setModifier(rs.getString("modifier"));
 
@@ -342,7 +344,7 @@ public class ScheduleDAO {
 }
 
 	
-/* create table groupData(groupnum int primary key auto_increment, groupname text, groupcolor text, members text, modifier text);
+/* create table groupData(groupnum int primary key auto_increment, groupname text, groupcolor text, members text, searchable varchar(11) default disable, master text, modifier text);
  * create table schedule(num int primary key auto_increment, title text, content text, start text, end text, color text, writer text, groupnum text);
  * 
  * */

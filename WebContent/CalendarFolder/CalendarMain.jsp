@@ -11,10 +11,6 @@
 	catch(Exception e){
 		System.out.println("Session get Error: calendarMain.jsp: line 10: >>" +e);
 	}
-	
-	if(userKey==null){
-		userKey="'DEMOUSER'";
-	}
 %>
 <html>
 	<head>
@@ -590,25 +586,25 @@
             let v = document.createElement("div");
             v.classList.add("calendarBody");
             
-            let rightBox = document.createElement("div");
-            rightBox.classList.add("rightBox");
-            rightBox.appendChild(createToDoLayout());
-            rightBox.appendChild(createGroupLayout());
+            let naviBox = document.createElement("div");
+            naviBox.classList.add("naviBox");
+            naviBox.appendChild(createNaviLayout());
+            
+            let leftBox = document.createElement("div");
+            leftBox.classList.add("leftBox");
+            leftBox.appendChild(createToDoLayout());
+            leftBox.appendChild(createGroupLayout());
             
             let centerBox = document.createElement("div");
             centerBox.classList.add("centerBox");
            
             centerBox.appendChild(createScheduleLayout());
             centerBox.appendChild(createCalanderLayout());
-            
-            let leftBox = document.createElement("div");
-            leftBox.classList.add("leftBox");
-            leftBox.appendChild(createNaviLayout());
-            
-            v.appendChild(rightBox);
-            v.appendChild(centerBox);
+
+            v.appendChild(naviBox);
             v.appendChild(leftBox);
-            
+            v.appendChild(centerBox);
+
             return v;
         }
         
@@ -759,6 +755,7 @@
             cc = document.createElement("div");
             cc.classList.add("groupAdd");
             cc.innerHTML = "추가";
+            cc.addEventListener("click", addGroupBtn);
             c.appendChild(cc);
             
             v.appendChild(c);
@@ -1656,6 +1653,7 @@
 		
 		// TodoList용 AJAX
 		var XHRTodolist;
+		
 		function createXHRTodolist(){
 			if(window.ActiveXObject){ 
 				XHRTodolist=new ActiveXObject("Microsoft.XMLHTTP");
@@ -1665,10 +1663,21 @@
 			}
 		}
 		
+		var XHRGroup;
+		
+		function createXHRGroup(){
+			if(window.ActiveXObject){ 
+				XHRGroup=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			else if(window.XMLHttpRequest){
+				XHRGroup=new XMLHttpRequest();
+			}
+		}
+		
 		// 스케줄 자세한 정보 창
 		function scheduleDetailInfo(){
 			let target = event.target;
-			console.log(target);
+			
 			if(target.childElementCount!=0){
 				
 			}
@@ -1900,18 +1909,18 @@
 				c.classList.add("groupElement");
 				
 				cc = document.createElement("div");
-				cc.classList.add("groupCheckBox");
+				cc.classList.add("groupDataCheckBox");
 				cc.addEventListener("click", viewGroupForSchedule);
 				cc.innerHTML = "보기/끄기";
 				c.appendChild(cc);
 				
 				cc = document.createElement("div");
-				cc.classList.add("groupNameVisible");
+				cc.classList.add("groupDataName");
 				cc.innerHTML = groupDivs[i].groupname;
 				c.appendChild(cc);
 				
 				cc = document.createElement("div");
-				cc.classList.add("groupCheckBox");
+				cc.classList.add("groupDataTool");
 				cc.addEventListener("click", viewGroupTool);
 				cc.innerHTML = "설정";
 				c.appendChild(cc);
@@ -1923,25 +1932,46 @@
 				c.appendChild(cc);
 				
 				cc = document.createElement("input");
-				cc.classList.add("groupDataName");
+				cc.classList.add("groupDataColor");
 				cc.setAttribute("type", "color");
 				c.appendChild(cc);
 				
-				cc = document.createElement("div");
-				cc.classList.add("groupMemberList");
-				
-				ccc = document.createElement("div");
-				ccc.classList.add("groupMemberAdd");
-				ccc.innerHTML="멤버 추가";
+				cc = document.createElement("select");
+				cc.classList.add("groupDataSearchable");
+				ccc = document.createElement("option");
+				ccc.classList.add("groupDataSearchOption");
+				ccc.setAttribute("value", "disable");
+				ccc.innerHTML = "비공개";
 				cc.appendChild(ccc);
+				ccc = document.createElement("option");
+				ccc.classList.add("groupDataSearchOption");
+				ccc.setAttribute("value", "able");
+				ccc.innerHTML = "공개";
+				cc.appendChild(ccc);
+				cc.setAttribute("value", groupDivs[i].searchable);
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("groupDataMemberAdd");
+				cc.innerHTML="멤버 추가";
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("groupDataMemberList");
 				
 				ccc = document.createElement("div");
-				ccc.classList.add("groupMemberSearch");
+				ccc.classList.add("groupDataMemberSearch");
 				ccc.setAttribute("contenteditable", "true");
 				cc.appendChild(ccc);
 				
 				ccc = document.createElement("div");
-				ccc.classList.add("groupMembers");
+				ccc.classList.add("groupDataMaster");
+				ccc.innerHTML=groupDivs[i].master;
+				cc.appendChild(ccc);
+				c.appendChild(cc);
+				
+				ccc = document.createElement("div");
+				ccc.classList.add("groupDataMembers");
 				ccc.innerHTML=groupDivs[i].groupmembers;
 				cc.appendChild(ccc);
 				c.appendChild(cc);
@@ -1953,9 +1983,10 @@
 				c.appendChild(cc);
 				
 				cc = document.createElement("input");
-				cc.classList.add("groupDataAddBtn");
+				cc.classList.add("groupDataAdd");
 				cc.setAttribute("type", "button");
 				cc.setAttribute("value", "완료");
+				cc.addEventListener("click", addGroup)
 				c.appendChild(cc);
 				
 				cc = document.createElement("input");
@@ -2436,6 +2467,183 @@
 			toDoListDelete(json);
 		};
 		
+		// Group 항목 수정
+		// 그룹 추가> 버튼 누를시 
+		function addGroupBtn(){
+			let v = document.getElementsByClassName("groupMain")[0];
+			
+			c = document.createElement("div");
+			c.classList.add("groupElement");
+			
+			cc=document.createElement("input");
+			cc.setAttribute("type", "text");
+			cc.classList.add("groupDataNum");
+			c.appendChild(cc);
+			
+			cc=document.createElement("input");
+			cc.setAttribute("type", "text");
+			cc.classList.add("groupDataName");
+			c.appendChild(cc);
+			
+			cc=document.createElement("input");
+			cc.setAttribute("type", "color");
+			cc.classList.add("groupDataColor");
+			c.appendChild(cc);
+
+			cc = document.createElement("select");
+			cc.classList.add("groupDataSearchable");
+			ccc = document.createElement("option");
+			ccc.classList.add("groupDataSearchOption");
+			ccc.setAttribute("value", "disable");
+			ccc.innerHTML = "비공개";
+			cc.appendChild(ccc);
+			ccc = document.createElement("option");
+			ccc.classList.add("groupDataSearchOption");
+			ccc.setAttribute("value", "able");
+			ccc.innerHTML = "공개";
+			cc.appendChild(ccc);
+
+			c.appendChild(cc);
+			
+			cc=document.createElement("div");
+			cc.classList.add("groupDataMemberList");
+			
+			ccc = document.createElement("div");
+			ccc.classList.add("groupDataMemberSearch");
+			ccc.setAttribute("contenteditable", "true");
+			cc.appendChild(ccc);
+			
+			ccc = document.createElement("input");
+			ccc.setAttribute("type", "text");
+			ccc.classList.add("groupDataMembers");
+			
+			cc.appendChild(ccc);
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("groupDataAdd");
+			cc.setAttribute("type", "button");
+			cc.setAttribute("value", "완료");
+			cc.addEventListener("click", addGroup)
+			c.appendChild(cc);
+			
+			v.insertBefore(c, v.firstChild);
+		}
+				//완료 시> 기존거 수정에도 사용 
+		function addGroup(){
+			createXHRGroup();
+			
+			let target = event.target;
+			let v = target.prentNode;
+			
+			let num = v.getElementsByClassName("groupDataNum")[0].value;
+			let name = v.getElementsByClassName("groupDataName")[0].value;
+    		let members = v.getElementsByClassName("groupDataMembers")[0].value;
+    		let master = v.getElementsByClassName("master")[0].value;
+    		let searchable = v.getElementsByClassName("searchable")[0].value;
+			
+    		console.log(num);
+    		console.log(name);
+    		console.log(members);
+    		console.log(master);
+    		console.log(searchable);
+    		
+			XHRGroup.onreadystatechange=function(){
+				if(XHRCalendar.readyState==4){
+					
+		            if(XHRCalendar.status==200){
+		            	
+		            	
+		            }
+				}
+			}
+			
+			XHRCalendar.open("POST", "../groupInsert", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send("userKey="+userKey);
+		}
+		
+		function delGroup(){
+			// 검증식 넣어 마스터와 유저키가 일치할 경우: 그룹 삭제
+			createXHRGroup();
+			
+			XHRGroup.onreadystatechange=function(){
+				
+				if(XHRCalendar.readyState==4){
+					
+		            if(XHRCalendar.status==200){
+		            	
+		            	
+		            }
+				}
+			}
+			
+			XHRCalendar.open("POST", "../groupDelete", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send("userKey="+userKey);
+			
+		}
+		
+		function addGroupMember(){
+			createXHRGroup();
+			
+			XHRGroup.onreadystatechange=function(){
+				
+				if(XHRCalendar.readyState==4){
+					
+		            if(XHRCalendar.status==200){
+		            	
+		            	
+		            }
+				}
+			}
+			
+			XHRCalendar.open("POST", "../", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send("userKey="+userKey);
+		
+		}
+		
+		function delGroupMember(){
+			createXHRGroup();
+			
+			XHRGroup.onreadystatechange=function(){
+				
+				if(XHRCalendar.readyState==4){
+					
+		            if(XHRCalendar.status==200){
+		            	
+		            	
+		            }
+				}
+			}
+			
+			XHRCalendar.open("POST", "../", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send("userKey="+userKey);
+		}
+		
+		function searchGroupMember(){
+			createXHRGroup();
+			
+			XHRGroup.onreadystatechange=function(){
+				
+				if(XHRCalendar.readyState==4){
+					
+		            if(XHRCalendar.status==200){
+		            	
+		            	
+		            }
+				}
+			}
+			
+			XHRCalendar.open("POST", "../", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send("userKey="+userKey);
+		}
+		
+		
+		
 		// 년 형식 스케줄
 		function scheduleCheckYear (date, userKey, group){
 			if(typeof(date)!='undefined'||typeof(userKey)!='undefined'||typeof(userKey)!=null||typeof(group)!='undefined'){
@@ -2448,7 +2656,7 @@
 		
 		// 월 형식 스케줄
 		function scheduleCheckMonth (date){
-			console.log(date);
+			
 			if(typeof(userKey)=='undefined'||userKey==null){
 				userKey = "DEMOUSER"
 			}
@@ -2459,8 +2667,6 @@
 				date = getToday();
 				getGroupSchedule(userKey, date);
 			}
-			
-			
 		}
 		
 		// 유저키와 데이터로 그룹 및 스케줄 데이터 가져옴 
@@ -2492,7 +2698,7 @@
 		            	
 		            	groups = xmlGroup.getElementsByTagName("group");
 		            	groupDivs = [];
-		            	console.log(XHRCalendar);
+		            	console.log(groups);
 		            	
 		            	for(let i = 0; i < groups.length; i++){
 		            		schedules = groups[i].getElementsByTagName("schedule");
@@ -2519,7 +2725,9 @@
 		            		let tempDiv = {
 		            			groupnum: groups[i].getElementsByTagName("groupnum")[0].innerHTML,
 			            		groupname: groups[i].getElementsByTagName("groupname")[0].innerHTML,
-			            		groupmembers: groups[i].getElementsByTagName("groupmembers")[0].innerHTML
+			            		groupmembers: groups[i].getElementsByTagName("groupmembers")[0].innerHTML,
+		            			master: groups[i].getElementsByTagName("master")[0].innerHTML,
+		            			searchable: groups[i].getElementsByTagName("searchable")[0].innerHTML
 		            		}
 		            		groupDivs.push(tempDiv);
 		            	}
@@ -2531,7 +2739,7 @@
 		            	changeScheduleBoxs();
 		            }
 				}
-			};
+			}
 			XHRCalendar.open("POST", "../scheduleSelect", true);
 			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 			XHRCalendar.send("userKey="+userKey);

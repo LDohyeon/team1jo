@@ -6,6 +6,8 @@ public class GroupDTO {
 	private String groupname;
 	private String groupcolor;
 	private String members;
+	private String searchable;
+	private String master;
 	private String modifier;
 	
 	public int getGroupnum() {
@@ -38,6 +40,18 @@ public class GroupDTO {
 	}
 	public void setGroupcolor(String groupcolor) {
 		this.groupcolor = groupcolor;
+	}
+	public String getSearchable() {
+		return searchable;
+	}
+	public void setSearchable(String searchable) {
+		this.searchable = searchable;
+	}
+	public String getMaster() {
+		return master;
+	}
+	public void setMaster(String master) {
+		this.master = master;
 	}
 	
 }
