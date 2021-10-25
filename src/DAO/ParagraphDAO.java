@@ -383,7 +383,7 @@ public class ParagraphDAO {
 		int tagNum=0;
 		String tags="%"+tag+"%";
 		
-		String sql="select count(num) from Paragraph where tag like ?;";
+		String sql="select count(num) from Paragraph where tag like ?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -411,15 +411,112 @@ public class ParagraphDAO {
 		{
 			close(conn, pstmt, rs);
 		}
-		
-		
-		
+	
 		return tagNum;
 	}
 	
 	//태그 개수 세기
 	
 	
+	//게시판 검색
+	
+	public List<ParagraphDTO> searchParagraph(String search)
+	{
+		String searchs= "%"+search+"%";		
+		String sql="select * from Paragraph where tag like ? || title like ? || contents like ?";
+		
+		List<ParagraphDTO> list = new ArrayList<ParagraphDTO>();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, searchs);
+			pstmt.setString(2, searchs);
+			pstmt.setString(3, searchs);
+			
+			rs= pstmt.executeQuery();
+			
+			while(rs.next())
+			{
+				ParagraphDTO pDTO = new ParagraphDTO();
+				
+				pDTO.setNum(rs.getInt("num"));
+				pDTO.setId(rs.getString("id"));
+				pDTO.setName(rs.getString("name"));
+				pDTO.setTitle(rs.getString("title"));
+				pDTO.setContents(rs.getString("contents"));
+				pDTO.setCategory(rs.getString("category"));
+				pDTO.setDatetime(rs.getString("date"));
+				pDTO.setHits(rs.getInt("hits"));
+				pDTO.setTag(rs.getString("tag"));
+				
+				list.add(pDTO);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("게시판 검색 실패" + e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return list;
+	}
+	
+	//게시판 검색
+	
+	//게시판 검색 페이지 버튼
+	
+	public int searchPageBtnParagraph(String search)
+	{
+		String searchs= "%"+search+"%";		
+		String sql="select count(num) from Paragraph where tag like ? || title like ? || contents like ?";
+		
+		int searchPageBtn=0;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, searchs);
+			pstmt.setString(2, searchs);
+			pstmt.setString(3, searchs);
+			
+			rs= pstmt.executeQuery();
+			
+			rs.next();
+			
+			searchPageBtn = rs.getInt(1);
+
+		}
+		catch(Exception e)
+		{
+			System.out.println("게시판 페이지 검색 실패" + e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return searchPageBtn;
+	}
+
+	//게시판 검색 페이지 버튼
+
 }
 
 
