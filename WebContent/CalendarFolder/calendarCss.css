@@ -309,40 +309,80 @@
 }
 
 
-/*제민-일간 주간 작업중... 오늘까지 마무리*/
-.dayAreaHeadYoil{
-	font-size: 11px;
-}
-.dayAreaHeadDate{
-	font-size: 26px;
-}
-.dayAreaBody{
-	width: 100%;
-    min-width: 800px;
-    display:flex;
+/*제민- 작업*/
+.calendarArea{
+    display: flex;
     flex-flow: row wrap;
 }
 .dayTimeWrap{
-	width:100%;
-	display:flex;
-	flex-flow: column wrap;
+    display: flex;
+    flex-flow: column wrap;
+}
+.dayHeadSize{
+    height: 80px;
 }
 .dayTimeBox{
-	height: 48px;
+    width: 100%;
+    height: 48px;
 }
 .dayTime{
-	position: relative;
+    position: relative;
 	top: -6px;
 }
-.dayBoxWrap{
-	width:100%;
-	display:flex;
-	flex-flow: column wrap;
+.dayScheduleTime{
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
 }
-.dayBox{
-	height: 48px;
+.dayAreaHead{
+    margin-bottom: 10px;
 }
-.dayBox::after{
-	content:"";
-	border-bottom: 1px solid lightgray;
+.dayAreaHeadYoil{
+    font-size: 11px;
+    width: 46px;
+    text-align: center;
+    height: 32px;
+    line-height: 32px;
+}
+.dayAreaHeadDate{
+    font-size: 26px;
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+.dayBodyWrap{
+    display: flex;
+    flex-flow: row wrap;
+}
+.dayScheduleLeftLineWrap{
+    display: flex;
+    flex-flow: column wrap;
+}
+.dayScheduleLeftLine:first-child{
+    height: 40px;
+}
+.dayScheduleWrap{
+    display: flex;
+    flex-flow: column wrap;
+}
+.daySchedule:first-child{
+    height: 40px;
+}
+.daySchedule{
+    height: 48px;
+}
+.daySchedule::after{
+    content: '';
+    border-bottom: 1px solid gray;
+    position: absolute;
+    width: 100%;
+    margin-top: -1px;
+}
+.dayScheduleLeftLine{
+    width: 20px;
+    height: 48px;
+    border-right: 1px solid gray;
 }

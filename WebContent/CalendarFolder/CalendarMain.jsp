@@ -3106,62 +3106,114 @@
             let c;
             let cc;
             let ccc;
+            let cccc;
             let yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
+            let day=date.getDate();
             
 			if((typeof(date)!='undefined'||date!=null)){
 				
 				v = document.createElement("div");
-		        v.classList.add("calendarArea");
-		        		         
+				v.classList.add("calendarArea");
+				
 				c = document.createElement("div");
-	            c.classList.add("dayAreaHead");
+				c.classList.add("dayTimeWrap");
 	           	
 	            cc= document.createElement("div");
-	            cc.classList.add("dayAreaHeadYoil");
-	            cc.innerHTML= yoil+"";
-	            
+	            cc.classList.add("dayHeadSize"); // dayAreahead와 같은 height값으로 공간 차지
 	            c.appendChild(cc);
 	            
-	            cc = document.createElement("div");
-	            cc.classList.add("dayAreaHeadDate");
-	            cc.innerHTML= getToday().day+"";
+	            cc=document.createElement("div");
+	            cc.classList.add(dayScheduleTime);
+	            cc.innerHTML="일정"; //schedule 표시되는 time 위에 고정라인. 스크롤에서 빠져야함.
+	            c.appendChild(cc);
+	            
+	            for(let i=0; i<25; i++){
+	            	if(i==0){
+	            		cc=document.createElement("div");
+	            		cc.classList.add("dayTimeBox");
+	            		ccc=document.createElement("span");
+	            		ccc.classList.add("dayTime");
+	            		ccc.innerHTML="일정";
+	            		cc.appendChild(ccc); //firstChild로 속성 따로줌. 일정표시줄
+	            	}else if(i==1){
+	            		cc=document.createElement("div");
+	            		cc.classList.add("dayTimeBox");
+	            		ccc=document.createElement("span");
+	            		ccc.classList.add("dayTime");
+	            		ccc.innerHTML="오전"+12+"시";
+	            		cc.appendChild(ccc);//오전 12시 표시
+	            	}else if(i<13){
+	            	}
+	            		cc=document.createElement("div");
+	            		cc.classList.add("dayTimeBox");
+	            		ccc=document.createElement("span");
+	            		ccc.classList.add("dayTime");
+	            		ccc.innerHTML="오전"+(i-1)+"시";
+	            		cc.appendChild(ccc);//오전 1~11시 표시
+	            	}else if(i==13){
+	            		cc=document.createElement("div");
+	            		cc.classList.add("dayTimeBox");
+	            		ccc=document.createElement("span");
+	            		ccc.classList.add("dayTime");
+	            		ccc.innerHTML="오후"+12+"시";
+	            		cc.appendChild(ccc);//12시 표시
+	            	}else{
+	            		cc=document.createElement("div");
+	            		cc.classList.add("dayTimeBox");
+	            		ccc=document.createElement("span");
+	            		ccc.classList.add("dayTime");
+	            		ccc.innerHTML="오후"+(i-13)+"시";
+	            		cc.appendChild(ccc);//오후1~12시 표시
+	            	}
+	            	c.appendChild(cc);
+	            }
+	            v.appendChild(c);//dayTimeBox end
+	            
+	            c=document.createElement("div");
+	            c.classList.add("dayArea");
+	            
+	            cc=document.createElement("div");
+	            cc.classList.add("dayAreaHead");
+	            
+	            ccc=document.createElement("div");
+	            ccc.classList.add("dayAreaHeadYoil");
+	            ccc.innerHTML= yoil+"";
+	            cc.appendChild(ccc); // head 요일표시
+	            
+	            ccc=document.createElement("div");
+	            ccc.classList.add("dayAreaHeadDate");
+	            ccc.innerHTML= day+"";
+	            cc.appendChild(ccc); // head 날짜표시
+	            
+	            c.appendChild(cc); //dayAreaHead end
+	            
+	            c=document.createElement("div");
+	            c.classList.add("dayAreaBody");
+	            
+	            cc=document.createElement("div");
+	            cc.classList.add("dayBodyWrap");
+	            
+	            ccc=document.createElement("div");
+	            ccc.classList.add("dayScheduleLeftLineWrap");
+	            for(let i=0; i<25; i++){
+	            	cccc=document.createElement("div");
+	            	cccc.classList.add("dayScheduleLeftLine");
+	            	ccc.appendChild(cccc);
+	            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
+	            cc.appendChild(ccc);
+	            
+	            ccc=document.createElement("div");
+	            ccc.classList.add("dayScheduleWrap");
+	            for(let i=0; i<25; i++){
+	            	cccc=document.createElement("div");
+	            	cccc.classList.add("daySchedule");
+	            	ccc.appendChild(cccc);
+	            }//여기서 first child는 일정표시줄. line은 ::after로 표시.
+	            cc.appendChild(ccc);
+	            
 			}
-			v.appendChild(c); //일간 form head 생성
-         	
-			c= document.createElement("div");
-			c.classList.add("dayAreaBody");
-			cc=document.createElement("div");
-			cc.classList.add("dayTimeWrap");
-			for(let i=0; i<24; i++){
-				ccc=document.createElement("div");
-				ccc.classList.add("dayTimeBox");
-				cccc=document.createElement("span");
-				cccc.classList.add("dayTime");
-				if(i==0){
-					cccc.innerHTML="오전"+12+"시";
-				}
-				else if(i<12){
-					cccc.innerHTML="오전"+i+"시";
-				}
-				else if(i==12){
-					cccc.innerHTML="오후"+i+"시";
-				}
-				else{
-					cccc.innerHTML="오후"+(i+12)+"시";
-				}
-				ccc.appendChild(cccc);
-				cc.appendChild(ccc);
-			}
-			c.appendChild(cc);//일간form 좌측 시간표시
 			
-			cc=document.createElement("div");
-			cc.classList.add("dayBoxWrap");
-			for(let i=0; i<24; i++){
-				ccc=document.createElement("div");
-				ccc.classList.add("dayBox");
-				cc.appendChild(ccc);
-			}		
-			v.appendChild(c);//일간 form body생성
+         	
 			
 		}//일간 formElement
 		
