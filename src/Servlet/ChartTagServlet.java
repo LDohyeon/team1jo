@@ -18,11 +18,11 @@ public class ChartTagServlet extends HttpServlet {
 
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		
-		int htmlXml = pDAO.countTagParagraph("html/xml");
-		int java = pDAO.countTagParagraph("java");
-		int python = pDAO.countTagParagraph("python");
-		int sql = pDAO.countTagParagraph("sql");
-		int javascript = pDAO.countTagParagraph("javascript");
+		int htmlXml = pDAO.countTagParagraph("#html/xml");
+		int java = pDAO.countTagParagraph("#java");
+		int python = pDAO.countTagParagraph("#python");
+		int sql = pDAO.countTagParagraph("#sql");
+		int javascript = pDAO.countTagParagraph("#javascript");
 		
 		List list = new ArrayList();
 			
