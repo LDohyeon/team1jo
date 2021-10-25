@@ -23,6 +23,7 @@
 		<a href="paragraphList.do?startPage=1">게시판 확인</a>
 		<a href="suspension.do?">회원정지 날짜 계산하기</a>
 		<a href="chart02Servlet.do?">작성한 글 관련 차트</a>
+		<a href="chartTag.do">태그 개수</a>
 
 		${loginUser.getId()}<!-- 로그인 잘 되는지 확인용 헤더가 없어서.. -->
 		${loginUser.getPw()}

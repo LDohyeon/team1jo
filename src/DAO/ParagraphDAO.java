@@ -375,6 +375,51 @@ public class ParagraphDAO {
 	}
 	//날짜별 작성글 개수 가져오기
 	
+	
+	//태그 개수 세기
+	
+	public int countTagParagraph(String tag)
+	{
+		int tagNum=0;
+		String tags="%"+tag+"%";
+		
+		String sql="select count(num) from Paragraph where tag like ?;";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs= null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, tags);
+
+			rs = pstmt.executeQuery();
+
+			rs.next();
+			
+			tagNum=rs.getInt(1);
+
+		}
+		catch(Exception e)
+		{
+			System.out.println("태그 개수 세기 실패" + e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		
+		
+		return tagNum;
+	}
+	
+	//태그 개수 세기
+	
+	
 }
 
 
