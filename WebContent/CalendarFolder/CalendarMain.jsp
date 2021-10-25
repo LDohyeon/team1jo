@@ -3211,10 +3211,9 @@
 	            }//여기서 first child는 일정표시줄. line은 ::after로 표시.
 	            cc.appendChild(ccc);
 	            
+	            c.appendChild(cc);
+	            v.appendChild(c);
 			}
-			
-         	
-			
 		}//일간 formElement
 		
 		
