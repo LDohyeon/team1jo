@@ -32,13 +32,10 @@ public class ChartTagServlet extends HttpServlet {
 		list.add(3, sql);
 		list.add(4, javascript);
 		
-		for(int i=0; i<list.size(); i++)
-		{
-			System.out.println(list.get(i));
-		}
+		request.setAttribute("list",list);
 		
-		
-		
+		RequestDispatcher dispatcher= request.getRequestDispatcher("chartTag.jsp");
+		dispatcher.forward(request, response);
 	}
 
 
