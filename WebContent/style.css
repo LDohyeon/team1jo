@@ -99,12 +99,3 @@ form div span input{
 .stopDay{
 	display: none;
 }
-
-.chartCanvas{
-	margin: 200px auto;
-	width: 600px;
-	height: 510px;
-}
-#myChart{
-	margin: 0 auto;
-}
