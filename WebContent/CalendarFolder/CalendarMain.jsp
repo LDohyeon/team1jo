@@ -1639,7 +1639,6 @@
 		var XHRCalendar;//XHR + cal
 		// let으로 선언하는 경우 > 레퍼런스 오류; create 단계에서 해당 변수 차몾를 해야하는데 변수 스코프를 벗어남
 		// 레퍼런스 오류가 발생, 호이스팅 우선 순위 생각해서 var로 고쳐서 해결, 만약 let으로 사용해야하면 함수 선언 시점에 대한 알고리즘을 짜야함
-		let xmlParser;
 		let scheduleData = [];
 
 		function createXHRCalendar(){
@@ -1914,9 +1913,10 @@
 				cc.innerHTML = "보기/끄기";
 				c.appendChild(cc);
 				
-				cc = document.createElement("div");
+				cc = document.createElement("input");
 				cc.classList.add("groupDataName");
-				cc.innerHTML = groupDivs[i].groupname;
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", groupDivs[i].groupname);
 				c.appendChild(cc);
 				
 				cc = document.createElement("div");
@@ -1924,13 +1924,7 @@
 				cc.addEventListener("click", viewGroupTool);
 				cc.innerHTML = "설정";
 				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.classList.add("groupDataName");
-				cc.setAttribute("type", "text");
-				cc.setAttribute("value", groupDivs[i].groupname);
-				c.appendChild(cc);
-				
+
 				cc = document.createElement("input");
 				cc.classList.add("groupDataColor");
 				cc.setAttribute("type", "color");
@@ -1972,7 +1966,17 @@
 				
 				ccc = document.createElement("div");
 				ccc.classList.add("groupDataMembers");
-				ccc.innerHTML=groupDivs[i].groupmembers;
+				
+				let grouplist = groupDivs[i].groupmembers;
+				let arr = grouplist.split("@");
+				
+				for(let i = 0; i<arr.length; i++){
+					let tempDiv = document.createElement("div");
+					tempDiv.classList.add("groupDataMembersList");
+					tempDiv.innerHTML = arr[i];
+					ccc.appendChild(tempDiv);
+				}
+				
 				cc.appendChild(ccc);
 				c.appendChild(cc);
 				
@@ -2074,8 +2078,7 @@
 		//TO DO LIST
 		function toDoList(){
 			createXHRTodolist();
-			console.log(XHRTodolist);
-			
+
 			XHRTodolist.onreadystatechange=function(){
 				if(XHRTodolist.readyState==4){
 		            if(XHRTodolist.status==200){
@@ -2476,7 +2479,7 @@
 			c.classList.add("groupElement");
 			
 			cc=document.createElement("input");
-			cc.setAttribute("type", "text");
+			cc.setAttribute("type", "hidden");
 			cc.classList.add("groupDataNum");
 			c.appendChild(cc);
 			
@@ -2488,6 +2491,11 @@
 			cc=document.createElement("input");
 			cc.setAttribute("type", "color");
 			cc.classList.add("groupDataColor");
+			c.appendChild(cc);
+			
+			cc=document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			cc.classList.add("groupDataMaster");
 			c.appendChild(cc);
 
 			cc = document.createElement("select");
@@ -2534,33 +2542,28 @@
 			createXHRGroup();
 			
 			let target = event.target;
-			let v = target.prentNode;
+			let v = target.parentNode;
 			
 			let num = v.getElementsByClassName("groupDataNum")[0].value;
 			let name = v.getElementsByClassName("groupDataName")[0].value;
     		let members = v.getElementsByClassName("groupDataMembers")[0].value;
-    		let master = v.getElementsByClassName("master")[0].value;
-    		let searchable = v.getElementsByClassName("searchable")[0].value;
+    		let color = v.getElementsByClassName("groupDataColor")[0].value;
+    		let master = v.getElementsByClassName("groupDataMaster")[0].value;
+    		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
 			
-    		console.log(num);
-    		console.log(name);
-    		console.log(members);
-    		console.log(master);
-    		console.log(searchable);
+    		let json = JSON.stringify(createJsonGroup(num, name, members, color, master, searchable))
     		
 			XHRGroup.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
-					
 		            if(XHRCalendar.status==200){
 		            	
 		            	
 		            }
 				}
 			}
-			
-			XHRCalendar.open("POST", "../groupInsert", true);
-			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRCalendar.send("userKey="+userKey);
+			XHRGroup.open("POST", "../groupInsert", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send(json);
 		}
 		
 		function delGroup(){
@@ -2578,19 +2581,16 @@
 				}
 			}
 			
-			XHRCalendar.open("POST", "../groupDelete", true);
-			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRCalendar.send("userKey="+userKey);
-			
+			XHRGroup.open("POST", "../groupDelete", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send("userKey="+userKey);
 		}
 		
 		function addGroupMember(){
 			createXHRGroup();
-			
 			XHRGroup.onreadystatechange=function(){
 				
 				if(XHRCalendar.readyState==4){
-					
 		            if(XHRCalendar.status==200){
 		            	
 		            	
@@ -2598,9 +2598,9 @@
 				}
 			}
 			
-			XHRCalendar.open("POST", "../", true);
-			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRCalendar.send("userKey="+userKey);
+			XHRGroup.open("POST", "../", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send("userKey="+userKey);
 		
 		}
 		
@@ -2618,9 +2618,9 @@
 				}
 			}
 			
-			XHRCalendar.open("POST", "../", true);
-			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRCalendar.send("userKey="+userKey);
+			XHRGroup.open("POST", "../", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send("userKey="+userKey);
 		}
 		
 		function searchGroupMember(){
@@ -2637,9 +2637,9 @@
 				}
 			}
 			
-			XHRCalendar.open("POST", "../", true);
-			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRCalendar.send("userKey="+userKey);
+			XHRGroup.open("POST", "../", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send("userKey="+userKey);
 		}
 		
 		
@@ -2671,18 +2671,8 @@
 		
 		// 유저키와 데이터로 그룹 및 스케줄 데이터 가져옴 
 		function getGroupSchedule(userKey, date){
-			let xmlGroup;
 			let scheduleTitleInSpans = document.getElementsByClassName("scheduleTitleInSpan");
-			
-			/*
-			if(typeof(scheduleTitleInSpans)!='undefined'){
-				for(let i = 0; i < scheduleTitleInSpans.length; i++){
-					if(scheduleTitleInSpans[i].hasChildNodes()){
-						scheduleTitleInSpans[i].removeChild(scheduleTitleInSpans[i].firstChild);
-					}
-				}
-			}
-			*/
+			let groupDivs = [];
 			createXHRCalendar();
 			
 			XHRCalendar.onreadystatechange=function(){
@@ -2693,42 +2683,37 @@
 					
 		            if(XHRCalendar.status==200){
 		            	clearMonthBoxBody();
-		            	xmlParser = new DOMParser();
-		            	xmlGroup = xmlParser.parseFromString(XHRCalendar.responseText, "text/xml");
-		            	
-		            	groups = xmlGroup.getElementsByTagName("group");
-		            	groupDivs = [];
-		            	console.log(groups);
-		            	
-		            	for(let i = 0; i < groups.length; i++){
-		            		schedules = groups[i].getElementsByTagName("schedule");
+		            	let jsons = JSON.parse(XHRCalendar.responseText, "text/json");
+					
+		            	for(let i = 0; i < Object.keys(jsons).length; i++){
 		            		
-		            		for(let j = 0; j < schedules.length; j++){
+		            		for(let j = 0; j < Object.keys(jsons[i].schedule).length; j++){
 		            			let temp = {
-		            				groupnum: groups[i].getElementsByTagName("groupnum")[0].innerHTML,
-		            				groupname: groups[i].getElementsByTagName("groupname")[0].innerHTML,
-		            				groupcolor: groups[i].getElementsByTagName("groupcolor")[0].innerHTML,
-		            				groupmembers: groups[i].getElementsByTagName("groupmembers")[0].innerHTML,
-		            				modifier: groups[i].getElementsByTagName("modifier")[0].innerHTML,
-		            				num: schedules[j].getElementsByTagName("num")[0].innerHTML,
-		            				title: schedules[j].getElementsByTagName("title")[0].innerHTML,
-		            				start: schedules[j].getElementsByTagName("start")[0].innerHTML,
-		            				end: schedules[j].getElementsByTagName("end")[0].innerHTML,
-		            				content: schedules[j].getElementsByTagName("content")[0].innerHTML,
-		            				writer: schedules[j].getElementsByTagName("writer")[0].innerHTML,
-		            				color: schedules[j].getElementsByTagName("color")[0].innerHTML
+		            				groupnum: jsons[i].groupnum,
+		            				groupname: jsons[i].groupname,
+		            				groupcolor: jsons[i].groupcolorL,
+		            				groupmembers: jsons[i].groupmembers,
+		            				modifier: jsons[i].modifier,
+		            				
+		            				num: jsons[i].schedule[j].num,
+		            				title: jsons[i].schedule[j].title,
+		            				start: jsons[i].schedule[j].start,
+		            				end: jsons[i].schedule[j].end,
+		            				content: jsons[i].schedule[j].content,
+		            				writer: jsons[i].schedule[j].writer,
+		            				color: jsons[i].schedule[j].color
 		            			} 
 		            			scheduleData.push(temp);
-		            			//console.log(temp);
 		            		}
 		            		
 		            		let tempDiv = {
-		            			groupnum: groups[i].getElementsByTagName("groupnum")[0].innerHTML,
-			            		groupname: groups[i].getElementsByTagName("groupname")[0].innerHTML,
-			            		groupmembers: groups[i].getElementsByTagName("groupmembers")[0].innerHTML,
-		            			master: groups[i].getElementsByTagName("master")[0].innerHTML,
-		            			searchable: groups[i].getElementsByTagName("searchable")[0].innerHTML
+		            			groupnum: jsons[i].groupnum,
+			            		groupname: jsons[i].groupname,
+			            		groupmembers: jsons[i].groupmembers,
+		            			master: jsons[i].master,
+		            			searchable: jsons[i].searchable
 		            		}
+		            		
 		            		groupDivs.push(tempDiv);
 		            	}
 		            	createScheduleElement(scheduleData);
@@ -3230,6 +3215,18 @@
 			return json;
 		}
 		
+		function createJsonGroup(num, name, members, color, master, searchable){
+			let json = {
+				num: num,
+				name: name,
+				members: members,
+				color: color,
+				master: master,
+				searchable: searchable
+			}
+			return json;
+		}
+		
 		// 스케줄 Box 영역 초기화
 		function clearMonthBoxBody(){
 			let v = document.getElementsByClassName("monthBoxBody");
@@ -3351,7 +3348,6 @@
 	            		ccc.innerHTML="오전"+12+"시";
 	            		cc.appendChild(ccc);//오전 12시 표시
 	            	}else if(i<13){
-	            	}
 	            		cc=document.createElement("div");
 	            		cc.classList.add("dayTimeBox");
 	            		ccc=document.createElement("span");
