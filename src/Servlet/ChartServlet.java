@@ -14,8 +14,8 @@ import DAO.ParagraphDAO;
 
 import DTO.MemberDTO;
 
-@WebServlet("/registerNumberServlet.do")
-public class RegisterNumberServlet extends HttpServlet {
+@WebServlet("/chartServlet.do")
+public class ChartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -79,7 +79,7 @@ public class RegisterNumberServlet extends HttpServlet {
 		
 		request.setAttribute("list",list);
 	
-		RequestDispatcher dispatcher= request.getRequestDispatcher("registerNumber.jsp");
+		RequestDispatcher dispatcher= request.getRequestDispatcher("chart.jsp");
 		dispatcher.forward(request, response);
 	}
 
