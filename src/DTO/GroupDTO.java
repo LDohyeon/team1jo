@@ -2,7 +2,7 @@ package DTO;
 
 public class GroupDTO {
 
-	private int groupnum;
+	private String groupnum;
 	private String groupname;
 	private String groupcolor;
 	private String members;
@@ -10,10 +10,10 @@ public class GroupDTO {
 	private String master;
 	private String modifier;
 	
-	public int getGroupnum() {
+	public String getGroupnum() {
 		return groupnum;
 	}
-	public void setGroupnum(int groupnum) {
+	public void setGroupnum(String groupnum) {
 		this.groupnum = groupnum;
 	}
 	

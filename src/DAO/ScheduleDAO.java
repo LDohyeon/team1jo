@@ -3,6 +3,7 @@ import java.sql.*;
 import java.util.*;
 
 import DTO.GroupDTO;
+import DTO.MemberDTO;
 import DTO.ScheduleDTO;
 
 public class ScheduleDAO {
@@ -161,7 +162,7 @@ public class ScheduleDAO {
 		{
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, gDTO.getGroupnum());
+			pstmt.setString(1, gDTO.getGroupnum());
 			pstmt.setString(2, word);
 			pstmt.setString(3, word);
 			
@@ -205,7 +206,7 @@ public class ScheduleDAO {
 		{
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, gDTO.getGroupnum());
+			pstmt.setString(1, gDTO.getGroupnum());
 			
 			rs = pstmt.executeQuery();
 			
@@ -249,7 +250,7 @@ public class ScheduleDAO {
 		{
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, gDTO.getGroupnum());
+			pstmt.setString(1, gDTO.getGroupnum());
 			pstmt.setString(2, searchWord);
 			pstmt.setString(3, searchWord);
 			
@@ -302,7 +303,7 @@ public class ScheduleDAO {
 			
 			while(rs.next()){
 				GroupDTO gDTO = new GroupDTO();
-				gDTO.setGroupnum(rs.getInt("groupnum"));
+				gDTO.setGroupnum(rs.getString("groupnum"));
 				gDTO.setGroupname(rs.getString("groupname"));
 				gDTO.setGroupcolor(rs.getString("groupcolor"));
 				gDTO.setMaster(rs.getString("master"));
@@ -340,6 +341,157 @@ public class ScheduleDAO {
 			close(conn, pstmt, rs);
 		}
 		return list;
+	}
+	
+/*	=============================================================
+ *  ======================== GROUP ==============================
+ *	============================================================= */
+	
+	// Schedule add to table. 
+	public void groupInsert(GroupDTO gDTO){
+		
+		String sql="insert into groupData(groupname, groupcolor, members, searchable, master, modifier) values(?,?,?,?,?,?)";
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		
+		try{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, gDTO.getGroupname());
+			pstmt.setString(2, gDTO.getGroupcolor());
+			pstmt.setString(3, gDTO.getMembers());
+			pstmt.setString(4, gDTO.getSearchable());
+			pstmt.setString(5, gDTO.getMaster());
+			pstmt.setString(6, gDTO.getModifier());
+			
+
+			System.out.println(pstmt);
+			pstmt.executeUpdate();
+
+		}
+		catch(Exception e)
+		{
+			System.out.println("ScheduleDAO> groupData Insert Error: "+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+	}
+	
+	public void groupDelete(GroupDTO gDTO)
+	{
+		String sql ="delete from groupData where groupnum = ?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, gDTO.getGroupnum());
+			pstmt.executeUpdate();
+			
+		}
+		catch(Exception e){
+			System.out.println("ScheduleDAO> groupData Delete Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
+	}
+	
+	public void groupUpdate(GroupDTO gDTO){
+		String sql="update groupData set groupname=?, groupcolor=?, members=?, searchable=?, master=?, modifier=? where groupnum=?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, gDTO.getGroupname());
+			pstmt.setString(2, gDTO.getGroupcolor());
+			pstmt.setString(3, gDTO.getMembers());
+			pstmt.setString(4, gDTO.getSearchable());
+			pstmt.setString(5, gDTO.getMaster());
+			pstmt.setString(6, gDTO.getModifier());
+			pstmt.setString(7, gDTO.getGroupnum());
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("ScheduleDAO > groupData UPDATE Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
+	}
+	public void groupUpdate(GroupDTO gDTO, MemberDTO mDTO){
+
+		String sql="update groupData set members=? where groupnum=?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, gDTO.getMembers());
+			pstmt.setString(2, gDTO.getGroupnum());
+			pstmt.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("ScheduleDAO > groupData UPDATE Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
+	}
+	public void groupUpdateModifier(GroupDTO gDTO){
+
+		String sql="update groupData set modifier=? where groupnum=?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+		
+			pstmt.setString(1, gDTO.getModifier());
+			pstmt.setString(2, gDTO.getGroupnum());
+			pstmt.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("ScheduleDAO > groupData UPDATE Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
+	}
+	public void groupUpdateMember(GroupDTO gDTO){
+
+		String sql="update groupData set members=? where groupnum=?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+		
+			pstmt.setString(1, gDTO.getMembers());
+			pstmt.setString(2, gDTO.getGroupnum());
+			pstmt.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("ScheduleDAO > groupData UPDATE Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
 	}
 }
 

@@ -24,7 +24,7 @@
 			
 		</div>
 	</body>
-	<script>
+	<script type="text/javascript">
 		let userKey = <%=userKey%>;
 		let calendar = document.getElementById("calendar");
    		
@@ -1636,11 +1636,13 @@
 		// 현재 그룹의 스케줄을 체크 
 	
 		// AJAX 기본 세팅
-		var XHRCalendar;//XHR + cal
+		//XHR + cal
 		// let으로 선언하는 경우 > 레퍼런스 오류; create 단계에서 해당 변수 차몾를 해야하는데 변수 스코프를 벗어남
 		// 레퍼런스 오류가 발생, 호이스팅 우선 순위 생각해서 var로 고쳐서 해결, 만약 let으로 사용해야하면 함수 선언 시점에 대한 알고리즘을 짜야함
 		let scheduleData = [];
-
+		
+		var XHRCalendar;
+		
 		function createXHRCalendar(){
 			if(window.ActiveXObject){ 
 				XHRCalendar=new ActiveXObject("Microsoft.XMLHTTP");
@@ -1896,7 +1898,7 @@
 			let v = document.getElementsByClassName("groupMain")[0];
 			
 			while(v.hasChildNodes()){
-				return;
+				v.removeChild(v.firstChild)
 			}
 			
 	        let c;
@@ -1928,6 +1930,8 @@
 				cc = document.createElement("input");
 				cc.classList.add("groupDataColor");
 				cc.setAttribute("type", "color");
+				cc.setAttribute("value", groupDivs[i].groupcolor);
+				cc.innerHTML = groupDivs[i].groupcolor;
 				c.appendChild(cc);
 				
 				cc = document.createElement("select");
@@ -1950,40 +1954,91 @@
 				cc.innerHTML="멤버 추가";
 				c.appendChild(cc);
 				
-				cc = document.createElement("div");
-				cc.classList.add("groupDataMemberList");
-				
 				ccc = document.createElement("div");
 				ccc.classList.add("groupDataMemberSearch");
 				ccc.setAttribute("contenteditable", "true");
 				cc.appendChild(ccc);
-				
-				ccc = document.createElement("div");
-				ccc.classList.add("groupDataMaster");
-				ccc.innerHTML=groupDivs[i].master;
-				cc.appendChild(ccc);
 				c.appendChild(cc);
 				
-				ccc = document.createElement("div");
-				ccc.classList.add("groupDataMembers");
+				cc = document.createElement("input");
+				cc.setAttribute("type","hidden");
+				cc.classList.add("groupDataMaster");
 				
-				let grouplist = groupDivs[i].groupmembers;
-				let arr = grouplist.split("@");
+				let arrmaster = groupDivs[i].master.split("@");
+				for(let i = 0; i<arrmaster.length; i++){
+					if(arrmaster[i]==""){
+						
+					}
+					else{
+						cc.setAttribute("value", arrmaster[i]);
+					}
+				}
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("groupDataMembers");
+				
+				let memberList = groupDivs[i].groupmembers;
+				let arr = memberList.split("@");
 				
 				for(let i = 0; i<arr.length; i++){
-					let tempDiv = document.createElement("div");
-					tempDiv.classList.add("groupDataMembersList");
-					tempDiv.innerHTML = arr[i];
-					ccc.appendChild(tempDiv);
+					if(arr[i]==""){
+						
+					}
+					else{
+						let tempDiv = document.createElement("div");
+						tempDiv.classList.add("groupDataMembersList");
+						
+						let tempChild = document.createElement("div");
+						tempChild.classList.add("groupDataMemebersListName");
+						tempChild.innerHTML = arr[i];
+						tempDiv.appendChild(tempChild);
+						
+						tempChild = document.createElement("div");
+						tempChild.classList.add("groupDataMemebersListFix");
+						
+						let tempGrandChild = document.createElement("div");
+						tempGrandChild.classList.add("groupDataMembersListFixModify");
+						tempGrandChild.addEventListener("click", groupDataModifierFix);
+						tempGrandChild.innerHTML = "수정자 권한 부여";
+						tempChild.appendChild(tempGrandChild);
+						
+						tempGrandChild = document.createElement("div");
+						tempGrandChild.classList.add("groupDataMembersListFixDelete");
+						tempGrandChild.addEventListener("click", groupDataMemberDelete);
+						tempGrandChild.innerHTML = "멤버 삭제";
+						tempChild.appendChild(tempGrandChild);
+						tempDiv.appendChild(tempChild);
+						
+						cc.appendChild(tempDiv);
+					}
 				}
+				c.appendChild(cc);
 				
-				cc.appendChild(ccc);
+				cc = document.createElement("div");
+				cc.classList.add("groupDataModifier");
+				
+				let modifierList = groupDivs[i].modifier;
+				arr = modifierList.split("@");
+				
+				for(let i = 0; i<arr.length; i++){
+					if(arr[i]==""){
+						
+					}
+					else{
+						let tempDiv = document.createElement("div");
+						tempDiv.classList.add("groupDataModifierList");
+						tempDiv.innerHTML = arr[i];
+						cc.appendChild(tempDiv);
+					}
+				}
 				c.appendChild(cc);
 				
 				cc = document.createElement("input");
 				cc.classList.add("groupDataDelBtn");
 				cc.setAttribute("type", "button");
 				cc.setAttribute("value", "삭제");
+				cc.addEventListener("click", delGroup);
 				c.appendChild(cc);
 				
 				cc = document.createElement("input");
@@ -2012,7 +2067,7 @@
 			let select = document.getElementsByClassName("scheduleFormGroupSelect")[0];
 			
 			while(select.hasChildNodes()){
-				return;
+				select.removeChild(select.firstChild);
 			}
 			
 			for(let i = 0; i<groupDivs.length; i++){
@@ -2085,6 +2140,7 @@
 		            	let jsons = JSON.parse(XHRTodolist.responseText, "text/json");
 
 		            	createToDoList(jsons);
+		            	
 		            }
 				}
 			}
@@ -2546,12 +2602,34 @@
 			
 			let num = v.getElementsByClassName("groupDataNum")[0].value;
 			let name = v.getElementsByClassName("groupDataName")[0].value;
-    		let members = v.getElementsByClassName("groupDataMembers")[0].value;
+    		let memberlist = v.getElementsByClassName("groupDataMemebersListName");
+    		let modifierlist = v.getElementsByClassName("groupDataModifierList");
     		let color = v.getElementsByClassName("groupDataColor")[0].value;
     		let master = v.getElementsByClassName("groupDataMaster")[0].value;
     		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
 			
-    		let json = JSON.stringify(createJsonGroup(num, name, members, color, master, searchable))
+    		let members=[];
+    		let modifiers=[];
+    	
+			if(typeof(memberlist)=='undefined'){
+    			members.push("");
+    		}
+    		else{
+    			for(let i = 0; i < memberlist.length; i++){
+        			members.push(memberlist[i].innerHTML);
+        		}
+    		}
+    		
+			if(typeof(modifierlist)=='undefined'){
+				modifiers.push("");
+    		}
+    		else{
+    			for(let i = 0; i < modifierlist.length; i++){
+    				modifiers.push(modifierlist[i].innerHTML);
+        		}
+    		}
+			
+    		let json = JSON.stringify(createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable));
     		
     		if(typeof(date)=="undefined"){
 				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
@@ -2563,8 +2641,8 @@
 			}
     		
 			XHRGroup.onreadystatechange=function(){
-				if(XHRCalendar.readyState==4){
-		            if(XHRCalendar.status==200){
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
 		            	scheduleCheckMonth(date);
 		            }
 				}
@@ -2574,7 +2652,7 @@
 			XHRGroup.send(json);
 		}
 		
-		function delGroup(){
+		function delGroup(date){
 			// 검증식 넣어 마스터와 유저키가 일치할 경우: 그룹 삭제
 			createXHRGroup();
 			
@@ -2583,12 +2661,34 @@
 			
 			let num = v.getElementsByClassName("groupDataNum")[0].value;
 			let name = v.getElementsByClassName("groupDataName")[0].value;
-    		let members = v.getElementsByClassName("groupDataMembers")[0].value;
+    		let memberlist = v.getElementsByClassName("groupDataMemebersListName");
+    		let modifierlist = v.getElementsByClassName("groupDataModifierList");
     		let color = v.getElementsByClassName("groupDataColor")[0].value;
     		let master = v.getElementsByClassName("groupDataMaster")[0].value;
     		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
 			
-    		let json = JSON.stringify(createJsonGroup(num, name, members, color, master, searchable))
+    		let members=[];
+    		let modifiers=[];
+    	
+			if(typeof(memberlist)=='undefined'){
+    			members.push("");
+    		}
+    		else{
+    			for(let i = 0; i < memberlist.length; i++){
+        			members.push(memberlist[i].innerHTML);
+        		}
+    		}
+    		
+			if(typeof(modifierlist)=='undefined'){
+				modifiers.push("");
+    		}
+    		else{
+    			for(let i = 0; i < modifierlist.length; i++){
+    				modifiers.push(modifierlist[i].innerHTML);
+        		}
+    		}
+			
+    		let json = JSON.stringify(createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable));
     		
     		if(typeof(date)=="undefined"){
 				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
@@ -2598,35 +2698,28 @@
 				
 				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
 			}
-    		
+
 			XHRGroup.onreadystatechange=function(){
 				
-				if(XHRCalendar.readyState==4){
-		            if(XHRCalendar.status==200){
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
 		            	scheduleCheckMonth(date);
 		            }
 				}
 			}
-			
 			XHRGroup.open("POST", "../groupDelete", true);
 			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRGroup.send("userKey="+userKey);
+			XHRGroup.send(json);
 		}
-		
+
 		function addGroupMember(date){
 			createXHRGroup();
 			
 			let target = event.target;
 			let v = target.parentNode;
-			
+		
 			let num = v.getElementsByClassName("groupDataNum")[0].value;
-			let name = v.getElementsByClassName("groupDataName")[0].value;
-    		let members = v.getElementsByClassName("groupDataMembers")[0].value;
-    		let color = v.getElementsByClassName("groupDataColor")[0].value;
-    		let master = v.getElementsByClassName("groupDataMaster")[0].value;
-    		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
-			
-    		let json = JSON.stringify(createJsonGroup(num, name, members, color, master, searchable))
+			let master = v.getElementsByClassName("groupDataMaster")[0].value;
     		
     		if(typeof(date)=="undefined"){
 				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
@@ -2638,28 +2731,8 @@
 			}
     		
 			XHRGroup.onreadystatechange=function(){
-				if(XHRCalendar.readyState==4){
-		            if(XHRCalendar.status==200){
-		            	scheduleCheckMonth(date);
-		            }
-				}
-			}
-			
-			XHRGroup.open("POST", "../", true);
-			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRGroup.send("userKey="+userKey);
-		
-		}
-		
-		function delGroupMember(){
-			createXHRGroup();
-			
-			XHRGroup.onreadystatechange=function(){
-				
-				if(XHRCalendar.readyState==4){
-					
-		            if(XHRCalendar.status==200){
-		            	
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
 		            	
 		            }
 				}
@@ -2667,7 +2740,7 @@
 			
 			XHRGroup.open("POST", "../", true);
 			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRGroup.send("userKey="+userKey);
+			XHRGroup.send("userKey="+userKey+"&num="+num+"&master="+master);
 		}
 		
 		function searchGroupMember(){
@@ -2675,9 +2748,9 @@
 			
 			XHRGroup.onreadystatechange=function(){
 				
-				if(XHRCalendar.readyState==4){
+				if(XHRGroup.readyState==4){
 					
-		            if(XHRCalendar.status==200){
+		            if(XHRGroup.status==200){
 		            	
 		            	
 		            }
@@ -2688,8 +2761,116 @@
 			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 			XHRGroup.send("userKey="+userKey);
 		}
+		console.log("서치랑 멤버 초대 구현해야한다.");
 		
+		function groupDataMemberDelete(date){
+			createXHRGroup();
+			
+			let target = event.target;
+			let v = target.parentNode
+			let p = v.parentNode;
+			let t = p.getElementsByClassName("groupDataMemebersListName")[0].innerHTML;
+			let gp = p.parentNode.parentNode;
+			
+			let num = gp.getElementsByClassName("groupDataNum")[0].value;
+			let name = gp.getElementsByClassName("groupDataName")[0].value;
+    		let memberlist = gp.getElementsByClassName("groupDataMemebersListName");
+    		let modifierlist = gp.getElementsByClassName("groupDataModifierList");
+    		let color = gp.getElementsByClassName("groupDataColor")[0].value;
+    		let master = gp.getElementsByClassName("groupDataMaster")[0].value;
+    		let searchable = gp.getElementsByClassName("groupDataSearchable")[0].value;
+			
+    		let members=[];
+    		let modifiers=[];
+    	
+			for(let i = 0; i < memberlist.length; i++){
+        		members.push(memberlist[i].innerHTML);
+        	}
+    		
+    		for(let i = 0; i < modifierlist.length; i++){
+    			modifiers.push(modifierlist[i].innerHTML);
+        	}
+    		
+    		let data = createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable);
+    		data.target = t;
+    		console.log(data);
+    		let json = JSON.stringify(data);
+    		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+
+			XHRGroup.onreadystatechange=function(){
+				
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
+		            	scheduleCheckMonth(date);
+		            }
+				}
+			}
+			XHRGroup.open("POST", "../groupMemberDelete", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send(json);
+		}
 		
+		function groupDataModifierFix (){
+			createXHRGroup();
+			
+			let target = event.target;
+			let v = target.parentNode
+			let p = v.parentNode;
+			let t = p.getElementsByClassName("groupDataMemebersListName")[0].innerHTML;
+			let gp = p.parentNode.parentNode;
+			
+			let num = gp.getElementsByClassName("groupDataNum")[0].value;
+			let name = gp.getElementsByClassName("groupDataName")[0].value;
+    		let memberlist = gp.getElementsByClassName("groupDataMemebersListName");
+    		let modifierlist = gp.getElementsByClassName("groupDataModifierList");
+    		let color = gp.getElementsByClassName("groupDataColor")[0].value;
+    		let master = gp.getElementsByClassName("groupDataMaster")[0].value;
+    		let searchable = gp.getElementsByClassName("groupDataSearchable")[0].value;
+			
+    		let members=[];
+    		let modifiers=[];
+    	
+			for(let i = 0; i < memberlist.length; i++){
+        		members.push(memberlist[i].innerHTML);
+        	}
+    		
+    		for(let i = 0; i < modifierlist.length; i++){
+    			modifiers.push(modifierlist[i].innerHTML);
+        	}
+    		
+    		let data = createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable);
+    		data.target = t;
+    		
+    		console.log(data);
+    		let json = JSON.stringify(data);
+    		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+
+			XHRGroup.onreadystatechange=function(){
+				
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
+		            	scheduleCheckMonth(date);
+		            }
+				}
+			}
+			XHRGroup.open("POST", "../groupMemeberModify", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send(json);
+		}
 		
 		// 년 형식 스케줄
 		function scheduleCheckYear (date, userKey, group){
@@ -2717,25 +2898,25 @@
 		function getGroupSchedule(userKey, date){
 			let scheduleTitleInSpans = document.getElementsByClassName("scheduleTitleInSpan");
 			let groupDivs = [];
+			
 			createXHRCalendar();
 			
 			XHRCalendar.onreadystatechange=function(){
-				if(XHRCalendar.readyState==3){
+				if(XHRCalendar.readyState==2){
 					toDoList();
 				}
 				if(XHRCalendar.readyState==4){
-					
+		
 		            if(XHRCalendar.status==200){
 		            	clearMonthBoxBody();
 		            	let jsons = JSON.parse(XHRCalendar.responseText, "text/json");
-					
 		            	for(let i = 0; i < Object.keys(jsons).length; i++){
 		            		
 		            		for(let j = 0; j < Object.keys(jsons[i].schedule).length; j++){
 		            			let temp = {
 		            				groupnum: jsons[i].groupnum,
 		            				groupname: jsons[i].groupname,
-		            				groupcolor: jsons[i].groupcolorL,
+		            				groupcolor: jsons[i].groupcolor,
 		            				groupmembers: jsons[i].groupmembers,
 		            				modifier: jsons[i].modifier,
 		            				
@@ -2755,9 +2936,10 @@
 			            		groupname: jsons[i].groupname,
 			            		groupmembers: jsons[i].groupmembers,
 		            			master: jsons[i].master,
-		            			searchable: jsons[i].searchable
+		            			searchable: jsons[i].searchable,
+		            			groupcolor: jsons[i].groupcolor,
+		            			modifier: jsons[i].modifier
 		            		}
-		            		
 		            		groupDivs.push(tempDiv);
 		            	}
 		            	createScheduleElement(scheduleData);
@@ -3196,7 +3378,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	getGroupSchedule(userKey, date);
+		            	scheduleCheckMonth(date);
 		            }
 				}
 			};
@@ -3222,7 +3404,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	getGroupSchedule(userKey, date);
+		            	scheduleCheckMonth(date);
 		            }
 				}
 			};
@@ -3261,11 +3443,13 @@
 			return json;
 		}
 		
-		function createJsonGroup(num, name, members, color, master, searchable){
+		function createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable){
 			let json = {
+				userKey: userKey,
 				num: num,
 				name: name,
 				members: members,
+				modifiers: modifiers,
 				color: color,
 				master: master,
 				searchable: searchable

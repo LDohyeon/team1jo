@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONObject;
+import org.json.simple.*;
+import org.json.simple.JSONArray;
 
 import DAO.ScheduleDAO;
 import DTO.GroupDTO;
@@ -20,12 +21,6 @@ import DTO.ScheduleDTO;
 public class scheduleSelect extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.setCharacterEncoding("utf-8");
@@ -38,48 +33,44 @@ public class scheduleSelect extends HttpServlet {
 		
 		List<GroupDTO> glist = sDAO.groupList(userKey);
 		List<ScheduleDTO> slist= new ArrayList<ScheduleDTO>();
-		List<JSONObject> jsons = new ArrayList<JSONObject>();
+		JSONArray jsons = new JSONArray();
 		
 		for(int i = 0; i<glist.size(); i++) {
 			
-			List<JSONObject> schedules = new ArrayList<JSONObject>();
+			JSONArray schedules = new JSONArray();
+			
 			JSONObject json = new JSONObject();
 			slist=sDAO.scheduleList(glist.get(i));
-			json.put("groupnum", glist.get(i).getGroupnum());
-			json.put("groupname", glist.get(i).getGroupname());
-			json.put("groupmembers", glist.get(i).getMembers());
-			json.put("groupcolor", glist.get(i).getGroupcolor());
-			json.put("modifier", glist.get(i).getModifier());
-			json.put("master", glist.get(i).getMaster());
-			json.put("searchable", glist.get(i).getSearchable());
+			
+			json.put("groupnum", glist.get(i).getGroupnum().toString());
+			json.put("groupname", glist.get(i).getGroupname().toString());
+			json.put("groupmembers", glist.get(i).getMembers().toString());
+			json.put("groupcolor", glist.get(i).getGroupcolor().toString());
+			json.put("modifier", glist.get(i).getModifier().toString());
+			json.put("master", glist.get(i).getMaster().toString());
+			json.put("searchable", glist.get(i).getSearchable().toString());
 			
 			for(int j = 0; j<slist.size(); j++) {
 				JSONObject json1 = new JSONObject();
-				json1.put("num", slist.get(j).getNum());
-				json1.put("title", slist.get(j).getTitle());
-				json1.put("start", slist.get(j).getStart());
-				json1.put("end", slist.get(j).getEnd());
-				json1.put("content", slist.get(j).getContent());
-				json1.put("writer", slist.get(j).getWriter());
-				json1.put("color", slist.get(j).getColor());
+				json1.put("num", slist.get(j).getNum().toString());
+				json1.put("title", slist.get(j).getTitle().toString());
+				json1.put("start", slist.get(j).getStart().toString());
+				json1.put("end", slist.get(j).getEnd().toString());
+				json1.put("content", slist.get(j).getContent().toString());
+				json1.put("writer", slist.get(j).getWriter().toString());
+				json1.put("color", slist.get(j).getColor().toString());
 				
 				schedules.add(json1);
 			}
 			json.put("schedule", schedules);
 			jsons.add(i, json);
 		}
+		
 		response.setContentType("application/json");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		out.print(jsons.toString());
 		out.flush();
-	}
-	protected String getXmlTag(String tag, String inner) {
-		String info = "<"+tag+">"+inner+"</"+tag+">";
-		return info;
-	}
-	protected String getXmlTag(String tag, int inner) {
-		String info = "<"+tag+">"+inner+"</"+tag+">";
-		return info;
+		
 	}
 }
