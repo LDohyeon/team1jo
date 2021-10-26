@@ -1,20 +1,30 @@
 @charset "UTF-8";
 
 .wrap1{
-	width: 750px;
+	width: 450px;
 	padding: 30px;
-	border: 2px solid gray;
+	border: 2px solid lightgray;
+	margin: 250px auto;
 }
 
 .wrap2{
-	width: 700px;
+	width: 420px;
 	padding: 5px;
 	border: 1px solid lightgray;
+	margin: 0px auto;
 }
 
-h1, h4{
+h1{
 	padding: 10px;
-	margin: 0;
+	margin: 0 auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+	margin-right: 20px;
+}
+
+.registerSpan{
+	margin-right: 115px;
 }
 
 form div span{
@@ -63,6 +73,11 @@ form div span input{
 	color: red;
 }
 
+.registerSubmit{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
 .memberList{
 	border: 1px solid black;
 	padding: 20px;
@@ -98,13 +113,4 @@ form div span input{
 
 .stopDay{
 	display: none;
-}
-
-.chartCanvas{
-	margin: 200px auto;
-	width: 600px;
-	height: 510px;
-}
-#myChart{
-	margin: 0 auto;
 }
