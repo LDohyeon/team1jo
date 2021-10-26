@@ -6,8 +6,6 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import DAO.MemberDAO;
 import DAO.ParagraphDAO;
