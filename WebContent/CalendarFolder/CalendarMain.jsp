@@ -2538,7 +2538,7 @@
 			v.insertBefore(c, v.firstChild);
 		}
 				//완료 시> 기존거 수정에도 사용 
-		function addGroup(){
+		function addGroup(date){
 			createXHRGroup();
 			
 			let target = event.target;
@@ -2553,11 +2553,19 @@
 			
     		let json = JSON.stringify(createJsonGroup(num, name, members, color, master, searchable))
     		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+    		
 			XHRGroup.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	
-		            	
+		            	scheduleCheckMonth(date);
 		            }
 				}
 			}
@@ -2570,13 +2578,32 @@
 			// 검증식 넣어 마스터와 유저키가 일치할 경우: 그룹 삭제
 			createXHRGroup();
 			
+			let target = event.target;
+			let v = target.parentNode;
+			
+			let num = v.getElementsByClassName("groupDataNum")[0].value;
+			let name = v.getElementsByClassName("groupDataName")[0].value;
+    		let members = v.getElementsByClassName("groupDataMembers")[0].value;
+    		let color = v.getElementsByClassName("groupDataColor")[0].value;
+    		let master = v.getElementsByClassName("groupDataMaster")[0].value;
+    		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
+			
+    		let json = JSON.stringify(createJsonGroup(num, name, members, color, master, searchable))
+    		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+    		
 			XHRGroup.onreadystatechange=function(){
 				
 				if(XHRCalendar.readyState==4){
-					
 		            if(XHRCalendar.status==200){
-		            	
-		            	
+		            	scheduleCheckMonth(date);
 		            }
 				}
 			}
@@ -2586,14 +2613,34 @@
 			XHRGroup.send("userKey="+userKey);
 		}
 		
-		function addGroupMember(){
+		function addGroupMember(date){
 			createXHRGroup();
-			XHRGroup.onreadystatechange=function(){
+			
+			let target = event.target;
+			let v = target.parentNode;
+			
+			let num = v.getElementsByClassName("groupDataNum")[0].value;
+			let name = v.getElementsByClassName("groupDataName")[0].value;
+    		let members = v.getElementsByClassName("groupDataMembers")[0].value;
+    		let color = v.getElementsByClassName("groupDataColor")[0].value;
+    		let master = v.getElementsByClassName("groupDataMaster")[0].value;
+    		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
+			
+    		let json = JSON.stringify(createJsonGroup(num, name, members, color, master, searchable))
+    		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
 				
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+    		
+			XHRGroup.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	
-		            	
+		            	scheduleCheckMonth(date);
 		            }
 				}
 			}
@@ -2657,9 +2704,6 @@
 		// 월 형식 스케줄
 		function scheduleCheckMonth (date){
 			
-			if(typeof(userKey)=='undefined'||userKey==null){
-				userKey = "DEMOUSER"
-			}
 			if(typeof(date)!='undefined'){
 				getGroupSchedule(userKey, date);
 			}
@@ -3171,6 +3215,8 @@
         		let inputYear = parseInt(input.value.substring(0,4));
 				let inputMonth = parseInt(input.value.substring(4,6));
 				let inputDay = parseInt(input.value.substring(6,8));
+				
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0);
 			}
 			
 			XHRCalendar.onreadystatechange=function(){
