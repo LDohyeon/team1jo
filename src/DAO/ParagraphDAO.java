@@ -420,10 +420,12 @@ public class ParagraphDAO {
 	
 	//게시판 검색
 	
-	public List<ParagraphDTO> searchParagraph(String search)
+	public List<ParagraphDTO> searchParagraph(String search, int startPage, int lastPage)
 	{
+		
+		int start = startPage*lastPage-lastPage;
 		String searchs= "%"+search+"%";		
-		String sql="select * from Paragraph where tag like ? || title like ? || contents like ?";
+		String sql="select * from Paragraph where tag like ? || title like ? || contents like ? order by date desc limit ?, ?";
 		
 		List<ParagraphDTO> list = new ArrayList<ParagraphDTO>();
 		
@@ -439,6 +441,8 @@ public class ParagraphDAO {
 			pstmt.setString(1, searchs);
 			pstmt.setString(2, searchs);
 			pstmt.setString(3, searchs);
+			pstmt.setInt(4, start);
+			pstmt.setInt(5, lastPage);
 			
 			rs= pstmt.executeQuery();
 			
