@@ -63,10 +63,10 @@
 				<input class="writebutton" type="button" value="글쓰기" onclick="location.href='paragraphEditorWrite.do';">
 			</c:if>
 			<span class="search">
-				<form method="get" action="search.do">
+				<form method="get" action="search.do" name="frm">
 					<input type="text" name="searchValue" id="searchValue">
 					<input type="hidden" name="startPage" value="1">
-					<input type="submit" value="검색">
+					<input type="submit" value="검색" onclick="writeCheck()">
 				</form>
 			</span>
 			<div class="spanWrap">
@@ -122,6 +122,14 @@
 		</div>
 	</body>
 	<script>
+		function writeCheck(){
+			if(document.frm.searchValue.value.length==0){
+				alert("검색어를 입력해주세요.");
+				frm.writeTitle.focus();
+				return false;
+			}
+		}
+		
 		function getTag(ths){
 			var text=$(ths).text();
 			$('#searchValue').val(text.replace('#',''));
