@@ -18,33 +18,26 @@ public class ChartTagServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
-		
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
-		
-		String tagDate=simpleDate.format(cal.getTime());
-		int htmlXml = pDAO.countTagParagraph("#html/xml",tagDate);
-		int java = pDAO.countTagParagraph("#java",tagDate);
-		int python = pDAO.countTagParagraph("#python",tagDate);
-		int sql = pDAO.countTagParagraph("#sql",tagDate);
-		int javascript = pDAO.countTagParagraph("#javascript",tagDate);
-		
-		List list = new ArrayList();
-			
+		int htmlXml = pDAO.countTagParagraph("#html/xml");
+		int java = pDAO.countTagParagraph("#java");
+		int python = pDAO.countTagParagraph("#python");
+		int sql = pDAO.countTagParagraph("#sql");
+		int javascript = pDAO.countTagParagraph("#javascript");
+		System.out.println("개수:"+java);
+		List list = new ArrayList();	
 		list.add(0, htmlXml);
 		list.add(1, java);
 		list.add(2, python);
 		list.add(3, sql);
-		list.add(4, javascript);
-				
+		list.add(4, javascript);		
+		System.out.println("리:"+list);
+		System.out.println(list.get(1));
 		request.setAttribute("list",list);
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("chartTag.jsp");
 		dispatcher.forward(request, response);
 	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

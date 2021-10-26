@@ -31,7 +31,6 @@
 	                responsive: false
 	            }
         	});
-	      
 		</script>
 	</body>
 </html>
