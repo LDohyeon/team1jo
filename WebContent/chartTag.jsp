@@ -13,18 +13,17 @@
 			<canvas id="myChart" width="600px"; height="500px";></canvas>
 		</div>
 		<script>
-			ㅊ
-			
 			var ctx = document.getElementById('myChart');
 	        var myChart = new Chart(ctx, 
         	{
-	            type: 'line',
+	            type: 'bar',
 	            data: {
 	                labels: ['#html/xml','#java','#python','#sql','#javascript'],
 	                datasets: [{
-	                    label: '언어 선호도',
+	                    label: '오늘의 언어 선호도',
 	                    data: ['${list[0]}','${list[1]}','${list[2]}','${list[3]}','${list[4]}'],       
-	                    borderColor: ['rgba(255, 50, 100, 1)'],
+	                    borderColor: ['#ff0000','#00ffcc','#0000ff','#ffcc00','#ccff00'],
+	                    backgroundColor: ['#ff0000','#00ffcc','#0000ff','#ffcc00','#ccff00'],
 	                    borderWidth: 2
 	                }]
 	            },

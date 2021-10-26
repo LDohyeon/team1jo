@@ -378,12 +378,12 @@ public class ParagraphDAO {
 	
 	//태그 개수 세기
 	
-	public int countTagParagraph(String tag)
+	public int countTagParagraph(String tag, String date)
 	{
 		int tagNum=0;
 		String tags="%"+tag+"%";
 		
-		String sql="select count(num) from Paragraph where tag like ?";
+		String sql="select count(num) from Paragraph where tag like ? and DATE(date)=?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -395,9 +395,10 @@ public class ParagraphDAO {
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, tags);
-
+			pstmt.setString(2, date);
+				
 			rs = pstmt.executeQuery();
-
+			
 			rs.next();
 			
 			tagNum=rs.getInt(1);
@@ -513,18 +514,5 @@ public class ParagraphDAO {
 		}
 		
 		return searchPageBtn;
-	}
-
-	//게시판 검색 페이지 버튼
-
+	}	
 }
-
-
-
-
-
-
-
-
-
-
