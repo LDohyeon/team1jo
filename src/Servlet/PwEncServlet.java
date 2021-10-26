@@ -29,7 +29,6 @@ public class PwEncServlet extends HttpServlet {
 		
 		//send
 		request.setAttribute("pwEnc",pwEnc);
-		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("userInfo.jsp");
 		dispatcher.forward(request, response);
 	}

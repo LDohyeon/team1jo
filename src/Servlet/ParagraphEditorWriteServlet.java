@@ -23,7 +23,6 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 
 		RequestDispatcher dispatcher= request.getRequestDispatcher("editor.jsp");
 		dispatcher.forward(request, response);
-		
 	}
 
 

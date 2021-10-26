@@ -506,7 +506,7 @@ public class ParagraphDAO {
 			
 			return searchPageBtn;
 		}
-
 		//게시판 검색 페이지 버튼
 
 	}
+	//게시판 검색 페이지 버튼
