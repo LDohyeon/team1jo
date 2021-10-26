@@ -34,6 +34,8 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 		String category = "질문";
 		String language="";
 		
+		
+		
 		String[] contents=content.split("※");
 		Map<String, String> map = new HashMap<String, String>();
 

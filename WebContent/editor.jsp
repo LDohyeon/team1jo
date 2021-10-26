@@ -105,7 +105,7 @@
         
         <!--컨텐츠 시작-->
         <div class="content">
-        	<form method="post" action="paragraphEditorWrite.do" name="frm" enctype="multipart/form-data">
+        	<form method="post" action="paragraphEditorWrite.do" name="frm">
 				<div class="title">
 	                <input id="writeTitle" class="writeTitle" type="text" placeholder="제목을 입력해주세요." name="title">
 	            </div>
@@ -205,6 +205,49 @@
 	
 
 	<script>
+
+		function selectFont(){
+			var select=document.getElementById("fontType");
+			var selectValue=select.options[select.selectedIndex].value;
+			document.execCommand("fontName", false, selectValue);
+		}
+		
+		var divColor=document.getElementsByClassName("divColor");
+		for(var i=0;i<divColor.length;i++){
+			divColor[i].style.backgroundColor="white";
+		}
+	
+		function btnColor(i){
+			if(i==8){
+				for(var i=0;i<8;i++){
+					divColor[i].style.backgroundColor="white";
+				}
+			}else if(divColor[i].style.backgroundColor=="gray"){
+				divColor[i].style.backgroundColor="white";
+			}else if(divColor[i].style.backgroundColor=="white"){
+				divColor[i].style.backgroundColor="gray";
+			}
+		}
+		//제목이나 내용이 입력되지 않은 채 submit 버튼이 눌렸을 때 alert 띄우는 함수
+		function writeCheck(){
+				if(document.frm.writeTitle.value.length==0){
+				alert("제목을 입력해주세요.");
+				frm.writeTitle.focus();
+				return false;
+			}
+			if(document.getElementById("writeContent").innerHTML==""){
+				alert("내용을 입력해주세요.");
+				document.getElementById("writeContent").focus();
+				return false;
+			}
+				var text;
+				text=document.getElementById('writeContent').innerHTML;
+				document.getElementById('content').value=text;
+
+				return true;
+		}
+	
+	
 	
 		//도현
 		
@@ -252,62 +295,6 @@
 
 		
 
-		
-		function createXMLHttpRequest()
-		{
-			if(window.ActiveXObject)
-			{
-				XHR=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			else if(window.XMLHttpRequest)
-			{
-				XHR = new XMLHttpRequest();
-			}
-		}
-		function request_doPost(imgInput)
-		{
-			createXMLHttpRequest();
-			var url="paragraphimgInsert.do";
-			const boundary = "blob";
-			var dataimg="";
-			
-			dataimg +="--"+boundary+"\r\n";
-			
-			dataimg += 'content-disposition: form-data; '
-					+ 'name="'+imgInput.name+'"; ';
-					+ 'filename="'+imgInput.files[0].name+'"\r\n';
-			dataimg += 'Content-Type: '+ imgInput.files[0].type + "\r\n";
-
-			dataimg += '\r\n';
-			
-			
-			XHR.onreadystatechange=handleStateChange;
-			
-			XHR.open('POST', url, true);
-			
-			XHR.setRequestHeader( 'Content-Type','multipart/form-data; boundary=' + boundary );
-			
-			XHR.send(dataimg);
-			
-		}
-		function handleStateChange()
-		{
-			if(XHR.readyState==4)
-			{
-				if(XHR.status==200)
-				{
-					alert("ajax 같다 옴");
-					//https://stackoverflow.com/questions/13886274/javascript-binary-file-download-and-ajax-file-post-upload-in-chrome-extension
-					//https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_forms_through_JavaScript
-				}
-			}
-		}
-		
-		
-
-		
-		
-		
 		
 		
  		function langs()
@@ -516,45 +503,6 @@
 
 		
 		
-		//하영
-		function selectFont(){
-			var select=document.getElementById("fontType");
-			var selectValue=select.options[select.selectedIndex].value;
-			document.execCommand("fontName", false, selectValue);
-		}
-		
-		var divColor=document.getElementsByClassName("divColor");
-		for(var i=0;i<divColor.length;i++){
-			divColor[i].style.backgroundColor="white";
-		}
-	
-		function btnColor(i){
-			if(i==8){
-				for(var i=0;i<8;i++){
-					divColor[i].style.backgroundColor="white";
-				}
-			}else if(divColor[i].style.backgroundColor=="gray"){
-				divColor[i].style.backgroundColor="white";
-			}else if(divColor[i].style.backgroundColor=="white"){
-				divColor[i].style.backgroundColor="gray";
-			}
-		}
-		//제목이나 내용이 입력되지 않은 채 submit 버튼이 눌렸을 때 alert 띄우는 함수
-		function writeCheck(){
-				if(document.frm.writeTitle.value.length==0){
-				alert("제목을 입력해주세요.");
-				frm.writeTitle.focus();
-				return false;
-			}
-			if(document.getElementById("writeContent").innerHTML==""){
-				alert("내용을 입력해주세요.");
-				document.getElementById("writeContent").focus();
-				return false;
-			}
-				var text;
-				text=document.getElementById('writeContent').innerHTML;
-				document.getElementById('content').value=text;
-				return true;
-		}
+
 	</script>
 </html>
