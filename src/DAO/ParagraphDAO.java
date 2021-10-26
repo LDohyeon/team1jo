@@ -386,21 +386,17 @@ public class ParagraphDAO {
 			
 			Connection conn = null;
 			PreparedStatement pstmt = null;
-			ResultSet rs= null;
-			
+			ResultSet rs= null;			
 			try
 			{
 				conn = getConnection();
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setString(1, tags);
-
 				rs = pstmt.executeQuery();
-
 				rs.next();
 				
 				tagNum=rs.getInt(1);
-
 			}
 			catch(Exception e)
 			{
@@ -409,11 +405,9 @@ public class ParagraphDAO {
 			finally
 			{
 				close(conn, pstmt, rs);
-			}
-		
+			}	
 			return tagNum;
-		}
-		
+		}		
 		//태그 개수 세기
 		
 		
@@ -500,7 +494,6 @@ public class ParagraphDAO {
 				rs.next();
 				
 				searchPageBtn = rs.getInt(1);
-
 			}
 			catch(Exception e)
 			{
@@ -515,5 +508,5 @@ public class ParagraphDAO {
 		}
 
 		//게시판 검색 페이지 버튼
+
 	}
-	

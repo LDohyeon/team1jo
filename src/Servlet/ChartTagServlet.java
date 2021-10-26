@@ -25,6 +25,7 @@ public class ChartTagServlet extends HttpServlet {
 		int sql = pDAO.countTagParagraph("#sql");
 		int javascript = pDAO.countTagParagraph("#javascript");
 		System.out.println("개수:"+java);
+		
 		List list = new ArrayList();	
 		list.add(0, htmlXml);
 		list.add(1, java);
@@ -33,6 +34,7 @@ public class ChartTagServlet extends HttpServlet {
 		list.add(4, javascript);		
 		System.out.println("리:"+list);
 		System.out.println(list.get(1));
+		
 		request.setAttribute("list",list);
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("chartTag.jsp");
