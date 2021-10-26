@@ -90,6 +90,10 @@
 				float:right;
 				margin-left:2%;
 			}
+			#imgInput
+			{
+				display:none;
+			}
         </style>
 	</head>
 	<body>
@@ -101,7 +105,7 @@
         
         <!--컨텐츠 시작-->
         <div class="content">
-        	<form method="post" action="paragraphEditorWrite.do" name="frm">
+        	<form method="post" action="paragraphEditorWrite.do" name="frm" enctype="multipart/form-data">
 				<div class="title">
 	                <input id="writeTitle" class="writeTitle" type="text" placeholder="제목을 입력해주세요." name="title">
 	            </div>
@@ -133,7 +137,7 @@
 	                        </div>
 
 	                        <div class="img">
-	                            <button class="divColor" type="button">사진</button>
+	                            <button class="divColor" type="button" onclick="imgInsert()">사진</button>
 	                        </div>
 	                        
 	                        <div class="codeWrite">   
@@ -161,12 +165,21 @@
 	                    </div>
 	                    
 	                    <input id="content" type="hidden" value="" name="content">
+	                    
+	       				
+	       				
 
 	            	 </div>
 				 	<input type="submit" value="글쓰기" onclick="return writeCheck();">
 
 	            </div>
+	            
+	            <!-- 이미지 -->
+	            <input type="file" name="imgInput" id="imgInput" onchange="imgChange()">
+	            <!-- 이미지 -->
+	            
         	</form>
+ 
         </div>
         <!--컨텐츠 종료-->
         
@@ -193,47 +206,110 @@
 
 	<script>
 	
-		function selectFont(){
-			var select=document.getElementById("fontType");
-			var selectValue=select.options[select.selectedIndex].value;
-			document.execCommand("fontName", false, selectValue);
+		//도현
+		
+		function imgInsert()
+		{
+			var imgInput = document.getElementById("imgInput");
+			
+			imgInput.click();
+			
+			imgChange();
+			
+		}
+		function imgChange()
+		{
+			var imgInput = document.getElementById("imgInput");
+			//이렇게 안 하고 span 태그 밑에 img 태그를 만들어서 넣고 삭제할 듯
+			
+			
+			//var sel = document.getSelection();
+			//var range = sel.getRangeAt(0);
+			
+			//var insertNodeImg=document.createElement("img");
+			//insertNodeImg.setAttribute("src", imgInput);
+			
+			//range.insertNode(insertNodeImg);
+			//range.setStartAfter(insertNodeImg);
+			
+			//docoment.getElementById("writeContent").focus();
+			
+			
+			if(imgInput.files.length>0)
+			{
+				if(imgInput.files)
+				{
+					//console.log(imgInput.name);
+					//console.log(imgInput.files[0]);
+					//console.log(imgInput.files[0].name);
+					//console.log(imgInput.files[0].type);
+		  				
+					request_doPost(imgInput);
+				}	
+			}
+		}
+
+
+		
+
+		
+		function createXMLHttpRequest()
+		{
+			if(window.ActiveXObject)
+			{
+				XHR=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			else if(window.XMLHttpRequest)
+			{
+				XHR = new XMLHttpRequest();
+			}
+		}
+		function request_doPost(imgInput)
+		{
+			createXMLHttpRequest();
+			var url="paragraphimgInsert.do";
+			const boundary = "blob";
+			var dataimg="";
+			
+			dataimg +="--"+boundary+"\r\n";
+			
+			dataimg += 'content-disposition: form-data; '
+					+ 'name="'+imgInput.name+'"; ';
+					+ 'filename="'+imgInput.files[0].name+'"\r\n';
+			dataimg += 'Content-Type: '+ imgInput.files[0].type + "\r\n";
+
+			dataimg += '\r\n';
+			
+			
+			XHR.onreadystatechange=handleStateChange;
+			
+			XHR.open('POST', url, true);
+			
+			XHR.setRequestHeader( 'Content-Type','multipart/form-data; boundary=' + boundary );
+			
+			XHR.send(dataimg);
+			
+		}
+		function handleStateChange()
+		{
+			if(XHR.readyState==4)
+			{
+				if(XHR.status==200)
+				{
+					alert("ajax 같다 옴");
+					//https://stackoverflow.com/questions/13886274/javascript-binary-file-download-and-ajax-file-post-upload-in-chrome-extension
+					//https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_forms_through_JavaScript
+				}
+			}
 		}
 		
-		var divColor=document.getElementsByClassName("divColor");
-		for(var i=0;i<divColor.length;i++){
-			divColor[i].style.backgroundColor="white";
-		}
-	
-		function btnColor(i){
-			if(i==8){
-				for(var i=0;i<8;i++){
-					divColor[i].style.backgroundColor="white";
-				}
-			}else if(divColor[i].style.backgroundColor=="gray"){
-				divColor[i].style.backgroundColor="white";
-			}else if(divColor[i].style.backgroundColor=="white"){
-				divColor[i].style.backgroundColor="gray";
-			}
-		}
-		//제목이나 내용이 입력되지 않은 채 submit 버튼이 눌렸을 때 alert 띄우는 함수
-		function writeCheck(){
-				if(document.frm.writeTitle.value.length==0){
-				alert("제목을 입력해주세요.");
-				frm.writeTitle.focus();
-				return false;
-			}
-			if(document.getElementById("writeContent").innerHTML==""){
-				alert("내용을 입력해주세요.");
-				document.getElementById("writeContent").focus();
-				return false;
-			}
-				var text;
-				text=document.getElementById('writeContent').innerHTML;
-				document.getElementById('content').value=text;
-				return true;
-			}
+		
 
-		//도현
+		
+		
+		
+		
+		
  		function langs()
 		{
 			language=document.getElementById("language").value;
@@ -275,7 +351,7 @@
 				return;
 			}
 			
-			document.getElementById("writeContent").focus();
+			document.getElementById("writeContent").focus({preventScroll:true});
 			
 			insertSpan();
 			
@@ -438,5 +514,47 @@
 
 		}
 
+		
+		
+		//하영
+		function selectFont(){
+			var select=document.getElementById("fontType");
+			var selectValue=select.options[select.selectedIndex].value;
+			document.execCommand("fontName", false, selectValue);
+		}
+		
+		var divColor=document.getElementsByClassName("divColor");
+		for(var i=0;i<divColor.length;i++){
+			divColor[i].style.backgroundColor="white";
+		}
+	
+		function btnColor(i){
+			if(i==8){
+				for(var i=0;i<8;i++){
+					divColor[i].style.backgroundColor="white";
+				}
+			}else if(divColor[i].style.backgroundColor=="gray"){
+				divColor[i].style.backgroundColor="white";
+			}else if(divColor[i].style.backgroundColor=="white"){
+				divColor[i].style.backgroundColor="gray";
+			}
+		}
+		//제목이나 내용이 입력되지 않은 채 submit 버튼이 눌렸을 때 alert 띄우는 함수
+		function writeCheck(){
+				if(document.frm.writeTitle.value.length==0){
+				alert("제목을 입력해주세요.");
+				frm.writeTitle.focus();
+				return false;
+			}
+			if(document.getElementById("writeContent").innerHTML==""){
+				alert("내용을 입력해주세요.");
+				document.getElementById("writeContent").focus();
+				return false;
+			}
+				var text;
+				text=document.getElementById('writeContent').innerHTML;
+				document.getElementById('content').value=text;
+				return true;
+		}
 	</script>
 </html>
