@@ -113,7 +113,7 @@ public class ParagraphDAO {
 	}
 	
 	public List<ParagraphDTO> paragraphList(int StartPage, int lastPage)
-	{
+	{ 
 		List<ParagraphDTO> list= new ArrayList<ParagraphDTO>();
 		int start = StartPage*lastPage-lastPage;
 		
@@ -413,57 +413,61 @@ public class ParagraphDAO {
 		
 		//게시판 검색
 		
-		public List<ParagraphDTO> searchParagraph(String search)
-		{
-			String searchs= "%"+search+"%";		
-			String sql="select * from Paragraph where tag like ? || title like ? || contents like ?";
-			
-			List<ParagraphDTO> list = new ArrayList<ParagraphDTO>();
-			
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			
-			try
-			{
-				conn = getConnection();
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setString(1, searchs);
-				pstmt.setString(2, searchs);
-				pstmt.setString(3, searchs);
-				
-				rs= pstmt.executeQuery();
-				
-				while(rs.next())
-				{
-					ParagraphDTO pDTO = new ParagraphDTO();
-					
-					pDTO.setNum(rs.getInt("num"));
-					pDTO.setId(rs.getString("id"));
-					pDTO.setName(rs.getString("name"));
-					pDTO.setTitle(rs.getString("title"));
-					pDTO.setContents(rs.getString("contents"));
-					pDTO.setCategory(rs.getString("category"));
-					pDTO.setDatetime(rs.getString("date"));
-					pDTO.setHits(rs.getInt("hits"));
-					pDTO.setTag(rs.getString("tag"));
-					
-					list.add(pDTO);
-				}
-				
-			}
-			catch(Exception e)
-			{
-				System.out.println("게시판 검색 실패" + e);
-			}
-			finally
-			{
-				close(conn, pstmt, rs);
-			}
-			
-			return list;
-		}
+		public List<ParagraphDTO> searchParagraph(String search, int startPage, int lastPage)
+		   {
+		      
+		      int start = startPage*lastPage-lastPage;
+		      String searchs= "%"+search+"%";      
+		      String sql="select * from Paragraph where tag like ? || title like ? || contents like ? order by date desc limit ?, ?";
+		      
+		      List<ParagraphDTO> list = new ArrayList<ParagraphDTO>();
+		      
+		      Connection conn = null;
+		      PreparedStatement pstmt = null;
+		      ResultSet rs = null;
+		      
+		      try
+		      {
+		         conn = getConnection();
+		         pstmt = conn.prepareStatement(sql);
+		         
+		         pstmt.setString(1, searchs);
+		         pstmt.setString(2, searchs);
+		         pstmt.setString(3, searchs);
+		         pstmt.setInt(4, start);
+		         pstmt.setInt(5, lastPage);
+		         
+		         rs= pstmt.executeQuery();
+		         
+		         while(rs.next())
+		         {
+		            ParagraphDTO pDTO = new ParagraphDTO();
+		            
+		            pDTO.setNum(rs.getInt("num"));
+		            pDTO.setId(rs.getString("id"));
+		            pDTO.setName(rs.getString("name"));
+		            pDTO.setTitle(rs.getString("title"));
+		            pDTO.setContents(rs.getString("contents"));
+		            pDTO.setCategory(rs.getString("category"));
+		            pDTO.setDatetime(rs.getString("date"));
+		            pDTO.setHits(rs.getInt("hits"));
+		            pDTO.setTag(rs.getString("tag"));
+		            
+		            list.add(pDTO);
+		         }
+		         
+		      }
+		      catch(Exception e)
+		      {
+		         System.out.println("게시판 검색 실패" + e);
+		      }
+		      finally
+		      {
+		         close(conn, pstmt, rs);
+		      }
+		      
+		      return list;
+		   }
 		
 		//게시판 검색
 		
