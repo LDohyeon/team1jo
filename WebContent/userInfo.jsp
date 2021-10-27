@@ -5,9 +5,16 @@
 		<meta charset="UTF-8">
 		<title>회원정보 수정 페이지</title>
 		<style>
+			#wrap
+			{
+				position: relative;
+    			padding: 32px 51px 95px;
+			}
 		
 			#wrap2
 			{
+				margin:0 auto;
+				
 				text-align:center;
 				width:600px;
 			}
@@ -26,15 +33,17 @@
 			{
 				
 				margin:5px 0;
+				border-collapse:collapse;
+				border-top:1px solid #272324;
 			}
 			
 			.userInfoTd
 			{
 				padding:30px;
 				font-weight: bolder;
-				background-color:lightgray;
-				border-bottom:1px solid black;
-				border-right:1px solid black;
+				background-color:#f1f1f1;
+				border-bottom:1px solid #dbdadf;
+				border-right:1px solid #dbdadf;
 			}
 			
 			.userInfoTdContext
@@ -42,13 +51,61 @@
 				padding:30px;
 				width:400px;
 				text-align:left;
-				border-bottom:1px solid black;
+				border-bottom:1px solid #dbdadf;
 			}
 			
 			.buttonsArea
 			{
 				padding-top:20px;
 				text-align:center;
+			}
+			
+			.button
+			{
+				background-color:#064998;
+				color:#fff;
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				margin:5px 0;
+				font-size: 14px;
+				
+				width:80px;
+				display:inline-block;
+			}
+			
+			.button2
+			{
+			    height: 25px;
+			    line-height: 25px;
+			    text-align: center;
+			    margin: 5px;
+			    font-size: 10px;
+			    width: 44px;
+    			border:1px solid #dbdadf;
+    			background-color:#f1f1f1;
+    			color:#000;
+    			
+    			display: inline-block;
+			}
+			
+			.button:hover
+			{
+				background-color:#005cc3;
+			}
+			
+			.button2:hover
+			{
+				background-color:#fff;
+			}
+			
+			.nonInputSub
+			{
+				padding: 0;
+			    border-width: 0;
+			    border-style: none;
+			    border-color: #fff;
+			    font-family:inherit;
 			}
 		</style>
 	</head>
@@ -70,7 +127,7 @@
 							<td class="userInfoTd">비밀번호</td>
 							<td class="userInfoTdContext">
 								<span>${pwEnc}</span>
-								<span><input type="button" value="수정" onclick="location.href='changePw.jsp'"></span>
+								<div class="button2" onclick="location.href='changePw.jsp'">수정</div>
 							</td>
 						</tr>
 						<tr>
@@ -89,8 +146,8 @@
 						</tr>
 					</table>
 					<div class="buttonsArea">
-						<input name="submit" type="submit" value="적용" onclick="return check()">
-						<input type="button" value="취소" onclick="location.href='index.jsp'">
+						<input class="button nonInputSub" name="submit" type="submit" value="적용" onclick="return check()">
+						<div class="button" onclick="location.href='index.jsp'">취소</div>
 					</div>
 				</div>
 			</form>

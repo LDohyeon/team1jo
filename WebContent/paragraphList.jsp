@@ -133,7 +133,7 @@
 		
 		function getTag(ths){
 			var text=$(ths).text();
-			$('#searchValue').val(text.replace('#',''));
+			location.href="search.do?searchValue="+text.replace('#','')+"&startPage=1";
 		}
 	</script>
 </html>

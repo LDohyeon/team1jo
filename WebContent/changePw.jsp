@@ -6,26 +6,41 @@
 		<meta charset="UTF-8">
 		<title>비밀번호 수정 페이지</title>
 		<style>
+			body
+			{
+				background-color:#e2e2e2;
+			}
+		
+			#wrap
+			{
+				position: relative;
+    			padding: 32px 51px 95px;
+			}
+		
 			#wrap2
 			{
-				width:500px;
-				text-align:center;
-				padding:10px 0 20px 0;
-				border:1px solid black;
-			}
-			
-			#wrap3
-			{
+				margin:0 auto;
+				background-color:#fff;
+				
 				width:308px;
 				text-align:left;
-				display:inline-block;
+				padding:40px;
+				border:1px solid #000;
+			}
+			
+			h2
+			{
+				margin:0;
 			}
 			
 			input[type=password]
 			{
 				width:300px;
+				line-height:30px;
 				height:30px;
-				margin-top:10px;
+				margin-top:15px;
+				padding:5px;
+				font-weight: bold;
 			}
 			
 			.buttonsArea
@@ -39,34 +54,61 @@
 				display: block;
 				font-size:small;
 			}
+			
+			.button
+			{
+				background-color:#064998;
+				color:#fff;
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				margin:5px 0;
+				font-size: 14px;
+				
+				width:308px;
+			}
+			
+			.button:hover
+			{
+				background-color:#005cc3;
+			}
+			
+			.nonInputSub
+			{
+				padding: 0;
+			    border-width: 0;
+			    border-style: none;
+			    border-color: #fff;
+			    font-family:inherit;
+			}
 		</style>
 	</head>
 	<body>
 		<div id="wrap">
 			<form name="update" method="post" action="changePw.do">
-				<h2>비밀번호 수정</h2>
 				<div id="wrap2">
-					<div id="wrap3">
-						<input name="cpw" type="password" placeholder="현재 비밀번호" onchange="isCpw(); checkCpw(); chekcCpwNPw();">
-						<span class="under" id="underInfo0" style="display:none;">현재 비밀번호와 일치하지 않습니다.</span>    
-						<span class="under" id="underInfo1" style="display:none;">현재 비밀번호를 입력해주세요.</span>    
-						
-						<input name="pw1" type="password" placeholder="새로운 비밀번호" onchange="checkPw(); chekcCpwNPw();">
-						<span class="under" id="underInfo2" style="display:none;">새로운 비밀번호를 입력해주세요.</span>
-						<span class="under" id="underInfo3" style="display:none;">현재 비밀번호와 새로운 비밀번호가 같습니다.</span>
-						
-						<input name="pw2" type="password" placeholder="새로운 비밀번호 확인" onchange="doubleCheckPw()">
-						<span class="under" id="underInfo4" style="display:none;">비밀번호가 일치하지 않습니다.</span>
-						
-						<div class="buttonsArea">
-							<input type="submit" value="수정" onclick="return check()">
-							<input type="button" value="취소" onclick="location.href='userInfo.jsp'">
-						</div>
+					<h2>비밀번호 수정</h2>
+				
+					<input name="cpw" type="password" placeholder="현재 비밀번호" onchange="isCpw(); checkCpw(); chekcCpwNPw();">
+					<span class="under" id="underInfo0" style="display:none;">현재 비밀번호와 일치하지 않습니다.</span>    
+					<span class="under" id="underInfo1" style="display:none;">현재 비밀번호를 입력해주세요.</span>    
+					
+					<input name="pw1" type="password" placeholder="새로운 비밀번호" onchange="checkPw(); chekcCpwNPw();">
+					<span class="under" id="underInfo2" style="display:none;">새로운 비밀번호를 입력해주세요.</span>
+					<span class="under" id="underInfo3" style="display:none;">현재 비밀번호와 새로운 비밀번호가 같습니다.</span>
+					
+					<input name="pw2" type="password" placeholder="새로운 비밀번호 확인" onchange="doubleCheckPw()">
+					<span class="under" id="underInfo4" style="display:none;">비밀번호가 일치하지 않습니다.</span>
+					
+					<div class="buttonsArea">
+						<input class="button nonInputSub" type="submit" value="수정" onclick="return check()">
+						<div class="button" onclick="location.href='pwEnc.do'">취소</div>
 					</div>
 				</div>
 			</form>
 		</div>
 		<script>
+			<%request.setCharacterEncoding("utf-8");%>
 			//function0
 			var currentPw=${loginUser.getPw()};
 			function isCpw()
