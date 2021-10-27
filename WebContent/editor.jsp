@@ -23,6 +23,7 @@
                 width: 800px;
                 height: 500px;
                 border: 1px solid #ccc;
+                overflow-y: auto;/*스크롤 기능*/
             }
             .editorTool{
                 width: 800px;
@@ -161,10 +162,9 @@
 	                    
 	                    
 	                   
-	                    <div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">
-	                    </div>
+	                    <div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
 	                    
-	                    <input id="content" type="hidden" value="" name="content">
+	                    <input id="content" type="hidden" name="content">
 	                    
 	       				
 	       				
@@ -175,13 +175,17 @@
 	            </div>
 	            
 	            <!-- 이미지 -->
-	            <input type="file" name="imgInput" id="imgInput" onchange="imgChange()">
+	            
 	            <!-- 이미지 -->
 	            
         	</form>
  
         </div>
         <!--컨텐츠 종료-->
+        <form method="post" action="paragraphImageInsert.do" enctype="multipart/form-data" name="imgFrm" id="imgFrm">
+        	<input type="file" name="imgInput" id="imgInput" onchange="imgChange()">
+        	<input id="imgContent" type="hidden" value="" name="imgContent">
+        </form>
         
         <!--푸터 시작-->
         <div class="footer">
@@ -263,31 +267,34 @@
 		function imgChange()
 		{
 			var imgInput = document.getElementById("imgInput");
-			//이렇게 안 하고 span 태그 밑에 img 태그를 만들어서 넣고 삭제할 듯
 			
-			
-			//var sel = document.getSelection();
-			//var range = sel.getRangeAt(0);
-			
-			//var insertNodeImg=document.createElement("img");
-			//insertNodeImg.setAttribute("src", imgInput);
-			
-			//range.insertNode(insertNodeImg);
-			//range.setStartAfter(insertNodeImg);
-			
-			//docoment.getElementById("writeContent").focus();
-			
+			console.log(imgInput.name);
+					//console.log(imgInput.files[0]);
+					//console.log(imgInput.files[0].name);
+					//console.log(imgInput.files[0].type);
 			
 			if(imgInput.files.length>0)
 			{
 				if(imgInput.files)
 				{
-					//console.log(imgInput.name);
-					//console.log(imgInput.files[0]);
-					//console.log(imgInput.files[0].name);
-					//console.log(imgInput.files[0].type);
+					var sel2 = document.getSelection();
+
+		            var range2 = sel2.getRangeAt(0);
+
+		            var insertNodeImg=document.createElement("img");
+					insertNodeImg.setAttribute("src", "★");
+					range2.insertNode(insertNodeImg);
+					range2.setStartAfter(insertNodeImg);
+					
+					document.getElementById("writeContent").focus();
+					
 		  				
-					request_doPost(imgInput);
+					document.getElementById("imgContent").value=document.getElementById('writeContent').innerHTML;
+					
+					console.log(document.getElementById('writeContent').innerText);
+					
+					document.getElementById("imgFrm").submit();
+					
 				}	
 			}
 		}
@@ -338,7 +345,7 @@
 				return;
 			}
 			
-			document.getElementById("writeContent").focus({preventScroll:true});
+			document.getElementById("writeContent").focus();
 			
 			insertSpan();
 			
