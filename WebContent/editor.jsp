@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
 <html>
 	<head>
@@ -98,7 +99,7 @@
         </style>
 	</head>
 	<body>
-				<!--헤더 시작-->
+		<!--헤더 시작-->
         <div class="header">
             header
         </div>
@@ -106,9 +107,14 @@
         
         <!--컨텐츠 시작-->
         <div class="content">
-        	<form method="post" action="paragraphEditorWrite.do" name="frm">
-				<div class="title">
-	                <input id="writeTitle" class="writeTitle" type="text" placeholder="제목을 입력해주세요." name="title">
+        	<form method="post" action="paragraphEditorWrite.do" id="frm" name="frm">
+				<div class="title">  
+	            	<c:if test="${imgTitle == null }">
+	            		<input id="writeTitle" class="writeTitle" value="${pDTO.getTitle() }" type="text" placeholder="제목을 입력해주세요." name="title">
+	            	</c:if>
+	            	<c:if test="${imgTitle != null }">
+	            		<input id="writeTitle" class="writeTitle" value="${imgTitle }" type="text" placeholder="제목을 입력해주세요." name="title">
+	            	</c:if>
 	            </div>
 	            <div>
 	                <div class="editor">
@@ -159,43 +165,41 @@
 	                    <div>
 	                    	<br>
 	                    </div>
-	                    
-	                    
-	                   
-	                    <div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
+          
+	                    <div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }${pDTO.getContents() }</div>
 	                    
 	                    <input id="content" type="hidden" name="content">
 	                    
-	       				
-	       				
+	                    <!-- 수정할 때 필요한 번호 -->
+	                    <input id="num" type="hidden" value="${pDTO.getNum() }" name="num">
 
 	            	 </div>
-				 	<input type="submit" value="글쓰기" onclick="return writeCheck();">
-
+	            	 
+	            	 <c:if test="${pDTO.getTitle() ==null }">
+	            	 	<input type="submit" value="글쓰기" onclick="return writeCheck();">
+	            	 </c:if>
+	            	 <c:if test="${pDTO.getTitle() !=null }">
+	            	 	<input type="submit" value="글수정" onclick="return writeCheckUpdate();">
+	            	 </c:if>
+				 	
 	            </div>
-	            
-	            <!-- 이미지 -->
-	            
-	            <!-- 이미지 -->
-	            
         	</form>
  
         </div>
         <!--컨텐츠 종료-->
         <form method="post" action="paragraphImageInsert.do" enctype="multipart/form-data" name="imgFrm" id="imgFrm">
         	<input type="file" name="imgInput" id="imgInput" onchange="imgChange()">
-        	<input id="imgContent" type="hidden" value="" name="imgContent">
+        	<input id="imgContent" type="hidden" name="imgContent">
+        	<input id="imgTitle" type="hidden" name="imgTitle">
         </form>
         
         <!--푸터 시작-->
         <div class="footer">
             footer
         </div>
-
         <!--푸터 종료-->
-        <!-- 코드를 수정한 다음 기존 코드를 삭제할 때 필요한 버튼 -->
-	
-
+        
+        
 			<!-- 결제 창 판업 띄우기 -->
 			<div id="wrapPonup">
 				<div id="ponup">
@@ -209,7 +213,6 @@
 	
 
 	<script>
-
 		function selectFont(){
 			var select=document.getElementById("fontType");
 			var selectValue=select.options[select.selectedIndex].value;
@@ -232,8 +235,9 @@
 				divColor[i].style.backgroundColor="gray";
 			}
 		}
-		//제목이나 내용이 입력되지 않은 채 submit 버튼이 눌렸을 때 alert 띄우는 함수
-		function writeCheck(){
+
+		function writeCheck()
+		{
 				if(document.frm.writeTitle.value.length==0){
 				alert("제목을 입력해주세요.");
 				frm.writeTitle.focus();
@@ -251,6 +255,14 @@
 				return true;
 		}
 	
+		function writeCheckUpdate()
+		{
+			var frm = document.getElementById("frm");
+
+			frm.action="paragraphUpdate.do";
+			
+			writeCheck();
+		}
 	
 	
 		//도현
@@ -267,11 +279,6 @@
 		function imgChange()
 		{
 			var imgInput = document.getElementById("imgInput");
-			
-			console.log(imgInput.name);
-					//console.log(imgInput.files[0]);
-					//console.log(imgInput.files[0].name);
-					//console.log(imgInput.files[0].type);
 			
 			if(imgInput.files.length>0)
 			{
@@ -291,19 +298,14 @@
 		  				
 					document.getElementById("imgContent").value=document.getElementById('writeContent').innerHTML;
 					
-					console.log(document.getElementById('writeContent').innerText);
-					
+					document.getElementById("imgTitle").value=document.getElementById('writeTitle').value;
+
 					document.getElementById("imgFrm").submit();
 					
 				}	
 			}
 		}
 
-
-		
-
-		
-		
  		function langs()
 		{
 			language=document.getElementById("language").value;

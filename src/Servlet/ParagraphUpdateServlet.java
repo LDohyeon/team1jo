@@ -17,7 +17,15 @@ public class ParagraphUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher=request.getRequestDispatcher("paragraphUpdate.jsp");
+		
+		int num = Integer.parseInt(request.getParameter("num"));
+		
+		ParagraphDAO pDAO =ParagraphDAO.getInstance();
+		ParagraphDTO pDTO = pDAO.ParagraphContents(num);
+		
+		request.setAttribute("pDTO", pDTO);
+		
+		RequestDispatcher dispatcher=request.getRequestDispatcher("editor.jsp");
 		dispatcher.forward(request, response);
 	}
 

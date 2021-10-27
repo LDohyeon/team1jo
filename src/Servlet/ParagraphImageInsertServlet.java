@@ -34,7 +34,7 @@ public class ParagraphImageInsertServlet extends HttpServlet {
 		MultipartRequest multi = new MultipartRequest(request, path, sizeLimit, encType, new DefaultFileRenamePolicy());
 		String imgContent = multi.getParameter("imgContent");
 		String imgInput = multi.getFilesystemName("imgInput");
-		
+		String imgTitle= multi.getParameter("imgTitle");
 		
 		String[] imgContents=imgContent.split("★");
 		
@@ -45,10 +45,9 @@ public class ParagraphImageInsertServlet extends HttpServlet {
 		{
 			imgContentsHap+=imgContents[i];
 		}
-		System.out.println(imgContentsHap);
-		
-		
+
 		request.setAttribute("imageInsertContent", imgContentsHap);
+		request.setAttribute("imgTitle", imgTitle);
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("editor.jsp");
 		dispatcher.forward(request, response);
