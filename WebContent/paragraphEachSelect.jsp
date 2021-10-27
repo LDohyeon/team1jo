@@ -23,6 +23,7 @@
 		<script src="codeMirror/javascript.js"></script>
 		<script src="codeMirror/sql.js"></script>
 		<script src="codeMirror/clike.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<style>			
             .writeContent{ 
                 width: 800px;
@@ -84,7 +85,7 @@
         	<p>Id ${pDTO.getId() },Num ${pDTO.getNum() },Name ${pDTO.getName() },Date ${pDTO.getDatetime() },Category ${pDTO.getCategory() },Hits ${pDTO.getHits() }</p>
         	<c:set var="tag" value="${fn:split(pDTO.getTag(),'★') }"></c:set>
         	<c:forEach items="${tag }" var="tags">
-				<span class="tagColor">${tags }</span>
+				<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
 			</c:forEach>
 			
         	<br>
@@ -328,6 +329,11 @@
 			document.getElementById('content2').value=text;
 			return true;
  		}
+		
+		function getTag(ths){
+			var text=$(ths).text();
+			location.href="search.do?searchValue="+text.replace('#','')+"&startPage=1";
+		}
 		
 	</script>
 </html>
