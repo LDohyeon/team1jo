@@ -5,11 +5,25 @@
 		<meta charset="UTF-8">
 		<title>회원 탈퇴 페이지</title>
 		<style>
+			body
+			{
+				background-color:#e2e2e2;
+			}
+		
+			#wrap
+			{
+				position: relative;
+    			padding: 32px 51px 95px;
+			}
+		
 			#wrap2
 			{
+				margin:0 auto;
+				background-color:#fff;
+				
 				width:470px;
 				padding:20px;
-				border:5px solid black;
+				border:5px solid #000;
 				border-style: double;
 			}
 		
@@ -25,7 +39,7 @@
 			
 			.leaveIdPWrap
 			{
-				color:#ff6000;
+				color:#FF4337;
 				font-weight:bold;
 			}
 			
@@ -33,6 +47,33 @@
 			{
 				padding-top:20px;
 				text-align:center;
+			}
+			
+			.button
+			{
+				background-color:#064998;
+				color:#fff;
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				margin:5px 0;
+				font-size: 14px;
+				
+				width:80px;
+			}
+			
+			.button:hover
+			{
+				background-color:#005cc3;
+			}
+			
+			.nonInputSub
+			{
+				padding: 0;
+			    border-width: 0;
+			    border-style: none;
+			    border-color: #fff;
+			    font-family:inherit;
 			}
 		</style>
 	</head>
@@ -49,7 +90,7 @@
 						<p class="leaveIdP">탈퇴 후에도 게시판형 서비스에 등록한 게시물은 그대로 남아 있습니다.</p>
 					</div>
 					<p><input type="checkbox" id="check"><b>안내 사항을 모두 확인하였으며, 이에 동의합니다.</b></p>
-					<div class="buttonsArea"><input type="submit" onclick="return check1()" value="확인"></div>
+					<div class="buttonsArea"><input class="button nonInputSub" type="submit" onclick="return check1()" value="확인"></div>
 				</div>
 			</form>
 		</div>
