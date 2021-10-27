@@ -28,7 +28,7 @@ public class groupMemeberModify extends HttpServlet {
 		
 		String id = String.valueOf(data.get("userKey"));
 		String num = String.valueOf(data.get("num"));
-		String modifier=String.valueOf(data.get("modifier"));
+		String modifier=String.valueOf(data.get("modifiers"));
 		String target=String.valueOf(data.get("target"));
 		String master=String.valueOf(data.get("master"));
 
@@ -37,7 +37,7 @@ public class groupMemeberModify extends HttpServlet {
 		
 		master = master.replace("\"", "");
 		master = master.replace("\'", "");
-		
+
 		mDTO.setId(id);
 		gDTO.setGroupnum(num);
 		gDTO.setMaster(master);
@@ -48,12 +48,13 @@ public class groupMemeberModify extends HttpServlet {
 		str = str.replace("]", "");
 		str = str.replace("\"", "");
 		str = str.replace("\'", "");
+
 		String[] arr = str.split(",");
 		str = "";
 		boolean flag=true;
 		
 		for(int i = 0; i<arr.length; i++) {
-			if(arr[i].equals("")) {
+			if(arr[i].equals("")||arr[i].equals(null)) {
 				
 			}
 			else {
@@ -67,12 +68,12 @@ public class groupMemeberModify extends HttpServlet {
 					str+="@"+arr[i];
 				}
 			}
+			System.out.println(arr[i]);
 		}
-		
 		if(flag==true) {
 			str+="@"+target;
 		}
-		
+		System.out.println(str);
 		gDTO.setModifier(str);
 		
 		ScheduleDAO sDAO = ScheduleDAO.getInstance();
@@ -114,3 +115,5 @@ public class groupMemeberModify extends HttpServlet {
 		return json;
 	}
 }
+//update groupdata set members='@test@dodo' where groupnum='12';
+//select * from groupdata;

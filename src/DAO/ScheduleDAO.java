@@ -323,16 +323,6 @@ public class ScheduleDAO {
 					}
 				}
 			}
-			
-			for(int i = 0; i<list.size(); i++) {
-				String member[] = list.get(i).getModifier().split("@");
-				
-				for(int j = 0; j<member.length; j++) {
-					if(userKey.equals(member[j])) {
-						list.get(i).setModifier(userKey);
-					}
-				}
-			}
 		}
 		catch(Exception e){
 			System.out.println("Schedule DAO> Select Error(val == 1) : "+ e);
@@ -474,7 +464,7 @@ public class ScheduleDAO {
 	}
 	public void groupUpdateMember(GroupDTO gDTO){
 
-		String sql="update groupData set members=? where groupnum=?";
+		String sql="update groupData set members=?, modifier=? where groupnum=?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -483,7 +473,8 @@ public class ScheduleDAO {
 			pstmt = conn.prepareStatement(sql);
 		
 			pstmt.setString(1, gDTO.getMembers());
-			pstmt.setString(2, gDTO.getGroupnum());
+			pstmt.setString(2, gDTO.getModifier());
+			pstmt.setString(3, gDTO.getGroupnum());
 			pstmt.executeUpdate();
 		}
 		catch(Exception e){

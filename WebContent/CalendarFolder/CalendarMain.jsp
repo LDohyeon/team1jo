@@ -1891,8 +1891,7 @@
 			formEnd.value = s;
 			formEnd.setAttribute("value", s);
 		}
-		
-		console.log("그룹 기능 개발중, 그룹 멤버 추가, 수정 삭제 등 전반 기능 구현 필요")
+	
 		// 스케줄 데이터에 따른 Group 데이터 > div로 생성 
 		function createGroupDivs(groupDivs){
 			let v = document.getElementsByClassName("groupMain")[0];
@@ -2020,7 +2019,8 @@
 				
 				let modifierList = groupDivs[i].modifier;
 				arr = modifierList.split("@");
-				
+				console.log(groupDivs[i]);
+				console.log(arr);
 				for(let i = 0; i<arr.length; i++){
 					if(arr[i]==""){
 						
@@ -2910,6 +2910,8 @@
 		            if(XHRCalendar.status==200){
 		            	clearMonthBoxBody();
 		            	let jsons = JSON.parse(XHRCalendar.responseText, "text/json");
+		            	console.log(jsons);
+		            	
 		            	for(let i = 0; i < Object.keys(jsons).length; i++){
 		            		
 		            		for(let j = 0; j < Object.keys(jsons[i].schedule).length; j++){
