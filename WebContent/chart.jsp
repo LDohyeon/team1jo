@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>회원가입자 수(차트)</title>
+		<title>차트</title>
 		<link rel="stylesheet" href="style.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>	
 	</head>
@@ -12,6 +12,7 @@
 		<div class="chartCanvas">
 			<canvas id="myChart" style="display:inline-block;"></canvas>
   			<canvas id="myChart02" style="display:inline-block;"></canvas>
+  			<canvas id="myChart03" style="display:inline-block;"></canvas>
 		</div>
 		<script>
 			///////////////////////////////정현/////////////////////////////////
@@ -60,11 +61,31 @@
 	                responsive: false
 	            }
 	  		};
-	  		
+
+	  		///////////////////////////////정현/////////////////////////////////		
 	  		var myChart02 = new Chart(
 	  			    document.getElementById('myChart02'),
 	  			    config
 	  			  );
+	  		
+	  		var ctx = document.getElementById('myChart03');
+	        var myChart = new Chart(ctx, 
+        	{
+	            type: 'bar',
+	            data: {
+	                labels: ['#html/xml','#java','#python','#sql','#javascript'],
+	                datasets: [{
+	                    label: '오늘의 언어 선호도',
+	                    data: ['${list[0]}','${list[1]}','${list[2]}','${list[3]}','${list[4]}'],       
+	                    borderColor: ['#ff0066','#ff9933','#ffff33','#33ff99','#333ccc'],
+	                    backgroundColor: ['#ff0033','#ff9900','#ffff00','#33ff66','#3333ff'],
+	                    borderWidth: 2
+	                }]
+	            },
+	            options: {
+	                responsive: false
+	            }
+        	});
 		</script>
 	</body>
 </html>

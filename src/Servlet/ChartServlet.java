@@ -14,13 +14,14 @@ import DAO.ParagraphDAO;
 
 import DTO.MemberDTO;
 
-@WebServlet("/registerNumberServlet.do")
-public class RegisterNumberServlet extends HttpServlet {
+@WebServlet("/chartServlet.do")
+public class ChartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		///////////////////////////////정현/////////////////////////////////
+		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -59,8 +60,26 @@ public class RegisterNumberServlet extends HttpServlet {
 		//글 개수 array에 넣기
 		int[] count={countT,countY,countTwo};
 		request.setAttribute("count",count);
+		
+		///////////////////////////////정현/////////////////////////////////
+		
+		ParagraphDAO pDAO2 = ParagraphDAO.getInstance();
+		int htmlXml = pDAO2.countTagParagraph("#html/xml");
+		int java = pDAO2.countTagParagraph("#java");
+		int python = pDAO2.countTagParagraph("#python");
+		int sql = pDAO2.countTagParagraph("#sql");
+		int javascript = pDAO2.countTagParagraph("#javascript");
+		
+		List list = new ArrayList();	
+		list.add(0, htmlXml);
+		list.add(1, java);
+		list.add(2, python);
+		list.add(3, sql);
+		list.add(4, javascript);
+		
+		request.setAttribute("list",list);
 	
-		RequestDispatcher dispatcher= request.getRequestDispatcher("registerNumber.jsp");
+		RequestDispatcher dispatcher= request.getRequestDispatcher("chart.jsp");
 		dispatcher.forward(request, response);
 	}
 

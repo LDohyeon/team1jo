@@ -19,7 +19,6 @@ public class ParagraphListServlet extends HttpServlet {
 
 		int StartPage = Integer.parseInt(request.getParameter("startPage"));
 		int lastPage = 20;
-		
 
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		
@@ -36,6 +35,7 @@ public class ParagraphListServlet extends HttpServlet {
 		}
 		request.setAttribute("nOfPages",nOfPages);
 		request.setAttribute("StartPage", StartPage);
+		request.setAttribute("searchFlag", 0);
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("paragraphList.jsp");
 		dispatcher.forward(request, response);
