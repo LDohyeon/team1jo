@@ -105,6 +105,7 @@ public class groupMemberDelete extends HttpServlet {
 		
 		ScheduleDAO sDAO = ScheduleDAO.getInstance();
 		
+		// 그룹 멤버 삭제 > 자신이 권한자라면 속해있는 그룹원을 추방할 수 있음 
 		if(gDTO.getMaster().equals(mDTO.getId())) {
 			sDAO.groupUpdateMember(gDTO);
 		}

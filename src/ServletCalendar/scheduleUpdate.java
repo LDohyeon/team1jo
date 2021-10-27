@@ -56,6 +56,7 @@ public class scheduleUpdate extends HttpServlet {
 		
 		ScheduleDAO sDAO = ScheduleDAO.getInstance();
 		
+		// 그룹 넘버 가 아닌 넘버 기준으로 해야함// 수정 필요 
 		if(groupnum.equals("")) {
 			sDAO.scheduleInsert(sDTO);	
 		}

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <!-- LoginUserKey: loginUserId -->
 <% 
+	// 유저키를 세션에서 가져옴
 	String userKey = null;
 
 	try{
@@ -25,30 +26,33 @@
 		</div>
 	</body>
 	<script type="text/javascript">
+	
+/* ====================================================================
+ * ==== 기본 데이터 구성 확인 ===============================================
+ * ====================================================================*/        
+
+		// 세션 데이터를 전역 변수로 할당하여 사용함 
 		let userKey = <%=userKey%>;
 		let calendar = document.getElementById("calendar");
    		
-        let thisGroup = ["1", "A", "B", "C"]; // 견본
+		// DAY의 구성을 미리 정의함 
         let monthDayTitle = ["일", "월", "화", "수", "목", "금", "토"];
         
-        let benchmarkDay = {
+		// 벤치 마크 데이를 기준으로 현재 요일을 구할 수 있음
+		// 요일은 어떠한 경우에서든 7의 배수로 나오기 때문에 그 사이의 날짜를 구하고 7로 나누면 됨
+        // 아래 기준은 월요일이다.
+		let benchmarkDay = {
        		year: 1900, 
            	month: 1, 
            	day: 1,
            	hour: 00, 
            	minites: 00
-        }; //월요일
-        
-        // 견본 콘텍스트 
-        let calendarData = {
-            date: "2021-10-06 00:00:00", // 오늘 날짜 > 시스템에서 받아옴
-            form: "M", // 선택한 Form 데이터, 헤더 컨트롤에서 변경 데이터를 onChange로 설정
-            id: "testcalendar", // 유저 Id 
-            group: thisGroup // 유저가 속한 그룹 데이터 > 이를 기반으로 DB와 통신
-        }
-        
+        }; 
+      
         let tempData; 
+        // 특정 기능에서 데이터를 전역으로 할당하여 임시로 불러오는 경우에 사용함 
         
+        // Date 타입을 키: 밸류로 설정하여 STRING 형태로 변환해야하는 경우 사용함 
         function getTodayDateString(){
         	let date = new Date();
         	let year = date.getFullYear();
@@ -58,6 +62,8 @@
 			let str = year+"-"+month+"-"+day;
 			return str;
         }
+        
+        // Date 타입을 키: 밸류로 설정하여 STRING 형태로 변환해야하는 경우 사용함 
         function getTodayTimeString(){
         	let date = new Date();
         	let hour = ("0" + date.getHours()).slice(-2);
@@ -66,8 +72,10 @@
 			let str = hour+":"+minute;
 			return str;
         }
-        // 오늘 날짜 
+        
+        // 오늘 날짜를 반환함. Date 객체를 사용하여 구현, month는 0~11로 표현되어 1을 더하여야 한다.
         function getToday(){
+        	console.log("오늘 날짜를 Date 타입으로 변경하는 펑션");
         	let date = new Date();
         	let year = date.getFullYear();
         	let month = (1 + date.getMonth());
@@ -85,8 +93,10 @@
         	return today;
         }
         
-        // 특정 날짜
+        // 특정 날짜를 표현함
+        // 날짜를 직접 매개변수에 넣으면 해당 데이터 형식을 리턴해줌 
         function getThisDay(year, month, day, hour, minute){
+        	console.log("특정 날짜를 date 형식으로 반환하는 펑션");
         	let thisDay = {
                	year: year, 
                	month: month, 
@@ -99,7 +109,10 @@
         }
         
         // 오늘 요일을 구함 + 매개 변수 입력하면 특정 요일 구함 getThisDay()
+        // 요일은 7의 배수이므로 구성이나 간격이 변하지 않음
+        // 결과적으로 윤년만 정확히 계산하면 날짜에 따른 요일은 반드시 구할 수 있음.
         function getYoil(date){
+        	console.log("데이트 입력시 요일 구하는 펑션");
         	let yoil; 
         	let days = 0;
         	
@@ -194,7 +207,10 @@
         }
         
         // 윤년 여부 보기
+        // 윤년 규칙은 4년에 한번, 100년으로 나눠지나, 100년의 나눠지나 400년으로 나눠지나에 따라 결정됨
+        // 해당 규칙에 따라 알고리즘을 구성함 
         function getYunNyen(y){
+        	console.log("윤년 여부를 구하는 펑션");
 			let yunNyen; 
         	
       		if(typeof(y)!='undefined'||y!=null){
@@ -243,7 +259,10 @@
         }
       
         // 윤년 여뷰에따라 올해 달력 구조를 생성
+        // 윤년은 벤치 마크가 없어도 해당 년을 4,100,400으로 나눴을땨 결정됨
+        // 때문에 년도만 입력하면 해당 년도의 월 단위를 알려줌 
         function getMonthStructure(year){
+        	console.log("월의 구조를 구하는 펑션");
         	let months;
         	
         	// months 는 1~12 월의 달수 표시, 배열로 확인 0 == 1월 
@@ -266,40 +285,27 @@
         	return months;
         }
         
-        // 기본 데이터 변경
-        function definitionData(date, form, id, group){
-            calendarData.date = date;
-            calendarData.form = form;
-            calendarData.id = id;
-            calendarData.group = group;
-            console.log(calendarData);
-        }
-        
-        // 헤더의 필터 정보가 변경될 경우
-        function filterToChangeData(form){
-            calendarData.form = form;
-        
-        }
-        
-        /*
-            요소 만들기 변수
-            p = parent
-            c = child
-            pp = parentparent
-            cc = child
-            v = 기준 요소
-        */
-        
+/* ====================================================================
+ * ===== 노드 단위로 달력 구현 ==============================================
+ * ====================================================================/        
+/*
+       요소 만들기 변수
+       p = parent
+       c = child
+       pp = parentparent
+       cc = child
+       v = 기준 요소
+       v 에 특별한 의미 없이 그냥 내가 좋아해서 사용함 
+*/
         // 달력 만들기 실행
         createToCalendar();
-        
-        
+
         // 달력 모양 만들기
         function createToCalendar(){
             let calendar = document.getElementById("calendar");
             calendar.appendChild(createToHeaderLayout());
             calendar.appendChild(createToBodyLayout()); 
-            changeForm("M");
+            changeForm("M"); //달력 초기 모양 Month 
             createToDoListBasic();
         }
         
@@ -319,6 +325,24 @@
     		c.classList.add("calendarHeadDateInfo");
     		v.appendChild(c);
             
+  		 	c = document.createElement("div");
+            c.classList.add("calendarSearch");
+           	
+			cc = document.createElement("div");
+           	cc.classList.add("calendarSearchBar");
+           	cc.setAttribute("contenteditable", "true");
+           	c.appendChild(cc);
+           	
+           	cc = document.createElement("div");
+           	cc.classList.add("calendarSearchResult");
+           	c.appendChild(cc);
+           	
+           	cc = document.createElement("div");
+           	cc.classList.add("calendarSearchBtn");
+           	cc.innerHTML = "검색"
+           	c.appendChild(cc);
+           	v.appendChild(c);
+    		
             c = document.createElement("div");
             c.classList.add("calendarHeadMenu");
             c.innerHTML="메뉴";
@@ -354,7 +378,6 @@
             c.addEventListener("click", visiableCalendarSearch);
             v.appendChild(c);
             
-            
             c = document.createElement("div");
             c.classList.add("calendarHeadSelect");
             cc = document.createElement("select");
@@ -363,7 +386,6 @@
             ccc.innerHTML = "년";
             ccc.setAttribute("value", "Y");
             cc.appendChild(ccc);
-            
             
             ccc = document.createElement("option");
             ccc.innerHTML = "월";
@@ -382,22 +404,27 @@
             cc.appendChild(ccc);
             
             c.appendChild(cc);
-            
             v.appendChild(c);
-            
             return v;
         }
-        // Header 내의 버튼들에 동작 부여
-        // 퐁선택 
+        
+/* ====================================================================
+ * ==== Hearder 내 동작 부여 =============================================
+ * ====================================================================*/        
+		console.log("헤더 동작을 부여");
+		
         let selectForm = document.getElementsByClassName("selectForm")[0];
        
         selectForm.addEventListener("change", function(){
         	changeForm(selectForm.value);
         });
         
+        // 메뉴 
         function calendarMenu(){
-        	
+        	// 메뉴를 누르면 > 레프트 박스가 보이고 안보이고가 결정됨 
         }
+        
+        // 오늘로 이동 
         function goCalendarToday(){
 			select = document.getElementsByClassName("selectForm")[0].value;
         	
@@ -416,10 +443,12 @@
 				
 			}
         }
-
+		
+        // 이전으로 이동 
         function goCalendarPrevious(){
         	select = document.getElementsByClassName("selectForm")[0].value;
         	
+        	// 년도의 경우 -1을 년에 월은 월에 해줌 
         	if(select=="Y"){
         		let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
         		let inputYear = parseInt(input.value.substring(0,4));
@@ -461,7 +490,7 @@
 			}
         }
 		
-        // 캘린더 다음
+        // 캘린더 다음으로 이동 (위와 같음)
         function goCalendarNext(){
 			select = document.getElementsByClassName("selectForm")[0].value;
         	
@@ -506,12 +535,14 @@
 			}
         }
 		
-        // 캘린더 검색
+        // 캘린더 검색창 활성화
         function visiableCalendarSearch(){
-        	
+        	// 이미 생성된 DIV를 보이고 안보이고를 정하나 
+        	// 보이는 경우 헤더에 위치한 다른 메뉴가 안보이게 해야함
         }
         
         // 캘린더 현재 월이나 년수 표현
+        // 해당 데이터를 기점으로 캘린더 이동이 진행됨 
         function whatIsDateInfo(form, date){
         	let v = document.getElementsByClassName("calendarHeadDate")[0];
         	
@@ -586,6 +617,9 @@
             let v = document.createElement("div");
             v.classList.add("calendarBody");
             
+            // 네비 박스는 일종의 메뉴 역할 
+            // 실제 필요할지는 미지수 
+            // 사이트 레이아웃에 따라 구현 혹은 누락 
             let naviBox = document.createElement("div");
             naviBox.classList.add("naviBox");
             naviBox.appendChild(createNaviLayout());
@@ -608,7 +642,7 @@
             return v;
         }
         
-        // 스케줄 추가하기. 
+        // 스케줄 레이아웃 추가하기 
         function createScheduleLayout(){
 			v = document.createElement("div");
 			v.classList.add("calendarSchedule");
@@ -691,7 +725,7 @@
             return v;
         }
         
-        // 달력 TodoList 만들기
+        // 달력 TodoList 영역 만들기 
         function createToDoLayout(){   
             let v;
             let c;
@@ -704,7 +738,7 @@
             return v;
         }
         
-        // 달력 네비게이션 만들기 
+        // 달력 네비게이션 만들기 > 네비 게이션 클릭시 특정 항목으로 이동  
         function createNaviLayout(){
             let v;
             let c;
@@ -727,10 +761,12 @@
             return v;
         }
         
+        // 네비게이션 사용한다면 캘린더로 이동
         function gotoCalendar(){
         	
         }
         
+        // 네비게이션 사용할 경우 글 목록으로 이동 
 		function gotoCategory(){
         	
         }
@@ -779,8 +815,15 @@
             return v;
         };
         
+/* ====================================================================
+ * ==== 달력 모양 생성하기 =================================================
+ * ====================================================================*/        
+ 		console.log("달력 모양을 생성");
+ 		
 		// ChangeForm: 매개변수에 따라 현재 달력 폼을 변경
+		// 달력의 모든 처리 및 구현 모양은 해당 펑션을 따름 
 		function changeForm(selectForm, date){
+			console.log("달력 모양 변경 펑션");
 			if(selectForm=='undefined'){
 				console.log('undefined');
 			}
@@ -824,8 +867,9 @@
 			}	
 		}
         
-		// Form 모양생성
+		// 입력받는 날짜에 따라 년도가 그려짐 
 		function YearForm(date){
+			console.log("년도 모양 달력 펑션");
 			let div = document.getElementsByClassName("calendarDiv")[0];
 			let divc = document.createElement("div");
             
@@ -871,8 +915,9 @@
 			}
 		}
         
-		// 몬스 폼을 만들기 
+		// 입력받는 날짜에 따라 월이 그려짐 
 		function MonthForm(date){
+			console.log("월 모양 달력 펑션");
 			if(typeof(date)!='undefined'&&date!=null){
 				let div = document.getElementsByClassName("calendarDiv")[0];
 				
@@ -893,34 +938,15 @@
 		
 		// 주간 폼 만들기
 		function WeekForm(date){
-			let div = document.getElementsByClassName("calendarDiv");
 			
-			while(div.hasChildNodes()){
-				div.removeChild(div.firstChild);
-				
-			}
 		}
 		
 		// 일 폼 만들기 
 		function DayForm(){
-			let div = document.getElementsByClassName("calendarDiv");
-			
-			while(div.hasChildNodes()){
-				div.removeChild(div.firstChild);
-				
-			}
-            
-            let v;
-            let c;
-            let cc;
-            let ccc;
-            
-            v = document.createElement("div");
-            v.classList.add("calendarArea");
-           
+
 		}
 
-		// 월 폼의 요소 만들기
+		// 월 폼의 Element 만들기
 		function createMonthFormElement(date){
 			
 			let v;
@@ -928,7 +954,7 @@
             let cc;
             let ccc;
             let cccc;
-            
+            // date 매개 변수에 따라 그려야할 날짜 지정
 			if(typeof(date)!='undefined'||date!=null){
 				
 	            v = document.createElement("div");
@@ -950,16 +976,21 @@
 	            c = document.createElement("div");
 	            c.classList.add("monthAreaBody");
 	            
+	            // 월, 요일 등 데이터를 가져옴 
 	            let months = getMonthStructure();
 	            let flag = months[date.month-1];
 	            let yoil = getYoil(getThisDay(date.year, date.month, 1, 0, 0));
 	            let beforeYoil;
 	            let NowMonth = months[date.month-2];
 	            
+	            // 해당 월 1일이 무슨 요일이냐에 따라 일요일부터 몇개의 이전 요소가 그려질지를 결정할 수 있음
+	            // 마찬가지로 해당 월 마지막 날짜에 따라 그려져야할 데이터가 상이함
+	            // 결국 해당 월의 스트럭쳐(월 구조 구하는 펑션 참조)에 따라서 그 월은 그려주되, 전후로 그려야할 데이터가 상이함 
+	            
 	            if(NowMonth==NaN||NowMonth==null){
 	            	NowMonth = months[11];
 	            }
-	          	
+	          	// 해당 월 1일 전에 그리는 요소 
 	           	if(yoil=="월"){
 	           		for(let i = 0; i > -1 ; i--){
 	           			c.appendChild(monthBeforeFormDate(i, date, NowMonth));
@@ -992,6 +1023,7 @@
 	           	}
 	           	v.appendChild(c);
 	            
+	           	// 해당 월을 그리는 요소
 	            for(let i = 1; i < flag+1; i++){
 	            	
 	                cc = document.createElement("div");
@@ -1015,7 +1047,7 @@
 							thisTimeDate = date.year+""+date.month+""+i;
 						}
 					}					
-
+					console.log("중요! 해당 위의 구문과 같이 모든 데이터를 처리하는 별도 태그가 해당 폼의 요소에 포함되어 정보를 식별해야함");
 	                cc.addEventListener("click", visibleSchedule);
 
 	                ccc = document.createElement("div");
@@ -1054,6 +1086,7 @@
 	            
 	            v.appendChild(c);
 	            
+	            // 31일이나 30, 28, 29일 이후에 그려야할 요소
 	            yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
 	 			let afterYoil;
 	            NowMonth = months[date.month];
@@ -1091,6 +1124,7 @@
 	           	v.appendChild(c);
 			}
 			else{
+				// ELSE 도 결국 같은 원리이나 날짜 데이터만 다름
 				let div = document.getElementsByClassName("calendarDiv")[0];
 				
 				while(div.hasChildNodes()){
@@ -1245,7 +1279,7 @@
 			return v;
 		}
 		
-		// 몬스 폼에서 해당 월 마지막날 이후
+		// 몬스 폼에서 해당 월 마지막날 이후 ELEMENT를 그림
 		function monthAfterFormDate(i, date){
 			if(typeof(i)=='undefined'||null){
 				return;
@@ -1339,7 +1373,7 @@
             return cc;
 		}
 		
-		// monthform에서 해당 월 1일 이전
+		// monthform에서 해당 월 1일 이전의 ELEMENT를 그림
 		function monthBeforeFormDate(i, date, NowMonth){
 			
 			if(typeof(i)=='undefined'||null){
@@ -1437,7 +1471,10 @@
             return cc;
 		}
 		
-		// 년 폼 요소 만들기 
+		// 년 폼 요소 만들기
+		// 년은 결국 월의 집합으로 월 폼을 참고하여 구현
+		// 월폼에 따른 기본 알고리즘을 채택하여 월을 반복하여 데이터를 삽입
+		// 12번 반복하되, before과 after 요소를 안보이게 하여 깔끔하게 구현
 		function createYearFormElement(date){
 			
 			let v;
@@ -1609,6 +1646,7 @@
 		}
 		
 		// 년도의 표시되지 않으나 영역을 차지하는 폼 
+		// 해당 폼은 Dummy 역할을 하여 데이터를 가지고 있지도 않고 그냥 모양만 잡음
 		function yearDummyForm(){
 			let c;
 			let cc;
@@ -1633,16 +1671,24 @@
             return cc;
 		}
 		
-		// 현재 그룹의 스케줄을 체크 
+/* ====================================================================
+ * ==== AJAX 사용 ======================================================
+ * ====================================================================*/        
+		
+		
 	
 		// AJAX 기본 세팅
-		//XHR + cal
-		// let으로 선언하는 경우 > 레퍼런스 오류; create 단계에서 해당 변수 차몾를 해야하는데 변수 스코프를 벗어남
-		// 레퍼런스 오류가 발생, 호이스팅 우선 순위 생각해서 var로 고쳐서 해결, 만약 let으로 사용해야하면 함수 선언 시점에 대한 알고리즘을 짜야함
+		// XHR + 각 객체 이름으로 구성함
+		
+		// AJAX를  let으로 선언하는 경우 > 레퍼런스 오류가 발생함; 
+		// create 단계에서 해당 변수 참조를 해야하는데 변수 스코프를 벗어나기 때문에 let으로 선언해야 한다면 {} 안에서 사용할 것
+		// 다만 '종현'은 같은 객체를 여러번 사용해야 해서 그냥 전역으로 놔둠
+		
+		console.log("AJAX를 위한 기본 설정 및 정보")
 		let scheduleData = [];
 		
+		// 캘린더에 대한 XmlHttpRequest
 		var XHRCalendar;
-		
 		function createXHRCalendar(){
 			if(window.ActiveXObject){ 
 				XHRCalendar=new ActiveXObject("Microsoft.XMLHTTP");
@@ -1652,9 +1698,8 @@
 			}
 		}
 		
-		// TodoList용 AJAX
+		// 캘린더에 대한 XmlHttpRequest
 		var XHRTodolist;
-		
 		function createXHRTodolist(){
 			if(window.ActiveXObject){ 
 				XHRTodolist=new ActiveXObject("Microsoft.XMLHTTP");
@@ -1664,8 +1709,8 @@
 			}
 		}
 		
+		// Group 대한 XmlHttpRequest
 		var XHRGroup;
-		
 		function createXHRGroup(){
 			if(window.ActiveXObject){ 
 				XHRGroup=new ActiveXObject("Microsoft.XMLHTTP");
@@ -1675,7 +1720,24 @@
 			}
 		}
 		
-		// 스케줄 자세한 정보 창
+		// Member 대한 XmlHttpRequest
+		var XHRMember;
+		function createXHRMember(){
+			if(window.ActiveXObject){ 
+				XHRMember=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			else if(window.XMLHttpRequest){
+				XHRMember=new XMLHttpRequest();
+			}
+		}
+		
+/* ====================================================================
+ * ==== 스케줄에 대한 전반 기능 ==============================================
+ * ====================================================================*/        
+						
+		// 스케줄 자세한 정보 창을 표현
+		// 해당 div를 띄워서 클릭한 곳 위에 표현해야함 
+		// 추후 CSS 등 구현
 		function scheduleDetailInfo(){
 			let target = event.target;
 			
@@ -1713,7 +1775,7 @@
 			body.appendChild(createScheduleDetail(data));
 		}
 		
-		// 스케줄 자세한 정보 창 만들기
+		// 스케줄 자세한 정보 창 ELEMENT 만들기
 		function createScheduleDetail(data){
 			let v;
 			let c;
@@ -1828,11 +1890,16 @@
 			return v;
 		}
 		
+		// 스케줄 정보창을 끄도록 해야함
+		// remove 사용할 것이나 추후 구현
 		function quitScheduleDetail(){
 			console.log("quit ");
 		}
 		
-		// 스케줄 수정
+		// 스케줄 수정 기능
+		// 스케줄 수정을 위한 데이터를 수집함 
+		// 펑션으로 데이터를 가져오소 설정함 
+		// 전역의 템프 데이터를 가져와서 만들어진 스케줄 수정 항목에 세팅하는 용도임
 		function scheduleDetailInfoFix(){
 			let data = tempData;
 			
@@ -1869,10 +1936,10 @@
 		}
 		
 		// 스케줄 수정 창 보이기: 현재 클릭 요소 날짜 세팅
+		// 클릭했을때 현제 요소를 가져오고 안에 숨겨논 잇풋 감 가져옴
+		// 가져온 값을 기초로 현재 폼에 지정된 데이터를 변경할 수 있다.
 		function visibleSchedule(){
-			// 클릭했을때 현제 요소를 가져오고 안에 숨겨논 잇풋 감 가져옴
-			// 가져온 값을 기초로 현재 폼에 지정된 데이터를 변경할 수 있다.
-			
+
 			let formStart = document.getElementsByClassName("scheduleFormStart")[0];
 			let formEnd = document.getElementsByClassName("scheduleFormEnd")[0];
 			
@@ -1892,7 +1959,8 @@
 			formEnd.setAttribute("value", s);
 		}
 	
-		// 스케줄 데이터에 따른 Group 데이터 > div로 생성 
+		// 스케줄 데이터에 따른 Group 데이터를 가져옴
+		// 이 데이터를 기반으로 Group 폼을 생성함 
 		function createGroupDivs(groupDivs){
 			let v = document.getElementsByClassName("groupMain")[0];
 			
@@ -1956,6 +2024,7 @@
 				ccc = document.createElement("div");
 				ccc.classList.add("groupDataMemberSearch");
 				ccc.setAttribute("contenteditable", "true");
+				ccc.addEventListener("keyup", searchGroupMember)
 				cc.appendChild(ccc);
 				c.appendChild(cc);
 				
@@ -2078,10 +2147,15 @@
 				select.appendChild(c);
 			}
 		}
+		
+		// 그룹에 있는 설정 항목을 누를시 활성화될 항목
+		// 그룹에서 안보여줘도 될 데이터들을 은닉하거나 보여주는 용도임
 		function viewGroupTool(){
 			
 		}
+		
 		// 그룹 클릭에 따라 스케줄 보이거나 감추기
+		// 그룹을 클릭하면 해당 그룹 데이터를 기반으로 모든 스케줄 요소를 For문으로 돌려서 안보이거나 보이게함
 		function viewGroupForSchedule(){
 			let clicked = event.target;
 			let groupDiv = clicked.parentNode;
@@ -2102,6 +2176,8 @@
 		}
 		
 		// 스케줄 보이거나 감추기 작동
+		// 스케줄을 보일때와 안보일때를 실제로 동작하는 구분 
+		// 위의 펑션과 연결되어 사용함 
 		function viewScheduleElementFlag(){
 			let groupDiv = document.getElementsByClassName("groupElement");
 			
@@ -2125,774 +2201,14 @@
 			}
 		}
 		
-		
+		// 스케줄의 콘텐츠를 보이거나 보이지 않게 할때 사용할 펑션
+		// CSS 넣으면서 구현 예정 
 		function scContentVisable(){
 			console.log("work")
 		}
 		
-		//TO DO LIST
-		function toDoList(){
-			createXHRTodolist();
-
-			XHRTodolist.onreadystatechange=function(){
-				if(XHRTodolist.readyState==4){
-		            if(XHRTodolist.status==200){
-		            	let jsons = JSON.parse(XHRTodolist.responseText, "text/json");
-
-		            	createToDoList(jsons);
-		            	
-		            }
-				}
-			}
-			XHRTodolist.open("POST", "../todolistSelect", true);
-			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRTodolist.send("userKey="+userKey);
-		}
-		
-		function createToDoListBasic(){
-			let toDoListDiv = document.getElementsByClassName("toDoListDiv")[0];
-			
-			v = document.createElement("div");
-			v.classList.add("toDoListElements");
-			
-			c = document.createElement("div");
-			c.classList.add("toDoListMenu");
-			
-			cc = document.createElement("div");
-			cc.classList.add("toDoListTitle");
-			cc.innerHTML = "오늘 할 일";
-			c.appendChild(cc);
-			
-			cc = document.createElement("div");
-			cc.classList.add("toDoListAdd");
-			cc.addEventListener("click", todolistAdd);
-			// 아이콘 만들어지면 지울거
-			cc.innerHTML = "추가";
-			c.appendChild(cc);
-			
-			cc = document.createElement("div");
-			cc.classList.add("toDoListCom");
-			cc.addEventListener("click", todolistCom);
-			// 아이콘 만들어지면 지울거
-			cc.innerHTML = "완료된 것 삭제";
-			c.appendChild(cc);
-			v.appendChild(c);
-			
-			c = document.createElement("div");
-			c.classList.add("toDoListMain");
-			v.appendChild(c);
-			
-			toDoListDiv.appendChild(v);
-		}
-		
-		function createToDoList(jsons){
-			
-			let v;
-			let c;
-			let cc;
-			let ccc;
-			let cccc;
-			
-			v = document.getElementsByClassName("toDoListMain")[0];
-			
-        	while(v.hasChildNodes()){
-        		v.removeChild(v.firstChild);
-        	}
-        	
-			// 매개변수 객체 가져와서 데이터 정제 > 정제한 데이터로 폼 모양 그림
-			// 정제는 DB에서 값 던질때 함 
-			for(let i = 0; i<jsons.length; i++){
-				c = document.createElement("div");
-				c.classList.add("toDoLists");
-				
-				cc = document.createElement("span");
-				cc.classList.add("toDoListCheckBox");
-				cc.innerHTML = "완료하기";
-				cc.addEventListener("click", todolistCheckedBtn);
-				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.setAttribute("type", "text");
-				cc.setAttribute("value", jsons[i].title);
-				cc.classList.add("toDoListTitle");
-				c.appendChild(cc);
-				
-				cc = document.createElement("div");
-				cc.classList.add("toDoListFixBtn");
-				cc.addEventListener("click", todolistFixBtn);
-				// 아이콘 만들어지면 지울거
-				cc.innerHTML = "수정";
-				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.setAttribute("type", "text");
-				cc.setAttribute("value", jsons[i].content);
-				cc.classList.add("toDoListContent");
-				cc.classList.add("toDoListView");
-				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.setAttribute("type", "text");
-				cc.setAttribute("value", jsons[i].date);
-				cc.classList.add("toDoListDate");
-				cc.classList.add("toDoListView");
-				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.setAttribute("type", "text");
-				cc.setAttribute("value", jsons[i].time);
-				cc.classList.add("toDoListTime");
-				cc.classList.add("toDoListView");
-				c.appendChild(cc);
-				
-				cc = document.createElement("select");
-				cc.classList.add("toDoListImportance");
-				cc.classList.add("toDoListView");
-				
-				for(let j = 1; j < 5; j++){
-					ccc = document.createElement("option");
-					ccc.classList.add("toDoListImportanceOption");
-					ccc.setAttribute("value", j);
-					ccc.innerHTML = j;
-					cc.appendChild(ccc);
-					
-					if(ccc.value==jsons[i].importance){
-						ccc.setAttribute("selected", "true");
-					}
-				}
-				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.setAttribute("type", "hidden");
-				cc.setAttribute("value", jsons[i].num);
-				cc.classList.add("toDoListNum");
-				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.setAttribute("type", "hidden");
-				cc.setAttribute("value", jsons[i].id);
-				cc.classList.add("toDoListId");
-				c.appendChild(cc);
-				
-				cc = document.createElement("input");
-				cc.setAttribute("type", "hidden");
-				cc.setAttribute("value", jsons[i].checked);
-				cc.classList.add("toDoListChecked");
-				c.appendChild(cc);
-				
-				cc = document.createElement("div");
-				cc.classList.add("toDoListDelBtn");
-				cc.addEventListener("click", todolistDelBtn);
-				// 아이콘 만들어지면 지울거
-				cc.innerHTML = "삭제";
-				c.appendChild(cc);
-				
-				cc = document.createElement("div");
-				cc.classList.add("toDoListAddBtn");
-				cc.addEventListener("click", todolistAddBtn);
-				// 아이콘 만들어지면 지울거
-				cc.innerHTML = "완료";
-				c.appendChild(cc);
-				
-				v.appendChild(c);
-			}
-		}
-		
-		function toDoListDelete(data){
-			if(data.length==null){
-				return;
-			}
-			
-			createXHRTodolist();
-			
-			XHRTodolist.onreadystatechange=function(){
-				if(XHRTodolist.readyState==4){
-		            if(XHRTodolist.status==200){
-		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
-		            	toDoList();
-		            }
-				}
-			}
-			XHRTodolist.open("POST", "../todolistDelete", true);
-			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRTodolist.send(data);
-		}
-		
-		function toDoListInsert(data){
-			createXHRTodolist();
-			
-			XHRTodolist.onreadystatechange=function(){
-				if(XHRTodolist.readyState==4){
-		            if(XHRTodolist.status==200){
-		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
-		            	toDoList();
-		            }
-				}
-			}
-			XHRTodolist.open("POST", "../todolistInsert", true);
-			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRTodolist.send(data);
-		}
-		
-		function todolistAdd (){
-			let v;
-			let c;
-			let cc;
-			let ccc;
-			
-			v = document.getElementsByClassName("toDoListMain")[0];
-			
-			c = document.createElement("div");
-			c.classList.add("toDoLists");
-			
-			cc = document.createElement("input");
-			cc.setAttribute("type", "hidden");
-			
-			cc.classList.add("toDoListNum");
-			c.appendChild(cc);
-			
-			cc = document.createElement("span");
-			cc.classList.add("toDoListCheckBox");
-			cc.innerHTML = "완료하기";
-			cc.addEventListener("click", todolistCheckedBtn);
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			let temp = cc;
-			cc.setAttribute("type", "text");
-			cc.classList.add("toDoListTitle");
-			c.appendChild(cc);
-			
-			cc = document.createElement("div");
-			cc.classList.add("toDoListFixBtn");
-			cc.addEventListener("click", todolistFixBtn);
-			// 아이콘 만들어지면 지울거
-			cc.innerHTML = "수정";
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.setAttribute("type", "text");
-			cc.classList.add("toDoListContent");
-			cc.classList.add("toDoListView");
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.setAttribute("type", "date");
-			cc.setAttribute("value", getTodayDateString());
-			cc.innerHTML = getTodayDateString();
-			cc.classList.add("toDoListDate");
-			cc.classList.add("toDoListView");
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", getTodayTimeString());
-			cc.classList.add("toDoListTime");
-			cc.classList.add("toDoListView");
-			c.appendChild(cc);
-			
-			cc = document.createElement("select");
-			cc.classList.add("toDoListImportance");
-			cc.classList.add("toDoListView");
-			
-			for(let j = 1; j < 5; j++){
-				ccc = document.createElement("option");
-				ccc.classList.add("toDoListImportanceOption");
-				ccc.setAttribute("value", j);
-				ccc.innerHTML = j;
-				cc.appendChild(ccc);
-			}
-			c.appendChild(cc);
-			
-			ccc = document.createElement("input");
-			ccc.setAttribute("type", "hidden");
-			ccc.classList.add("toDoListNum");
-			cc.appendChild(ccc);
-			
-			cc = document.createElement("input");
-			cc.setAttribute("type", "hidden");
-			cc.setAttribute("value", userKey);
-			cc.classList.add("toDoListId");
-			c.appendChild(cc);
-	
-			cc = document.createElement("input");
-			cc.setAttribute("type", "hidden");
-			cc.setAttribute("value", "false");
-			cc.classList.add("toDoListChecked");
-			c.appendChild(cc);
-			
-			cc = document.createElement("div");
-			cc.classList.add("toDoListDelBtn");
-			cc.addEventListener("click", todolistDelBtn);
-			// 아이콘 만들어지면 지울거
-			cc.innerHTML = "삭제";
-			c.appendChild(cc);
-			
-			cc = document.createElement("div");
-			cc.classList.add("toDoListAddBtn");
-			cc.addEventListener("click", todolistAddBtn);
-			// 아이콘 만들어지면 지울거
-			cc.innerHTML = "완료";
-			c.appendChild(cc);
-
-			
-			v.appendChild(c);
-			
-			temp.focus();
-		}
-		
-		function todolistDelBtn(){
-			let target = event.target;
-			let v = target.parentNode;
-			
-			let num = v.getElementsByClassName("toDoListNum")[0].value; 
-			let temp = [];
-			temp.push(num);
-			data={
-				key: temp
-			};
-			
-			let json = JSON.stringify(data);
-			toDoListDelete(json);
-		}
-		
-		function todolistAddBtn(){
-			let target = event.target;
-			let v = target.parentNode;
-			
-			let title = v.getElementsByClassName("toDoListTitle")[0].value; 
-			let content = v.getElementsByClassName("toDoListContent")[0].value; 
-			let date = v.getElementsByClassName("toDoListDate")[0].value; 
-			let time = v.getElementsByClassName("toDoListTime")[0].value; 
-			let importance = v.getElementsByClassName("toDoListImportance")[0].value; 
-			let num = v.getElementsByClassName("toDoListNum")[0].value; 
-			let id = v.getElementsByClassName("toDoListId")[0].value; 
-			let checked = v.getElementsByClassName("toDoListChecked")[0].value; 
-			
-			let data = createJsonTodolist(num, title, content, id, date, time, importance, checked);
-			let json = JSON.stringify(data);
-			toDoListInsert(json);
-		}
-		
-		function todolistFixBtn(){
-			let target = event.target;
-			let v = target.parentNode;
-		}
-		
-		function todolistCheckedBtn(){
-			let target = event.target;
-			let v = target.parentNode;
-			let checked = v.getElementsByClassName("toDoListChecked")[0]; 
-			console.log(checked);
-			
-			if(checked.value=='true'){
-				checked.setAttribute("value", "false");
-			}
-			else{
-				checked.setAttribute("value", "true");
-			}
-			checked = v.getElementsByClassName("toDoListChecked")[0].value;
-			
-			let title = v.getElementsByClassName("toDoListTitle")[0].value; 
-			let content = v.getElementsByClassName("toDoListContent")[0].value; 
-			let date = v.getElementsByClassName("toDoListDate")[0].value; 
-			let time = v.getElementsByClassName("toDoListTime")[0].value; 
-			let importance = v.getElementsByClassName("toDoListImportance")[0].value; 
-			let num = v.getElementsByClassName("toDoListNum")[0].value; 
-			let id = v.getElementsByClassName("toDoListId")[0].value; 
-			
-			let data = createJsonTodolist(num, title, content, id, date, time, importance, checked);
-			let json = JSON.stringify(data);
-			
-			toDoListInsert(json);
-		}
-		
-		function todolistCom(){
-			let tdl = document.getElementsByClassName("toDoLists");
-			let data;
-			let temp=[];
-			for(let i = 0; i < tdl.length; i++){
-				let checked = tdl[i].getElementsByClassName("toDoListChecked")[0].value;
-				// 체크된 상태
-				if(checked=="true"&&checked!='undefined'){
-					let num = tdl[i].getElementsByClassName("toDoListNum")[0].value;
-					temp.push(num);
-				}
-			}
-			data = {
-				key: temp	
-			}
-			let json = JSON.stringify(data);
-			toDoListDelete(json);
-		};
-		
-		// Group 항목 수정
-		// 그룹 추가> 버튼 누를시 
-		function addGroupBtn(){
-			let v = document.getElementsByClassName("groupMain")[0];
-			
-			c = document.createElement("div");
-			c.classList.add("groupElement");
-			
-			cc=document.createElement("input");
-			cc.setAttribute("type", "hidden");
-			cc.classList.add("groupDataNum");
-			c.appendChild(cc);
-			
-			cc=document.createElement("input");
-			cc.setAttribute("type", "text");
-			cc.classList.add("groupDataName");
-			c.appendChild(cc);
-			
-			cc=document.createElement("input");
-			cc.setAttribute("type", "color");
-			cc.classList.add("groupDataColor");
-			c.appendChild(cc);
-			
-			cc=document.createElement("input");
-			cc.setAttribute("type", "hidden");
-			cc.classList.add("groupDataMaster");
-			c.appendChild(cc);
-
-			cc = document.createElement("select");
-			cc.classList.add("groupDataSearchable");
-			ccc = document.createElement("option");
-			ccc.classList.add("groupDataSearchOption");
-			ccc.setAttribute("value", "disable");
-			ccc.innerHTML = "비공개";
-			cc.appendChild(ccc);
-			ccc = document.createElement("option");
-			ccc.classList.add("groupDataSearchOption");
-			ccc.setAttribute("value", "able");
-			ccc.innerHTML = "공개";
-			cc.appendChild(ccc);
-
-			c.appendChild(cc);
-			
-			cc=document.createElement("div");
-			cc.classList.add("groupDataMemberList");
-			
-			ccc = document.createElement("div");
-			ccc.classList.add("groupDataMemberSearch");
-			ccc.setAttribute("contenteditable", "true");
-			cc.appendChild(ccc);
-			
-			ccc = document.createElement("input");
-			ccc.setAttribute("type", "text");
-			ccc.classList.add("groupDataMembers");
-			
-			cc.appendChild(ccc);
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("groupDataAdd");
-			cc.setAttribute("type", "button");
-			cc.setAttribute("value", "완료");
-			cc.addEventListener("click", addGroup)
-			c.appendChild(cc);
-			
-			v.insertBefore(c, v.firstChild);
-		}
-				//완료 시> 기존거 수정에도 사용 
-		function addGroup(date){
-			createXHRGroup();
-			
-			let target = event.target;
-			let v = target.parentNode;
-			
-			let num = v.getElementsByClassName("groupDataNum")[0].value;
-			let name = v.getElementsByClassName("groupDataName")[0].value;
-    		let memberlist = v.getElementsByClassName("groupDataMemebersListName");
-    		let modifierlist = v.getElementsByClassName("groupDataModifierList");
-    		let color = v.getElementsByClassName("groupDataColor")[0].value;
-    		let master = v.getElementsByClassName("groupDataMaster")[0].value;
-    		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
-			
-    		let members=[];
-    		let modifiers=[];
-    	
-			if(typeof(memberlist)=='undefined'){
-    			members.push("");
-    		}
-    		else{
-    			for(let i = 0; i < memberlist.length; i++){
-        			members.push(memberlist[i].innerHTML);
-        		}
-    		}
-    		
-			if(typeof(modifierlist)=='undefined'){
-				modifiers.push("");
-    		}
-    		else{
-    			for(let i = 0; i < modifierlist.length; i++){
-    				modifiers.push(modifierlist[i].innerHTML);
-        		}
-    		}
-			
-    		let json = JSON.stringify(createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable));
-    		
-    		if(typeof(date)=="undefined"){
-				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
-        		let inputYear = parseInt(input.value.substring(0,4));
-				let inputMonth = parseInt(input.value.substring(4,6));
-				let inputDay = parseInt(input.value.substring(6,8));
-				
-				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
-			}
-    		
-			XHRGroup.onreadystatechange=function(){
-				if(XHRGroup.readyState==4){
-		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
-		            }
-				}
-			}
-			XHRGroup.open("POST", "../groupInsert", true);
-			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRGroup.send(json);
-		}
-		
-		function delGroup(date){
-			// 검증식 넣어 마스터와 유저키가 일치할 경우: 그룹 삭제
-			createXHRGroup();
-			
-			let target = event.target;
-			let v = target.parentNode;
-			
-			let num = v.getElementsByClassName("groupDataNum")[0].value;
-			let name = v.getElementsByClassName("groupDataName")[0].value;
-    		let memberlist = v.getElementsByClassName("groupDataMemebersListName");
-    		let modifierlist = v.getElementsByClassName("groupDataModifierList");
-    		let color = v.getElementsByClassName("groupDataColor")[0].value;
-    		let master = v.getElementsByClassName("groupDataMaster")[0].value;
-    		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
-			
-    		let members=[];
-    		let modifiers=[];
-    	
-			if(typeof(memberlist)=='undefined'){
-    			members.push("");
-    		}
-    		else{
-    			for(let i = 0; i < memberlist.length; i++){
-        			members.push(memberlist[i].innerHTML);
-        		}
-    		}
-    		
-			if(typeof(modifierlist)=='undefined'){
-				modifiers.push("");
-    		}
-    		else{
-    			for(let i = 0; i < modifierlist.length; i++){
-    				modifiers.push(modifierlist[i].innerHTML);
-        		}
-    		}
-			
-    		let json = JSON.stringify(createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable));
-    		
-    		if(typeof(date)=="undefined"){
-				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
-        		let inputYear = parseInt(input.value.substring(0,4));
-				let inputMonth = parseInt(input.value.substring(4,6));
-				let inputDay = parseInt(input.value.substring(6,8));
-				
-				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
-			}
-
-			XHRGroup.onreadystatechange=function(){
-				
-				if(XHRGroup.readyState==4){
-		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
-		            }
-				}
-			}
-			XHRGroup.open("POST", "../groupDelete", true);
-			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRGroup.send(json);
-		}
-
-		function addGroupMember(date){
-			createXHRGroup();
-			
-			let target = event.target;
-			let v = target.parentNode;
-		
-			let num = v.getElementsByClassName("groupDataNum")[0].value;
-			let master = v.getElementsByClassName("groupDataMaster")[0].value;
-    		
-    		if(typeof(date)=="undefined"){
-				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
-        		let inputYear = parseInt(input.value.substring(0,4));
-				let inputMonth = parseInt(input.value.substring(4,6));
-				let inputDay = parseInt(input.value.substring(6,8));
-				
-				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
-			}
-    		
-			XHRGroup.onreadystatechange=function(){
-				if(XHRGroup.readyState==4){
-		            if(XHRGroup.status==200){
-		            	
-		            }
-				}
-			}
-			
-			XHRGroup.open("POST", "../", true);
-			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRGroup.send("userKey="+userKey+"&num="+num+"&master="+master);
-		}
-		
-		function searchGroupMember(){
-			createXHRGroup();
-			
-			XHRGroup.onreadystatechange=function(){
-				
-				if(XHRGroup.readyState==4){
-					
-		            if(XHRGroup.status==200){
-		            	
-		            	
-		            }
-				}
-			}
-			
-			XHRGroup.open("POST", "../", true);
-			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRGroup.send("userKey="+userKey);
-		}
-		console.log("서치랑 멤버 초대 구현해야한다.");
-		
-		function groupDataMemberDelete(date){
-			createXHRGroup();
-			
-			let target = event.target;
-			let v = target.parentNode
-			let p = v.parentNode;
-			let t = p.getElementsByClassName("groupDataMemebersListName")[0].innerHTML;
-			let gp = p.parentNode.parentNode;
-			
-			let num = gp.getElementsByClassName("groupDataNum")[0].value;
-			let name = gp.getElementsByClassName("groupDataName")[0].value;
-    		let memberlist = gp.getElementsByClassName("groupDataMemebersListName");
-    		let modifierlist = gp.getElementsByClassName("groupDataModifierList");
-    		let color = gp.getElementsByClassName("groupDataColor")[0].value;
-    		let master = gp.getElementsByClassName("groupDataMaster")[0].value;
-    		let searchable = gp.getElementsByClassName("groupDataSearchable")[0].value;
-			
-    		let members=[];
-    		let modifiers=[];
-    	
-			for(let i = 0; i < memberlist.length; i++){
-        		members.push(memberlist[i].innerHTML);
-        	}
-    		
-    		for(let i = 0; i < modifierlist.length; i++){
-    			modifiers.push(modifierlist[i].innerHTML);
-        	}
-    		
-    		let data = createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable);
-    		data.target = t;
-    		console.log(data);
-    		let json = JSON.stringify(data);
-    		
-    		if(typeof(date)=="undefined"){
-				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
-        		let inputYear = parseInt(input.value.substring(0,4));
-				let inputMonth = parseInt(input.value.substring(4,6));
-				let inputDay = parseInt(input.value.substring(6,8));
-				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
-			}
-
-			XHRGroup.onreadystatechange=function(){
-				
-				if(XHRGroup.readyState==4){
-		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
-		            }
-				}
-			}
-			XHRGroup.open("POST", "../groupMemberDelete", true);
-			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRGroup.send(json);
-		}
-		
-		function groupDataModifierFix (){
-			createXHRGroup();
-			
-			let target = event.target;
-			let v = target.parentNode
-			let p = v.parentNode;
-			let t = p.getElementsByClassName("groupDataMemebersListName")[0].innerHTML;
-			let gp = p.parentNode.parentNode;
-			
-			let num = gp.getElementsByClassName("groupDataNum")[0].value;
-			let name = gp.getElementsByClassName("groupDataName")[0].value;
-    		let memberlist = gp.getElementsByClassName("groupDataMemebersListName");
-    		let modifierlist = gp.getElementsByClassName("groupDataModifierList");
-    		let color = gp.getElementsByClassName("groupDataColor")[0].value;
-    		let master = gp.getElementsByClassName("groupDataMaster")[0].value;
-    		let searchable = gp.getElementsByClassName("groupDataSearchable")[0].value;
-			
-    		let members=[];
-    		let modifiers=[];
-    	
-			for(let i = 0; i < memberlist.length; i++){
-        		members.push(memberlist[i].innerHTML);
-        	}
-    		
-    		for(let i = 0; i < modifierlist.length; i++){
-    			modifiers.push(modifierlist[i].innerHTML);
-        	}
-    		
-    		let data = createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable);
-    		data.target = t;
-    		
-    		console.log(data);
-    		let json = JSON.stringify(data);
-    		
-    		if(typeof(date)=="undefined"){
-				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
-        		let inputYear = parseInt(input.value.substring(0,4));
-				let inputMonth = parseInt(input.value.substring(4,6));
-				let inputDay = parseInt(input.value.substring(6,8));
-				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
-			}
-
-			XHRGroup.onreadystatechange=function(){
-				
-				if(XHRGroup.readyState==4){
-		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
-		            }
-				}
-			}
-			XHRGroup.open("POST", "../groupMemeberModify", true);
-			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-			XHRGroup.send(json);
-		}
-		
-		// 년 형식 스케줄
-		function scheduleCheckYear (date, userKey, group){
-			if(typeof(date)!='undefined'||typeof(userKey)!='undefined'||typeof(userKey)!=null||typeof(group)!='undefined'){
-				
-			}
-			else{
-				
-			}
-		}
-		
-		// 월 형식 스케줄
-		function scheduleCheckMonth (date){
-			
-			if(typeof(date)!='undefined'){
-				getGroupSchedule(userKey, date);
-			}
-			else{
-				date = getToday();
-				getGroupSchedule(userKey, date);
-			}
-		}
+		/* ==== 스케줄 AJAX 사용 =========================================================================*/        
+		console.log("스케줄 모양을 생성");	
 		
 		// 유저키와 데이터로 그룹 및 스케줄 데이터 가져옴 
 		function getGroupSchedule(userKey, date){
@@ -2910,10 +2226,11 @@
 		            if(XHRCalendar.status==200){
 		            	clearMonthBoxBody();
 		            	let jsons = JSON.parse(XHRCalendar.responseText, "text/json");
-		            	console.log(jsons);
 		            	
 		            	for(let i = 0; i < Object.keys(jsons).length; i++){
 		            		
+		            		// 제이손 형태 데이터를 그룹 별로 구분하고, 이걸 다시 스케줄 별로 구분함 
+		            		// 이렇게 생성된 데이터를 기준으로 스케줄 그림 
 		            		for(let j = 0; j < Object.keys(jsons[i].schedule).length; j++){
 		            			let temp = {
 		            				groupnum: jsons[i].groupnum,
@@ -2933,6 +2250,7 @@
 		            			scheduleData.push(temp);
 		            		}
 		            		
+		            		// 템프 DIV를 모아서 그룹 DIV로 만들고 이 데이터로 그룹 멤버 모양을 표시함
 		            		let tempDiv = {
 		            			groupnum: jsons[i].groupnum,
 			            		groupname: jsons[i].groupname,
@@ -2944,11 +2262,17 @@
 		            		}
 		            		groupDivs.push(tempDiv);
 		            	}
+		            	// 스케줄 먼저 그림
 		            	createScheduleElement(scheduleData);
-		            	checkMonthScheduleFirst();
-		            	scheduleData = []; // 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
+		            	// 스케줄 그리고 각 첫 요소 파악해서 첫요소 길이를 차등 부여
+		            	checkMonthScheduleFirst(); 
+		            	// 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
+		            	scheduleData = []; 
+		            	// 그룹 Div로 그룹 모양 구현 
 		            	createGroupDivs(groupDivs);
+		            	// 그룹에 부여된 데이터를 기반으로 보일지 정함
 		            	viewScheduleElementFlag();
+		            	// 스케줄의 영역 차지 박스를 바꿈 > 추후 모양 CSS에 따라 필요없을 수 있음
 		            	changeScheduleBoxs();
 		            }
 				}
@@ -2959,24 +2283,24 @@
 		}
 		
 		// 스케줄 요소를 제작
+		// 스케줄 데이터에 따라 스케줄이 그려질 영역을 구현함
+		// 스케줄 시작 및 끝 데이터를 각각 비교하며 경우의 수를 따져야함
+		// if 문 사용이 많을 수 밖에 없음
 		function createScheduleElement(scheduleData){
 			let dateTags = document.getElementsByClassName("dateTag");
 			
 			
 			for(let i = 0; i < scheduleData.length; i++){
-				
+				// 추후 팀원 중 주 및 일 일정은 day 변수까지 사용
 				let startYear = parseInt(scheduleData[i].start.substring(0,4));
 				let startMonth = parseInt(scheduleData[i].start.substring(5,7));
 				let startDay = parseInt(scheduleData[i].start.substring(8,10));
-				// 추후 팀원 중 주 및 일 일정은 day 변수까지 사용
-				
+	
 				let endYear = parseInt(scheduleData[i].end.substring(0,4));
 				let endMonth = parseInt(scheduleData[i].end.substring(5,7));
 				let endDay = parseInt(scheduleData[i].end.substring(8,10));
-				// 추후 팀원 중 주 및 일 일정은 day 변수까지 사용
-				
-				// 이어와 몬스에 따라 리턴해서 불필요한 경우 포문이 계속 돌게함 
 
+				// 이어와 몬스에 따라 리턴해서 불필요한 경우 포문이 계속 돌게함 
 				for(let j = 0; j < dateTags.length; j++){
 					
 					let dateTagYear = parseInt(dateTags[j].value.substring(0,4));
@@ -2990,7 +2314,7 @@
 						}
 						else if(dateTagYear==endYear){
 							if(dateTagMonth>endMonth){
-								// 일정 끝남 
+								// 일정 끝남: 몬스가 엔드 몬스보다 뒤면 일정이 끝났음
 							}
 							else if(dateTagMonth<endMonth){
 								createScheduleBox(scheduleData[i], dateTags[j]);
@@ -3324,6 +2648,7 @@
 		function checkMonthPlanBar(flagSize){
 			let name;
 			
+			// 월간폼에서 막대 길이로 스케줄 영역을 확인할 수 있음
 			if(flagSize==1){
 				name="cmpb1";
 			}
@@ -3348,20 +2673,15 @@
 			return name;
 		}
 		
-		// 스케줄 추가 버튼
+		// 스케줄 Form에서 추가 버튼을 누를 경우 
 		let scheduleFormBtn = document.getElementsByClassName("scheduleFormSubmit")[0];
-		
 		scheduleFormBtn.addEventListener("click", function (){
-			let temp = document.getElementsByClassName("calendarHeadDateInfo")[0].value;
-			let year = parseInt(temp.substring(0,4));
-			let month = parseInt(temp.substring(4,6));
-			let day = parseInt(temp.substring(6,8));
-			let date = getThisDay(year, month, day, 0, 0);
-			addGroupSchedule(temp);
+			addGroupSchedule();
 		})
-		
+
 		// 스케줄 추가 
-		function addGroupSchedule(date){
+		// AJAX로 구현, 실행 후에 스케줄 재차 로딩
+		function addGroupSchedule(){
 			let jsonSchedule;
 			
 			let num = document.getElementsByClassName("scheduleFormNum")[0].value;
@@ -3415,51 +2735,132 @@
 			XHRCalendar.send("num="+data.num);
 		}
 		
-		// JSON SCHEDULE 객체 데이터 생성 
-		function createJsonSchedule(num, title, content, start, end, color, writer, groupnum){
-			let json = {
+		// 스케줄 검색 기능
+		let CalendarHeadSearchbar = document.getElementsByClassName("calendarSearchBar")[0];
+		CalendarHeadSearchbar.addEventListener("keyup", function(){
+			searchSchedule();
+		});
+		
+		function searchSchedule(){
+			let v = document.getElementsByClassName("calendarSearchBar")[0];
+			let word = v.innerHTML;
+			
+			createXHRCalendar();
+			
+			XHRCalendar.onreadystatechange=function(){
+				if(XHRCalendar.readyState==4){
+		            if(XHRCalendar.status==200){
+		            	let jsons = JSON.parse(XHRCalendar.responseText, "text/json");
+		            	searchScheduleCreateBox(jsons);
+		            }
+				}
+			};
+			XHRCalendar.open("POST", "../scheduleSearch", true);
+			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRCalendar.send("userKey="+userKey+"&word="+word);
+		}
+		
+		// 스케줄을 검색할 경우 해당 데이터를 자동 완성하여 보여줌 
+		// 보여지는 요소를 선택하면 해당 데이터를 반영하여 이동 
+		// 별도 페이지를 만들지 폼을 수정하도록 구현할지 추후 결정
+		function searchScheduleCreateBox(jsons){
+			let v = document.getElementsByClassName("calendarSearchResult")[0];
+			let c;
+			let cc;
+			let ccc;
+			
+			while(v.hasChildNodes()){
+				v.removeChild(v.firstChild);
+			}
+
+			for(let i = 0; i < Object.keys(jsons).length; i++){
+			
+				c = document.createElement("div");
+				c.classList.add("scheduleSearchLists");
+				c.innerHTML = "제목:"+jsons[i].title;
+				c.addEventListener("click", goToSearchResult);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scheduleSearchListsNum")
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].num);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scheduleSearchListsTitle")
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].title);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scheduleSearchListsContent")
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].content);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scheduleSearchListsStart")
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].start);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scheduleSearchListsEnd")
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].end);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scheduleSearchListsColor")
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].color);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scheduleSearchListsGroupnum")
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].groupnum);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scheduleSearchListsGroupname")
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].groupname);
+				c.appendChild(cc);
+				
+				v.appendChild(c);
+        	}
+		}
+		
+		// 검색한 스케줄 데이터로 이동함 
+		function goToSearchResult(){
+			let target = event.target;
+			let num = target.getElementsByClassName("scheduleSearchListsNum")[0].value;
+			let title = target.getElementsByClassName("scheduleSearchListsTitle")[0].value;
+			let content = target.getElementsByClassName("scheduleSearchListsContent")[0].value;
+			let start = target.getElementsByClassName("scheduleSearchListsStart")[0].value;
+			let end = target.getElementsByClassName("scheduleSearchListsEnd")[0].value;
+			let color = target.getElementsByClassName("scheduleSearchListsColor")[0].value;
+			let groupnum = target.getElementsByClassName("scheduleSearchListsGroupnum")[0].value;
+			let groupname = target.getElementsByClassName("scheduleSearchListsGroupname")[0].value;
+			
+			let data = {
 				num: num,
 				title: title,
 				content: content,
 				start: start,
 				end: end,
 				color: color,
-				writer: writer,
-				groupnum: groupnum
+				groupnum: groupnum,
+				groupname: groupname
 			}
-			return json;
+			tempData = data;
+			let body = document.getElementsByTagName("body")[0];
+			body.appendChild(createScheduleDetail(data));
 		}
-		
-		// JSON To Do List객체 데이터 생성 
-		function createJsonTodolist(num, title, content, id, date, time, importance, checked){
-			let json = {
-				num: num,
-				title: title,
-				content: content,
-				id: id,
-				date: date,
-				time: time,
-				importance: importance,
-				checked: checked
-			}
-			return json;
-		}
-		
-		function createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable){
-			let json = {
-				userKey: userKey,
-				num: num,
-				name: name,
-				members: members,
-				modifiers: modifiers,
-				color: color,
-				master: master,
-				searchable: searchable
-			}
-			return json;
-		}
-		
+	
 		// 스케줄 Box 영역 초기화
+		// 스케줄을 모두 지워줌
 		function clearMonthBoxBody(){
 			let v = document.getElementsByClassName("monthBoxBody");
 			
@@ -3469,7 +2870,9 @@
 				}
 			}
 		}
+		
 		// 스케줄 BOX 면적용 요소 위로 올리기
+		// 면적 차지 방식을 float 등을 혼합하여 구현시 필요없을 가능성 있음
 		function changeScheduleBoxs(){
 			let v;
 			let p;
@@ -3490,7 +2893,846 @@
 				p.insertBefore(v[i], p.firstChild);
 			}*/
 		}
+		// 년 형식 스케줄을 체크하고 구현
+		function scheduleCheckYear (date, userKey, group){
+			if(typeof(date)!='undefined'||typeof(userKey)!='undefined'||typeof(userKey)!=null||typeof(group)!='undefined'){
+				
+			}
+			else{
+				
+			}
+		}
 		
+		// 월 형식 스케줄을 체크하고 구현
+		function scheduleCheckMonth (date){
+			
+			if(typeof(date)!='undefined'){
+				getGroupSchedule(userKey, date);
+			}
+			else{
+				date = getToday();
+				getGroupSchedule(userKey, date);
+			}
+		}
+		
+		// JSON SCHEDULE 객체 데이터 생성 
+		function createJsonSchedule(num, title, content, start, end, color, writer, groupnum){
+			let json = {
+				num: num,
+				title: title,
+				content: content,
+				start: start,
+				end: end,
+				color: color,
+				writer: writer,
+				groupnum: groupnum
+			}
+			return json;
+		}
+		
+/* ====================================================================
+ * ==== TodoList 대한 전반 기능 ===========================================
+ * ====================================================================*/        
+		console.log("투두리스트 생성");
+		
+ 		// 투두리스트 모양을 그려줌 
+		function toDoList(){
+			createXHRTodolist();
+
+			XHRTodolist.onreadystatechange=function(){
+				if(XHRTodolist.readyState==4){
+		            if(XHRTodolist.status==200){
+		            	let jsons = JSON.parse(XHRTodolist.responseText, "text/json");
+		            	createToDoList(jsons);
+		            }
+				}
+			}
+			XHRTodolist.open("POST", "../todolistSelect", true);
+			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRTodolist.send("userKey="+userKey);
+		}
+		
+		// 투두리스트의 기본 형태 (즉 폼, 레이아웃)을 그려줌
+		function createToDoListBasic(){
+			let toDoListDiv = document.getElementsByClassName("toDoListDiv")[0];
+			
+			v = document.createElement("div");
+			v.classList.add("toDoListElements");
+			
+			c = document.createElement("div");
+			c.classList.add("toDoListMenu");
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListTitle");
+			cc.innerHTML = "오늘 할 일";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListAdd");
+			cc.addEventListener("click", todolistAdd);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "추가";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListCom");
+			cc.addEventListener("click", todolistCom);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "완료된 것 삭제";
+			c.appendChild(cc);
+			v.appendChild(c);
+			
+			c = document.createElement("div");
+			c.classList.add("toDoListMain");
+			v.appendChild(c);
+			
+			toDoListDiv.appendChild(v);
+		}
+		
+		// 투두리스트를 JSON 데이터에 따라 그림
+		function createToDoList(jsons){
+			
+			let v;
+			let c;
+			let cc;
+			let ccc;
+			let cccc;
+			
+			v = document.getElementsByClassName("toDoListMain")[0];
+			
+        	while(v.hasChildNodes()){
+        		v.removeChild(v.firstChild);
+        	}
+        	
+			// 매개변수 객체 가져와서 데이터 정제 > 정제한 데이터로 폼 모양 그림
+			// 정제는 DB에서 값 던질때 함 
+			for(let i = 0; i<jsons.length; i++){
+				c = document.createElement("div");
+				c.classList.add("toDoLists");
+				
+				cc = document.createElement("span");
+				cc.classList.add("toDoListCheckBox");
+				cc.innerHTML = "완료하기";
+				cc.addEventListener("click", todolistCheckedBtn);
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", jsons[i].title);
+				cc.classList.add("toDoListTitle");
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("toDoListFixBtn");
+				cc.addEventListener("click", todolistFixBtn);
+				// 아이콘 만들어지면 지울거
+				cc.innerHTML = "수정";
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", jsons[i].content);
+				cc.classList.add("toDoListContent");
+				cc.classList.add("toDoListView");
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", jsons[i].date);
+				cc.classList.add("toDoListDate");
+				cc.classList.add("toDoListView");
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", jsons[i].time);
+				cc.classList.add("toDoListTime");
+				cc.classList.add("toDoListView");
+				c.appendChild(cc);
+				
+				cc = document.createElement("select");
+				cc.classList.add("toDoListImportance");
+				cc.classList.add("toDoListView");
+				
+				for(let j = 1; j < 5; j++){
+					ccc = document.createElement("option");
+					ccc.classList.add("toDoListImportanceOption");
+					ccc.setAttribute("value", j);
+					ccc.innerHTML = j;
+					cc.appendChild(ccc);
+					
+					if(ccc.value==jsons[i].importance){
+						ccc.setAttribute("selected", "true");
+					}
+				}
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].num);
+				cc.classList.add("toDoListNum");
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].id);
+				cc.classList.add("toDoListId");
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.setAttribute("type", "hidden");
+				cc.setAttribute("value", jsons[i].checked);
+				cc.classList.add("toDoListChecked");
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("toDoListDelBtn");
+				cc.addEventListener("click", todolistDelBtn);
+				// 아이콘 만들어지면 지울거
+				cc.innerHTML = "삭제";
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("toDoListAddBtn");
+				cc.addEventListener("click", todolistAddBtn);
+				// 아이콘 만들어지면 지울거
+				cc.innerHTML = "완료";
+				c.appendChild(cc);
+				
+				v.appendChild(c);
+			}
+		}
+
+		// 투두리스트를 추가하기 위한 폼 생성
+		function todolistAdd (){
+			let v;
+			let c;
+			let cc;
+			let ccc;
+			
+			v = document.getElementsByClassName("toDoListMain")[0];
+			
+			c = document.createElement("div");
+			c.classList.add("toDoLists");
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			
+			cc.classList.add("toDoListNum");
+			c.appendChild(cc);
+			
+			cc = document.createElement("span");
+			cc.classList.add("toDoListCheckBox");
+			cc.innerHTML = "완료하기";
+			cc.addEventListener("click", todolistCheckedBtn);
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			let temp = cc;
+			cc.setAttribute("type", "text");
+			cc.classList.add("toDoListTitle");
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListFixBtn");
+			cc.addEventListener("click", todolistFixBtn);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "수정";
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "text");
+			cc.classList.add("toDoListContent");
+			cc.classList.add("toDoListView");
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "date");
+			cc.setAttribute("value", getTodayDateString());
+			cc.innerHTML = getTodayDateString();
+			cc.classList.add("toDoListDate");
+			cc.classList.add("toDoListView");
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", getTodayTimeString());
+			cc.classList.add("toDoListTime");
+			cc.classList.add("toDoListView");
+			c.appendChild(cc);
+			
+			cc = document.createElement("select");
+			cc.classList.add("toDoListImportance");
+			cc.classList.add("toDoListView");
+			
+			for(let j = 1; j < 5; j++){
+				ccc = document.createElement("option");
+				ccc.classList.add("toDoListImportanceOption");
+				ccc.setAttribute("value", j);
+				ccc.innerHTML = j;
+				cc.appendChild(ccc);
+			}
+			c.appendChild(cc);
+			
+			ccc = document.createElement("input");
+			ccc.setAttribute("type", "hidden");
+			ccc.classList.add("toDoListNum");
+			cc.appendChild(ccc);
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", userKey);
+			cc.classList.add("toDoListId");
+			c.appendChild(cc);
+	
+			cc = document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", "false");
+			cc.classList.add("toDoListChecked");
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListDelBtn");
+			cc.addEventListener("click", todolistDelBtn);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "삭제";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("toDoListAddBtn");
+			cc.addEventListener("click", todolistAddBtn);
+			// 아이콘 만들어지면 지울거
+			cc.innerHTML = "완료";
+			c.appendChild(cc);
+
+			
+			v.appendChild(c);
+			
+			temp.focus();
+		}
+		
+		// 투두리스트를 추가함
+		function toDoListInsert(data){
+			createXHRTodolist();
+			
+			XHRTodolist.onreadystatechange=function(){
+				if(XHRTodolist.readyState==4){
+		            if(XHRTodolist.status==200){
+		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
+		            	toDoList();
+		            }
+				}
+			}
+			XHRTodolist.open("POST", "../todolistInsert", true);
+			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRTodolist.send(data);
+		}
+
+		function todolistAddBtn(){
+			let target = event.target;
+			let v = target.parentNode;
+			
+			let title = v.getElementsByClassName("toDoListTitle")[0].value; 
+			let content = v.getElementsByClassName("toDoListContent")[0].value; 
+			let date = v.getElementsByClassName("toDoListDate")[0].value; 
+			let time = v.getElementsByClassName("toDoListTime")[0].value; 
+			let importance = v.getElementsByClassName("toDoListImportance")[0].value; 
+			let num = v.getElementsByClassName("toDoListNum")[0].value; 
+			let id = v.getElementsByClassName("toDoListId")[0].value; 
+			let checked = v.getElementsByClassName("toDoListChecked")[0].value; 
+			
+			let data = createJsonTodolist(num, title, content, id, date, time, importance, checked);
+			let json = JSON.stringify(data);
+			toDoListInsert(json);
+		}
+		
+		// 수정을 누를 경우 수정을 위한 폼이 보이도록 해야함 
+		// CSS 넢으면서 추가 
+		function todolistFixBtn(){
+			let target = event.target;
+			let v = target.parentNode;
+		}
+		
+		// 투두리스트를 완료함
+		// 완료한 투두리스트는 안보이거나 흐리게 보이게 CSS 수정해야함
+		// 한번에 삭제 필요 
+		function todolistCheckedBtn(){
+			let target = event.target;
+			let v = target.parentNode;
+			let checked = v.getElementsByClassName("toDoListChecked")[0]; 
+			console.log(checked);
+			
+			if(checked.value=='true'){
+				checked.setAttribute("value", "false");
+			}
+			else{
+				checked.setAttribute("value", "true");
+			}
+			checked = v.getElementsByClassName("toDoListChecked")[0].value;
+			
+			let title = v.getElementsByClassName("toDoListTitle")[0].value; 
+			let content = v.getElementsByClassName("toDoListContent")[0].value; 
+			let date = v.getElementsByClassName("toDoListDate")[0].value; 
+			let time = v.getElementsByClassName("toDoListTime")[0].value; 
+			let importance = v.getElementsByClassName("toDoListImportance")[0].value; 
+			let num = v.getElementsByClassName("toDoListNum")[0].value; 
+			let id = v.getElementsByClassName("toDoListId")[0].value; 
+			
+			let data = createJsonTodolist(num, title, content, id, date, time, importance, checked);
+			let json = JSON.stringify(data);
+			
+			toDoListInsert(json);
+		}
+		
+		// 삭제 버튼을 누를시 삭제되어야할 데이터를 가져다가 딜리트에 전달하고,
+		// AJAX에서 이를 처리함 
+		function todolistDelBtn(){
+			let target = event.target;
+			let v = target.parentNode;
+			
+			let num = v.getElementsByClassName("toDoListNum")[0].value; 
+			let temp = [];
+			temp.push(num);
+			data={
+				key: temp
+			};
+			
+			let json = JSON.stringify(data);
+			toDoListDelete(json);
+		}
+		
+		// 투두리스트를 삭제함 
+		function toDoListDelete(data){
+			if(data.length==null){
+				return;
+			}
+			
+			createXHRTodolist();
+			
+			XHRTodolist.onreadystatechange=function(){
+				if(XHRTodolist.readyState==4){
+		            if(XHRTodolist.status==200){
+		            	// 통신이 완료된 뒤 실행해야 변경상항 확인가능
+		            	toDoList();
+		            }
+				}
+			}
+			XHRTodolist.open("POST", "../todolistDelete", true);
+			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRTodolist.send(data);
+		}
+		
+		// 투두리스트 한번에 삭제 
+		function todolistCom(){
+			let tdl = document.getElementsByClassName("toDoLists");
+			let data;
+			let temp=[];
+			for(let i = 0; i < tdl.length; i++){
+				let checked = tdl[i].getElementsByClassName("toDoListChecked")[0].value;
+				// 체크된 상태를 확인하여 이를 배열로 만들고 삭제 데이터를 전달함 
+				if(checked=="true"&&checked!='undefined'){
+					let num = tdl[i].getElementsByClassName("toDoListNum")[0].value;
+					temp.push(num);
+				}
+			}
+			data = {
+				key: temp	
+			}
+			let json = JSON.stringify(data);
+			toDoListDelete(json);
+		};
+		
+		// JSON To Do List객체 데이터 생성 
+		function createJsonTodolist(num, title, content, id, date, time, importance, checked){
+			let json = {
+				num: num,
+				title: title,
+				content: content,
+				id: id,
+				date: date,
+				time: time,
+				importance: importance,
+				checked: checked
+			}
+			return json;
+		}
+		
+/* ====================================================================
+ * ==== 그룹에 대한 전반 기능 ==============================================
+ * ====================================================================*/        
+ 		console.log("그룹 모양을 생성");
+ 		
+		// 그룹 추가 버튼 누를시 폼을 생성함
+		function addGroupBtn(){
+			let v = document.getElementsByClassName("groupMain")[0];
+			
+			c = document.createElement("div");
+			c.classList.add("groupElement");
+			
+			cc=document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			cc.classList.add("groupDataNum");
+			c.appendChild(cc);
+			
+			cc=document.createElement("input");
+			cc.setAttribute("type", "text");
+			cc.classList.add("groupDataName");
+			c.appendChild(cc);
+			
+			cc=document.createElement("input");
+			cc.setAttribute("type", "color");
+			cc.classList.add("groupDataColor");
+			c.appendChild(cc);
+			
+			cc=document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			cc.classList.add("groupDataMaster");
+			c.appendChild(cc);
+
+			cc = document.createElement("select");
+			cc.classList.add("groupDataSearchable");
+			ccc = document.createElement("option");
+			ccc.classList.add("groupDataSearchOption");
+			ccc.setAttribute("value", "disable");
+			ccc.innerHTML = "비공개";
+			cc.appendChild(ccc);
+			ccc = document.createElement("option");
+			ccc.classList.add("groupDataSearchOption");
+			ccc.setAttribute("value", "able");
+			ccc.innerHTML = "공개";
+			cc.appendChild(ccc);
+
+			c.appendChild(cc);
+			
+			cc=document.createElement("div");
+			cc.classList.add("groupDataMemberList");
+			
+			ccc = document.createElement("div");
+			ccc.classList.add("groupDataMemberSearch");
+			ccc.setAttribute("contenteditable", "true");
+			ccc.addEventListener("keyup", searchGroupMember)
+			cc.appendChild(ccc);
+			
+			ccc = document.createElement("input");
+			ccc.setAttribute("type", "text");
+			ccc.classList.add("groupDataMembers");
+			
+			cc.appendChild(ccc);
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("groupDataAdd");
+			cc.setAttribute("type", "button");
+			cc.setAttribute("value", "완료");
+			cc.addEventListener("click", addGroup)
+			c.appendChild(cc);
+			
+			v.insertBefore(c, v.firstChild);
+		}
+				// 그룹 추가 폼에서 완료버튼 누를시 데이터를 전송함 
+		// AJAX로 처리
+		function addGroup(date){
+			createXHRGroup();
+			
+			let target = event.target;
+			let v = target.parentNode;
+			
+			let num = v.getElementsByClassName("groupDataNum")[0].value;
+			let name = v.getElementsByClassName("groupDataName")[0].value;
+    		let memberlist = v.getElementsByClassName("groupDataMemebersListName");
+    		let modifierlist = v.getElementsByClassName("groupDataModifierList");
+    		let color = v.getElementsByClassName("groupDataColor")[0].value;
+    		let master = v.getElementsByClassName("groupDataMaster")[0].value;
+    		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
+			
+    		let members=[];
+    		let modifiers=[];
+    	
+			if(typeof(memberlist)=='undefined'){
+    			members.push("");
+    		}
+    		else{
+    			for(let i = 0; i < memberlist.length; i++){
+        			members.push(memberlist[i].innerHTML);
+        		}
+    		}
+    		
+			if(typeof(modifierlist)=='undefined'){
+				modifiers.push("");
+    		}
+    		else{
+    			for(let i = 0; i < modifierlist.length; i++){
+    				modifiers.push(modifierlist[i].innerHTML);
+        		}
+    		}
+			
+    		let json = JSON.stringify(createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable));
+    		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+    		
+			XHRGroup.onreadystatechange=function(){
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
+		            	scheduleCheckMonth(date);
+		            }
+				}
+			}
+			XHRGroup.open("POST", "../groupInsert", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send(json);
+		}
+		
+		// 그룹을 삭제하는 기능 
+		// 매개변수는 추후 date를 따른 스케줄 폼 생성을 위해 넣음 
+		function delGroup(date){
+			// 검증식 넣어 마스터와 유저키가 일치할 경우: 그룹 삭제
+			// 우선 서버에서 검증하게 함
+			createXHRGroup();
+			
+			let target = event.target;
+			let v = target.parentNode;
+			
+			let num = v.getElementsByClassName("groupDataNum")[0].value;
+			let name = v.getElementsByClassName("groupDataName")[0].value;
+    		let memberlist = v.getElementsByClassName("groupDataMemebersListName");
+    		let modifierlist = v.getElementsByClassName("groupDataModifierList");
+    		let color = v.getElementsByClassName("groupDataColor")[0].value;
+    		let master = v.getElementsByClassName("groupDataMaster")[0].value;
+    		let searchable = v.getElementsByClassName("groupDataSearchable")[0].value;
+			
+    		let members=[];
+    		let modifiers=[];
+    	
+			if(typeof(memberlist)=='undefined'){
+    			members.push("");
+    		}
+    		else{
+    			for(let i = 0; i < memberlist.length; i++){
+        			members.push(memberlist[i].innerHTML);
+        		}
+    		}
+    		
+			if(typeof(modifierlist)=='undefined'){
+				modifiers.push("");
+    		}
+    		else{
+    			for(let i = 0; i < modifierlist.length; i++){
+    				modifiers.push(modifierlist[i].innerHTML);
+        		}
+    		}
+			
+    		let json = JSON.stringify(createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable));
+    		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+
+			XHRGroup.onreadystatechange=function(){
+				
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
+		            	scheduleCheckMonth(date);
+		            }
+				}
+			}
+			XHRGroup.open("POST", "../groupDelete", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send(json);
+		}
+
+		function addGroupMember(date){
+			createXHRGroup();
+			
+			let target = event.target;
+			let v = target.parentNode;
+		
+			let num = v.getElementsByClassName("groupDataNum")[0].value;
+			let master = v.getElementsByClassName("groupDataMaster")[0].value;
+    		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+    		
+			XHRGroup.onreadystatechange=function(){
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
+		            	
+		            }
+				}
+			}
+			XHRGroup.open("POST", "../", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send("userKey="+userKey+"&num="+num+"&master="+master);
+		}
+		
+		// 그룹에 추가할 검색기능을 구현
+		// 멤버 검색시에 요소가 자동완석 처럼 보이게 함 
+		function searchGroupMember(){
+			let v = event.target;
+			let word = v.innerHTML;
+			
+			createXHRMember();
+			
+			XHRMember.onreadystatechange=function(){
+				if(XHRMember.readyState==4){
+		            if(XHRMember.status==200){
+		            	let jsons = JSON.parse(XHRCalendar.responseText, "text/json");
+		            	createSearchGroupMember(v, jsons);
+		            }
+				}
+			}
+			XHRMember.open("POST", "../gropMemberSearch", true);
+			XHRMember.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRMember.send("userKey="+userKey+"&word="+word);
+		}
+		
+		// 멤버들 LIST를 표현할 ELEMENT
+		function createSearchGroupMember(v, jsons){
+			console.log(v);
+		}
+		
+		// Group 멤버를 삭제하는 것
+		function groupDataMemberDelete(date){
+			createXHRGroup();
+			
+			let target = event.target;
+			let v = target.parentNode
+			let p = v.parentNode;
+			let t = p.getElementsByClassName("groupDataMemebersListName")[0].innerHTML;
+			let gp = p.parentNode.parentNode;
+			
+			let num = gp.getElementsByClassName("groupDataNum")[0].value;
+			let name = gp.getElementsByClassName("groupDataName")[0].value;
+    		let memberlist = gp.getElementsByClassName("groupDataMemebersListName");
+    		let modifierlist = gp.getElementsByClassName("groupDataModifierList");
+    		let color = gp.getElementsByClassName("groupDataColor")[0].value;
+    		let master = gp.getElementsByClassName("groupDataMaster")[0].value;
+    		let searchable = gp.getElementsByClassName("groupDataSearchable")[0].value;
+			
+    		let members=[];
+    		let modifiers=[];
+    	
+			for(let i = 0; i < memberlist.length; i++){
+        		members.push(memberlist[i].innerHTML);
+        	}
+    		
+    		for(let i = 0; i < modifierlist.length; i++){
+    			modifiers.push(modifierlist[i].innerHTML);
+        	}
+    		
+    		let data = createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable);
+    		data.target = t;
+    		let json = JSON.stringify(data);
+    		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+
+			XHRGroup.onreadystatechange=function(){
+				
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
+		            	scheduleCheckMonth(date);
+		            }
+				}
+			}
+			XHRGroup.open("POST", "../groupMemberDelete", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send(json);
+		}
+		
+		// Group 구성원에게 수정자 권한을 조정함
+		// 수정자가 이미 부여시 철회
+		// 수정자가 안부여되면 부여함
+		function groupDataModifierFix (){
+			createXHRGroup();
+			
+			let target = event.target;
+			let v = target.parentNode
+			let p = v.parentNode;
+			let t = p.getElementsByClassName("groupDataMemebersListName")[0].innerHTML;
+			let gp = p.parentNode.parentNode;
+			
+			let num = gp.getElementsByClassName("groupDataNum")[0].value;
+			let name = gp.getElementsByClassName("groupDataName")[0].value;
+    		let memberlist = gp.getElementsByClassName("groupDataMemebersListName");
+    		let modifierlist = gp.getElementsByClassName("groupDataModifierList");
+    		let color = gp.getElementsByClassName("groupDataColor")[0].value;
+    		let master = gp.getElementsByClassName("groupDataMaster")[0].value;
+    		let searchable = gp.getElementsByClassName("groupDataSearchable")[0].value;
+			
+    		let members=[];
+    		let modifiers=[];
+    	
+			for(let i = 0; i < memberlist.length; i++){
+        		members.push(memberlist[i].innerHTML);
+        	}
+    		
+    		for(let i = 0; i < modifierlist.length; i++){
+    			modifiers.push(modifierlist[i].innerHTML);
+        	}
+    		
+    		let data = createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable);
+    		data.target = t;
+    		
+    		let json = JSON.stringify(data);
+    		
+    		if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
+			}
+
+			XHRGroup.onreadystatechange=function(){
+				
+				if(XHRGroup.readyState==4){
+		            if(XHRGroup.status==200){
+		            	scheduleCheckMonth(date);
+		            }
+				}
+			}
+			XHRGroup.open("POST", "../groupMemeberModify", true);
+			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+			XHRGroup.send(json);
+		}
+		
+		// JSON 그룹 형식 데이터 생성
+		function createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable){
+			let json = {
+				userKey: userKey,
+				num: num,
+				name: name,
+				members: members,
+				modifiers: modifiers,
+				color: color,
+				master: master,
+				searchable: searchable
+			}
+			return json;
+		}
 		
 	</script>
 	

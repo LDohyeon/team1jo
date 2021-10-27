@@ -86,6 +86,8 @@ public class groupInsert extends HttpServlet {
 			flagMaster = false;
 		}
 		
+		// 모디파이어를 @로 구분해야함 
+		// DTO 생성시 수정 필요 
 		if(gDTO.getModifier().equals("[]")) {
 			gDTO.setModifier("@"+mDTO.getId());
 		}
@@ -105,7 +107,8 @@ public class groupInsert extends HttpServlet {
 		}
 		
 		ScheduleDAO sDAO = ScheduleDAO.getInstance();
-		
+		// 그룹 넘버가 "" 라면 지금 막 추가한 데이터 므로 인설트
+		// 넘버가 있다면 수정이므로 업데이트  
 		if(gDTO.getGroupnum().equals("")&&flagMaster==true){
 			System.out.println("인설트");
 			sDAO.groupInsert(gDTO);

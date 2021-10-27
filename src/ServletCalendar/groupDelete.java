@@ -25,6 +25,7 @@ public class groupDelete extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
+		// JSON 으로 데이터를 주고 받음 
 		String json = readJSON(request);
 		JSONObject data = objJSON(json);
 		int length = 0;
@@ -35,6 +36,7 @@ public class groupDelete extends HttpServlet {
 		String members=String.valueOf(data.get("members"));
 		String master=String.valueOf(data.get("master"));
 		
+		// 마스터는 해당 그룹의 권한자로, 그룹 생성자로 한정 
 		master = master.replace("\"", "");
 		master = master.replace("\'", "");
 		
@@ -52,6 +54,10 @@ public class groupDelete extends HttpServlet {
 		str = str.replace("\'", "");
 		String[] arr = str.split(",");
 		str = "";
+		
+		// 그룹 데이터를 가져와서 나눠서 저장함
+		// DTO를 생성하면 객체 List로 담아야함 
+		// 추후 진행 예정 
 		for(int i = 0; i<arr.length; i++) {
 			if(arr[i].equals("")==false) {
 				if(arr[i].equals(mDTO.getId())) {
@@ -69,6 +75,8 @@ public class groupDelete extends HttpServlet {
 		ScheduleDAO sDAO = ScheduleDAO.getInstance();
 		length = arrlist.size();
 		
+		// 마스터랑 유저키가 같고 그룹 멤버가 자신 혼자라면 삭제함 
+		// 마스터가 아니면 자신만 해당 그룹에서 빠지는 형태 
 		if(gDTO.getMaster().equals(mDTO.getId())) {
 			if(length==1) {
 				sDAO.groupDelete(gDTO);

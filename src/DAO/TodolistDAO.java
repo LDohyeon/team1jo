@@ -12,7 +12,7 @@ import DTO.TodoDTO;
 
 public class TodolistDAO {
 	private TodolistDAO(){
-		
+		// getInstance로 호출해서 생성자 new를 막음
 	}
 	
 	private static TodolistDAO instance = new TodolistDAO();
@@ -54,7 +54,6 @@ public class TodolistDAO {
 			System.out.println("Close Error(val ==3) : "+ e);
 		}
 	}
-	
 	public static void close(Connection conn, Statement stmt){
 		try{
 			if(stmt!=null){
@@ -69,6 +68,7 @@ public class TodolistDAO {
 		}
 	}
 	
+	// TodoList 데이터를 가져옴
 	public List<TodoDTO> TodoLists(TodoDTO todoDTO){
 		List<TodoDTO> list= new ArrayList<TodoDTO>();
 		
@@ -100,6 +100,7 @@ public class TodolistDAO {
 				tDTO.setChecked(rs.getString("checked"));
 				
 				list.add(tDTO);
+				// ID 로 조회후 일치하는 데이터를 가져옴, 임폴턴스에 따라 중요도가 다르며, 높은 숫자부터 정렬됨 
 			}
 		}
 		catch(Exception e){
@@ -111,7 +112,7 @@ public class TodolistDAO {
 		
 		return list;
 	}
-	
+	// 투두리스트 인설트 
 	public void todolistInsert(TodoDTO tDTO){
 		
 		String sql="insert into todolist(title, content, id, date, time, importance, checked) values(?,?,?,?,?,?,?)";
@@ -143,6 +144,7 @@ public class TodolistDAO {
 		}
 	}
 	
+	// 투두리스트 딜리트 
 	public void todolistDelete(TodoDTO tDTO)
 	{
 		String sql ="delete from todolist where num = ?";
@@ -166,6 +168,7 @@ public class TodolistDAO {
 		}
 	}
 	
+	// 투두리스트 업데이트 
 	public void todolistUpdate(TodoDTO tDTO){
 		String sql="update todolist set title=?, content=?, date=?, time=?, importance=?, checked=? where num=?";
 		

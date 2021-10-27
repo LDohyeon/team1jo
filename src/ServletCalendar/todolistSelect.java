@@ -20,6 +20,7 @@ public class todolistSelect extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@SuppressWarnings("unchecked")
+	// JSON PUT 시 라이브러리 및 데이터 체크에 문제가 없으나 주의가 나와서 @SuppressWarnings("unchecked")를 지정함
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
