@@ -94,8 +94,8 @@
 			
 			
 			<p>${pDTO.getContents() }</p>
-			<input id="language" type="hidden" value="${language }">
-			<input id="langValue" type="hidden" value="${langValue }">
+			<input id="languageSelect" type="hidden" value="${language }">
+			<input id="langValueSelect" type="hidden" value="${langValue }">
 			
 			<br>
 			<hr>
@@ -110,19 +110,19 @@
 			<br>
 			<br>
 			<script>
-				var language =document.getElementById("language").value;
-				var langValue =document.getElementById("langValue").value;
-				var languages= language.split(",");
-				var langValues= langValue.split(",");
+				var languageSelect =document.getElementById("languageSelect").value;
+				var langValueSelect =document.getElementById("langValueSelect").value;
+				var languagesSelect= languageSelect.split(",");
+				var langValuesSelect= langValueSelect.split(",");
 	
-				for(var i=0; i<languages.length-1; i++)
+				for(var i=0; i<languagesSelect.length-1; i++)
 				{
-					var textArea= document.getElementById(langValues[i]);
+					var textArea= document.getElementById(langValuesSelect[i]);
 	
 					textArea = CodeMirror.fromTextArea(textArea, {
 						lineNumbers: true,
 						theme: "darcula",
-						mode: languages[i],
+						mode: languagesSelect[i],
 						//mode: "text/x-python",
 						spellcheck: true,
 						autocorrect: true,
@@ -200,7 +200,7 @@
 							<span>${list.getComment()}</span>
 							<c:if test="${loginUserId == list.getId() }">
 								<a href="commentUpdate.do?num=${list.getNum() }">수정</a>
-		 						<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${list.getNum() }">삭제</a>
+		 						<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${list.getNum() }&&paragraph_num=${pDTO.getNum() }">삭제</a>       
 							</c:if>
 					</span>
 						</c:otherwise>
