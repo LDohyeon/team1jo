@@ -2593,7 +2593,8 @@
 			
 			v.insertBefore(c, v.firstChild);
 		}
-				//완료 시> 기존거 수정에도 사용 
+		
+		//완료 시> 기존거 수정에도 사용 
 		function addGroup(date){
 			createXHRGroup();
 			
