@@ -462,7 +462,6 @@ public class ScheduleDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs=null;
 		
-		
 		try
 		{
 			conn=getConnection();

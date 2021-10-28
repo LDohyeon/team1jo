@@ -6,12 +6,12 @@
 	// 유저키를 세션에서 가져옴
 	String userKey = null;
 
-	/*try{
+	try{
 		userKey = "'"+session.getAttribute("loginUserId").toString()+"'"; 
 	}
 	catch(Exception e){
 		System.out.println("Session get Error: calendarMain.jsp: line 10: >>" +e);
-	}*/
+	}
 %>
 <html>
 	<head>
@@ -74,8 +74,9 @@
         }
         
         // 오늘 날짜를 반환함. Date 객체를 사용하여 구현, month는 0~11로 표현되어 1을 더하여야 한다.
+       	console.log("오늘 날짜를 Date 타입으로 변경하는 펑션");
         function getToday(){
-        	console.log("오늘 날짜를 Date 타입으로 변경하는 펑션");
+        	
         	let date = new Date();
         	let year = date.getFullYear();
         	let month = (1 + date.getMonth());
@@ -95,8 +96,9 @@
         
         // 특정 날짜를 표현함
         // 날짜를 직접 매개변수에 넣으면 해당 데이터 형식을 리턴해줌 
+        console.log("특정 날짜를 date 형식으로 반환하는 펑션");
         function getThisDay(year, month, day, hour, minute){
-        	console.log("특정 날짜를 date 형식으로 반환하는 펑션");
+        	
         	let thisDay = {
                	year: year, 
                	month: month, 
@@ -111,8 +113,9 @@
         // 오늘 요일을 구함 + 매개 변수 입력하면 특정 요일 구함 getThisDay()
         // 요일은 7의 배수이므로 구성이나 간격이 변하지 않음
         // 결과적으로 윤년만 정확히 계산하면 날짜에 따른 요일은 반드시 구할 수 있음.
+        console.log("데이트 입력시 요일 구하는 펑션");
         function getYoil(date){
-        	console.log("데이트 입력시 요일 구하는 펑션");
+        
         	let yoil; 
         	let days = 0;
         	
@@ -209,8 +212,9 @@
         // 윤년 여부 보기
         // 윤년 규칙은 4년에 한번, 100년으로 나눠지나, 100년의 나눠지나 400년으로 나눠지나에 따라 결정됨
         // 해당 규칙에 따라 알고리즘을 구성함 
+       	console.log("윤년 여부를 구하는 펑션");
         function getYunNyen(y){
-        	console.log("윤년 여부를 구하는 펑션");
+        	
 			let yunNyen; 
         	
       		if(typeof(y)!='undefined'||y!=null){
@@ -261,8 +265,9 @@
         // 윤년 여뷰에따라 올해 달력 구조를 생성
         // 윤년은 벤치 마크가 없어도 해당 년을 4,100,400으로 나눴을땨 결정됨
         // 때문에 년도만 입력하면 해당 년도의 월 단위를 알려줌 
+        console.log("월의 구조를 구하는 펑션");
         function getMonthStructure(year){
-        	console.log("월의 구조를 구하는 펑션");
+        	
         	let months;
         	
         	// months 는 1~12 월의 달수 표시, 배열로 확인 0 == 1월 
@@ -2026,6 +2031,10 @@
 				ccc.setAttribute("contenteditable", "true");
 				ccc.addEventListener("keyup", searchGroupMember)
 				cc.appendChild(ccc);
+				
+				ccc = document.createElement("div");
+				ccc.classList.add("groupDataMemberResult");
+				cc.appendChild(ccc);
 				c.appendChild(cc);
 				
 				cc = document.createElement("input");
@@ -3587,14 +3596,21 @@
 		function searchGroupMember(){
 			let v = event.target;
 			let word = v.innerHTML;
+			let p = v.parentNode;
+			let list = p.getElementsByClassName("groupDataMemberResult")[0];
 			
+			if(word.length==0){
+				while(list.hasChildNodes()){
+					list.removeChild(list.firstChild);
+				}
+				return;
+			}
 			createXHRMember();
-			
 			XHRMember.onreadystatechange=function(){
 				if(XHRMember.readyState==4){
 		            if(XHRMember.status==200){
-		            	let jsons = JSON.parse(XHRCalendar.responseText, "text/json");
-		            	createSearchGroupMember(v, jsons);
+		            	let json = JSON.parse(XHRMember.responseText, "text/json");
+		            	createSearchGroupMember(v, json);
 		            }
 				}
 			}
@@ -3604,8 +3620,53 @@
 		}
 		
 		// 멤버들 LIST를 표현할 ELEMENT
-		function createSearchGroupMember(v, jsons){
-			console.log(v);
+		function createSearchGroupMember(v, json){
+			let p = v.parentNode;
+			let list = p.getElementsByClassName("groupDataMemberResult")[0];
+			
+			console.log(json);
+			while(list.hasChildNodes()){
+				list.removeChild(list.firstChild);
+			}
+			
+			for(let i = 0; i < Object.keys(json).length; i++){
+				let c;
+				let cc;
+				let ccc;
+				console.log(json[i]);
+				c = document.createElement("div");
+				c.classList.add("memerListBox");
+				
+				cc = document.createElement("div");
+				cc.classList.add("memerListData");
+				
+				ccc = document.createElement("div");
+				ccc.classList.add("memerListId"); 
+				ccc.innerHTML = json[i].id;
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("div");
+				ccc.classList.add("memerListName"); 
+				ccc.innerHTML = json[i].name;
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.classList.add("memerListNum"); 
+				ccc.setAttribute("type", "hidden");
+				ccc.setAttribute("value", json[i].num);
+				cc.appendChild(ccc);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("div");
+				cc.classList.add("memerListAddBtn");
+				cc.innerHTML = "추가";
+				cc.addEventListener("click", addGroupMember);
+				
+				c.appendChild(cc);
+				
+				list.appendChild(c);
+			}
 		}
 		
 		// Group 멤버를 삭제하는 것
