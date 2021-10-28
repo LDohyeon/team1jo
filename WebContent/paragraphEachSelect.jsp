@@ -29,6 +29,7 @@
                 width: 800px;
                 height: 300px;
                 border: 1px solid #ccc;
+                overflow-y: auto;/*스크롤 기능*/
             }
             .editorTool{
                 width: 800px;
@@ -60,6 +61,53 @@
 			    border-color: blue;
 			    float:left;
 			    margin-right:5px;
+			}
+			.codeWrite
+           	{
+           		float: right;
+           	}
+			.checkRed
+			{
+				color:red;
+			}
+			
+			
+			
+			#wrapPonup
+			{
+				background-color:#0000002b;
+				position: absolute;
+    			left: 0;
+    			top: 0;
+    			display:none;
+			}
+			#ponup
+			{
+				border:1px solid black;
+				
+				/*width:800px;height:300px;*/
+				position:absolute;
+				background-color:white;
+				padding:1%;
+			}
+			#red
+			{
+				color:red;
+				margin-top:2%;
+			}
+			.ment
+			{
+				padding-left:2%;
+				
+			}
+			.inputment
+			{
+				float:right;
+				margin-left:2%;
+			}
+			#imgInput
+			{
+				display:none;
 			}
 
         </style>
@@ -135,154 +183,89 @@
 				
 			</script>
 			
-			<!-- 댓글 부분 -->
-			<div class="reply">
-			댓글
-			</div>
-			<div>
-				<c:forEach items="${list }" var="list">
-					<c:choose>
-						<c:when test="${flag =='u' && num == list.getNum() }">
-							<form method="post" action="commentUpdate.do" name="frm">
-								<div class="editor" id="editor">
-							    	<div class="editorTool">
-							        	<div class="fontType">
-							            	<select id="fontType" onchange="selectFont()">
-							                	<option value="고딕">고딕</option>
-							                    <option value="굴림">굴림</option>
-							                    <option value="궁서">궁서</option>
-							                    <option value="돋움">돋움</option>
-							                    <option value="바탕">바탕</option>
-							                </select>
-										</div>
-										<div class="fontStyle">
-											<button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
-											<button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
-											<button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
-											<input type="color" id="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
-											<input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
-										</div>
-										<div class="fontAlign">
-											<button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
-											<button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
-											<button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
-											<button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>
-										</div>
-										<div class="img">
-											<button class="divColor" type="button">사진</button>
-										</div>
-										<select id="commentLanguage">
-				                       		<option value="none">질문할 언어를 선택하세요</option>
-				                       		<option value="text/xml">html/xml</option>
-				                           	<option value="text/x-python">python</option>
-				                           	<option value="text/x-java">java</option>
-				                           	<option value="text/x-sql">sql</option>
-				                           	<option value="text/javascript">javascript</option>
-				                       	</select>
-				                       	<input class="divColor" type="button" onclick="code()" value="코드 작성 하러 가기">
-									</div>
-									<div>
-										<br>
-									</div>
-									<div id="writeContent1" class="writeContent" contenteditable="true">${comment.comment }</div>
-									<input id="content1" type="hidden" value="" name="comment">
-									<input name="num" type="hidden" value="${comment.num }">
-								</div>
-								<input type="submit" class="button" value="수정" onclick="return writeCheck1()">
-							</form>
-						</c:when>
-						<c:otherwise>
-							<span id="comment">
-							<span>${flag }</span>
-							<span>${list.getNum() }</span>
-							<span>${list.getId()}</span>
-							<span>${list.getTime()}</span>
-							<span>${list.getComment()}</span>
-							<c:if test="${loginUserId == list.getId() }">
-								<a href="commentUpdate.do?num=${list.getNum() }">수정</a>
-		 						<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${list.getNum() }&&paragraph_num=${pDTO.getNum() }">삭제</a>       
-							</c:if>
-					</span>
-						</c:otherwise>
-					</c:choose>
-					<br>
-				</c:forEach>
-			</div>
-			<form method="post" action="comment.do" name="frm">
-				<div class="editor">
-			    	<div class="editorTool">
-			        	<div class="fontType">
-			            	<select id="fontType" onchange="selectFont()">
-			                	<option value="고딕">고딕</option>
-			                    <option value="굴림">굴림</option>
-			                    <option value="궁서">궁서</option>
-			                    <option value="돋움">돋움</option>
-			                    <option value="바탕">바탕</option>
-			                </select>
-						</div>
-						<div class="fontStyle">
-							<button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
-							<button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
-							<button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
-							<input type="color" id="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
-							<input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
-						</div>
-						<div class="fontAlign">
-							<button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
-							<button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
-							<button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
-							<button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>
-						</div>
-						<div class="img">
-							<button class="divColor" type="button">사진</button>
-						</div>
-						<select id="commentLanguage">
-                       		<option value="none">질문할 언어를 선택하세요</option>
-                       		<option value="text/xml">html/xml</option>
-                           	<option value="text/x-python">python</option>
-                           	<option value="text/x-java">java</option>
-                           	<option value="text/x-sql">sql</option>
-                           	<option value="text/javascript">javascript</option>
-                       	</select>
-                       	<input class="divColor" type="button" onclick="code()" value="코드 작성 하러 가기">
-					</div>
-					<div>
-						<br>
-					</div>
-					<div id="writeContent2" class="writeContent" contenteditable="true"></div>
-					<input id="content2" type="hidden" value="" name="content">
-					<input name="paragraph_num" type="hidden" value="${pDTO.getNum() }">
-				</div>
-				<input type="submit" class="button" value="댓글쓰기" onclick="return writeCheck2();">
-			</form>
-        </div>
+			<form method="post" action="comment.do" class="frm" name="frm">
+	            <div>
+	                <div class="editor">
+	                    <div class="editorTool">
+	                        <div class="fontType">
+	                            <select class="fontTypes" onchange="selectFont(0)">
+	                            	<option value="고딕">고딕</option>
+	                            	<option value="굴림">굴림</option>
+	                            	<option value="궁서">궁서</option>
+	                            	<option value="돋움">돋움</option>
+	                            	<option value="바탕">바탕</option>
+	                            </select>
+	                        </div>
+	                        <div class="fontStyle">
+	                            <button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
+	                            <button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
+	                            <button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
+	                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
+	                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
+	                        </div>
+	                        <div class="fontAlign">
+	                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
+	                            <button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
+	                            <button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
+	                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>                      
+	                        	
+	                        </div>
+
+	                        <div class="img">
+	                            <button class="divColor" type="button" onclick="imgInsert(0)">사진</button>
+	                        </div>
+	                        
+	                        <div class="codeWrite">   
+	                        	<select class="language" onchange="langs()">
+	                        		<option value="none">질문할 언어를 선택하세요</option>
+	                        		<option value="text/xml">html/xml</option>
+	                            	<option value="text/x-python">python</option>
+	                            	<option value="text/x-java">java</option>
+	                            	<option value="text/x-sql">sql</option>
+	                            	<option value="text/javascript">javascript</option>
+	                        	</select>
+	                        	
+	                        	<input class="divColor" type="button" onclick="code()" value="코드 작성 하러 가기">  
+	                        	<input class="divColor" type="button" onclick="codeUpdate()" value="코드 수정하러 가기">
+	                        </div>
+
+	                    </div>
+	                    <div>
+	                    	<br>
+	                    </div>
+          
+	                    <div class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
+	                    
+	                    <input class="content" type="hidden" name="content">
+	                    
+	                    <!-- 수정할 때 필요한 번호 -->
+	                    <input class="num" type="hidden" value="${pDTO.getNum() }" name="num">
+
+	            	 </div>
+	            	 
+	            	 <input type="submit" value="글쓰기" onclick="return writeCheck(0);">
+
+				 	
+	            </div>
+        	</form>
+
+
+		</div>
 		
 		<div class="footer">
             footer
         </div>
-	</body>
-	<script>
+        <form method="post" action="commentInsertImage.do" enctype="multipart/form-data" name="imgFrm" class="imgFrm">
+        	<input type="file" name="imgInput" class="imgInput" onchange="imgChange(0)">
+        	<input class="imgContent" type="hidden" name="imgContent">
+        	<input name="num" type="hidden" value="<%=num%>">
+        </form>
+        
+		
+	<script>	
 	
-		function code()
-		{
-			var commentLanguage=document.getElementById("commentLanguage");
-			
-			if(commentLanguage.value == "none")
-			{
-				alert("언어를 선택해주세요");
-				return;
-			}
-	
-			var url="code.do?language="+commentLanguage.value;
-			
-			var popupX=(window.screen.width/2)-(800/2);
-			var popupY=(window.screen.height/2)-(600/2);
-			
-			window.open(url, "_blank_1","toolbar=no, menubar=no, scrollber=yes, resizable=no, width=800, height=600, left="+popupX+", top="+popupY);
-		}
-
-		function selectFont(){
-			var select=document.getElementById("fontType");
+		function selectFont(e){
+			var select=document.getElementsByClassName("fontTypes")[e];
 			var selectValue=select.options[select.selectedIndex].value;
 			document.execCommand("fontName", false, selectValue);
 		}
@@ -291,7 +274,7 @@
 		for(var i=0;i<divColor.length;i++){
 			divColor[i].style.backgroundColor="white";
 		}
-
+	
 		function btnColor(i){
 			if(i==8){
 				for(var i=0;i<8;i++){
@@ -303,32 +286,62 @@
 				divColor[i].style.backgroundColor="gray";
 			}
 		}
-		//제목이나 내용이 입력되지 않은 채 submit 버튼이 눌렸을 때 alert 띄우는 함수
-		function writeCheck1(){
-			if(document.getElementById("writeContent1").innerHTML==""){
-				alert("내용을 입력해주세요.");
-				document.getElementById("writeContent1").focus();
-				return false;
-			}
-			
-			var text;
-			text=document.getElementById('writeContent1').innerHTML;
-			document.getElementById('content1').value=text;
-			return true;
- 		}
 		
-		function writeCheck2(){
-			if(document.getElementById("writeContent2").innerHTML==""){
+		function writeCheck(e)
+		{
+			if(document.getElementsByClassName("writeContent")[e].innerHTML=="")
+			{
 				alert("내용을 입력해주세요.");
-				document.getElementById("writeContent2").focus();
+				document.getElementsByClassName("writeContent")[e].focus();
 				return false;
 			}
+				var text;
+				text=document.getElementsByClassName("writeContent")[e].innerHTML;
+				document.getElementsByClassName('content')[e].value=text;
+
+				return false;
+		}
+		
+		
+		function imgInsert(e)
+		{
+			var imgInput = document.getElementsByClassName("imgInput");
 			
-			var text;
-			text=document.getElementById('writeContent2').innerHTML;
-			document.getElementById('content2').value=text;
-			return true;
- 		}
+			imgInput[e].click();
+			
+			imgChange(e);
+			
+		}
+		function imgChange(e)
+		{
+			var imgInput = document.getElementsByClassName("imgInput");
+			
+			if(imgInput[e].files.length>0)
+			{
+				if(imgInput[e].files)
+				{
+					var sel = document.getSelection();
+
+		            var range = sel.getRangeAt(0);
+
+		            var insertNodeImg=document.createElement("img");
+					insertNodeImg.setAttribute("src", "★");
+					range.insertNode(insertNodeImg);
+					range.setStartAfter(insertNodeImg);
+					
+					document.getElementsByClassName("writeContent")[e].focus();
+					
+		  				
+					document.getElementsByClassName("imgContent")[e].value=document.getElementsByClassName('writeContent')[e].innerHTML;
+				
+					document.getElementsByClassName("imgFrm")[e].submit();
+					
+				}	
+			}
+		}
+	
+	
+	
 		
 		function getTag(ths){
 			var text=$(ths).text();
@@ -337,3 +350,12 @@
 		
 	</script>
 </html>
+
+
+
+
+
+
+
+
+

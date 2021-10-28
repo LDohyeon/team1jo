@@ -21,6 +21,10 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 
 		int num = Integer.parseInt(request.getParameter("num"));
 		
+		String imageInsertContent =request.getParameter("imageInsertContent");
+		//commentInsertImage 서블릿에서 이미 저장후 받아오기
+		
+		
 		String code="";
 		String language = "";
 		String lang="";
@@ -71,6 +75,8 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 
 		
 		
+
+		request.setAttribute("imageInsertContent", imageInsertContent);
 		
 		request.setAttribute("pDTO", pDTO);
 		request.setAttribute("language", language);
