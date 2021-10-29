@@ -8,7 +8,7 @@
 		<style>
 			body
 			{
-				background-color:#e2e2e2;
+				background-color: #e2e2e2;
 			}
 		
 			#wrap
@@ -19,58 +19,58 @@
 		
 			#wrap2
 			{
-				margin:0 auto;
-				background-color:#fff;
+				margin: 0 auto;
+				background-color: #fff;
 				
-				width:308px;
-				text-align:left;
-				padding:40px;
-				border:1px solid #000;
+				width: 308px;
+				text-align: left;
+				padding: 40px;
+				border: 1px solid #000;
 			}
 			
-			h2
+			.titleArea
 			{
-				margin:0;
+				margin: 0 0 10px 0;
 			}
 			
 			input[type=password]
 			{
-				width:300px;
-				line-height:30px;
-				height:30px;
-				margin-top:15px;
-				padding:5px;
+				width: 300px;
+				line-height: 30px;
+				height: 30px;
+				margin-top: 15px;
+				padding: 5px;
 				font-weight: bold;
 			}
 			
 			.buttonsArea
 			{
-				padding-top:20px;
-				text-align:center;
+				padding-top: 20px;
+				text-align: center;
 			}
 			
 			.under
 			{
 				display: block;
-				font-size:small;
+				font-size: small;
 			}
 			
 			.button
 			{
-				background-color:#064998;
-				color:#fff;
-				height:40px;
-				line-height:40px;
-				text-align:center;
-				margin:5px 0;
+				background-color: #064998;
+				color: #fff;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				margin: 5px 0;
 				font-size: 14px;
 				
-				width:308px;
+				width: 308px;
 			}
 			
 			.button:hover
 			{
-				background-color:#005cc3;
+				background-color: #005cc3;
 			}
 			
 			.nonInputSub
@@ -79,7 +79,7 @@
 			    border-width: 0;
 			    border-style: none;
 			    border-color: #fff;
-			    font-family:inherit;
+			    font-family: inherit;
 			}
 		</style>
 	</head>
@@ -87,7 +87,7 @@
 		<div id="wrap">
 			<form name="update" method="post" action="changePw.do">
 				<div id="wrap2">
-					<h2>비밀번호 수정</h2>
+					<h2 class="titleArea">비밀번호 수정</h2>
 				
 					<input name="cpw" type="password" placeholder="현재 비밀번호" onchange="isCpw(); checkCpw(); chekcCpwNPw();">
 					<span class="under" id="underInfo0" style="display:none;">현재 비밀번호와 일치하지 않습니다.</span>    

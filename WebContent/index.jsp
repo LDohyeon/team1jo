@@ -13,67 +13,101 @@
 		<meta charset="utf-8">
 		<title>Insert title here</title>
 		<style>
-			body{
+			body
+			{
                 margin: 0;
                 padding: 0;
-                font-size: 1.2em;
+                /*font-size: 1.2em;*/
             }
-            header{
+            header
+            {
                 padding: 20px;
             }
-            section {
+            section
+            {
                 padding: 20px;
                 display: flex;
                 background-color: lightgray;
             }
-            footer{
+            footer
+            {
             	text-align: center;
             	font-size: 0.8em;
                 padding: 20px;
                 color: gray;
             }
- 
             section > div {
                 margin: auto;
                 width: 150px;
                 height: 25px;
-                
             }
-            .ulist{
+            .ulist
+            {
                 margin: 0;
                 padding: 0;
                 list-style-type: none;
                 float: right;
             }
-            .list{
+            .list
+            {
                 display: inline;
                 margin: 0 20px 0 0 ;
             }
+            .titleArea
+			{
+				margin:0 0 10px 0;
+			}
             .paragraphListWrap
 			{
-				width:1200px;
-				padding:15px;
-				border : 1px solid lightgray;
-				margin : 60px auto;			
+				width: 850px;
+				padding: 35px;
+				border : 1px solid #dbdadf;
+				margin : 60px auto;		
 			}
-			.spanWrap
+			.spanWrap::after
 			{
-				border : 1px solid lightgray;
+				content: "";
+				display: block;
+				clear: both;
 			}
-			.narrow{
-				text-align:center;
-				display :inline-block;
-				width: 11%;
+			.th
+			{
+				font-weight: bold;
+				background-color: #f1f1f1;
+				border-top: 1.5px solid #222;
+				
 			}
-			.medium{
-				text-align:center;
-				display :inline-block;
-				width: 19%;
+			.borderRight
+			{
+				border-right: 1px solid #dbdadf;
 			}
-			.wide{
-				text-align:center;
-				display :inline-block;
-				width: 45%;
+			.narrow
+			{
+				text-align: center;
+				display: inline-block;
+				width: 70px;
+				padding: 10px;
+				float: left;
+				border-bottom: 1px solid #dbdadf;
+				
+			}
+			.medium
+			{
+				text-align: center;
+				display: inline-block;
+				width: 165px;
+				padding: 10px;
+				float: left;
+				border-bottom: 1px solid #dbdadf;
+			}
+			.wide
+			{
+				text-align: center;
+				display: inline-block;
+				width: 371px;
+				padding: 10px;
+				float: left;
+				border-bottom: 1px solid #dbdadf;
 			}
 			.tagColor
 			{
@@ -89,7 +123,6 @@
 				color: black;
 				text-decoration:none;
 			}
-			
 		</style>
 	</head>
 	<body>
@@ -123,21 +156,22 @@
 		        <div><a class="linkBlack" href="#">캘린더</a></div>
 	  	 	</section>
 		</header>
+		
 		<div class ="paragraphListWrap">
-			<h4>최근 게시글</h4>
+			<h2 class="titleArea">최근 게시글</h2>
 			<div class="spanWrap">
 				<span>
-					<span class="narrow">번호</span>
-					<span class="wide">제목</span>
-					<span class="narrow">글쓴이</span>
-					<span class="medium">날짜</span>
-					<span class="narrow">조회수</span>
+					<span class="narrow th borderRight">번호</span>
+					<span class="wide th borderRight">제목</span>
+					<span class="narrow th borderRight">글쓴이</span>
+					<span class="medium th borderRight">날짜</span>
+					<span class="narrow th">조회수</span>
 					<br>
 				</span>
 				<c:forEach items="<%=list %>" var="list">
 					<span>
-						<span class="narrow">${list.getNum() }</span>
-						<span class="wide">
+						<span class="narrow borderRight">${list.getNum() }</span>
+						<span class="wide borderRight">
 							<a href="paragraphEachSelect.do?num=${list.getNum()}">[${list.getCategory()}]${list.getTitle()}</a>
 							<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
 								
@@ -152,8 +186,8 @@
 								</c:forEach>
 							</c:if>
 						</span>
-						<span class="narrow">${list.getId()}</span>
-						<span class="medium">${list.getDatetime()}</span>
+						<span class="narrow borderRight">${list.getId()}</span>
+						<span class="medium borderRight">${list.getDatetime()}</span>
 						<span class="narrow">${list.getHits()}</span>
 						<br>
 					</span>				
@@ -163,6 +197,7 @@
 				<input class="writebutton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
 			</c:if>
 		</div>
+		
 		<a href="register.do">회원가입</a>
 		<a href="login.do">로그인</a>
 		<a href="logout.jsp">로그아웃</a>

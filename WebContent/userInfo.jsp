@@ -13,65 +13,65 @@
 		
 			#wrap2
 			{
-				margin:0 auto;
+				margin: 0 auto;
 				
-				text-align:center;
-				width:600px;
+				text-align: center;
+				width: 600px;
 			}
 			
 			.userInfoWrap
 			{
-				text-align:left;
+				text-align: left;
 			}
 			
 			.userInfoDiv
 			{
-				font-size:small;
+				font-size: small;
 			}
 			
 			.userInfoTable
 			{
 				
-				margin:5px 0;
-				border-collapse:collapse;
-				border-top:1px solid #272324;
+				margin: 5px 0;
+				border-collapse: collapse;
+				border-top: 1px solid #272324;
 			}
 			
 			.userInfoTd
 			{
-				padding:30px;
+				padding: 30px;
 				font-weight: bolder;
-				background-color:#f1f1f1;
-				border-bottom:1px solid #dbdadf;
-				border-right:1px solid #dbdadf;
+				background-color: #f1f1f1;
+				border-bottom: 1px solid #dbdadf;
+				border-right: 1px solid #dbdadf;
 			}
 			
 			.userInfoTdContext
 			{
-				padding:30px;
-				width:400px;
-				text-align:left;
-				border-bottom:1px solid #dbdadf;
+				padding: 30px;
+				width: 400px;
+				text-align: left;
+				border-bottom: 1px solid #dbdadf;
 			}
 			
 			.buttonsArea
 			{
-				padding-top:20px;
-				text-align:center;
+				padding-top: 20px;
+				text-align: center;
 			}
 			
 			.button
 			{
-				background-color:#064998;
-				color:#fff;
-				height:40px;
-				line-height:40px;
-				text-align:center;
-				margin:5px 0;
+				background-color: #064998;
+				color: #fff;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				margin: 5px 0;
 				font-size: 14px;
 				
-				width:80px;
-				display:inline-block;
+				width: 80px;
+				display: inline-block;
 			}
 			
 			.button2
@@ -82,21 +82,21 @@
 			    margin: 5px;
 			    font-size: 10px;
 			    width: 44px;
-    			border:1px solid #dbdadf;
-    			background-color:#f1f1f1;
-    			color:#000;
+    			border: 1px solid #dbdadf;
+    			background-color: #f1f1f1;
+    			color: #000;
     			
     			display: inline-block;
 			}
 			
 			.button:hover
 			{
-				background-color:#005cc3;
+				background-color: #005cc3;
 			}
 			
 			.button2:hover
 			{
-				background-color:#fff;
+				background-color: #fff;
 			}
 			
 			.nonInputSub
@@ -105,7 +105,7 @@
 			    border-width: 0;
 			    border-style: none;
 			    border-color: #fff;
-			    font-family:inherit;
+			    font-family: inherit;
 			}
 		</style>
 	</head>

@@ -18,53 +18,53 @@
 		
 			#wrap2
 			{
-				margin:0 auto;
-				background-color:#fff;
+				margin: 0 auto;
+				background-color: #fff;
 				
-				width:470px;
-				padding:20px;
-				border:5px solid #000;
+				width: 470px;
+				padding: 20px;
+				border: 5px solid #000;
 				border-style: double;
 			}
 		
 			.leaveIdP
 			{
-				margin:5px 0 0 0;
+				margin: 5px 0 0 0;
 			}
 			
 			.leaveIdcontext
 			{
-				color:#666;
+				color: #666;
 			}
 			
 			.leaveIdPWrap
 			{
-				color:#FF4337;
-				font-weight:bold;
+				color: #FF4337;
+				font-weight: bold;
 			}
 			
 			.buttonsArea
 			{
-				padding-top:20px;
-				text-align:center;
+				padding-top: 20px;
+				text-align: center;
 			}
 			
 			.button
 			{
-				background-color:#064998;
-				color:#fff;
-				height:40px;
-				line-height:40px;
-				text-align:center;
-				margin:5px 0;
+				background-color: #064998;
+				color: #fff;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				margin: 5px 0;
 				font-size: 14px;
 				
-				width:80px;
+				width: 80px;
 			}
 			
 			.button:hover
 			{
-				background-color:#005cc3;
+				background-color: #005cc3;
 			}
 			
 			.nonInputSub
@@ -73,7 +73,7 @@
 			    border-width: 0;
 			    border-style: none;
 			    border-color: #fff;
-			    font-family:inherit;
+			    font-family: inherit;
 			}
 		</style>
 	</head>
