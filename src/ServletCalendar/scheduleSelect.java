@@ -42,6 +42,8 @@ public class scheduleSelect extends HttpServlet {
 			JSONArray schedules = new JSONArray();
 			
 			JSONObject json = new JSONObject();
+			JSONArray members = new JSONArray();
+			JSONArray modifiers = new JSONArray();
 			slist=sDAO.scheduleList(glist.get(i));
 			
 			json.put("groupnum", glist.get(i).getGroupnum().toString());
@@ -49,8 +51,18 @@ public class scheduleSelect extends HttpServlet {
 			json.put("groupcolor", glist.get(i).getGroupcolor().toString());
 			json.put("master", glist.get(i).getMaster().toString());
 			json.put("searchable", glist.get(i).getSearchable().toString());
-			json.put("members", glist.get(i).getMembers().toString());
-			json.put("modifiers", glist.get(i).getModifiers().toString());
+			
+			for(int j = 0; j<glist.get(i).getMembers().length; j++) {
+				members.add(glist.get(i).getMembers()[j]);
+			}
+			
+			json.put("members", members);
+			
+			for(int j = 0; j<glist.get(i).getModifiers().length; j++) {
+				modifiers.add(glist.get(i).getModifiers()[j]);
+			}
+			json.put("modifiers",modifiers);
+			
 			
 			for(int j = 0; j<slist.size(); j++) {
 				JSONObject json1 = new JSONObject();

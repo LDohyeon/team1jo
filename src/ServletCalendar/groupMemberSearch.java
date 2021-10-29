@@ -19,8 +19,8 @@ import DAO.GroupDAO;
 import DTO.MemberDTO;
 
 
-@WebServlet("/gropMemberSearch")
-public class gropMemberSearch extends HttpServlet {
+@WebServlet("/groupMemberSearch")
+public class groupMemberSearch extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("unchecked")

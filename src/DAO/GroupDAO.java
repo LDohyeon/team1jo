@@ -95,14 +95,13 @@ public class GroupDAO {
 				temp.add(gDTO);
 			}
 			
-			sql = "select * from groupdata where groupnum = ?";
 			pstmt.clearParameters();
-	
+			System.out.println(temp.size());
 			for(int i = 0; i<temp.size(); i++) {
 				List<String> members = new ArrayList<String>();
 				List<String> modifiers = new ArrayList<String>();
 				GroupDTO gDTO = new GroupDTO();
-				
+				sql = "select * from groupdata where groupnum = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, temp.get(i).getGroupnum());
 				rs = pstmt.executeQuery();
@@ -116,18 +115,17 @@ public class GroupDAO {
 				}
 				pstmt.clearParameters();
 				
-				sql = "select groupmember.id, groupmember.invite, member.name from groupmember left join member on groupmember.id = member.id union select groupmember.id, groupmember.invite, member.name from groupmember right join member on groupmember.id = member.id where groupnum = ?";
-				
+				sql = "select groupmember.id, groupmember.invite, member.name from groupmember left join member on groupmember.id = member.id where groupmember.groupnum = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, temp.get(i).getGroupnum());
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
 					GroupMemberDTO gmDTO = new GroupMemberDTO();
-					gmDTO.setId("id");
-					gmDTO.setName("name");
-					gmDTO.setInvite("invite");
-					
+					gmDTO.setId(rs.getString("id"));
+					gmDTO.setName(rs.getString("name"));
+					gmDTO.setInvite(rs.getString("invite"));
+
 					if(gmDTO.getInvite().equals("accept")) {
 						String tempstr = gmDTO.getName() + "("+gmDTO.getId()+")";
 						members.add(tempstr);
@@ -135,19 +133,20 @@ public class GroupDAO {
 				}
 				pstmt.clearParameters();
 				
-				sql = "select groupmodifier.id, member.name from groupmodifier left join member on groupmodifier.id = member.id union select groupmodifier.id, member.name from groupmodifier right join member on groupmodifier.id = member.id where groupnum = ?";
+				sql = "select groupmodifier.id, member.name from groupmodifier left join member on groupmodifier.id = member.id where groupnum = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, temp.get(i).getGroupnum());
 				rs = pstmt.executeQuery();
-				
+
 				while(rs.next()) {
 					GroupModifierDTO gdDTO = new GroupModifierDTO();
-					gdDTO.setId("id");
-					gdDTO.setName("name");
-					String tempstr = gdDTO.getName() + "("+gdDTO.getNum()+")";
-					
-					modifiers.add(tempstr);
+					gdDTO.setId(rs.getString("id"));
+					gdDTO.setName(rs.getString("name"));
+					String tempstr = gdDTO.getName() + "("+gdDTO.getId()+")";
+					System.out.println(tempstr);
+					modifiers.add(tempstr);	
 				}
+
 				pstmt.clearParameters();
 				gDTO.setMembers(members.toArray(new String[members.size()]));
 				gDTO.setModifiers(modifiers.toArray(new String[modifiers.size()]));
@@ -155,7 +154,7 @@ public class GroupDAO {
 			}
 		}
 		catch(Exception e){
-			System.out.println("Schedule DAO> Select Error(val == 1) : "+ e);
+			System.out.println("Group DAO> ::Select Error(val == 1) : "+ e);
 		}
 		finally{
 			close(conn, pstmt, rs);
@@ -165,11 +164,10 @@ public class GroupDAO {
 	
 	public void groupInsert(GroupDTO gDTO){
 		
-		String sql="insert into groupData(groupname, groupcolor, searchable, master) values(?,?,?,?)";
+		String sql="insert into groupData (groupname, groupcolor, searchable, master) values(?,?,?,?)";
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
-		MemberDTO mDTO = new MemberDTO();
 		
 		try{
 			conn=getConnection();
@@ -183,44 +181,37 @@ public class GroupDAO {
 			pstmt.executeUpdate();
 			pstmt.clearParameters();
 			
-			sql = "select groupnum from groupData where master = ? order by groupnum desc";
+			sql = "select groupnum from groupData where master = ? order by groupnum asc";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, gDTO.getMaster());
 			System.out.println(pstmt);
 			rs = pstmt.executeQuery();
-			gDTO.setGroupnum(rs.getString(0));
-			pstmt.clearParameters();
-			
-			sql = "select * from member where id = ?";
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, gDTO.getMaster());
-			System.out.println(pstmt);
-			rs = pstmt.executeQuery();
-			pstmt.clearParameters();
 			
 			while(rs.next()) {
-				mDTO.setId(rs.getString("id"));
-				mDTO.setId(rs.getString("name"));
+				gDTO.setGroupnum(rs.getString("groupnum"));
 			}
-			
-			sql = "insert all into groupMember(groupnum, groupname, id, name, invite) values(?,?,?,?,?) into groupModifier(groupnum, groupname, id, name) values (?,?,?,?)";
+			pstmt.clearParameters();
+		
+			sql = "insert into groupMember(groupnum, id, invite) values(?,?,?)";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, gDTO.getGroupnum());
-			pstmt.setString(2, gDTO.getGroupname());
-			pstmt.setString(3, mDTO.getId());
-			pstmt.setString(4, mDTO.getName());
-			pstmt.setString(5, "accept");
-			pstmt.setString(6, gDTO.getGroupnum());
-			pstmt.setString(7, gDTO.getGroupname());
-			pstmt.setString(8, mDTO.getId());
-			pstmt.setString(9, mDTO.getName());
+			pstmt.setString(2, gDTO.getMaster());
+			pstmt.setString(3, "accept");
+			System.out.println(pstmt);
+			pstmt.executeUpdate();
+			pstmt.clearParameters();
+			
+			sql = "insert into groupModifier(groupnum, id) values (?,?)";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, gDTO.getGroupnum());
+			pstmt.setString(2, gDTO.getMaster());
 			System.out.println(pstmt);
 			pstmt.executeUpdate();
 			pstmt.clearParameters();
 		}
 		catch(Exception e)
 		{
-			System.out.println("ScheduleDAO> groupData Insert Error: "+e);
+			System.out.println("GroupDAO> groupData Insert Error: "+e);
 		}
 		finally
 		{
@@ -443,6 +434,14 @@ public class GroupDAO {
 
 /* create table groupData(groupnum int primary key auto_increment, groupname text, groupcolor text, searchable varchar(11) default 'disable', master text);
  * create table schedule(num int primary key auto_increment, title text, content text, start text, end text, color text, writer text, groupnum text);
- * create table groupMember(num int primary key auto_increment, groupnum int, groupname text, id text, invite varchar(11) default 'notaccept');
- * create table groupModifier(num int primary key auto_increment, groupnum int, groupname text, id text);
+ * create table groupMember(num int primary key auto_increment, groupnum int, id text, invite varchar(11) default 'notaccept');
+ * create table groupModifier(num int primary key auto_increment, groupnum int, id text);
+ */
+
+/* insert into groupmember(groupnum, id, invite) value ('', '', 'accept');
+ * insert into groupmodifier(groupnum, id) value ('', '');
+ * 
+ * 
+ * 
+ * 
  */

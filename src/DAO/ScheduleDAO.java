@@ -164,9 +164,8 @@ public class ScheduleDAO {
 			pstmt.setString(1, gDTO.getGroupnum());
 			
 			rs = pstmt.executeQuery();
-			
 			while(rs.next())
-			{
+			{	
 				ScheduleDTO sDTO = new ScheduleDTO();
 				
 				sDTO.setNum(rs.getString("num"));

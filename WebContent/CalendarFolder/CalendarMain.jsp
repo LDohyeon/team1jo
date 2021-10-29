@@ -2040,26 +2040,18 @@
 				cc = document.createElement("input");
 				cc.setAttribute("type","hidden");
 				cc.classList.add("groupDataMaster");
-				
-				let arrmaster = groupDivs[i].master.split("@");
-				for(let i = 0; i<arrmaster.length; i++){
-					if(arrmaster[i]==""){
-						
-					}
-					else{
-						cc.setAttribute("value", arrmaster[i]);
-					}
-				}
+				cc.setAttribute("value", groupDivs[i].master);
 				c.appendChild(cc);
 				
 				cc = document.createElement("div");
 				cc.classList.add("groupDataMembers");
 				
-				let memberList = groupDivs[i].groupmembers;
-				let arr = memberList.split("@");
+				let memberList = groupDivs[i].members;
+				console.log(memberList);
+				console.log(groupDivs[i]);
 				
-				for(let i = 0; i<arr.length; i++){
-					if(arr[i]==""){
+				for(let i = 0; i<memberList.length; i++){
+					if(memberList==""){
 						
 					}
 					else{
@@ -2068,7 +2060,7 @@
 						
 						let tempChild = document.createElement("div");
 						tempChild.classList.add("groupDataMemebersListName");
-						tempChild.innerHTML = arr[i];
+						tempChild.innerHTML = memberList[i];
 						tempDiv.appendChild(tempChild);
 						
 						tempChild = document.createElement("div");
@@ -2095,18 +2087,16 @@
 				cc = document.createElement("div");
 				cc.classList.add("groupDataModifier");
 				
-				let modifierList = groupDivs[i].modifier;
-				arr = modifierList.split("@");
-				console.log(groupDivs[i]);
-				console.log(arr);
-				for(let i = 0; i<arr.length; i++){
-					if(arr[i]==""){
+				let modifierList = groupDivs[i].modifiers;
+				
+				for(let i = 0; i<modifierList.length; i++){
+					if(modifierList==""){
 						
 					}
 					else{
 						let tempDiv = document.createElement("div");
 						tempDiv.classList.add("groupDataModifierList");
-						tempDiv.innerHTML = arr[i];
+						tempDiv.innerHTML = modifierList[i];
 						cc.appendChild(tempDiv);
 					}
 				}
@@ -2245,8 +2235,8 @@
 		            				groupnum: jsons[i].groupnum,
 		            				groupname: jsons[i].groupname,
 		            				groupcolor: jsons[i].groupcolor,
-		            				groupmembers: jsons[i].groupmembers,
-		            				modifier: jsons[i].modifier,
+		            				members: jsons[i].members,
+		            				modifiers: jsons[i].modifier,
 		            				
 		            				num: jsons[i].schedule[j].num,
 		            				title: jsons[i].schedule[j].title,
@@ -2263,11 +2253,11 @@
 		            		let tempDiv = {
 		            			groupnum: jsons[i].groupnum,
 			            		groupname: jsons[i].groupname,
-			            		groupmembers: jsons[i].groupmembers,
+			            		members: jsons[i].members,
 		            			master: jsons[i].master,
 		            			searchable: jsons[i].searchable,
 		            			groupcolor: jsons[i].groupcolor,
-		            			modifier: jsons[i].modifier
+		            			modifiers: jsons[i].modifiers
 		            		}
 		            		groupDivs.push(tempDiv);
 		            	}
@@ -2703,6 +2693,15 @@
 			let groupnum = document.getElementsByClassName("scheduleFormGroupSelect")[0].value;
 			
 			jsonSchedule = JSON.stringify(createJsonSchedule(num, title, content, start, end, color, writer, groupnum));
+			
+			if(typeof(date)=="undefined"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+        		let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
+				
+				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0);
+			}
 			
 			createXHRCalendar();
 			
@@ -3617,7 +3616,7 @@
 		            }
 				}
 			}
-			XHRMember.open("POST", "../gropMemberSearch", true);
+			XHRMember.open("POST", "../groupMemberSearch", true);
 			XHRMember.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 			XHRMember.send("userKey="+userKey+"&word="+word);
 		}
@@ -3628,6 +3627,7 @@
 			let list = p.getElementsByClassName("groupDataMemberResult")[0];
 			
 			console.log(json);
+			
 			while(list.hasChildNodes()){
 				list.removeChild(list.firstChild);
 			}
@@ -3778,7 +3778,7 @@
 		            }
 				}
 			}
-			XHRGroup.open("POST", "../groupMemeberModify", true);
+			XHRGroup.open("POST", "../groupModifier", true);
 			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 			XHRGroup.send(json);
 		}
