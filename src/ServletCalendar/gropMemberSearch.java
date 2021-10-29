@@ -15,7 +15,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import DAO.ScheduleDAO;
+import DAO.GroupDAO;
 import DTO.MemberDTO;
 
 
@@ -30,10 +30,10 @@ public class gropMemberSearch extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		
 		String word = request.getParameter("word");
-		ScheduleDAO sDAO = ScheduleDAO.getInstance();
+		GroupDAO gDAO = GroupDAO.getInstance();
 		JSONArray members = new JSONArray();
 		
-		List<MemberDTO>mlist=sDAO.memberList(word);
+		List<MemberDTO>mlist=gDAO.memberList(word);
 			
 		for(int j = 0; j<mlist.size(); j++) {
 			JSONObject json = new JSONObject();
@@ -48,6 +48,7 @@ public class gropMemberSearch extends HttpServlet {
 		out.print(members.toString());
 		out.flush();
 	}
+	
 	protected String readJSON(HttpServletRequest request) { 
 		StringBuffer json = new StringBuffer(); 
 		String line = null;

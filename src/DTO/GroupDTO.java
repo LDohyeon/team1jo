@@ -5,10 +5,12 @@ public class GroupDTO {
 	private String groupnum;
 	private String groupname;
 	private String groupcolor;
-	private String members;
 	private String searchable;
 	private String master;
-	private String modifier;
+	
+	// DB에는 아래 항목이 필요 없음 
+	private String[] members;
+	private String[] modifiers;
 	
 	public String getGroupnum() {
 		return groupnum;
@@ -22,18 +24,6 @@ public class GroupDTO {
 	}
 	public void setGroupname(String groupname) {
 		this.groupname = groupname;
-	}
-	public String getMembers() {
-		return members;
-	}
-	public void setMembers(String members) {
-		this.members = members;
-	}
-	public String getModifier() {
-		return modifier;
-	}
-	public void setModifier(String modifier) {
-		this.modifier = modifier;
 	}
 	public String getGroupcolor() {
 		return groupcolor;
@@ -52,6 +42,18 @@ public class GroupDTO {
 	}
 	public void setMaster(String master) {
 		this.master = master;
+	}
+	public String[] getMembers() {
+		return members;
+	}
+	public void setMembers(String[] membesr) {
+		this.members = membesr;
+	}
+	public String[] getModifiers() {
+		return modifiers;
+	}
+	public void setModifiers(String[] modifiers) {
+		this.modifiers = modifiers;
 	}
 	
 }

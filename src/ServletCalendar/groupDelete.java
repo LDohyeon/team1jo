@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import DAO.ScheduleDAO;
+import DAO.GroupDAO;
 import DTO.GroupDTO;
+import DTO.GroupMemberDTO;
+import DTO.GroupModifierDTO;
 import DTO.MemberDTO;
 
 @WebServlet("/groupDelete")
@@ -28,62 +30,52 @@ public class groupDelete extends HttpServlet {
 		// JSON 으로 데이터를 주고 받음 
 		String json = readJSON(request);
 		JSONObject data = objJSON(json);
-		int length = 0;
-		List<String> arrlist = new ArrayList<String>();
-		
+
 		String id = String.valueOf(data.get("userKey"));
 		String num = String.valueOf(data.get("num"));
-		String members=String.valueOf(data.get("members"));
+		String members = String.valueOf(data.get("members"));
 		String master=String.valueOf(data.get("master"));
 		
 		// 마스터는 해당 그룹의 권한자로, 그룹 생성자로 한정 
 		master = master.replace("\"", "");
 		master = master.replace("\'", "");
 		
+		String str = members.replace("[", "");
+		str = str.replace("]", "");
+		str = str.replace("\'", "");
+		str = str.replace("\"", "");
+		String[] arr = str.split(",");
+		System.out.println(arr.length);
+		
 		GroupDTO gDTO = new GroupDTO();
 		MemberDTO mDTO = new MemberDTO();
+		GroupMemberDTO gmDTO = new GroupMemberDTO();
+		GroupModifierDTO gdDTO = new GroupModifierDTO();
 		
 		mDTO.setId(id);
 		gDTO.setGroupnum(num);
 		gDTO.setMaster(master);
-		gDTO.setMembers(members);
 		
-		String str = gDTO.getMembers().replace("[", "");
-		str = str.replace("]", "");
-		str = str.replace("\"", "");
-		str = str.replace("\'", "");
-		String[] arr = str.split(",");
-		str = "";
+		gmDTO.setId(id);
+		gmDTO.setGroupnum(num);
 		
-		// 그룹 데이터를 가져와서 나눠서 저장함
-		// DTO를 생성하면 객체 List로 담아야함 
-		// 추후 진행 예정 
-		for(int i = 0; i<arr.length; i++) {
-			if(arr[i].equals("")==false) {
-				if(arr[i].equals(mDTO.getId())) {
-					arrlist.add(arr[i]);
-				}
-				else {
-					arrlist.add(arr[i]);
-					str+="@"+arr[i];
-				}
-			}
-		}
-		gDTO.setMembers(str);
+		gdDTO.setId(id);
+		gdDTO.setGroupnum(num);
 		
-		
-		ScheduleDAO sDAO = ScheduleDAO.getInstance();
-		length = arrlist.size();
+		GroupDAO gDAO = GroupDAO.getInstance();
 		
 		// 마스터랑 유저키가 같고 그룹 멤버가 자신 혼자라면 삭제함 
 		// 마스터가 아니면 자신만 해당 그룹에서 빠지는 형태 
 		if(gDTO.getMaster().equals(mDTO.getId())) {
-			if(length==1) {
-				sDAO.groupDelete(gDTO);
+			if(arr.length==1) {
+				gDAO.groupDelete(gDTO);
+				gDAO.deleteMember(gmDTO);
+				gDAO.deleteModifier(gdDTO);
 			}
 		}
 		else {
-			sDAO.groupUpdate(gDTO, mDTO);
+			gDAO.deleteMember(gmDTO);
+			gDAO.deleteModifier(gdDTO);
 		}
 	}
 

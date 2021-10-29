@@ -12,12 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import DAO.ScheduleDAO;
+import DAO.GroupDAO;
 import DTO.GroupDTO;
+import DTO.GroupModifierDTO;
 import DTO.MemberDTO;
 
-@WebServlet("/groupMemeberModify")
-public class groupMemeberModify extends HttpServlet {
+
+@WebServlet("/groupModifier")
+public class groupModifier extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,58 +30,48 @@ public class groupMemeberModify extends HttpServlet {
 		
 		String id = String.valueOf(data.get("userKey"));
 		String num = String.valueOf(data.get("num"));
-		String modifier=String.valueOf(data.get("modifiers"));
-		String target=String.valueOf(data.get("target"));
+		String target = String.valueOf(data.get("target"));
+		String modifiers=String.valueOf(data.get("modifiers"));
 		String master=String.valueOf(data.get("master"));
 
 		GroupDTO gDTO = new GroupDTO();
 		MemberDTO mDTO = new MemberDTO();
+		GroupModifierDTO gdDTO = new GroupModifierDTO();
 		
 		master = master.replace("\"", "");
 		master = master.replace("\'", "");
 
+		gdDTO.setId(target);
+		gdDTO.setGroupnum(num);
+		
 		mDTO.setId(id);
 		gDTO.setGroupnum(num);
 		gDTO.setMaster(master);
-		gDTO.setModifier(modifier);
-		
-		
-		String str = gDTO.getModifier().replace("[", "");
+
+		String str = modifiers.replace("[", "");
 		str = str.replace("]", "");
 		str = str.replace("\"", "");
 		str = str.replace("\'", "");
-
 		String[] arr = str.split(",");
+		
 		str = "";
 		boolean flag=true;
 		
 		for(int i = 0; i<arr.length; i++) {
-			if(arr[i].equals("")||arr[i].equals(null)) {
-				
+			if(arr[i].equals(gdDTO.getId())) {
+				flag = false;
+			}
+		}
+		
+		GroupDAO gDAO = GroupDAO.getInstance();
+		
+		if(mDTO.getId().equals(gDTO.getMaster())) {
+			if(flag==true) {
+				gDAO.insertModifier(gdDTO);
 			}
 			else {
-				if(arr[i].equals(target)) {
-					flag=false;
-					if(target.equals(mDTO.getId())) {
-						str+="@"+arr[i];
-					}
-				}
-				else {
-					str+="@"+arr[i];
-				}
+				gDAO.deleteModifier(gdDTO);
 			}
-			System.out.println(arr[i]);
-		}
-		if(flag==true) {
-			str+="@"+target;
-		}
-		System.out.println(str);
-		gDTO.setModifier(str);
-		
-		ScheduleDAO sDAO = ScheduleDAO.getInstance();
-	
-		if(gDTO.getMaster().equals(mDTO.getId())) {
-			sDAO.groupUpdateModifier(gDTO);
 		}
 	}
 
@@ -115,5 +107,3 @@ public class groupMemeberModify extends HttpServlet {
 		return json;
 	}
 }
-//update groupdata set members='@test@dodo' where groupnum='12';
-//select * from groupdata;

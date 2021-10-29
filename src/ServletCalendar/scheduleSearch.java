@@ -16,6 +16,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import DAO.GroupDAO;
 import DAO.ScheduleDAO;
 import DTO.GroupDTO;
 import DTO.MemberDTO;
@@ -37,7 +38,8 @@ public class scheduleSearch extends HttpServlet {
 		mDTO.setId(userKey);
 		
 		ScheduleDAO sDAO = ScheduleDAO.getInstance();
-		List<GroupDTO> glist = sDAO.groupList(mDTO.getId());
+		GroupDAO gDAO = GroupDAO.getInstance();
+		List<GroupDTO> glist = gDAO.groupList(mDTO.getId());
 		List<ScheduleDTO> slist= new ArrayList<ScheduleDTO>();
 		JSONArray schedules = new JSONArray();
 		

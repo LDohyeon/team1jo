@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import DAO.ScheduleDAO;
+import DAO.GroupDAO;
 import DTO.GroupDTO;
+import DTO.GroupMemberDTO;
+import DTO.GroupModifierDTO;
 import DTO.MemberDTO;
 
 @WebServlet("/groupMemberDelete")
@@ -29,85 +31,33 @@ public class groupMemberDelete extends HttpServlet {
 		
 		String id = String.valueOf(data.get("userKey"));
 		String num = String.valueOf(data.get("num"));
-		String modifier=String.valueOf(data.get("modifiers"));
-		String members=String.valueOf(data.get("members"));
 		String target=String.valueOf(data.get("target"));
 		String master=String.valueOf(data.get("master"));
 
 		GroupDTO gDTO = new GroupDTO();
 		MemberDTO mDTO = new MemberDTO();
+		GroupMemberDTO gmDTO = new GroupMemberDTO();
+		GroupModifierDTO gdDTO = new GroupModifierDTO();
 		
 		master = master.replace("\"", "");
 		master = master.replace("\'", "");
-		
 		mDTO.setId(id);
 		gDTO.setGroupnum(num);
 		gDTO.setMaster(master);
-		gDTO.setMembers(members);
-		gDTO.setModifier(modifier);
 		
-		String str = gDTO.getMembers().replace("[", "");
-		str = str.replace("]", "");
-		str = str.replace("\"", "");
-		str = str.replace("\'", "");
-		String[] arr = str.split(",");
-		str = "";
+		gmDTO.setId(target);
+		gmDTO.setGroupnum(num);
 		
-		for(int i = 0; i<arr.length; i++) {
-			if(arr[i].equals("")||arr[i].equals(null)) {
-				
-			}
-			else {
-				if(arr[i].equals(target)) {
-					if(target.equals(mDTO.getId())) {
-						str+="@"+arr[i];
-					}
-				}
-				else {
-					str+="@"+arr[i];
-				}
-			}
-		}
+		gdDTO.setId(target);
+		gdDTO.setGroupnum(num);
 		
-		gDTO.setMembers(str);
 		
-		str = gDTO.getModifier().replace("[", "");
-		str = str.replace("]", "");
-		str = str.replace("\"", "");
-		str = str.replace("\'", "");
-
-		arr = str.split(",");
-		str = "";
-		boolean flag=true;
-		
-		for(int i = 0; i<arr.length; i++) {
-			if(arr[i].equals("")||arr[i].equals(null)) {
-				
-			}
-			else {
-				if(arr[i].equals(target)) {
-					flag=false;
-					if(target.equals(mDTO.getId())) {
-						str+="@"+arr[i];
-					}
-				}
-				else {
-					str+="@"+arr[i];
-				}
-			}
-			System.out.println(arr[i]);
-		}
-		if(flag==true) {
-			str+="@"+target;
-		}
-
-		gDTO.setModifier(str);
-		
-		ScheduleDAO sDAO = ScheduleDAO.getInstance();
+		GroupDAO gDAO = GroupDAO.getInstance();
 		
 		// 그룹 멤버 삭제 > 자신이 권한자라면 속해있는 그룹원을 추방할 수 있음 
 		if(gDTO.getMaster().equals(mDTO.getId())) {
-			sDAO.groupUpdateMember(gDTO);
+			gDAO.deleteMember(gmDTO);
+			gDAO.deleteModifier(gdDTO);
 		}
 	}
 

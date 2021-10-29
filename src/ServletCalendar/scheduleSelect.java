@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.*;
 import org.json.simple.JSONArray;
 
+import DAO.GroupDAO;
 import DAO.ScheduleDAO;
 import DTO.GroupDTO;
 import DTO.ScheduleDTO;
@@ -30,8 +31,9 @@ public class scheduleSelect extends HttpServlet {
 		String userKey = request.getParameter("userKey");
 		
 		ScheduleDAO sDAO = ScheduleDAO.getInstance();
+		GroupDAO gDAO = GroupDAO.getInstance();
 		
-		List<GroupDTO> glist = sDAO.groupList(userKey);
+		List<GroupDTO> glist = gDAO.groupList(userKey);
 		List<ScheduleDTO> slist= new ArrayList<ScheduleDTO>();
 		JSONArray jsons = new JSONArray();
 		
@@ -44,11 +46,11 @@ public class scheduleSelect extends HttpServlet {
 			
 			json.put("groupnum", glist.get(i).getGroupnum().toString());
 			json.put("groupname", glist.get(i).getGroupname().toString());
-			json.put("groupmembers", glist.get(i).getMembers().toString());
 			json.put("groupcolor", glist.get(i).getGroupcolor().toString());
-			json.put("modifier", glist.get(i).getModifier().toString());
 			json.put("master", glist.get(i).getMaster().toString());
 			json.put("searchable", glist.get(i).getSearchable().toString());
+			json.put("members", glist.get(i).getMembers().toString());
+			json.put("modifiers", glist.get(i).getModifiers().toString());
 			
 			for(int j = 0; j<slist.size(); j++) {
 				JSONObject json1 = new JSONObject();

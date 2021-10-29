@@ -10,8 +10,7 @@ public class ScheduleDTO {
 	private String color;
 	private String writer;
 	private String groupnum;
-	
-	
+
 	public String getContent() {
 		if(content.equals(null)) {
 			content = "";

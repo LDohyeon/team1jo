@@ -3562,7 +3562,7 @@
 		}
 
 		function addGroupMember(date){
-			createXHRGroup();
+			
 			
 			let target = event.target;
 			let v = target.parentNode;
@@ -3578,6 +3578,9 @@
 				
 				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
 			}
+    		
+    		
+    		createXHRGroup();
     		
 			XHRGroup.onreadystatechange=function(){
 				if(XHRGroup.readyState==4){
