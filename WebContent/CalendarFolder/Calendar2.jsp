@@ -20,11 +20,10 @@
         <link href="calendarCss.css" rel="stylesheet">
 	</head>
 	<body>
+		
 		<div id="calendar">
-			
 		</div>
 		<div id="calendar2">
-			
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -3554,9 +3553,18 @@
             let day=date.getDate();
             let today=getToday();
             let thisTimeDate="";
-            				
+            let selectedTime="";
+            
 			v = document.createElement("div");
 			v.classList.add("calendarArea");
+			
+			//data 끌어오는 input
+			c=document.createElement("input");
+			c.setAttribute("type", "hidden");
+			c.setAttribute("value", selectedTime);
+			c.classList.add("selectedTimeData");
+			
+			v.appendChild(c);
 			
 			c = document.createElement("div");
 			c.classList.add("dayTimeWrap");
@@ -3568,7 +3576,7 @@
             for(let i=0; i<25; i++){
             	if(i==0){
             		cc=document.createElement("div");
-            		cc.classList.add("scheduleimeBox");
+            		cc.classList.add("scheduleTimeBox");
             		ccc=document.createElement("span");
             		ccc.classList.add("scheduleTime");
             		ccc.innerHTML="일정";
@@ -3614,7 +3622,7 @@
             
             ccc=document.createElement("div");
             ccc.classList.add("dayAreaHeadYoil");
-            ccc.innerHTML= yoil+"";
+            ccc.innerHTML= yoil+""; // 이걸 지금 그냥 오늘날짜만 나오는데 select된 날짜가 나오게 바꾸려고합니다.
             cc.appendChild(ccc); // head 요일표시
             
             ccc=document.createElement("div");
@@ -3643,8 +3651,7 @@
                                   
             ccc=document.createElement("div");
             ccc.classList.add("dayScheduleWrap");
-            
-            
+                        
             for(let i=0; i<25; i++){
             	
             	if(i==0){
@@ -3672,9 +3679,11 @@
             c.appendChild(cc);
             v.appendChild(c);
             
-            //input type hidden오로 Schedule date와 선택된 select date값을 불러와야함 -- 어디에 배치해야할까...
-            //현재시각 표시줄 어떻게 구현할까... if로 현재 날짜와 select날짜 같은지 확인 -- 같으면 현재 시각에 red 라인구현..
             
+           /*
+           	현재시간표시 - if를 포함한 div로 표현. (selectedTime == Today)
+           	오늘 날짜 선택시에만 표현되도록 구현해야함. 시간값을 가져올 방법 생각해서 Schedule시간, 현재시간, 선택날짜 및 시간 비교 및 표현 구현해야함.
+           */
             return v;
 			
 		}//일간 formElement

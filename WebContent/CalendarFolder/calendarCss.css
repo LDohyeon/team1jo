@@ -331,10 +331,11 @@
 }
 .scheduleTimeBox{
     width: 100%;
-    height: 48px;
+    height: 40px;
 }
 .scheduleTime{
     position: relative;
+    top: 15px;
 }
 .dayScheduleTime{
     text-align: center;
@@ -347,9 +348,6 @@
 .dayAreaBody{
 	display: flex;
 	flex-flow: row wrap;
-}
-.dayAreaHead{
-    margin-bottom: 10px;
 }
 .dayAreaHeadYoil{
     font-size: 11px;
@@ -371,6 +369,13 @@
     display: flex;
     flex-flow: row wrap;
 }
+.dayBodyWrap::before{
+	content: '';
+    border-bottom: 1px solid gray;
+    position: absolute;
+    width: 100%;
+    margin-top: -1px;
+}
 .dayScheduleLeftLineWrap{
     display: flex;
     flex-flow: column wrap;
@@ -384,13 +389,6 @@
 }
 .alldaySchedule{
 	height: 40px;
-}
-.alldaySchedule::before{
-	content: '';
-    border-bottom: 1px solid gray;
-    position: absolute;
-    width: 100%;
-    margin-top: -1px;
 }
 .alldaySchedule::after{
     content: '';
