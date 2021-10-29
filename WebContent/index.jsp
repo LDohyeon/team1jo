@@ -11,7 +11,8 @@
 	<html>
 	<head>
 		<meta charset="utf-8">
-		<title>Insert title here</title>
+		<title>STATUS 200</title>
+		<link rel="stylesheet" href="style.css">
 		<style>
 			body
 			{
@@ -130,33 +131,7 @@
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		List<ParagraphDTO> list = pDAO.paragraphList(1, 10);
 	%>
-		<header>
-			<div class="ulist">
-	        	<c:choose>
-					<c:when test="${loginUser.getId()==null}">
-						<div class="list"><a class="linkBlack" href="login.do">로그인</a></div>
-			            <div class="list"><a class="linkBlack" href="register.do">회원가입</a></div>
-					</c:when>
-					<c:when test="${loginUser.getId()!=null && loginUser.getAuthority()=='1'}">
-						<div class="list">안녕하세요, ${loginUser.getId()}님!</div>
-						<div class="list"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
-			            <div class="list"><a class="linkBlack" href="#">마이페이지</a></div>
-			            <div class="list"><a class="linkBlack" href="#">관리페이지</a></div>
-					</c:when>
-					<c:otherwise>
-						<div class="list">안녕하세요, ${loginUser.getId()}님!</div>
-				        <div class="list"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
-				        <div class="list"><a class="linkBlack" href="#">마이페이지</a></div>
-					</c:otherwise>
-				</c:choose>
-	        </div>
-			<div class=title><h1>STATUS 200</h1></div>
-			<section>
-		        <div><a class="linkBlack" href="paragraphList.do?startPage=1">게시판</a></div>
-		        <div><a class="linkBlack" href="#">캘린더</a></div>
-	  	 	</section>
-		</header>
-		
+		<jsp:include page="header.jsp"/>
 		<div class ="paragraphListWrap">
 			<h2 class="titleArea">최근 게시글</h2>
 			<div class="spanWrap">
