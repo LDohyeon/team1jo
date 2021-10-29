@@ -138,7 +138,7 @@
 					<span>
 						<span class="narrow">${list.getNum() }</span>
 						<span class="wide">
-							<a href="paragraphEachSelect.do?num=${list.getNum()}">[${list.getCategory()}]${list.getTitle()}</a>
+							<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}</a>
 							<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
 								
 							<c:if test="${fn:length(tag) <= 3}">

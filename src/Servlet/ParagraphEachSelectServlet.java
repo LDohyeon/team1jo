@@ -1,7 +1,8 @@
 package Servlet;
 
 import java.io.*;
-import java.util.List;
+
+import java.util.*;
 
 import javax.servlet.*;
 import javax.servlet.annotation.*;
@@ -19,16 +20,39 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
+		int flag= Integer.parseInt(request.getParameter("flag"));
+		
+		
+		
+		if(flag==0)
+		{
+			HttpSession session = request.getSession();
+			session.setAttribute("imageInsertContent", "");
+			//session에 남아있는 이미지와 글귀들 삭제
+			//commentInsertImage 확인
+		}
+		else if(flag==1)
+		{
+			String focus = "1";
+			request.setAttribute("focusdown", focus);
+		}
+		if(flag==2)//댓글 달면 밑으로 포거싱을 위해서
+		{
+			String focus = "1";
+			request.setAttribute("focusdown", focus);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("imageInsertContent", "");
+		}
+		
+		
 		int num = Integer.parseInt(request.getParameter("num"));
 		
-		String imageInsertContent =request.getParameter("imageInsertContent");
-		//commentInsertImage 서블릿에서 이미 저장후 받아오기
-		
-		
 		String code="";
-		String language = "";
-		String lang="";
-		String langValue="";
+		String langId="";
+		String languageMode = "";
+		String languageModeId="";
 				
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		
@@ -40,24 +64,32 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		
 		String[] contents=content.split("※");
 
+		int idCount=0;
+		
 		for(int i=0; i<contents.length; i++)
 		{
+			
+			System.out.println("Contents : "+ contents[i]);
+			
 			if(i%3==0)
 			{
 				code+=contents[i];
 			}
 			if(i%3==1)
 			{
-				language +=contents[i]+",";
-				lang=contents[i]+i;
-				langValue+=lang+",";
+				languageMode +=contents[i]+",";
+				langId=contents[i]+idCount;
+				languageModeId+=langId+",";
+				idCount++;
 			}
 			if(i%3==2)
 			{
-				code+="<textarea id="+lang+">";
+				code+="<textarea id="+langId+">";
 				code+=contents[i];
 				code+="</textarea>";
 			}
+			
+			
 		}
 		
 		pDTO.setContents(code);
@@ -67,20 +99,69 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 
 		CommentDAO cDAO = CommentDAO.getInstance();
 		
-		List<CommentDTO> list = cDAO.commentList(num);
+		List<CommentDTO> clist = cDAO.commentList(num);
+		
+		List<CommentDTO> clistSelect= new ArrayList<CommentDTO>();
 		
 
-		
-		request.setAttribute("list", list);
+		//이게 clist 의 getComment()의 역할을 한다.
+		//jsp에서 출력할 떄 clist getComment()로 댓글 내용을 출력하는 게 아니라
+		//얘로 출력해야 한다.
 
 		
+		String commentCode="";
+
+
+		for(int i=0; i<clist.size(); i++)
+		{
+			System.out.println("clist :" +clist.get(i).getComment());
+			String[] commentContent = clist.get(i).getComment().split("※");
+			
+			for(int j=0; j<commentContent.length; j++)
+			{
+				System.out.println("commentContent : "+commentContent[j]);
+				
+				if(j%3==0)
+				{
+					commentCode+=commentContent[j];
+				}
+				if(j%3==1)
+				{
+					languageMode +=commentContent[j]+",";
+					langId=commentContent[j]+idCount;
+					languageModeId+=langId+",";
+					idCount++;
+				}
+				if(j%3==2)
+				{
+					commentCode+="<textarea id="+langId+">";
+					commentCode+=commentContent[j];
+					commentCode+="</textarea>";
+				}
+				
+				
+			}
+			CommentDTO cDTO = new CommentDTO();
+			
+			cDTO.setNum(clist.get(i).getNum());
+			cDTO.setId(clist.get(i).getId());
+			cDTO.setTime(clist.get(i).getTime());
+			
+			
+			cDTO.setCommentSplit(commentCode);
+			clistSelect.add(cDTO);
+			
+			commentCode="";
+			
+		}
 		
 
-		request.setAttribute("imageInsertContent", imageInsertContent);
-		
+		request.setAttribute("clistSelect", clistSelect);
+
+
 		request.setAttribute("pDTO", pDTO);
-		request.setAttribute("language", language);
-		request.setAttribute("langValue", langValue);
+		request.setAttribute("languageMode", languageMode);
+		request.setAttribute("languageModeId", languageModeId);
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("paragraphEachSelect.jsp");
 		dispatcher.forward(request, response);

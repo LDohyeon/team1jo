@@ -7,8 +7,17 @@ public class CommentDTO {
 	private String comment;
 	private String time;
 	private String id;
+	private String commentSplit;
 	
 	
+	
+	
+	public String getCommentSplit() {
+		return commentSplit;
+	}
+	public void setCommentSplit(String commentSplit) {
+		this.commentSplit = commentSplit;
+	}
 	public String getComment() {
 		return comment;
 	}

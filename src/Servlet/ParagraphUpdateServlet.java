@@ -45,7 +45,7 @@ public class ParagraphUpdateServlet extends HttpServlet {
 		pDAO.paragraphUpdate(pDTO);
 
 		
-		response.sendRedirect("paragraphEachSelect.do?num="+num);
+		response.sendRedirect("paragraphEachSelect.do?num="+num+"&&flag=0");
 		
 		
 	}

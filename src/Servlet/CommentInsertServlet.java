@@ -1,6 +1,8 @@
 package Servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +18,7 @@ import DTO.ParagraphDTO;
 
 
 @WebServlet("/comment.do")
-public class CommentServlet extends HttpServlet {
+public class CommentInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,7 +31,9 @@ public class CommentServlet extends HttpServlet {
 		
 		String id = (String)session.getAttribute("loginUserId");
 		
-		String comment=request.getParameter("content");//이름 다름 주의
+		String comment=request.getParameter("content");
+		
+		
 		int paragraph_num = Integer.parseInt(request.getParameter("paragraph_num"));
 
 		CommentDTO cDTO = new CommentDTO();
@@ -42,12 +46,12 @@ public class CommentServlet extends HttpServlet {
 		
 		cDAO.insertComment(cDTO);
 		
+		
+		
 
-		response.sendRedirect("paragraphEachSelect.do?num="+paragraph_num);
+		response.sendRedirect("paragraphEachSelect.do?num="+paragraph_num+"&&flag=2");
 	
-		
-		
-		
+
 	}
 
 }

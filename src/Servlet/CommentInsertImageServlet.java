@@ -9,6 +9,8 @@ import javax.servlet.http.*;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import DTO.CommentDTO;
+
 @WebServlet("/commentInsertImage.do")
 public class CommentInsertImageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,8 +38,6 @@ public class CommentInsertImageServlet extends HttpServlet {
 		String imgInput = multi.getFilesystemName("imgInput");
 		int num= Integer.parseInt(multi.getParameter("num"));
 		
-		System.out.println("imgContent 1: ");
-		
 		String[] imgContents=imgContent.split("★");
 		
 		imgContents[0]+="./editor/"+imgInput;
@@ -48,13 +48,11 @@ public class CommentInsertImageServlet extends HttpServlet {
 			imgContentsHap+=imgContents[i];
 		}
 		
-		System.out.println("imgContent 2: ");
+		HttpSession session = request.getSession();
+		session.setAttribute("imageInsertContent", imgContentsHap);
 
-		request.setAttribute("imageInsertContent", imgContentsHap);
-		
-		System.out.println("imgContent 3: ");
-		
-		response.sendRedirect("paragraphEachSelect.do?num="+num+"&&imageInsertContent="+imgContentsHap);
+
+		response.sendRedirect("paragraphEachSelect.do?num="+num+"&&flag=1");
 		
 		
 

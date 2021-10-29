@@ -200,15 +200,15 @@
         <!--푸터 종료-->
         
         
-			<!-- 결제 창 판업 띄우기 -->
-			<div id="wrapPonup">
-				<div id="ponup">
-					<textarea id="writeContentLib"></textarea>
-					<button onclick="cansle()">취소</button>
-					<button onclick="realGo()">저장</button>
-				</div>
+		<!-- 결제 창 판업 띄우기 -->
+		<div id="wrapPonup">
+			<div id="ponup">
+				<textarea id="writeContentLib"></textarea>
+				<button onclick="cansle()">취소</button>
+				<button onclick="realGo()">저장</button>
 			</div>
-			<input id="hid" type="hidden">
+		</div>
+		<input id="hid" type="hidden">
 	</body>
 	
 
@@ -306,6 +306,7 @@
 			}
 		}
 
+		var language;
  		function langs()
 		{
 			language=document.getElementById("language").value;
@@ -332,10 +333,8 @@
  		}
  		
 		var wrapPonup=document.getElementById("wrapPonup");
-		var btn = document.getElementById("btn");
-		var hid = document.getElementById.value;
+		var hid;
 
-		
 		function code()
 		{
 			
