@@ -327,12 +327,26 @@
 }
 .dayTime{
     position: relative;
-	top: -6px;
+    top: 15px;
+}
+.scheduleTimeBox{
+    width: 100%;
+    height: 48px;
+}
+.scheduleTime{
+    position: relative;
 }
 .dayScheduleTime{
     text-align: center;
     height: 40px;
     line-height: 40px;
+}
+.calendarArea{
+	width: 100%;
+}
+.dayAreaBody{
+	display: flex;
+	flex-flow: row wrap;
 }
 .dayAreaHead{
     margin-bottom: 10px;
@@ -368,8 +382,22 @@
     display: flex;
     flex-flow: column wrap;
 }
-.daySchedule:first-child{
-    height: 40px;
+.alldaySchedule{
+	height: 40px;
+}
+.alldaySchedule::before{
+	content: '';
+    border-bottom: 1px solid gray;
+    position: absolute;
+    width: 100%;
+    margin-top: -1px;
+}
+.alldaySchedule::after{
+    content: '';
+    border-bottom: 1px solid gray;
+    position: absolute;
+    width: 100%;
+    margin-top: -1px;
 }
 .daySchedule{
     height: 48px;
@@ -385,4 +413,13 @@
     width: 20px;
     height: 48px;
     border-right: 1px solid gray;
+}
+.dayScheduleCheck{
+	height: 25%;
+}
+#calendar2{
+    width: 100%;
+    position: relative; 
+	z-index: 1;
+	margin-top: 20px;
 }

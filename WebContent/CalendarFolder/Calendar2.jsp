@@ -5,12 +5,12 @@
 <% 
 	String userKey = null;
 
-	/*try{
+	try{
 		userKey = "'"+session.getAttribute("loginUserId").toString()+"'"; 
 	}
 	catch(Exception e){
 		System.out.println("Session get Error: calendarMain.jsp: line 10: >>" +e);
-	}*/
+	}
 %>
 <html>
 	<head>
@@ -21,6 +21,9 @@
 	</head>
 	<body>
 		<div id="calendar">
+			
+		</div>
+		<div id="calendar2">
 			
 		</div>
 	</body>
@@ -3545,7 +3548,9 @@
             let cc;
             let ccc;
             let cccc;
-            let yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
+            let ccccc;
+            let date = new Date();
+            let yoil = getYoil(getThisDay(date.year, date.month, 1, 0, 0));
             let day=date.getDate();
             let today=getToday();
             let thisTimeDate="";
@@ -3560,19 +3565,14 @@
             cc.classList.add("dayHeadSize"); // dayAreahead와 같은 height값으로 공간 차지
             c.appendChild(cc);
             
-            cc=document.createElement("div");
-            cc.classList.add(dayScheduleTime);
-            cc.innerHTML="일정"; //schedule 표시되는 time 위에 고정라인. 스크롤에서 빠져야함.
-            c.appendChild(cc);
-            
             for(let i=0; i<25; i++){
             	if(i==0){
             		cc=document.createElement("div");
-            		cc.classList.add("dayTimeBox");
+            		cc.classList.add("scheduleimeBox");
             		ccc=document.createElement("span");
-            		ccc.classList.add("dayTime");
+            		ccc.classList.add("scheduleTime");
             		ccc.innerHTML="일정";
-            		cc.appendChild(ccc); //firstChild로 속성 따로줌. 일정표시줄 여기도 그 맨위에 고정하는 칸은 따로 만들어야될것같아요
+            		cc.appendChild(ccc);
             	}else if(i==1){
             		cc=document.createElement("div");
             		cc.classList.add("dayTimeBox");
@@ -3622,37 +3622,63 @@
             ccc.innerHTML= day+"";
             cc.appendChild(ccc); // head 날짜표시
             
-            c.appendChild(cc); //dayAreaHead end
-            
-            c=document.createElement("div");
-            c.classList.add("dayAreaBody");
+            c.appendChild(cc); 
+           
             
             cc=document.createElement("div");
-            cc.classList.add("dayBodyWrap");
+            cc.classList.add("dayAreaBody");
             
             ccc=document.createElement("div");
-            ccc.classList.add("dayScheduleLeftLineWrap");
-            for(let i=0; i<25; i++){
-            	cccc=document.createElement("div");
-            	cccc.classList.add("dayScheduleLeftLine");
-            	ccc.appendChild(cccc);
-            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
-            cc.appendChild(ccc);
+            ccc.classList.add("dayBodyWrap");
             
+            cccc=document.createElement("div");
+            cccc.classList.add("dayScheduleLeftLineWrap");
+            for(let i=0; i<25; i++){
+            	ccccc=document.createElement("div");
+            	ccccc.classList.add("dayScheduleLeftLine");
+            	cccc.appendChild(ccccc);
+            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
+            ccc.appendChild(cccc);
+            cc.appendChild(ccc);
+                                  
             ccc=document.createElement("div");
             ccc.classList.add("dayScheduleWrap");
+            
+            
             for(let i=0; i<25; i++){
-            	cccc=document.createElement("div");
-            	cccc.classList.add("daySchedule");
-            	ccc.appendChild(cccc);
-            }//여기서 first child는 일정표시줄. line은 ::after로 표시.
+            	
+            	if(i==0){
+            		cccc=document.createElement("div");
+                    cccc.classList.add("alldaySchedule"); //얘는 왜 라인이 위에 그려질까....
+                    ccc.appendChild(cccc);
+            	}
+            	else{
+            		cccc=document.createElement("div");
+                   	cccc.classList.add("daySchedule");
+                   	
+                   	for(let j=0; j<4; j++){
+                   		ccccc=document.createElement("div");
+                       	ccccc.classList.add("dayScheduleCheck");
+                       	cccc.appendChild(ccccc);// 15분 단위로 dayScheduleCheck[0]: 0~15 / dayScheduleCheck[1] : 15~30 / dayScheduleCheck[2]: 30~45 / dayScheduleCheck[3]: 45~60
+                   	}
+                   	ccc.appendChild(cccc);
+            	}
+           		
+           	}
+            	
+            //여기서 first child는 일정표시줄. line은 ::after로 표시.
             cc.appendChild(ccc);
 	            
             c.appendChild(cc);
             v.appendChild(c);
             
+            //input type hidden오로 Schedule date와 선택된 select date값을 불러와야함 -- 어디에 배치해야할까...
+            //현재시각 표시줄 어떻게 구현할까... if로 현재 날짜와 select날짜 같은지 확인 -- 같으면 현재 시각에 red 라인구현..
+            
             return v;
 			
 		}//일간 formElement
+		let calendar2 = document.getElementById("calendar2");
+		calendar2.appendChild(createDayFormElement());
 	</script>
 </html>
