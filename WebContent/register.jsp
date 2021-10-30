@@ -12,29 +12,28 @@
 			<form name="register" method="post" action="register.do">
 				<div class="wrap2">
 					<h1>회원가입</h1>
-					<h4>*은 필수 항목 입니다</h4>
 					<div>
-						<span>*아이디 : </span>
+						<span>아이디 : </span>
 						<span><input type="text" name="id" id="id"></span>
 						<span><input type="button" class="registerIdCheck" value="아이디 중복 확인" onclick="request_doPost()"></span>
 						<span class="registerMsg">아이디를 입력해주세요</span>
 					</div>
-					<div>
-						<span>*비밀번호 : </span>
+					<div class="registerSpan">
+						<span>비밀번호 : </span>
 						<span><input type="password" name="pw"></span>
 						<span class="registerMsg">비밀번호를 입력해주세요</span>
 					</div>
-					<div>
-						<span>*이름 : </span>
+					<div class="registerSpan">
+						<span>이름 : </span>
 						<span><input type="text" name="name"></span>
 						<span class="registerMsg">이름을 입력해주세요</span>
 					</div>
-					<div>
-						<span>*이메일 : </span>
+					<div class="registerSpan">
+						<span>이메일 : </span>
 						<span><input type="email" name="email"></span>
 						<span class="registerMsg">이메일을 입력해주세요</span>
 					</div>
-					<div>
+					<div class="registerSubmit">
 						<span><input type="submit" value="회원가입" onclick="return registerCheck()"></span>
 					</div>
 				</div>

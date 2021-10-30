@@ -2,229 +2,65 @@ package Servlet;
 
 import java.io.*;
 import javax.servlet.*;
-import java.util.Calendar;
-import java.time.LocalDate;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import DAO.MemberDAO;
+import DTO.MemberDTO;
 
 @WebServlet("/suspension.do")
 public class SuspensionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	protected int isLean(int thisYear)
-	{
-		int lean;
-		
-		if((thisYear%4==0&&thisYear%100!=0)||thisYear%400==0)
-		{
-			lean=1;
-			return lean;
-		}
-		else
-		{
-			lean=0;
-			return lean;
-		}
-	}
-	
-	//월을 계산해주기 ::
-	// 윤년이 이면, months = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-	// 윤년이 아니면, months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-	//for문을 돌려서 날짜수와 비교 => 날짜수보다 작으면 그 index+1가 month다.
-	protected int getMonth(int thisYearLean, int susLastDay)
-	{
-		int month=0;
-		
-		if(thisYearLean==1)
-		{
-			int[] months= {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-			for(int i=0;i<12;i++)
-			{
-				if(susLastDay>months[i])
-				{
-					susLastDay=susLastDay-months[i];
-					continue;
-				}
-				else
-				{
-					month=i+1;
-					break;
-				}
-			}
-			return month;
-		}
-		else
-		{
-			int[] months= {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-			for(int i=0;i<12;i++)
-			{
-				if(susLastDay>months[i])
-				{
-					susLastDay=susLastDay-months[i];
-					continue;
-				}
-				else
-				{
-					month=i+1;
-					break;
-				}
-			}
-			return month;
-		}
-	}
-	
-	protected int getDay(int thisYearLean, int susLastDay)
-	{
-		int day=0;
-		
-		if(thisYearLean==1)
-		{
-			int[] months={31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-			for(int i=0;i<12;i++)
-			{
-				if(susLastDay>months[i])
-				{
-					susLastDay=susLastDay-months[i];
-					continue;
-				}
-				else
-				{
-					day=susLastDay;
-					break;
-				}
-			}
-		}
-		else
-		{
-			int[] months={31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-			for(int i=0;i<12;i++)
-			{
-				if(susLastDay>months[i])
-				{
-					susLastDay=susLastDay-months[i];
-					continue;
-				}
-				else
-				{
-					day=susLastDay;
-					break;
-				}
-			}
-		}
-		return day;
-	}
-	
-	protected String getFormDate(int month)
-	{
-		String month_s=null;
-		if(month<10)
-		{
-			month_s="0"+month;
-		}
-		else if(month>=10&&month<13)
-		{
-			month_s=month+"";
-		}
-		return month_s;
-	}
-       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 방법 1
-		//기본세팅
-		Calendar calendar=Calendar.getInstance();
-		int month=0;
-		int day=0;
-		//오늘 날짜와 올해 연도 받아오기
-		int thisYear=calendar.get(Calendar.YEAR);
-		int today=calendar.get(Calendar.DAY_OF_YEAR);
-		//오늘 날짜에서 90일 더하기
-		int susLastDay=today+90;
-		//윤년 계산해서 올해 연도와 비교하기
-		//윤년 :: 1, 평년 :: 0
-		int thisYearLean=isLean(thisYear);
-		//올해가 윤년이면 366일로 나눠주고, 올해가 윤년이 아니면 365일로 나눠주기
-		if(thisYearLean==1)
+		//세션에서 아이디 가져오기
+		HttpSession session=request.getSession();
+		String id=(String)session.getAttribute("loginUserId");
+		//세션에서 권한 가져와서 4인지 확인하기
+		MemberDTO mDTO=null;
+		mDTO=(MemberDTO)session.getAttribute("loginUser");
+		String auth=mDTO.getAuthority();
+		//권한이 4이면 정지날짜 가져와서 현재날짜와 비교하기
+		if(auth.equals("4"))
 		{
-			//만약 몫이 1이라면 올해 연도에서 1을 더해주기
-			if(susLastDay/366==1)
-			{
-				thisYear++;
-				susLastDay=susLastDay-366;
-				//다음해 윤년인지 평년인지 계산
-				thisYearLean=isLean(thisYear);
-			}
-			month=getMonth(thisYearLean,susLastDay);
-			day=getDay(thisYearLean,susLastDay);
-		}
-		else
-		{
-			//만약 몫이 1이라면 올해 연도에서 1을 더해주기
-			if(susLastDay/365==1)
-			{
-				thisYear++;
-				susLastDay=susLastDay-365;
-				//다음해 윤년인지 평년인지 계산
-				thisYearLean=isLean(thisYear);
-			}
-			month=getMonth(thisYearLean,susLastDay);
-			day=getDay(thisYearLean,susLastDay);
-		}	
-		//날짜 예쁜 포맷으로 바꿔주기
-		String month_s=getFormDate(month);
-		String date=thisYear+"-"+month_s+"-"+day;
-		//DB에 넣을 준비
-		MemberDAO mDAO=MemberDAO.getInstance();
-		//id 가져오기
-		request.setCharacterEncoding("utf-8");
-		String authority=request.getParameter("authority");
-		String id=request.getParameter("id");
-		//쿼리문으로 던지기
-		//mDAO.updateSuspension(authority,date,id);
-		
-		/*
-		// 방법 2
-		LocalDate now = LocalDate.now();
-		String plus90=now.plusDays(90).toString();
-		
-		System.out.println(mDAO+", "+id+", "+now+", "+plus90+", "+startPage);
-		
-		mDAO.updateSuspension(, plus90, id);
-		*/
-		
-		//String startPage=request.getParameter("startPage");
-		//response.sendRedirect("memberList.do?startPage="+startPage);
-
-		/*
-		/////////////////쿼리문 작성///////////////////
-		public void updateSuspension(String authority,String date, String id)
-		{
-			String sql="update Member set authority=? date=? where id=?";
-			Connection conn=null;
-			PreparedStatement pstmt = null;
-		
 			try
 			{
-				conn=getConnection();
-				pstmt=conn.prepareStatement(sql);
-				
-				pstmt.setString(1, authority);
-				pstmt.setString(2, date);
-				pstmt.setString(3, id);
-				
-				pstmt.executeUpdate();
-			}
-			catch(Exception e)
+	            //현재 날짜 가져오기
+	            Date today=new Date();
+	            System.out.println(today);
+	            //정지 날짜 가져와서 date형식에 맞게 변경하기
+	            SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	            MemberDAO mDAO=MemberDAO.getInstance();
+	            String susLastDay_dao=mDAO.getSusLastDay(id);
+	            String susLastDay_s=susLastDay_dao+" 23:59:59";
+	            Date susLastDay=dateFormat.parse(susLastDay_s);
+	            System.out.println(susLastDay);
+	            //현재 날짜와 정지 날짜 비교하기
+	            if(today.after(susLastDay))
+	            {
+	                System.out.println("정지날짜가 지났다.");
+	                //권한 2로 바꿔주기
+	                auth="2";
+	                mDAO.memberListAuthorityUpdate(id,auth);
+	                //권한 수정된 것 세션에 반영하기
+	                MemberDTO mUpdate=mDAO.loginMember(id, mDTO.getPw());
+	        		session.setAttribute("loginUser", mUpdate);
+	            } 
+	            else
+	            {
+	            	//아직 정지날짜가 지나지 않았다면, 권한 4 유지
+	            	//댓글 쓰기, 글 쓰기 기능 막기
+	            	System.out.println("아직 정지날짜가 지나지 않았다.");
+	            }
+	        }
+			catch (Exception e)
 			{
-				System.out.println("회원 정지 날짜 세팅 실패"+e);
-			}
-			finally
-			{
-				close(conn, pstmt);
-			}
+				System.out.println("날짜 포맷 변경 중 오류 "+e);
+	        }
 		}
-		*/
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -119,7 +119,7 @@ public class ScheduleDAO {
 	}
 	// 스케줄 업데이트 
 	public void scheduleUpdate(ScheduleDTO sDTO){
-		String sql="update schedule set title=?, content=?, start=?, end=?, color=? where num=?";
+		String sql="update schedule set title=?, content=?, start=?, end=?, color=?, groupnum=? where num=?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -133,8 +133,9 @@ public class ScheduleDAO {
 			pstmt.setString(3, sDTO.getStart());
 			pstmt.setString(4, sDTO.getEnd());
 			pstmt.setString(5, sDTO.getColor());
-			pstmt.setString(6, sDTO.getNum());
-			
+			pstmt.setString(6, sDTO.getGroupnum());
+			pstmt.setString(7, sDTO.getNum());
+			System.out.println(pstmt);
 			pstmt.executeUpdate();
 		}
 		catch(Exception e){

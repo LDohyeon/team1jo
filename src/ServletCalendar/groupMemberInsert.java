@@ -21,7 +21,7 @@ public class groupMemberInsert extends HttpServlet {
 		
 		
 		String id = request.getParameter("userKey");
-		String num = request.getParameter("num");
+		String num = request.getParameter("groupnum");
 		String target=request.getParameter("target");
 		String master=request.getParameter("master");
 		

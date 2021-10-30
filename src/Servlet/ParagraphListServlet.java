@@ -18,18 +18,24 @@ public class ParagraphListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int StartPage = Integer.parseInt(request.getParameter("startPage"));
-		int lastPage = 10;
-		
+		int lastPage = 20;
 
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		
-		int page = pDAO.ParagraphPage();//이걸로 페이지 처리 해주시면 됩니다.
-		
-		System.out.println("paragraphList page : "+ page);
+		int page = pDAO.ParagraphPage();
 		
 		List<ParagraphDTO> list = pDAO.paragraphList(StartPage, lastPage);
 		
+		
 		request.setAttribute("list", list);
+		
+		int nOfPages=page/lastPage;
+		if(nOfPages%lastPage>0) {
+			nOfPages++;
+		}
+		request.setAttribute("nOfPages",nOfPages);
+		request.setAttribute("StartPage", StartPage);
+		request.setAttribute("searchFlag", 0);
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("paragraphList.jsp");
 		dispatcher.forward(request, response);

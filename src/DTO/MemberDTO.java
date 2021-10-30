@@ -9,8 +9,14 @@ public class MemberDTO {
 	private String authority;
 	private String email;
 	private String stopdate;
+	private String createDate;
 	
-
+	public String getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
 	public String getStopdate() {
 		return stopdate;
 	}
@@ -65,6 +71,9 @@ public class MemberDTO {
 //			authority text,
 //			email text);
 //alter table member add stopdate date;	
+//alter table member add createdate date;
+	
+	
 	
 
 	

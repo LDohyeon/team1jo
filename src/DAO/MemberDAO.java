@@ -19,7 +19,6 @@ public class MemberDAO {
 	{
 		return instance;
 	}
-	
 	public Connection getConnection()
 	{
 		Connection conn=null;
@@ -27,7 +26,7 @@ public class MemberDAO {
 		String db_id="root";
 		String db_pw="iotiot";
 		//String db_pw="iotiot12*";
-		//吏��븷 :: �젣 db 鍮꾨�踰덊샇媛� �떖�씪�꽌 �옞源� �닔�젙�빀�땲�떎.
+		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -35,7 +34,7 @@ public class MemberDAO {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("MemberDAO�쓽 MemberInsert�뿉�꽌 �쉶�꽑 臾몄젣 諛쒖깮"+e);	
+			System.out.println("MemberDAO의 MemberInsert에서 회선 문제 발생"+e);	
 		}
 
 		return conn;
@@ -60,7 +59,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�꽑 醫낅즺 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("회선 종료 중 문제 발생 : "+ e);
 		}
 	}
 	public static void close(Connection conn, Statement stmt)
@@ -78,14 +77,14 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�꽑 醫낅즺 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("회선 종료 중 문제 발생 : "+ e);
 		}
 	}
 	
-	public void MemberInsert(MemberDTO mDTO)//�쉶�썝媛��엯 �떆�옉
+	public void MemberInsert(MemberDTO mDTO)//회원가입 시작
 	{
 		
-		String sql="insert into Member(id, pw, name, email, authority) values(?,?,?,?, 2)";
+		String sql="insert into Member(id, pw, name, email, authority, createDate) values(?,?,?,?, ?, NOW())";
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		try
@@ -96,6 +95,7 @@ public class MemberDAO {
 			pstmt.setString(2, mDTO.getPw());
 			pstmt.setString(3, mDTO.getName());
 			pstmt.setString(4, mDTO.getEmail());
+			 pstmt.setString(5, mDTO.getAuthority());
 
 			System.out.println(pstmt);
 			pstmt.executeUpdate();
@@ -103,7 +103,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("MemberDAO�쓽 MemberInsert�뿉�꽌 臾몄젣 諛쒖깮"+e);
+			System.out.println("MemberDAO의 MemberInsert에서 문제 발생"+e);
 		}
 		finally
 		{
@@ -111,10 +111,10 @@ public class MemberDAO {
 			
 		}
 
-	}//�쉶�썝 媛��엯 �걹
+	}//회원 가입 끝
 	
 
-	//login �떆�옉
+	//login 시작
 	
 	
 
@@ -150,22 +150,25 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
-
+				
 			}								
 		}
 		catch(Exception e)
 		{
-			System.out.println("MemberDAO�쓽 MemberLogin�뿉�꽌 臾몄젣 諛쒖깮"+e);
+			System.out.println("MemberDAO의 MemberLogin에서 문제 발생"+e);
 		}
 		finally
 		{
 			close(conn, pstmt, rs);
 		}
-		return mDTO;
-	}
-	//login �걹
 	
-	//id 以묐났 泥댄겕 �떆�옉
+		
+		return mDTO;
+		
+	}
+	//login 끝
+	
+	//id 중복 체크 시작
 
 	public int idCheck(String id)
 	{
@@ -194,7 +197,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("�삤瑜섏씤 嫄� �븘�땲怨� 洹몃깷 id 以묐났泥댄겕 �떎�뙣"+e);
+			System.out.println("오류인 건 아니고 그냥 id 중복체크 실패"+e);
 		}
 		finally
 		{
@@ -204,9 +207,9 @@ public class MemberDAO {
 		return result;
 		
 	}
-	//id 以묐났 泥댄겕 �걹
+	//id 중복 체크 끝
 	
-	//鍮꾨� 踰덊썑 �닔�젙 �떆�옉
+	//비밀 번후 수정 시작
 	
 	public void MemberPwUpdate(String pw, String id)
 	{
@@ -228,7 +231,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("鍮꾨�踰덊샇 �닔�젙 �떎�뙣"+e);
+			System.out.println("비밀번호 수정 실패"+e);
 		}
 		finally
 		{
@@ -237,10 +240,10 @@ public class MemberDAO {
 		
 	}
 	
-	//鍮꾨� 踰덊샇 �닔�젙 �걹
+	//비밀 번호 수정 끝
 	
 	
-	//�쉶�썝 �젙蹂� �닔�젙 �떆�옉
+	//회원 정보 수정 시작
 
 	public void MemberUpdate(String name, String email, String id)
 	{
@@ -264,7 +267,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�썝 �닔�젙 �떎�뙣"+e);
+			System.out.println("회원 수정 실패"+e);
 		}
 		finally
 		{
@@ -272,9 +275,9 @@ public class MemberDAO {
 		}
 	}
 	
-	//�쉶�썝 �젙蹂� �닔�젙 �걹
+	//회원 정보 수정 끝
 	
-	//�쉶�썝 �깉�눜 �떆�옉
+	//회원 탈퇴 시작
 	
 	public void MemberDelete(String id)
 	{
@@ -295,7 +298,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�썝 �깉�눜 �떎�뙣"+e);
+			System.out.println("회원 탈퇴 실패"+e);
 		}
 		finally
 		{
@@ -304,10 +307,10 @@ public class MemberDAO {
 		
 	}
 	
-	//�쉶�썝 �깉�눜 �걹
+	//회원 탈퇴 끝
 	
 	
-	//愿�由ъ옄 �쉶�썝 愿�由� �떆�옉
+	//관리자 회원 관리 시작
 	
 	public List<MemberDTO> memberList(int startPage, int lastPage)
 	{
@@ -340,13 +343,15 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);	
 			}
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�썝 愿�由� 紐⑸줉 異쒕젰 �떎�뙣"+e);
+			System.out.println("회원 관리 목록 출력 실패"+e);
 		}
 		finally
 		{
@@ -355,9 +360,9 @@ public class MemberDAO {
 		
 		return list;
 	}
-	//愿�由ъ옄 �쉶�썝 愿�由� �걹
+	//관리자 회원 관리 끝
 	
-	//愿�由ъ옄 �쉶�썝 愿�由� 寃��깋 �떆�옉
+	//관리자 회원 관리 검색 시작
 	
 	public List<MemberDTO> memberIdSerachList(String id, int startPage, int lastPage)
 	{
@@ -393,13 +398,15 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);
 			}
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�썝 愿�由� 寃��깋 異쒕젰 �떎�뙣"+e);
+			System.out.println("회원 관리 검색 출력 실패"+e);
 		}
 		finally
 		{
@@ -444,13 +451,15 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);
 			}
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�썝 愿�由� 寃��깋 異쒕젰 �떎�뙣"+e);
+			System.out.println("회원 관리 검색 출력 실패"+e);
 		}
 		finally
 		{
@@ -500,13 +509,15 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);
 			}
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�썝 愿�由� 寃��깋 異쒕젰 �떎�뙣"+e);
+			System.out.println("회원 관리 검색 출력 실패"+e);
 		}
 		finally
 		{
@@ -541,8 +552,6 @@ public class MemberDAO {
 			pstmt.setInt(3, start);
 			pstmt.setInt(4, lastPage);
 			
-			System.out.println("mem : "+ pstmt);
-			
 			rs=pstmt.executeQuery();
 			
 			while(rs.next())
@@ -554,13 +563,15 @@ public class MemberDAO {
 				mDTO.setName(rs.getString("name"));
 				mDTO.setEmail(rs.getString("email"));
 				mDTO.setAuthority(rs.getString("authority"));
+				mDTO.setStopdate(rs.getString("stopdate"));
+				mDTO.setCreateDate(rs.getString("createdate"));
 				
 				list.add(mDTO);
 			}
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�썝 愿�由� 寃��깋 異쒕젰 �떎�뙣"+e);
+			System.out.println("회원 관리 검색 출력 실패"+e);
 		}
 		finally
 		{
@@ -571,10 +582,10 @@ public class MemberDAO {
 	}
 	
 	
-	//愿�由ъ옄 �쉶�썝 愿�由� 寃��깋 �걹
+	//관리자 회원 관리 검색 끝
 	
 	
-	//�럹�씠吏� 踰꾪듉 �떆�옉 312踰덉㎏ 硫붿냼�뱶�� �뿰寃�
+	//페이지 버튼 시작 312번째 메소드와 연결
 	
 	public int memberListPageBtn()
 	{
@@ -600,7 +611,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
+			System.out.println("member page 버튼 실패"+e);
 		}
 		finally
 		{
@@ -638,7 +649,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
+			System.out.println("member page 버튼 실패"+e);
 		}
 		finally
 		{
@@ -676,7 +687,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
+			System.out.println("member page 버튼 실패"+e);
 		}
 		finally
 		{
@@ -714,7 +725,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
+			System.out.println("member page 버튼 실패"+e);
 		}
 		finally
 		{
@@ -752,7 +763,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member page 踰꾪듉 �떎�뙣"+e);
+			System.out.println("member page 버튼 실패"+e);
 		}
 		finally
 		{
@@ -762,10 +773,10 @@ public class MemberDAO {
 		return pagebtn;
 	}
 	
-	///�럹�씠吏� 踰꾪듉 �걹 312踰덉㎏ 硫붿냼�뱶�� �뿰寃�
+	///페이지 버튼 끝 312번째 메소드와 연결
 	
 	
-	//�떊怨� 湲곕뒫
+	//신고 기능
 	
 	public void memberReport(String id)
 	{
@@ -786,7 +797,7 @@ public class MemberDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("member �떊怨� 踰꾪듉 �떎�뙣"+e);
+			System.out.println("member 신고 버튼 실패"+e);
 		}
 		finally
 		{
@@ -795,9 +806,9 @@ public class MemberDAO {
 		
 	}
 	
-	//�떊怨� 湲곕뒫
+	//신고 기능
 	
-	//沅뚰븳 �닔�젙
+	//권한 수정
 	public void memberListAuthorityUpdate(String selAuIdValue, String authority) {
 	      
 	      String sql="update member set authority=? where id=?";
@@ -816,23 +827,101 @@ public class MemberDAO {
 	      }
 	      catch(Exception e)
 	      {
-	         System.out.println("�쉶�썝 沅뚰븳 �닔�젙 �떎�뙣"+e);
+	         System.out.println("회원 권한 수정 실패"+e);
 	      }
 	      finally
 	      {
 	         close(conn, pstmt);
 	      }
 	   }
-	//沅뚰븳 �닔�젙
+	//권한 수정
+	
+	//정지 기간 설정
+	public void updateSuspension(String date, String selAuIdValue)
+	{
+		String sql="update Member set stopdate=? where id=?";
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+	
+		try
+		{
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, date);
+			pstmt.setString(2, selAuIdValue);
+			
+			pstmt.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			System.out.println("MemberDAO의 updateSuspension에서 문제 발생"+e);
+		}
+		finally
+		{
+			close(conn, pstmt);
+		}
+	}
+	//정지 기간 설정
+	
+	//정지 기간 가져오기
+	public String getSusLastDay(String id)
+	{
+		String susLastDay="";
+		String sql="select stopdate from member where id = ?";
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
 
+			rs = pstmt.executeQuery();
+		
+			rs.next();
+			susLastDay = rs.getString("stopdate");
+										
+		}
+		catch(Exception e)
+		{
+			System.out.println("MemberDAO의 getSusLastDay에서 문제 발생"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		return susLastDay;
+	}
+	//정지 기간 가져오기
+		
+	// 회원가입자 수 
+	public String registerMemberDateCount(String ymdDate) {
+		String sql="select count(*) from member where createdate=?"; 
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null; 
+		try {
+			conn=getConnection();
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, ymdDate);
+			rs=pstmt.executeQuery();
+			rs.next();
+			ymdDate = rs.getString(1);		
+		}
+		catch(Exception e) {
+			System.out.println("회원가입자 수 오류 발생 +e");
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		return ymdDate;
+	}
 }
-
-
-
-
-
-
-
-
 
 
