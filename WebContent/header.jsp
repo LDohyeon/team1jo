@@ -42,6 +42,7 @@
 			</c:when>
 			<c:otherwise>
 				<div class="headerlist">안녕하세요, ${loginUser.getId()}님!</div>
+				<div class="headerlist"><a class="linkBlack" href="CalendarInviteList.jsp">초대보기</a></div>
 		        <div class="headerlist"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
 		        <div class="headerlist"><a class="linkBlack" href="#">마이페이지</a></div>
 			</c:otherwise>

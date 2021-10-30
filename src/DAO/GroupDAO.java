@@ -396,6 +396,50 @@ public class GroupDAO {
 		}
 	}
 	
+	// 그룹 멤버 초대 수락 
+	public void inviteAccept(GroupMemberDTO gmDTO) {
+		String sql="update groupmember set invite = 'accept' where num = ?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+	
+		try{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, gmDTO.getNum());
+			System.out.println(pstmt);
+			pstmt.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("GroupDAO > inviteAccept Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
+	}
+	
+	// 그룹 멤버 초대 거부 
+	public void inviteDenied(GroupMemberDTO gmDTO) {
+		String sql="delete from groupmember where num = ?";
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+	
+		try{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, gmDTO.getNum());
+			System.out.println(pstmt);
+			pstmt.executeUpdate();
+		}
+		catch(Exception e){
+			System.out.println("GroupDAO > inviteDenied Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
+	}
+	
 	// 멤버 정보를 리스트로 뽑아옴 
 	// 멤버 초대 기능에 사용함 
 	public List<MemberDTO> memberList(String word){
