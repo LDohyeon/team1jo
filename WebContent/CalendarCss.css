@@ -3,71 +3,384 @@
 #calendar{
     width: 100%;
 	z-index: 100;
+	margin-top: 27px;
 }
-
+/* =====================================================
+ * === 켈린더 헤더 ========================================
+ * ===================================================== */
 .calendarHeader{
     width: 100%;
-    display: flex;
-    height: 50px;
+    height: 60px;
+    z-index: 200;
+    min-width : 860px;
 }
 .calendarHeadMenu{
-    flex: 1; 
-    background-color: green;
+	width: 40px;
+  	height: 40px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	display:block;
+	background-image: url(./imgSource/CalendarMenuIcon.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	float: left;
 }
 .calendarHeadNow{
-    flex: 1; 
-    background-color: red;
+    width: 40px;
+  	height: 40px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 20px;
+	display:block;
+	background-image: url(./imgSource/ClaendarTodayMenu.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	float: left;
 }
 .calendarHeadPre{
-    flex: 1; 
-    background-color: blue;
+   width: 40px;
+  	height: 40px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 15px;
+	display:block;
+	background-image: url(./imgSource/CalendarPrevious.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	float: left;
 }
 .calendarHeadNext{
-    flex: 1; 
-    background-color: orange;
+    width: 40px;
+  	height: 40px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	display: block;
+	background-image: url(./imgSource/CalendarNext.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	float: left;
 }
 .calendarHeadDate{
-    flex: 7; 
-    background-color: aquamarine;
+    width: 400px;
+  	height: 40px;
+  	margin-top: 10px;
+	margin-bottom: 10px;
+    margin-left: 50px;
+    display: block;
+    float: left;
+    font-size: 1.8em;
+    letter-spacing: -1.5px;
+    line-height: 40px;
+    font-weight: 600;
 }
 .calendarHeadSearch{
-    flex: 1; 
-    background-color: darkgoldenrod;
+  	width: 40px;
+  	height: 40px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: 16px;
+	display:block;
+	background-image: url(./imgSource/CalendarSearch.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	float: right;
 }
 .calendarHeadSelect{
-    flex: 1;
+    width: 59px;
+  	height: 40px;
+  	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: 15px;
+  	border: 0;
+  	display:block;
+  	float: right;
+}
+.selectForm{
+	width: 57px;
+	height: 38px;
+	border: 1px solid lightgray;
+	border-radius: 3px;
+	font-size: 0.9em;
+}
+.calendarSearch{
+	display:none;
 }
 
+.calendarHeader:after{
+	content: "";
+	display: block;
+	clear:both;
+}
 
+/* =====================================================
+ * === 켈린더 보디 ========================================
+ * ===================================================== */
 .calendarBody{
+	padding-top: 20px;
     width: 100%;
     display: flex;
     height: auto;
-    font-size: 15px;
+    font-size: 0.8em;
+    font-weight: 500;
+    min-width : 860px;
 }
-.rightBox{
+.centerBox{
     flex: 8;
     height: 100%;
+    margin-right: 15px;
+    min-width: 850px;
+    min-height: 720px;
 }
-.toDoListDiv{
-    width: 100%;
-    height: 50%;
-    background-color: darkgoldenrod;
-}
-.groupDiv{
-    width: 100%;
-    height: 50%;
-    background-color: lightgray;
+.leftBox{
+	flex: 3;
+    height: 100%;
+    margin-right: 15px;
+    min-width: 200px;
+    min-height: 720px;
 }
 
-.centerBox{
-    flex: 30;
-    height: calc(100%-50px);   
+/* =====================================================
+ * === 투두리스트 =========================================
+ * ===================================================== */
+
+.toDoListDiv{
+    height: 50%;
+    padding-left: 10px;
+    min-width: 200px;
+    min-height: 360px;
 }
+.toDoListTitle{
+	font-size: 1.2em;
+	padding-top: 10px;
+	
+	letter-spacing: -0.6px;
+}
+.toDoListAdd{
+	width: 25px;
+  	height: 25px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-image: url(./imgSource/TodolistPlus.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	display:block;
+	float: left;
+}
+.toDoListCom{
+	width: 25px;
+  	height: 25px;
+	margin-top: 14px;
+	margin-bottom: 6px;
+	margin-right: 10px;
+	background-image: url(./imgSource/TodolistTrash.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	display:block;
+	float: right;;
+}
+.toDoListTitle:after{
+	content: "";
+	display: block;
+	clear:both;
+}
+/* =====================================================
+ * === 그룹리스트 =========================================
+ * ===================================================== */
+
+.groupDiv{
+    height: 50%;
+    padding-left: 10px;
+    min-width: 200px;
+    min-height: 360px;
+}
+.groupTitle{
+	font-size: 1.2em;
+	padding-top: 10px;
+	letter-spacing: -0.6px;
+}
+.groupAdd{
+	width: 25px;
+  	height: 25px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-image: url(./imgSource/TodolistPlus.png);
+	background-repeat: no-repeat;
+	background-size: contain;
+	display:block;
+	float: left;
+}
+groupMenu:after{
+	content: "";
+	display: block;
+	clear:both;
+}
+/* =====================================================
+ * === 스케줄 추가 폼 ======================================
+ * ===================================================== */
+.calendarSchedule{
+	position:relative;
+	display:none;
+ }
+.scheduleForm{
+	margin-top: 10px;
+	border-radius: 5px;
+	width: 57%;
+	background-color: white;
+	height: 308px;
+	z-index: 500;
+	background-color: rgba(255,255,255);
+	position:absolute;
+	letter-spacing: -0.6px;
+	max-width: 484.5px;
+	border: 1px solid lightgray;
+}
+.scheduleFormTitle{
+	min-width: 284.5px;
+	min-height: 30px;
+	margin-top: 10px;
+	margin-left: 80px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+.scheduleFormAllday{
+	min-width: 86px;
+	min-height: 32px;
+	line-height: 32px;
+	margin-left:15px;
+	margin-right:15px;
+	margin-top: 10px;
+	text-align: center;
+	display: block;
+	float: left;
+	border: 0;
+	border-radius: 10px;
+	background-color: rgb(235,235,235);
+}
+.scheduleFormGroups{
+	min-width: 284.5px;
+	min-height: 30px;
+	margin-top: 52px;
+}
+.scheduleFormGroupsTitle{
+	width: 80px;
+	min-height: 32px;
+	line-height: 32px;
+	text-align: center;
+	display: block;
+	float: left;
+}
+.scheduleFormGroupSelect{
+	min-width: 80px;
+	min-height: 30px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+.scheduleFormColor{
+	min-width: 50px;
+	min-height: 30px;
+	margin-left:5px;
+	display: block;
+	float: left;
+	border: 0;
+}
+.scheduleFormGroups:after{
+	content: "";
+	display: block;
+	clear:both;
+}
+.scheduleFormDiv{
+	width: 80px;
+	min-height: 32px;
+	line-height: 32px;
+	margin-top: 10px;
+	text-align: center;
+	display: block;
+	float: left;
+}
+.scheduleFormStart{
+	min-width: 284.5px;
+	min-height: 30px;
+	margin-top: 10px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+.scheduleFormStartTime{
+	min-width: 86px;
+	min-height: 32px;
+	line-height: 32px;
+	margin-left:15px;
+	margin-right:15px;
+	margin-top: 10px;
+	text-align: center;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+.scheduleFormEnd{
+	min-width: 284.5px;
+	min-height: 30px;
+	margin-top: 10px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+.scheduleFormEndTime{
+	min-width: 86px;
+	min-height: 32px;
+	line-height: 32px;
+	margin-left:15px;
+	margin-right:15px;
+	margin-top: 10px;
+	text-align: center;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+.scheduleFormContent{
+	min-width: 284.5px;
+	min-height: 115px;
+	margin-top: 10px;
+	margin-left: 80px;
+	display: block;
+	float: left;
+	border: 0;
+	resize: none;
+	background-color: rgb(245,245,245);
+}
+.scheduleFormSubmit{
+	min-width: 86px;
+	min-height: 32px;
+	line-height: 32px;
+	margin-left:15px;
+	margin-right:15px;
+	margin-top: 93px;
+	text-align: center;
+	display: block;
+	float: left;
+	border: 0;
+	border-radius: 10px;
+	background-color: rgb(235,235,235);
+}
+/* =====================================================
+ * === 월간캘린더 =========================================
+ * ===================================================== */
+
 .calendarDiv{
     width: 100%;
     height: 100%;
-    margin: 30 auto;
+    margin-bottom: 30px;
+    padding-top: 10px;
 }
 .monthAreaHead{
 	width: 100%;
@@ -76,13 +389,13 @@
     justify-content: stretch;
 }
 .monthAreaHeadTitle{
-    height: 3vw;
+    height: 31px;
     text-align: center;
     display: inline-block;
-    line-height: 3vw;
+    line-height: 31px;
     border-top: 1px solid lightgray;
     border-left: 1px solid lightgray;
-    font-size: 10px;
+    font-size: 12px;
     flex: 1 1;
    	flex-basis: calc(100%/7.08);
 }
@@ -91,15 +404,15 @@
 }
 .monthAreaBody{
     width: 100%;
-    min-width: 800px;
+    min-width: 830px;
     display:flex;
     flex-wrap: wrap;
     justify-content: stretch;
 }
 .monthBox{
-    min-height: 40px;
+    min-height: 120px;
     height: 8vw;
-    padding-top: 1vw;
+    padding-top: 5px;
     display: inline-block;
     text-align: center;
     border-bottom: 1px solid lightgray;
@@ -107,7 +420,6 @@
     font-size: 13px;
    	flex: 1 1;
    	flex-basis: calc(100%/7.08);
-
 }
 .monthBox:nth-child(7n){
     border-right: 1px solid lightgray;
@@ -207,62 +519,48 @@
     flex: 2;
     height: 100%;
 }
-.naviDiv{
-    width: 100%;
-    height: 100%;
-    background-color: lavenderblush;
-  
-}
 
 /*Schedule*/
+.monthBoxBody{
+	width: 100%;
+	position: relative;
+	z-index: 400;
+}
 .scheduleInfos{
 	display:none;
 }
 .scheduleBox{
 	width: 100%;
-	height: 30px;
+	height: 20px;
 	text-align: left;
-	overflow: hidden;
+	position: absolute;
+	z-index: 450;
+	border-radius: 3px;
+	
 }
 .cmpb0{
-	height: 0px;
-	margin-bottom: 22px;
-	overflow: hidden;
+	display: none;
 }
 .cmpb1{
-	width: 100%;
-	height: 22px;
-	float: left;
+	width: 95%;
 }
 .cmpb2{
-	width: 200%;
-	height: 22px;
-	float: left;
+	width: 195%;
 }
 .cmpb3{
-	width: 300%;
-	height: 22px;
-	float: left;
+	width: 295%;
 }
 .cmpb4{
-	width: 400%;
-	height: 22px;
-	float: left;
+	width: 396%;
 }
 .cmpb5{
-	width: 500%;
-	height: 22px;
-	float: left;
+	width: 497%;
 }
 .cmpb6{
-	width: 600%;
-	height: 22px;
-	float: left;
+	width: 598%;
 }
 .cmpb7{
-	width: 700%;
-	height: 22px;
-	float: left;
+	width: 699%;
 }
 .cmpb1:hover{
 	filter: hue-rotate(20deg);
@@ -286,10 +584,18 @@
 	filter: hue-rotate(20deg);
 }
 .scheduleTitleInSpan{
+	height: 20px;
+	width: 90%;
 	text-overflow: ellipsis;
+	display: block;
 	color: black;
+	float: left;
 }
-
+.scheduleBox:after{
+	content: "";
+	display: block;
+	clear: both;
+}
 .smallColor{
 	width: 10px;
 }
@@ -301,17 +607,26 @@
 	display: none;
 }
 .scheduleGroupColor{
-	width: 10px;
+	width: 4px;
+	height: 100%;
+	display: block;
+	float: left;
+	margin-right: 5px;
+	border-radius: 3px 0 3px 0;
 }
 .sDetail{
 	position: relative; 
 }
 
 
+
+
+
 /*제민- 작업*/
 .calendarArea{
     display: flex;
     flex-flow: row wrap;
+    z-index: 100;
 }
 .dayTimeWrap{
     display: flex;

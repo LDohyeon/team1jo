@@ -421,43 +421,32 @@
            	
            	cc = document.createElement("div");
            	cc.classList.add("calendarSearchBtn");
-           	cc.innerHTML = "검색"
            	c.appendChild(cc);
            	v.appendChild(c);
     		
             c = document.createElement("div");
             c.classList.add("calendarHeadMenu");
-            c.innerHTML="메뉴";
             c.addEventListener("click", calendarMenu);
             v.appendChild(c);
             
             c = document.createElement("div");
             c.classList.add("calendarHeadNow");
-            c.innerHTML="오늘";
             c.addEventListener("click", goCalendarToday);
             v.appendChild(c);
             
             c = document.createElement("div");
             c.classList.add("calendarHeadPre");
-            c.innerHTML="과거";
             c.addEventListener("click", goCalendarPrevious);
             v.appendChild(c);
             
             c = document.createElement("div");
             c.classList.add("calendarHeadNext");
-            c.innerHTML="미래";
             c.addEventListener("click", goCalendarNext);
             v.appendChild(c);
             
             c = document.createElement("div");
             c.classList.add("calendarHeadDate");
             
-            v.appendChild(c);
-            
-            c = document.createElement("div");
-            c.classList.add("calendarHeadSearch");
-            c.innerHTML="찾기";
-            c.addEventListener("click", visiableCalendarSearch);
             v.appendChild(c);
             
             c = document.createElement("div");
@@ -487,6 +476,12 @@
             
             c.appendChild(cc);
             v.appendChild(c);
+            
+            c = document.createElement("div");
+            c.classList.add("calendarHeadSearch");
+            c.addEventListener("click", visiableCalendarSearch);
+            v.appendChild(c);
+            
             return v;
         }
         
@@ -745,11 +740,86 @@
             cc.classList.add("scheduleFormTitle");
             c.appendChild(cc);
             
+            cc = document.createElement("div");
+            cc.classList.add("scheduleFormAllday");
+            cc.innerHTML = "종일";
+            c.appendChild(cc);
+            
+        	cc = document.createElement("div");
+            cc.classList.add("scheduleFormGroups");
+            
+            ccc = document.createElement("div");
+            ccc.classList.add("scheduleFormGroupsTitle");
+            ccc.innerHTML = "그룹 설정";
+            cc.appendChild(ccc);
+            
+            ccc = document.createElement("select");
+            ccc.classList.add("scheduleFormGroupSelect");
+            cc.appendChild(ccc);
+			
+            ccc = document.createElement("input");
+            ccc.setAttribute("type", "color");
+            ccc.setAttribute("name", "color");
+            ccc.setAttribute("value" , "#fdfd96");
+            ccc.innerHTML = "#fdfd96";
+            ccc.classList.add("scheduleFormColor");
+            cc.appendChild(ccc);
+            
+            ccc = document.createElement("input");
+            ccc.setAttribute("type", "hidden");
+            ccc.setAttribute("name", "groupnum");
+            ccc.classList.add("scheduleFormGroupnum");
+            cc.appendChild(ccc);
+            c.appendChild(cc);
+    
+            cc = document.createElement("div");
+            cc.classList.add("scheduleFormDiv");
+            cc.innerHTML = "시작 날짜";
+            c.appendChild(cc);
+            
             cc = document.createElement("input");
             cc.setAttribute("type", "date");
             cc.setAttribute("name", "start");
             cc.setAttribute("min", "1900-01-01");
             cc.classList.add("scheduleFormStart");
+            c.appendChild(cc);
+            
+            cc = document.createElement("select");
+            cc.classList.add("scheduleFormStartTime");
+            cc.setAttribute("name", "starttime");
+            
+            for(let i = 0; i < 24; i++){
+            	for(let j = 0; j < 4; j++){
+            		let time = ""; 
+            		if(i<10){
+            			time = "0"+i+":";
+            			if(j==0){
+            				time += "00";
+            			}
+            			else {
+            				time += (j*15);
+            			}
+            		}
+            		else{
+            			time = i+":";
+            			if(j==0){
+            				time += "00";
+            			}
+            			else {
+            				time += (j*15);
+            			}
+            		}
+            		ccc = document.createElement("option");
+            		ccc.setAttribute("value", time);
+            		ccc.innerHTML=time;
+            		cc.appendChild(ccc);
+            	}
+            }
+            c.appendChild(cc);
+            
+            cc = document.createElement("div");
+            cc.classList.add("scheduleFormDiv");
+            cc.innerHTML = "종료 날짜";
             c.appendChild(cc);
             
             cc = document.createElement("input");
@@ -759,41 +829,42 @@
             cc.classList.add("scheduleFormEnd");
             c.appendChild(cc);
             
-            cc = document.createElement("div");
-            cc.classList.add("scheduleFormContentVisiable");
-            cc.innerHTML = "상세 설명";
-            cc.addEventListener("click", scContentVisable);
+            cc = document.createElement("select");
+            cc.classList.add("scheduleFormEndTime");
+            cc.setAttribute("name", "endtime");
+            for(let i = 0; i < 24; i++){
+            	for(let j = 0; j < 4; j++){
+            		let time = ""; 
+            		if(i<10){
+            			time = "0"+i+":";
+            			if(j==0){
+            				time += "00";
+            			}
+            			else {
+            				time += (j*15);
+            			}
+            		}
+            		else{
+            			time = i+":";
+            			if(j==0){
+            				time += "00";
+            			}
+            			else {
+            				time += (j*15);
+            			}
+            		}
+            		ccc = document.createElement("option");
+            		ccc.setAttribute("value", time);
+            		ccc.innerHTML=time;
+            		cc.appendChild(ccc);
+            	}
+            }
             c.appendChild(cc);
             
-            cc = document.createElement("div");
-            cc.setAttribute("contenteditable", "true");
+            cc = document.createElement("textarea");
+            cc.setAttribute("placeholder", "상세 내용");
             cc.setAttribute("name", "content");
             cc.classList.add("scheduleFormContent");
-            c.appendChild(cc);
-            
-           	cc = document.createElement("div");
-            cc.classList.add("scheduleFormGroups");
-            
-            ccc = document.createElement("select");
-            ccc.classList.add("scheduleFormGroupSelect");
-            cc.appendChild(ccc);
-            
-            ccc = document.createElement("input");
-            ccc.setAttribute("type", "hidden");
-            ccc.setAttribute("name", "groupnum");
-            ccc.classList.add("scheduleFormGroupnum");
-            cc.appendChild(ccc);
-            c.appendChild(cc);
-            
-            cc = document.createElement("div");
-            cc.classList.add("scheduleColor");
-            
-            ccc = document.createElement("input");
-            ccc.setAttribute("type", "color");
-            ccc.setAttribute("name", "color");
-            ccc.classList.add("scheduleFormColor");
-            
-            cc.appendChild(ccc);
             c.appendChild(cc);
             
             cc = document.createElement("input");
@@ -864,15 +935,15 @@
             v.classList.add("groupDiv");
             
             c = document.createElement("div");
+            c.classList.add("groupTitle");
+            c.innerHTML = "내 그룹";
+            v.appendChild(c);
+            
+            c = document.createElement("div");
             c.classList.add("groupMenu");
-            
-            cc = document.createElement("div");
-            cc.classList.add("groupName");
-            c.appendChild(cc);
-            
+
             cc = document.createElement("div");
             cc.classList.add("groupAdd");
-            cc.innerHTML = "추가";
             cc.addEventListener("click", addGroupBtn);
             c.appendChild(cc);
             
@@ -2363,7 +2434,7 @@
 		            	// 그룹에 부여된 데이터를 기반으로 보일지 정함
 		            	viewScheduleElementFlag();
 		            	// 스케줄의 영역 차지 박스를 바꿈 > 추후 모양 CSS에 따라 필요없을 수 있음
-		            	changeScheduleBoxs();
+		            	checkFirstElement();
 		            	checkInvite();
 		            }
 				}
@@ -2626,7 +2697,7 @@
 				let sn = parseInt(scheduleNums[i].value);//스케쥴 넘버의 값
 				scheduleTotal.push(sn);
 			}
-			// 현재 페이지의 스케쥴 태그의 넘버를 가져옴 
+			// 현재 페이지의 스케쥴 태그의 넘버를 가져옴 // 중복값은 생략해서 가져옴
 			scheduleTotal = Array.from(new Set(scheduleTotal));
 			
 			for(let i = 0; i<scheduleTotal.length; i++){
@@ -2693,6 +2764,7 @@
 							flagSize=boxArray.length-l;
 							
 							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
+							boxArray[l].classList.add("firstElementSchedule");
 							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
 							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
 							let temp3 = temp1.getElementsByClassName("groupColor")[0].value;
@@ -2711,6 +2783,7 @@
 						else{
 							// 사이즈 만큼 그리고 빈 수만큼 
 							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
+							boxArray[l].classList.add("firstElementSchedule");
 							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
 							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
 							let temp3 = temp1.getElementsByClassName("groupColor")[0].value;
@@ -2733,6 +2806,37 @@
 					flagDrawn--;
 				}
 			}
+		}
+		
+		function checkFirstElement(){
+			let scheduleBox = document.getElementsByClassName("scheduleBox ");
+			
+			for(let i = 0; i < scheduleBox.length; i++){
+				if(scheduleBox[i].classList.contains("firstElementSchedule")){
+					let p = scheduleBox[i].parentNode;
+					let cmpb0 = p.getElementsByClassName("cmpb0");
+					let fr = p.getElementsByClassName("firstElementSchedule");
+					
+					let height = 22;
+					if(fr.length==1){
+						// 높이 수정
+						// 첫 요소가 1이면 자기 자신이므로, cmpb0의 값만 구해서 곱하고 세팅하면 됨 
+						let getAtt = fr[0].getAttribute("style")+";";
+						let hg = "margin-top:"+(height*cmpb0.length)+"px;";
+					    
+						scheduleBox[i].setAttribute("style", getAtt+hg);
+					}
+					else{
+						for(let j = 0; j < fr.length; j++){
+							let getAtt = fr[j].getAttribute("style")+";";
+							let hg = "margin-top:"+(height*j)+"px;";
+							
+							fr[j].setAttribute("style", getAtt+hg);
+						}
+					}
+				}
+			}
+			
 		}
 		
 		// 현재 스케줄의 Bar 길이를 확인
@@ -2777,7 +2881,7 @@
 			
 			let num = document.getElementsByClassName("scheduleFormNum")[0].value;
 			let title = document.getElementsByClassName("scheduleFormTitle")[0].value;
-			let content = document.getElementsByClassName("scheduleFormContent")[0].innerHTML;
+			let content = document.getElementsByClassName("scheduleFormContent")[0].value;
 			let start = document.getElementsByClassName("scheduleFormStart")[0].value;
 			let end = document.getElementsByClassName("scheduleFormEnd")[0].value;
 			let color = document.getElementsByClassName("scheduleFormColor")[0].value;
@@ -2971,7 +3075,7 @@
 				}
 			}
 		}
-		
+		console.log("지울가능성있음");
 		// 스케줄 BOX 면적용 요소 위로 올리기
 		// 면적 차지 방식을 float 등을 혼합하여 구현시 필요없을 가능성 있음
 		function changeScheduleBoxs(){
@@ -3072,14 +3176,12 @@
 			cc.classList.add("toDoListAdd");
 			cc.addEventListener("click", todolistAdd);
 			// 아이콘 만들어지면 지울거
-			cc.innerHTML = "추가";
 			c.appendChild(cc);
 			
 			cc = document.createElement("div");
 			cc.classList.add("toDoListCom");
 			cc.addEventListener("click", todolistCom);
 			// 아이콘 만들어지면 지울거
-			cc.innerHTML = "완료된 것 삭제";
 			c.appendChild(cc);
 			v.appendChild(c);
 			
