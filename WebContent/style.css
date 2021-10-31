@@ -1,8 +1,15 @@
 @charset "UTF-8";
+/*
+	z-index: Area 단위 100/ 그 하위 200/ 그 보다 아해 300 ..... <>
+
+*/
 
 /* =====================================================
  * ====================== 헤더 ==========================
  * ===================================================== */
+body{
+	position: relative; 
+}
 a{
   text-decoration-line: none;
   color: black;
@@ -13,6 +20,7 @@ a{
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	min-width : 860px;
+	z-index: -1;
 }
 #headerIcon:after{
 	content: "";
@@ -141,17 +149,20 @@ a{
 .linkWhite:hover{
 	color: rgb(0, 101, 131);
 }
-
+#headerProfileArea{
+	margin-top: -4px;
+	position: relative;
+	z-index: 100;
+}
 .headerUlist{
 	border-radius: 0 0 0.5em 0.5em;
 	width: 121.6px;
-	float: right;
 	background-color: white;
 	display: none;
-	position:relative;
-	z-index: 2;
+	z-index: 200;
 	background-color: rgba(245, 245, 245);
-	margin-right: 20px;
+	position:absolute;
+	margin-left: calc(100% - 132.4px);
 }
 .headerlist{
 	padding: 0.5em;
@@ -159,20 +170,16 @@ a{
 	margin-right: 0.5em;
 	margin-top: 0.7em;
 	margin-bottom: 0.7em;
-	font-size: 0.9em;
+	font-size: 0.8em;
 	letter-spacing: -0.5px;
 }
-#headerProfileArea{
-	position:relative;
-	margin-top: -4px;
-}
-
 .wrap1{
 	width: 450px;
 	padding: 30px;
 	border: 2px solid lightgray;
 	margin: 250px auto;
 }
+
 
 .wrap2{
 	width: 420px;

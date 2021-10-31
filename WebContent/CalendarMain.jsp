@@ -77,7 +77,7 @@
 		// 추후에 jsp include에 사용되어 모든 페이지에 적용할 수도 있음
 		let webSocket = new WebSocket("ws://localhost:8080/team1jo/socketAlert");
 		
-		webSocket.onopen=function(changeUser){
+		webSocket.onopen=function(){
 			
 		};
 		
