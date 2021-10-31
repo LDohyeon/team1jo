@@ -8,10 +8,15 @@ public class CommentDTO {
 	private String time;
 	private String id;
 	private String commentSplit;
+	private int commentCount;
 	
 	
-	
-	
+	public int getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
 	public String getCommentSplit() {
 		return commentSplit;
 	}

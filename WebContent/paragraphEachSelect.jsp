@@ -109,6 +109,10 @@
 			{
 				display:none;
 			}
+			.commentUpdate
+			{
+				display:none;
+			}
 
         </style>
 	</head>
@@ -177,6 +181,92 @@
 				<span>댓글 고유 번호 : ${clistSelect.getNum() }</span>
 				<span>작성 아이디 : ${clistSelect.getId() }</span>
 				<span>작성 시간 : ${clistSelect.getTime() }</span>
+				<span>댓글 순서도 : ${clistSelect.getCommentCount()}</span>
+
+				<c:if test="${loginUserId == clistSelect.getId() }">
+					<span onclick="cup(${clistSelect.getCommentCount()})">수정</span>
+					<a href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
+				</c:if>
+
+				<div class="commentUpdate">
+					<form method="post" action="commentUpdate.do" class="frm" name="frm">
+			            <div>
+			                <div class="editor">
+			                    <div class="editorTool">
+			                        <div class="fontType">
+			                            <select class="fontTypes" onchange="selectFont(${clistSelect.getCommentCount()})">
+			                            	<option value="고딕">고딕</option>
+			                            	<option value="굴림">굴림</option>
+			                            	<option value="궁서">궁서</option>
+			                            	<option value="돋움">돋움</option>
+			                            	<option value="바탕">바탕</option>
+			                            </select>
+			                        </div>
+			                        <div class="fontStyle">
+			                            <button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
+			                            <button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
+			                            <button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
+			                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${clistSelect.getCommentCount()}].value);">글자색</button>
+			                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${clistSelect.getCommentCount()}].value);">배경색</button>
+			                        </div>
+			                        <div class="fontAlign">
+			                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
+			                            <button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
+			                            <button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
+			                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>                      
+			                        	
+			                        </div>
+		
+			                        <div class="img">
+			                            <button class="divColor" type="button" onclick="imgInsert(${clistSelect.getCommentCount()})">사진</button>
+			                        </div>
+			                        
+			                        <div class="codeWrite">   
+			                        	<select class="language" onchange="langs(${clistSelect.getCommentCount()})">
+			                        		<option value="none">질문할 언어를 선택하세요</option>
+			                        		<option value="text/xml">html/xml</option>
+			                            	<option value="text/x-python">python</option>
+			                            	<option value="text/x-java">java</option>
+			                            	<option value="text/x-sql">sql</option>
+			                            	<option value="text/javascript">javascript</option>
+			                        	</select>
+			                        	
+			                        	
+			                        	<input class="divColor" type="button" onclick="code(${clistSelect.getCommentCount()})" value="코드 작성 하러 가기">  
+			                        	<input class="divColor" type="button" onclick="codeUpdate(${clistSelect.getCommentCount()})" value="코드 수정하러 가기">
+			                        </div>
+		
+			                    </div>
+			                    <div>
+			                    	<br>
+			                    </div>
+		          
+			                    <div class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${clistSelect.getComment()}</div>
+			                    
+			                    <input class="content" type="hidden" name="commentContent">
+			                    
+			                    <!-- 수정할 때 필요한 번호 -->
+			                    
+			                    <input class="num" type="hidden" value="${clistSelect.getNum() }" name="commentNum">
+			                    <input class="num" type="hidden" value="${pDTO.getNum() }" name="num">
+		
+			            	 </div>
+			            	 
+			            	 <input type="submit" value="글쓰기" onclick="return writeCheck(${clistSelect.getCommentCount()})">
+							 <input type="button" value="취소" onclick="cupCancle(${clistSelect.getCommentCount()})">
+						 	
+			            </div>
+		        	</form>
+		        	<!-- action="commentInsertImage.do" -->
+			        <form method="post" enctype="multipart/form-data" name="imgFrm" class="imgFrm">
+			        	<input type="file" name="imgInput" class="imgInput" onchange="imgChange(${clistSelect.getCommentCount()}, 'commentInsertImage.do')">
+			        	<input class="imgContent" type="hidden" name="imgContent">
+			        	<input name="num" type="hidden" value="<%=num%>">
+			        	<input class="num" type="hidden" value="${clistSelect.getCommentCount()}" name="commentNum">
+			        	
+			        </form>
+				</div>
+				
 				<div>${clistSelect.getCommentSplit() }</div>
 
 				<hr>
@@ -190,7 +280,7 @@
 	                <div class="editor">
 	                    <div class="editorTool">
 	                        <div class="fontType">
-	                            <select class="fontTypes" onchange="selectFont(0)">
+	                            <select class="fontTypes" onchange="selectFont(${commentLastCount })">
 	                            	<option value="고딕">고딕</option>
 	                            	<option value="굴림">굴림</option>
 	                            	<option value="궁서">궁서</option>
@@ -202,8 +292,8 @@
 	                            <button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
 	                            <button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
 	                            <button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
-	                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[0].value);">글자색</button>
-	                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[0].value);">배경색</button>
+	                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${commentLastCount }].value);">글자색</button>
+	                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${commentLastCount }].value);">배경색</button>
 	                        </div>
 	                        <div class="fontAlign">
 	                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
@@ -214,11 +304,11 @@
 	                        </div>
 
 	                        <div class="img">
-	                            <button class="divColor" type="button" onclick="imgInsert(0)">사진</button>
+	                            <button class="divColor" type="button" onclick="imgInsert(${commentLastCount })">사진</button>
 	                        </div>
 	                        
 	                        <div class="codeWrite">   
-	                        	<select id="language" onchange="langs()">
+	                        	<select class="language" onchange="langs(${commentLastCount })">
 	                        		<option value="none">질문할 언어를 선택하세요</option>
 	                        		<option value="text/xml">html/xml</option>
 	                            	<option value="text/x-python">python</option>
@@ -228,8 +318,8 @@
 	                        	</select>
 	                        	
 	                        	
-	                        	<input class="divColor" type="button" onclick="code(0)" value="코드 작성 하러 가기">  
-	                        	<input class="divColor" type="button" onclick="codeUpdate(0)" value="코드 수정하러 가기">
+	                        	<input class="divColor" type="button" onclick="code(${commentLastCount })" value="코드 작성 하러 가기">  
+	                        	<input class="divColor" type="button" onclick="codeUpdate(${commentLastCount })" value="코드 수정하러 가기">
 	                        </div>
 
 	                    </div>
@@ -246,24 +336,24 @@
 
 	            	 </div>
 	            	 
-	            	 <input type="submit" value="글쓰기" onclick="return writeCheck(0);">
+	            	 <input type="submit" value="글쓰기" onclick="return writeCheck(${commentLastCount })">
+	            	 
 
-				 	
 	            </div>
         	</form>
-
+			<form method="post" enctype="multipart/form-data" name="imgFrm" class="imgFrm">
+	        	<input type="file" name="imgInput" class="imgInput" onchange="imgChange(${commentLastCount }, 'commentInsertImage.do')">
+	        	<input class="imgContent" type="hidden" name="imgContent">
+	        	<input name="num" type="hidden" value="<%=num%>">
+	        	<input class="num" type="hidden" value="${commentLastCount }" name="commentNum">
+	        </form>
 
 		</div>
 		
 		<div class="footer">
             footer
         </div>
-        <!-- action="commentInsertImage.do" -->
-        <form method="post" enctype="multipart/form-data" name="imgFrm" class="imgFrm">
-        	<input type="file" name="imgInput" class="imgInput" onchange="imgChange(0, 'commentInsertImage.do')">
-        	<input class="imgContent" type="hidden" name="imgContent">
-        	<input name="num" type="hidden" value="<%=num%>">
-        </form>
+
         <!-- 결제 창 판업 띄우기 -->
 		<div id="wrapPonup">
 			<div id="ponup">
@@ -274,9 +364,15 @@
 		</div>
 		<input id="hid" type="hidden">
         
+        <input id="commentLastCount" type="hidden" value="${commentLastCount }">
+        
+        
+        <!-- 댓글 이미지를 저장한 후 출력하기 위한 if문 -->
+
+ 
+
 		
 	<script>	
-	
 		function selectFont(e){
 			var select=document.getElementsByClassName("fontTypes")[e];
 			var selectValue=select.options[select.selectedIndex].value;
@@ -289,7 +385,7 @@
 		}
 	
 		function btnColor(i){
-			if(i==8){
+			if(i==8 || i==16){
 				for(var i=0;i<8;i++){
 					divColor[i].style.backgroundColor="white";
 				}
@@ -312,9 +408,6 @@
 				text=document.getElementsByClassName("writeContent")[e].innerHTML;
 				document.getElementsByClassName('content')[e].value=text;
 
-				console.log(text);
-				console.log(document.getElementsByClassName('content')[e].value);
-				
 				return true;
 		}
 		
@@ -359,7 +452,7 @@
 		var language;
 		function langs(e)
 		{
-			language=document.getElementById("language").value;
+			language=document.getElementsByClassName("language")[e].value;
 		}
 		
 		var writeContentLib=null;
@@ -399,7 +492,7 @@
 
 		function code(e)
 		{
-			langs();//온체인지
+			langs(e);//온체인지
 			
 			if(language == "none")
 			{
@@ -528,8 +621,27 @@
 		
 	
 
+		var cupClass = document.getElementsByClassName("commentUpdate");
+		function cup(count)
+		{
+			cupClass[count].style.display="none";
+			for(var i=0; i<cupClass.length; i++)
+			{
+				cupClass[i].style.display="none";
+				if(i==count)
+				{
+					cupClass[count].style.display="block";
+				}
+			}
+		}
 		
+		function cupCancle(count)
+		{
+			cupClass[count].style.display="none";
+		}
 		
+
+
 		
 		
 		
@@ -601,18 +713,20 @@
 			}
 			
 		</script>
-		
-		
+
+
 
 		<c:if test="${focusdown!=null }">
 			<script>
+				
+				var commentLastCount= document.getElementById("commentLastCount").value;
 			
-				function writeFocus()
+				function writeFocus(commentLastCount)
 				{
-					document.getElementsByClassName("writeContent")[0].focus();
+					document.getElementsByClassName("writeContent")[commentLastCount].focus();
 				}
 				//이미지 넣고 포커스를 맞추기 위함	
-				writeFocus();
+				writeFocus(commentLastCount);
 			</script>
 		</c:if>
 	</body>

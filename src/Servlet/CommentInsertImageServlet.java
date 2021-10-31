@@ -37,6 +37,8 @@ public class CommentInsertImageServlet extends HttpServlet {
 		String imgContent = multi.getParameter("imgContent");
 		String imgInput = multi.getFilesystemName("imgInput");
 		int num= Integer.parseInt(multi.getParameter("num"));
+		String commentNumber= multi.getParameter("commentNum");
+		
 		
 		String[] imgContents=imgContent.split("★");
 		
@@ -50,9 +52,12 @@ public class CommentInsertImageServlet extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("imageInsertContent", imgContentsHap);
-
-
+		session.setAttribute("commentNumber", commentNumber);
+		
+		
 		response.sendRedirect("paragraphEachSelect.do?num="+num+"&&flag=1");
+
+		
 		
 		
 

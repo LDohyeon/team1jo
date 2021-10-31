@@ -19,35 +19,27 @@ public class CommentUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int num=Integer.parseInt(request.getParameter("num"));
-		//System.out.println("::::::수정버튼 클릭 시 이동확인:::::::");
-		CommentDAO cDAO = CommentDAO.getInstance();
-		CommentDTO cDTO = cDAO.CommentContents(num);
-		System.out.println();
-		request.setAttribute("comment", cDTO);
-		request.setAttribute("flag", "u");
-		request.setAttribute("num", num);
-		//System.out.println(cDTO.getParagraph_num());
-		RequestDispatcher dispatcher=request.getRequestDispatcher("paragraphEachSelect.do?num="+cDTO.getParagraph_num());
-		dispatcher.forward(request, response);
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String comment=request.getParameter("comment");
+				
+		String commentContent=request.getParameter("commentContent");
+		
 		int num = Integer.parseInt(request.getParameter("num"));
-		
+		int commentNum = Integer.parseInt(request.getParameter("commentNum"));
+
 		CommentDAO cDAO=CommentDAO.getInstance();
-		CommentDTO commentDTO = cDAO.CommentContents(num);
-		
+
 		CommentDTO cDTO=new CommentDTO();
-		cDTO.setComment(comment);
-		cDTO.setNum(num);
+		cDTO.setComment(commentContent);
+		cDTO.setNum(commentNum);
 		
 		cDAO.commentUpdate(cDTO);
 
 		
-		response.sendRedirect("paragraphEachSelect.do?num="+commentDTO.getParagraph_num());
+		response.sendRedirect("paragraphEachSelect.do?num="+num+"&&flag=0");
 	}
 
 }
