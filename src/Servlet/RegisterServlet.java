@@ -14,7 +14,8 @@ public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String au = (String)request.getParameter("au");
+		HttpSession session = request.getSession();  
+		String au = (String)session.getAttribute("Authority");
 		if(au == null){
 			RequestDispatcher dispatcher= request.getRequestDispatcher("register.jsp");
 			dispatcher.forward(request, response);
@@ -27,7 +28,8 @@ public class RegisterServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String au = (String)request.getParameter("au");
+		HttpSession session = request.getSession();  
+		String au = (String)session.getAttribute("Authority");
 		if(au == null){
 			String id = request.getParameter("id");
 			String pw = request.getParameter("pw");

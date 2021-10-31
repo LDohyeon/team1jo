@@ -5,14 +5,19 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>차트</title>
-		<link rel="stylesheet" href="style.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>	
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+		<style>
+			.chartWrap{
+				width: 1252px;
+				margin: 270px auto;
+			}
+		</style>
 	</head>
 	<body>
-		<div class="chartCanvas">
-			<canvas id="myChart" style="display:inline-block;"></canvas>
-  			<canvas id="myChart02" style="display:inline-block;"></canvas>
-  			<canvas id="myChart03" style="display:inline-block;"></canvas>
+		<div class="chartWrap">
+			<canvas id="myChart" style="display:inline-block; width:400px; height:400px;"></canvas>
+  			<canvas id="myChart02" style="display:inline-block; width:400px; height:400px; margin-left:20px;"></canvas>
+  			<canvas id="myChart03" style="display:inline-block; width:400px; height:400px; margin-left:20px;"></canvas>
 		</div>
 		<script>
 			///////////////////////////////정현/////////////////////////////////

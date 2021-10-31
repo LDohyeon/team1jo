@@ -5,50 +5,134 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>회원 추가 페이지</title>
-		<link rel="stylesheet" href="style.css">
+		<style>
+			.registerWrap{
+				width:700px;
+				margin:140px auto;
+			}
+			.registerWrap h2{
+				padding-left:8px;
+				font-size:30px;
+			}
+			.registerDiv table{
+				width:700px;
+				border-top:1px solid black;
+				height:500px;
+				border-spacing:0; 
+			}
+			.registerDiv table th {
+				background:#f1f1f1; 
+				border-bottom:1px solid #dbdadf; 
+				border-right:1px solid #dbdadf; 
+				font-size:16px;  
+				padding:0 10px; 
+				text-align:left;
+				height: 115px;
+			}
+			.registerDiv table td {
+				border-bottom:1px solid #dbdadf; 
+				border-right:1px solid #dbdadf; 
+				padding:10px 10px;
+				height: 115px;
+			}
+			.registerDiv table td:last-child {
+				border-right:0;
+			}
+			
+			.registerInput {
+				line-height:40px; 
+				font-size:15px; 
+				border:1px solid #dbdadf;
+				padding:0 10px; 
+			}
+			.registerSelect {
+				height:42px; 
+				border:1px solid #dbdadf; 
+				font-size:15px; 
+			}
+			.grayButton { 
+				height:40px; 
+				color:#fff; 
+				background:#5f5f61;
+				padding:10px 20px; 
+				font-size:15px; 
+				display:block; 
+				width:700px;
+			}
+			.blueButton { 
+				height:40px; 
+				color:#fff; 
+				background:#152aa1; 
+				font-size:15px; 
+				display:block; 
+				width:700px;
+			}
+			.registerIdCheck{
+				padding:5px; 
+				margin-left:10px;
+				color:#fff; 
+				background:#152aa1;
+			}
+			.registerMsg{
+				color:#152aa1;
+				margin-top:20px;
+				width: 350px;
+			}
+		</style>
 	</head>
 	<body>
-		<div class="wrap1">
-			<% String au = (String)request.getParameter("au"); %>
-			<form name="register" method="post" action="register.do?au=<%=au%>">
-				<div class="wrap2">
-					<h1>회원 추가</h1>
-					<h4>*은 필수 항목 입니다</h4>
-					<div>
-						<span>*아이디 : </span>
-						<span><input type="text" name="id" id="id"></span>
-						<span><input type="button" class="registerIdCheck" value="아이디 중복 확인" onclick="request_doPost()"></span>
-						<span class="registerMsg">아이디를 입력해주세요</span>
-					</div>
-					<div>
-						<span>*비밀번호 : </span>
-						<span><input type="password" name="pw"></span>
-						<span class="registerMsg">비밀번호를 입력해주세요</span>
-					</div>
-					<div>
-						<span>*이름 : </span>
-						<span><input type="text" name="name"></span>
-						<span class="registerMsg">이름을 입력해주세요</span>
-					</div>
-					<div>
-						<span>*이메일 : </span>
-						<span><input type="email" name="email"></span>
-						<span class="registerMsg">이메일을 입력해주세요</span>
-					</div>
-					<div>
-						<span>권한 : </span>
-						<select name="selAuValue">
-							<option value="1">관리자(1)</option>
-							<option value="2">일반 회원(2)</option>
-							<option value="3">신고 당한 사람(3)</option>
-							<option value="4">정지 권한(4)</option>
-						</select>
-					</div>
-					<div>
-						<span><input type="submit" value="회원가입" onclick="return registerCheck()"></span>
-					</div>
-				</div>
-			</form>
+		<% String au = (String)session.getAttribute("Authority"); %>
+		<div class="registerWrap">
+			<h2>회원추가</h2>
+			<div class="registerDiv">
+				<form name="register" method="post" action="register.do?au=<%=au%>">
+				<table>
+						<tr>
+							<th>아이디</th>
+							<td>
+								<input class="registerInput" id="id" type="text" name="id">
+								<input type="button" class="registerIdCheck" value="아이디 중복 확인" onclick="request_doPost()">
+								<span class="registerMsg">아이디를 입력해주세요</span>
+							</td>
+						</tr>
+						<tr>
+							<th>비밀번호</th>
+							<td>
+								<input class="registerInput" type="password" name="pw">
+								<span class="registerMsg">비밀번호를 입력해주세요</span>
+							</td>
+						</tr>
+						<tr>
+							<th>이름</th>
+							<td>
+								<input class="registerInput" type="password" name="name">
+								<span class="registerMsg">이름을 입력해주세요</span>
+							</td>
+							
+						</tr>
+						<tr>
+							<th>이메일</th>
+							<td>
+								<input class="registerInput" type="email" name="email">
+								<span class="registerMsg">이름을 입력해주세요</span>
+							</td>
+						</tr>
+						<tr>
+							<th>권한</th>
+							<td>
+								<select name="selAuValue" class="registerSelect">
+									<option value="1">관리자(1)</option>
+									<option value="2">일반 회원(2)</option>
+									<option value="3">신고 당한 사람(3)</option>
+									<option value="4">정지 권한(4)</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+					<span><input class="blueButton" type="submit" value="회원추가" onclick="return registerCheck()"></span>
+					<span><input class="grayButton" type="button" value="취소" onclick="locationHref()"></span>
+				</form>
+			</div>
 		</div>
 		<script>
 			var frm = document.register;
@@ -122,7 +206,7 @@
 							frm.id.focus();
 					      	registerResult = false;
 					   	}
-				   	}	   
+				   	}
 				}
 				return registerResult;
 			}
@@ -199,12 +283,17 @@
 					regMsg[0].style.display = "block";
 					frm.id.focus(); 
 				} else {
-					regMsg[0].innerHTML = "<span class='registerMsg' style='padding-left:0px; color:green;'>사용 가능한 아이디 입니다.</span>";	
+					regMsg[0].style.color = "green";
+					regMsg[0].innerHTML = "사용 가능한 아이디 입니다.";	
 					regMsg[0].style.display = "block";
 					frm.id.focus();
 					overlapStatus = "Y";
 					currentId = frm.id.value;
 				}
+			}
+			
+			function locationHref(){
+				location.href="index.jsp";
 			}
 		</script>
 	</body>
