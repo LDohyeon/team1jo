@@ -16,6 +16,7 @@ public class groupMemberSocket  {
 	public void skOpen(Session session, EndpointConfig confi) {
 		HttpSession hsession=(HttpSession) confi.getUserProperties().get("UserHttpSession");
 		sessionMap.put(session, hsession);
+		System.out.println("socket connetion");
 	}
 	
 	@OnMessage
@@ -26,12 +27,13 @@ public class groupMemberSocket  {
 			Session key = keys.next(); 
 			key.getBasicRemote().sendText(changeUser);
 		}
+		System.out.println("socket onmessage from server");
 	}
 	
 	@OnClose
 	public void  skClose(Session session) {
-		System.out.println("Socket Close: Client Close");
 		sessionMap.remove(session);
+		System.out.println("Socket Close: Client Close");
 	}
 	
 	@OnError

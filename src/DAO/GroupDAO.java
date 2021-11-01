@@ -548,3 +548,31 @@ drop table groupModifier;
  */
 
 //delete from groupmember where id='test' and invite='notaccept';
+
+/*
+create database status200;
+	create table member(
+			num int primary key auto_increment,
+			id text,			
+pw text,
+			name text,
+			authority text,
+			email text);
+alter table member add stopdate date;	
+alter table member add createdate date;
+ */
+
+/*
+create table paragraph(
+			num int primary key auto_increment,
+			id text,
+			name text,
+			title text,
+			contents text,
+			category text,
+			date datetime);
+alter table paragraph add hits int;	
+alter table paragraph add tag text;
+
+*/
+

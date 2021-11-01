@@ -399,12 +399,12 @@
             ccc.setAttribute("value", "M");
             ccc.setAttribute("selected", "true");
             cc.appendChild(ccc);
-            
+            /*
             ccc = document.createElement("option");
             ccc.innerHTML = "주";
             ccc.setAttribute("value", "W");
             cc.appendChild(ccc);
-            
+            */
             ccc = document.createElement("option");
             ccc.innerHTML = "일";
             ccc.setAttribute("value", "D");
@@ -841,7 +841,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm(date);
-					scheduleCheckMonth(date);
+					scheduleCheck(date);
 					whatIsDateInfo(selectForm, date);
 				}
 				else if(selectForm=="W"){
@@ -860,7 +860,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm();
-					scheduleCheckMonth(getToday());
+					scheduleCheck (getToday());
 					whatIsDateInfo(selectForm, getToday());
 				}
 				else if(selectForm=="W"){
@@ -1037,7 +1037,7 @@
 	                cc.classList.add("monthBox"); 
 	                
 	                let thisTimeDate="";
-	                
+	                08 > 8
 					if(i<10){
 						if(date.month<10){
 							thisTimeDate = date.year+"0"+date.month+"0"+i
@@ -1045,7 +1045,7 @@
 						else{
 							thisTimeDate = date.year+""+date.month+"0"+i
 						}
-					}
+					}202188
 					else{
 						if(date.month<10){
 							thisTimeDate = date.year+"0"+date.month+""+i	
@@ -1053,7 +1053,7 @@
 						else{
 							thisTimeDate = date.year+""+date.month+""+i;
 						}
-					}					
+					}				
 					console.log("중요! 해당 위의 구문과 같이 모든 데이터를 처리하는 별도 태그가 해당 폼의 요소에 포함되어 정보를 식별해야함");
 	                cc.addEventListener("click", visibleSchedule);
 
@@ -2710,7 +2710,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			};
@@ -2736,7 +2736,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			};
@@ -2912,6 +2912,21 @@
 				
 			}
 		}
+		
+		function scheduleCheck (date){
+			let form = document.getElemetsByClassName("selectForm")[0].value;
+			
+			if(form=="Y"){
+				
+			}
+			else if(form=="M"){
+				scheduleCheckMonth(date);
+			}
+			else if(form=="D"){
+				
+			}
+		}
+		
 		
 		// 월 형식 스케줄을 체크하고 구현
 		function scheduleCheckMonth (date){
@@ -3490,7 +3505,7 @@
 			XHRGroup.onreadystatechange=function(){
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3553,7 +3568,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3719,7 +3734,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3776,7 +3791,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
