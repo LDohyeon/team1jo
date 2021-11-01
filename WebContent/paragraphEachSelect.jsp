@@ -691,6 +691,8 @@
 			var languageMode =document.getElementById("languageMode").value;
 			var languageModeId =document.getElementById("languageModeId").value;
 
+			console.log(languageMode);
+			
 			var languageModeSplit= languageMode.split(",");
 			var languageModeIdSplit= languageModeId.split(",");
 			
