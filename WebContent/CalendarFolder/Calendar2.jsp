@@ -4070,8 +4070,6 @@
 	                  				}
 	                  			}
 	                      	}
-	                      	console.log(thisTimeDate);
-	                      	
 	                      	cccccc=document.createElement("input");
 		                	cccccc.classList.add("dateTag");
 		                  	cccccc.setAttribute("type","text");
