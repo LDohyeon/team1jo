@@ -104,19 +104,12 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 
 		
 		String commentCode="";
-		String brCounts="";
+
 
 
 		for(int i=0; i<clist.size(); i++)
 		{	
-			String commentStr= clist.get(i).getComment();
-			
-			String[] brCount = commentStr.split("<br>");
-			
-			brCounts += (brCount.length-1)*30+",";
-			
 
-			
 			String[] commentContent = clist.get(i).getComment().split("※");
 			
 			for(int j=0; j<commentContent.length; j++)
@@ -162,9 +155,6 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		int commentLastCount = cDAO.commentLastCount(num);
 		
 
-	
-
-		request.setAttribute("brCounts", brCounts);
 
 		request.setAttribute("commentLastCount", commentLastCount);//댓글 수정이 아닌 댓글 쓰기를 위한 숫자
 		request.setAttribute("clistSelect", clistSelect);

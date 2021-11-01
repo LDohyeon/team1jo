@@ -127,6 +127,19 @@
 				z-index: 60;
 			}
 
+			.CodeMirror {
+			    border: 1px solid #eee;
+			    height: auto;
+			    max-height:200px;
+			}
+			
+			.CodeMirror-scroll {
+			    height: auto;
+			    max-height:200px;
+			}
+
+
+
         </style>
 	</head>
 	<body>
@@ -388,7 +401,7 @@
         
         <div id="imageInsertContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
         <input id="commentNum" type="hidden" value="${commentNum }">
-        <input id=brCounts type="hidden" value="${brCounts }">
+
     
 	<script>	
 		function selectFont(e){
@@ -720,21 +733,21 @@
 		<script>
 			var languageMode =document.getElementById("languageMode").value;
 			var languageModeId =document.getElementById("languageModeId").value;
-			
-			var brCount = document.getElementById("brCounts").value;
-			
+
 			var languageModeSplit= languageMode.split(",");
 			var languageModeIdSplit= languageModeId.split(",");
 			
-			var brCounts = brCount.split(",");
-			
-			console.log(brCount);
 			
 			for(var i=0; i<languageModeSplit.length-1; i++)
 			{
 				var textArea= document.getElementById(languageModeIdSplit[i]);
 
 				textArea = CodeMirror.fromTextArea(textArea, {
+					//tabSize:2,
+					//smartIndent:true,
+					//viewportMargin: Infinity,
+					//lineWrapping:true,   
+	
 					lineNumbers: true,
 					theme: "darcula",
 					mode: languageModeSplit[i],
@@ -744,8 +757,10 @@
 					autocapitalize: true,
 					readOnly: true,
 					autoCloseTags: true
+
 				});
-				textArea.setSize("800", brCounts[i]);
+				//textArea.setSize("800", "200");
+
 			}
 			
 		</script>
