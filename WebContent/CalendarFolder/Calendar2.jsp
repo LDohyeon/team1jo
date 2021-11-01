@@ -4078,7 +4078,6 @@
 		                   	cccc.appendChild(ccccc);// 15분 단위로 dayScheduleCheck[0]: 0~15 / dayScheduleCheck[1] : 15~30 / dayScheduleCheck[2]: 30~45 / dayScheduleCheck[3]: 45~60
 	                    }
 	                      	
-	                   
 	               	}
 	            	ccc.appendChild(cccc);
 				}
