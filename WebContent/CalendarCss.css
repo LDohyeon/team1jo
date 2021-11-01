@@ -108,12 +108,119 @@
 	display:none;
 }
 
-.calendarHeader:after{
+.calendarHeader::after{
 	content: "";
 	display: block;
 	clear:both;
 }
-
+.calendarHeadBar::after{
+	content: "";
+	display: none;
+	clear: both;
+}
+/* =====================================================
+ * === 켈린더 서치 ========================================
+ * ===================================================== */
+ 
+.calendarSearchBarLeft{
+	width: calc(100% - 200px);
+	display:block;
+	float: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
+}
+.calendarSearchBarRight{
+	min-width: 200px;
+	display:block;
+	float: right;
+}
+.calendarSearchBar{
+	margin-top: 3px;
+	margin-bottom: 3px;
+	height: 32px; 
+	width: 80%;
+	padding-left: 25px;
+	padding-right: 25px;
+	border: 1px solid lightgray;
+	border-radius: 16px;
+	float: left;
+	margin-left: 4%;
+	float: right;
+	line-height: 32px;
+}
+.calendarSearchBtn{
+	width: 32px;
+	height: 32px;
+	border: 1px solid lightgray;
+	border-radius: 18px;
+	margin-top: 13px;
+	margin-bottom: 13px;
+	margin-left: 8px;
+	margin-right: 8px;
+	display:block;
+	background-image: url(./imgSource/SearchIcon.png);
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	background-position: center;
+	float: left;
+}
+.calendarXBtn{
+	width: 32px;
+	height: 32px;
+	border: 1px solid lightgray;
+	border-radius: 18px;
+	margin-top: 13px;
+	margin-bottom: 13px;
+	margin-right: 44px;
+	display:block;
+	text-align: center;
+	line-height: 32px;
+	background-repeat: no-repeat;
+	background-size: contain;
+	float: left;
+	font-size: 0.9em;
+}
+.calendarSearchResult{
+	position: absolute;
+	z-index: 600;
+	display: block;
+	width: calc(100% - 200px);
+	margin-top: 36px;
+}
+.scheduleSearchLists{
+	height: 32px; 
+	width: 80%;
+	padding-left: 25px;
+	padding-right: 25px;
+	border: 1px solid lightgray;
+	border-radius: 16px;
+	float: left;
+	margin-left: 4%;
+	float: right;
+	line-height: 32px;
+	background-color: white;
+}
+.calendarXBtn:hover{
+	animation-duration: 0.3s;
+	animation-name: chooseHeadSearchBtn;
+	animation-fill-mode: forwards;
+}
+.calendarSearchBtn:hover{
+	animation-duration: 0.3s;
+	animation-name: chooseHeadSearchBtn;
+	animation-fill-mode: forwards;
+}
+@keyframes chooseHeadSearchBtn{
+	from{
+		
+	}
+	to{
+		background-size: 25px 25px;
+		font-size: 1.1em;
+		background-color: lightgray;
+	}
+}
 /* =====================================================
  * === 켈린더 보디 ========================================
  * ===================================================== */

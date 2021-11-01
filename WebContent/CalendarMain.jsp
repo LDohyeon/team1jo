@@ -36,8 +36,8 @@
 		
 /* ====================================================================
  * ==== 알림 ===========================================================
- * ====================================================================*/  		
- 
+ * ====================================================================*/  	
+ 		
 		//Invite XHR 
 		var XHRInvite;
 		
@@ -412,78 +412,102 @@
   		 	c = document.createElement("div");
             c.classList.add("calendarSearch");
            	
-			cc = document.createElement("div");
-           	cc.classList.add("calendarSearchBar");
-           	cc.setAttribute("contenteditable", "true");
+            cc = document.createElement("div");
+            cc.classList.add("calendarSearchBarLeft");
+            
+			ccc = document.createElement("div");
+           	ccc.classList.add("calendarSearchBar");
+           	ccc.setAttribute("contenteditable", "true");
+           	cc.appendChild(ccc);
+           	
+           	ccc = document.createElement("div");
+           	ccc.classList.add("calendarSearchResult");
+           	cc.appendChild(ccc);
            	c.appendChild(cc);
            	
            	cc = document.createElement("div");
-           	cc.classList.add("calendarSearchResult");
-           	c.appendChild(cc);
+            cc.classList.add("calendarSearchBarRight");
+
+           	ccc = document.createElement("div");
+           	ccc.classList.add("calendarSearchBtn");
+           	cc.appendChild(ccc);
            	
-           	cc = document.createElement("div");
-           	cc.classList.add("calendarSearchBtn");
+           	ccc = document.createElement("div");
+           	ccc.classList.add("calendarXBtn");
+           	ccc.innerHTML = "X";
+           	cc.appendChild(ccc);
+           	
            	c.appendChild(cc);
            	v.appendChild(c);
     		
-            c = document.createElement("div");
-            c.classList.add("calendarHeadMenu");
-            c.addEventListener("click", calendarMenu);
-            v.appendChild(c);
+           	c = document.createElement("div");
+           	c.classList.add("calendarHeadBar");
+           	
+            cc = document.createElement("div");
+            cc.classList.add("calendarHeadMenu");
+            cc.addEventListener("click", calendarMenu);
+            c.appendChild(cc);
             
-            c = document.createElement("div");
-            c.classList.add("calendarHeadNow");
-            c.addEventListener("click", goCalendarToday);
-            v.appendChild(c);
+            cc = document.createElement("div");
+            cc.classList.add("calendarHeadNow");
+            cc.addEventListener("click", goCalendarToday);
+            c.appendChild(cc);
             
-            c = document.createElement("div");
-            c.classList.add("calendarHeadPre");
-            c.addEventListener("click", goCalendarPrevious);
-            v.appendChild(c);
+            cc = document.createElement("div");
+            cc.classList.add("calendarHeadPre");
+            cc.addEventListener("click", goCalendarPrevious);
+            c.appendChild(cc);
             
-            c = document.createElement("div");
-            c.classList.add("calendarHeadNext");
-            c.addEventListener("click", goCalendarNext);
-            v.appendChild(c);
+            cc = document.createElement("div");
+            cc.classList.add("calendarHeadNext");
+            cc.addEventListener("click", goCalendarNext);
+            c.appendChild(cc);
             
-            c = document.createElement("div");
-            c.classList.add("calendarHeadDate");
-            
-            v.appendChild(c);
-            
-            c = document.createElement("div");
-            c.classList.add("calendarHeadSelect");
-            cc = document.createElement("select");
-            cc.classList.add("selectForm");
-            ccc = document.createElement("option");
-            ccc.innerHTML = "년";
-            ccc.setAttribute("value", "Y");
-            cc.appendChild(ccc);
-            
-            ccc = document.createElement("option");
-            ccc.innerHTML = "월";
-            ccc.setAttribute("value", "M");
-            ccc.setAttribute("selected", "true");
-            cc.appendChild(ccc);
-            
-            ccc = document.createElement("option");
-            ccc.innerHTML = "주";
-            ccc.setAttribute("value", "W");
-            cc.appendChild(ccc);
-            
-            ccc = document.createElement("option");
-            ccc.innerHTML = "일";
-            ccc.setAttribute("value", "D");
-            cc.appendChild(ccc);
+            cc = document.createElement("div");
+            cc.classList.add("calendarHeadDate");
             
             c.appendChild(cc);
-            v.appendChild(c);
             
-            c = document.createElement("div");
-            c.classList.add("calendarHeadSearch");
-            c.addEventListener("click", visiableCalendarSearch);
-            v.appendChild(c);
+            cc = document.createElement("div");
+            cc.classList.add("calendarHeadSelect");
+            ccc = document.createElement("select");
+            ccc.classList.add("selectForm");
+            cccc = document.createElement("option");
+            cccc.innerHTML = "년";
+            cccc.setAttribute("value", "Y");
+            ccc.appendChild(cccc);
             
+            cccc = document.createElement("option");
+            cccc.innerHTML = "월";
+            cccc.setAttribute("value", "M");
+            cccc.setAttribute("selected", "true");
+            ccc.appendChild(cccc);
+            /*
+            cccc = document.createElement("option");
+            cccc.innerHTML = "주";
+            cccc.setAttribute("value", "W");
+            ccc.appendChild(cccc);
+            */
+            cccc = document.createElement("option");
+            cccc.innerHTML = "일";
+            cccc.setAttribute("value", "D");
+            ccc.appendChild(cccc);
+            cc.appendChild(ccc);
+            c.appendChild(cc);
+            
+            cc = document.createElement("div");
+            cc.classList.add("calendarHeadSearch");
+            cc.addEventListener("click", visiableCalendarSearch);
+            
+            ccc = document.createElement("input");
+            ccc.classList.add("calendarHeadSearchFlag");
+            ccc.setAttribute("type", "hidden");
+            ccc.setAttribute("value", "false");
+            
+            cc.appendChild(ccc);
+            c.appendChild(cc);
+            v.appendChild(c);
+    
             return v;
         }
         
@@ -918,7 +942,39 @@
         
         let scheduleFormStartTimeBtn = document.getElementsByClassName("scheduleFormStartTime")[0];
         scheduleFormStartTimeBtn.addEventListener("change", function(){
+        	let scfet = event.target;
+        	let scfst = document.getElementsByClassName("scheduleFormEndTime")[0];
+        	let options = scfst.getElementsByTagName("option");
         	
+        	let time = scfet.value;
+        	let hour = time.substring(0,2);
+        	let min = time.substring(3,5);
+    
+        	for(let i = 0; i < options.length; i++){
+        		let temptime = options[i].value;
+        		let temphour = temptime.substring(0,2);
+            	let tempmin = temptime.substring(3,5);
+            	if(temphour==hour){
+            		if(tempmin>=min){
+            			options[i].setAttribute("style", "display:block;");
+            		}
+            		else if(tempmin<min){
+            			options[i].setAttribute("style", "display:none;");
+            		}
+            	}
+            	else if(temphour<hour){
+            		options[i].setAttribute("style", "display:none;");
+            	}
+            	else{
+            		options[i].setAttribute("style", "display:block;");
+            	}
+            	if(i==options.length-1){
+            		let str = temphour+":"+tempmin
+            		scfst.setAttribute("value", str);
+            		scfst.value = str;
+            		console.log(str);
+            	}
+        	}
         });
         
         let scheduleFormEndTimeBtn = document.getElementsByClassName("scheduleFormEndTime")[0];
@@ -932,16 +988,25 @@
         	let min = time.substring(3,5);
     
         	for(let i = 0; i < options.length; i++){
-        		let temptime = options.value;
+        		let temptime = options[i].value;
         		let temphour = temptime.substring(0,2);
             	let tempmin = temptime.substring(3,5);
-            	
-            	if(temphour>=hour){
-            		if(tempmin>=min){
-            			console.log("수정중")
+            	console.log(temphour);
+            	console.log(tempmin);
+            	if(temphour==hour){
+            		if(tempmin<=min){
+            			options[i].setAttribute("style", "display:block;");
+            		}
+            		else if(tempmin>min){
+            			options[i].setAttribute("style", "display:none;");
             		}
             	}
-            	
+            	else if(temphour>hour){
+            		options[i].setAttribute("style", "display:none;");
+            	}
+            	else{
+            		options[i].setAttribute("style", "display:block;");
+            	}
         	}
         });
         
@@ -3057,6 +3122,19 @@
 			XHRCalendar.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 			XHRCalendar.send("num="+data.num);
 		}
+		
+		let calendarHeadSearch = document.getElementsByClassName("calendarHeadSearch")[0];
+		calendarHeadSearch.addEventListener("click", function(){
+			let calendarSearch = document.getElementsByClassName("calendarSearch")[0];
+			let calendarHeadBar = document.getElementsByClassName("calendarHeadBar")[0];
+			let calendarHeadSearchFlag = document.getElementsByClassName("calendarHeadSearchFlag")[0];
+			
+			if(calendarHeadSearchFlag.value=="false"){
+				calendarHeadSearchFlag.setAttribute("click", "true");
+				calendarHeadBar.setAttribute("style", "display:none");
+				calendarSearch.setAttribute("style", "display:block");
+			}
+		});
 		
 		// 스케줄 검색 기능
 		let CalendarHeadSearchbar = document.getElementsByClassName("calendarSearchBar")[0];
