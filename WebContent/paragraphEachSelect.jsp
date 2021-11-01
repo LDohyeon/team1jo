@@ -500,6 +500,10 @@
 				return;
 			}
 			
+			var viewScroll=document.documentElement.scrollTop;
+			
+			scrolled(viewScroll);
+			
 			document.getElementsByClassName("writeContent")[e].focus();
 			
 			insertSpan(e);
@@ -542,6 +546,10 @@
 			}
 			else if(document.getSelection().isCollapsed==false)
 			{
+				
+				var viewScroll=document.documentElement.scrollTop;
+				
+				scrolled(viewScroll);
 				
 				insertSpan(e);
 				
@@ -644,15 +652,10 @@
 
 		
 		
+
 		
-		
-		
-		
-		
-		
-		
-		
-		window.onload =function()
+		//window.onload =function()
+		function scrolled(viewScroll)
 		{
 			//판업창 디자인
 			//판업창
@@ -667,12 +670,16 @@
 			var width=(window.screen.width/2)-(800/2);
 			var height=(window.screen.height/2)-(600/2);
 			
+			
 			var fullWidth=window.screen.width;
 			var fullHeight=scrollHeight;
+			
+			
+			
 			function pon()
 			{
 				ponup.style.left=width+"px";	
-				ponup.style.top=height+"px";	
+				ponup.style.top=viewScroll+height+"px";	
 				wrapPonup.style.width=fullWidth+"px";
 				wrapPonup.style.height=fullHeight+"px";
 			}
@@ -680,6 +687,8 @@
 			var ponupFrm = document.getElementById("ponupFrm");
 
 		}
+		
+		
 		function getTag(ths){
 			var text=$(ths).text();
 			location.href="search.do?searchValue="+text.replace('#','')+"&startPage=1";

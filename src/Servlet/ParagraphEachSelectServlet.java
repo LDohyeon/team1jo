@@ -26,7 +26,7 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		if(flag==0)
 		{
 			HttpSession session = request.getSession();
-			session.setAttribute("imageInsertContent", "");
+			session.removeAttribute("imageInsertContent");
 			//session에 남아있는 이미지와 글귀들 삭제
 			//commentInsertImage 확인
 			
@@ -45,7 +45,7 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 			request.setAttribute("focusdown", focus);
 			
 			HttpSession session = request.getSession();
-			session.setAttribute("imageInsertContent", "");
+			session.removeAttribute("imageInsertContent");
 
 		}
 
