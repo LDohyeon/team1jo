@@ -25,6 +25,7 @@
 		<script src="codeMirror/clike.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<style>			
+
             .writeContent{ 
                 width: 800px;
                 height: 300px;
@@ -261,7 +262,12 @@
 			                    
 			                    <input class="num" type="hidden" value="${clistSelect.getNum() }" name="commentNum">
 			                    <input class="num" type="hidden" value="${pDTO.getNum() }" name="num">
-		
+			                    
+			                    
+			                    <!-- br개수 -->
+			                    
+			                    
+								
 			            	 </div>
 			            	 
 			            	 <input type="submit" value="글쓰기" onclick="return writeCheck(${clistSelect.getCommentCount()})">
@@ -382,6 +388,7 @@
         
         <div id="imageInsertContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
         <input id="commentNum" type="hidden" value="${commentNum }">
+        <input id=brCounts type="hidden" value="${brCounts }">
     
 	<script>	
 		function selectFont(e){
@@ -505,6 +512,7 @@
 
 		function code(e)
 		{
+			
 			langs(e);//온체인지
 			
 			if(language == "none")
@@ -713,8 +721,14 @@
 			var languageMode =document.getElementById("languageMode").value;
 			var languageModeId =document.getElementById("languageModeId").value;
 			
+			var brCount = document.getElementById("brCounts").value;
+			
 			var languageModeSplit= languageMode.split(",");
 			var languageModeIdSplit= languageModeId.split(",");
+			
+			var brCounts = brCount.split(",");
+			
+			console.log(brCount);
 			
 			for(var i=0; i<languageModeSplit.length-1; i++)
 			{
@@ -731,7 +745,7 @@
 					readOnly: true,
 					autoCloseTags: true
 				});
-				textArea.setSize("800", "180");
+				textArea.setSize("800", brCounts[i]);
 			}
 			
 		</script>

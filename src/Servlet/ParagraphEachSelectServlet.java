@@ -32,10 +32,8 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		}
 		else if(flag==1)
 		{
-
 			String focus = "1";
 			request.setAttribute("focusdown", focus);
-
 		}
 		if(flag==2)//댓글 달면 밑으로 포거싱을 위해서
 		{
@@ -44,14 +42,12 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 			
 			HttpSession session = request.getSession();
 			session.removeAttribute("imageInsertContent");
-
 		}
 		if(flag==3)
 		{
 			
 		}
 
-		
 		int num = Integer.parseInt(request.getParameter("num"));
 		
 		String code="";
@@ -90,13 +86,9 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 				code+=contents[i];
 				code+="</textarea>";
 			}
-			
-			
 		}
 		
 		pDTO.setContents(code);
-		
-		
 		
 
 		CommentDAO cDAO = CommentDAO.getInstance();
@@ -112,10 +104,19 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 
 		
 		String commentCode="";
+		String brCounts="";
 
 
 		for(int i=0; i<clist.size(); i++)
-		{
+		{	
+			String commentStr= clist.get(i).getComment();
+			
+			String[] brCount = commentStr.split("<br>");
+			
+			brCounts += (brCount.length-1)*30+",";
+			
+
+			
 			String[] commentContent = clist.get(i).getComment().split("※");
 			
 			for(int j=0; j<commentContent.length; j++)
@@ -141,6 +142,9 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 			}
 			CommentDTO cDTO = new CommentDTO();
 			
+	
+			
+			
 			cDTO.setNum(clist.get(i).getNum());
 			cDTO.setId(clist.get(i).getId());
 			cDTO.setTime(clist.get(i).getTime());
@@ -158,6 +162,10 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		int commentLastCount = cDAO.commentLastCount(num);
 		
 
+	
+
+		request.setAttribute("brCounts", brCounts);
+
 		request.setAttribute("commentLastCount", commentLastCount);//댓글 수정이 아닌 댓글 쓰기를 위한 숫자
 		request.setAttribute("clistSelect", clistSelect);
 
@@ -174,5 +182,14 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	}
+	
+	
+	
+
+	
+	
 
 }
+
+	
+

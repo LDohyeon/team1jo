@@ -11,6 +11,7 @@ public class CommentDTO {
 	private int commentCount;
 	
 	
+
 	public int getCommentCount() {
 		return commentCount;
 	}
