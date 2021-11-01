@@ -117,7 +117,14 @@
 			{
 				display:none;
 			}
-			
+			#wrapPonup{
+				posotion: relative;
+				z-index: 30;
+			}
+			#ponup{
+				posotion: absolute;
+				z-index: 60;
+			}
 
         </style>
 	</head>
@@ -714,7 +721,7 @@
 				var textArea= document.getElementById(languageModeIdSplit[i]);
 
 				textArea = CodeMirror.fromTextArea(textArea, {
-					//lineNumbers: true,
+					lineNumbers: true,
 					theme: "darcula",
 					mode: languageModeSplit[i],
 					//mode: "text/x-python",
@@ -770,11 +777,7 @@
 				//이미지
 			</script>
 		</c:if>
-		
 
-	
-
-		
 	</body>
 </html>
 
