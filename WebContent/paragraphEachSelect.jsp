@@ -113,6 +113,11 @@
 			{
 				display:none;
 			}
+			#imageInsertContent
+			{
+				display:none;
+			}
+			
 
         </style>
 	</head>
@@ -327,7 +332,7 @@
 	                    	<br>
 	                    </div>
           
-	                    <div class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
+	                    <div class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요."></div>
 	                    
 	                    <input class="content" type="hidden" name="content">
 	                    
@@ -367,11 +372,10 @@
         <input id="commentLastCount" type="hidden" value="${commentLastCount }">
         
         
-        <!-- 댓글 이미지를 저장한 후 출력하기 위한 if문 -->
-
- 
-
-		
+        
+        <div id="imageInsertContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
+        <input id="commentNum" type="hidden" value="${commentNum }">
+    
 	<script>	
 		function selectFont(e){
 			var select=document.getElementsByClassName("fontTypes")[e];
@@ -424,6 +428,8 @@
 		function imgChange(e, action)
 		{
 			var imgInput = document.getElementsByClassName("imgInput");
+			
+			console.log("e : "+e);
 			
 			if(imgInput[e].files.length>0)
 			{
@@ -648,13 +654,13 @@
 			cupClass[count].style.display="none";
 		}
 		
-
-
 		
 		
+		
 
 		
-		//window.onload =function()
+
+	
 		function scrolled(viewScroll)
 		{
 			//판업창 디자인
@@ -699,8 +705,6 @@
 		<script>
 			var languageMode =document.getElementById("languageMode").value;
 			var languageModeId =document.getElementById("languageModeId").value;
-
-			console.log(languageMode);
 			
 			var languageModeSplit= languageMode.split(",");
 			var languageModeIdSplit= languageModeId.split(",");
@@ -720,7 +724,7 @@
 					readOnly: true,
 					autoCloseTags: true
 				});
-				textArea.setSize("800", "200");
+				textArea.setSize("800", "180");
 			}
 			
 		</script>
@@ -740,6 +744,37 @@
 				writeFocus(commentLastCount);
 			</script>
 		</c:if>
+		
+		<c:if test="${imageInsertContent !=null }">
+			<script>
+				//이미지
+				var imageInsertContent= document.getElementById("imageInsertContent").innerHTML;
+				var commentNum= document.getElementById("commentNum").value;
+		
+				function imgInsertContent(imageInsertContent, commentNum)
+				{
+
+					document.getElementsByClassName("writeContent")[commentNum].innerHTML=imageInsertContent;
+
+					var writeContentLength = document.getElementsByClassName("writeContent").length-1;
+					
+					if(commentNum != writeContentLength)	
+					{
+						document.getElementsByClassName("commentUpdate")[commentNum].style.display="block";
+					}
+	
+					document.getElementsByClassName("writeContent")[commentNum].focus();
+				}
+				
+				imgInsertContent(imageInsertContent, commentNum);
+				//이미지
+			</script>
+		</c:if>
+		
+
+	
+
+		
 	</body>
 </html>
 
