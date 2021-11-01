@@ -1003,18 +1003,18 @@
 	                
 					if(i<10){
 						if(date.month<10){
-							thisTimeDate = date.year+"0"+date.month+"0"+i
+							thisTimeDate = date.year+"0"+date.month+"0"+(i-1)
 						}
 						else{
-							thisTimeDate = date.year+""+date.month+"0"+i
+							thisTimeDate = date.year+""+date.month+"0"+(i-1)
 						}
 					}
 					else{
 						if(date.month<10){
-							thisTimeDate = date.year+"0"+date.month+""+i	
+							thisTimeDate = date.year+"0"+date.month+""+(i-1)	
 						}	
 						else{
-							thisTimeDate = date.year+""+date.month+""+i;
+							thisTimeDate = date.year+""+date.month+""+(i-1);
 						}
 					}					
 
@@ -1166,10 +1166,10 @@
 	                let thisTimeDate = "";
 	                
 	                if(i<10){
-						thisTimeDate = getToday().year+""+getToday().month+"0"+i
+						thisTimeDate = getToday().year+""+getToday().month+"0"+(i-1)
 					}
 					else{
-						thisTimeDate = getToday().year+""+getToday().month+""+i;
+						thisTimeDate = getToday().year+""+getToday().month+""+(i-1);
 					}
 	                
 	                cc.addEventListener("click", visibleSchedule);
@@ -1263,10 +1263,10 @@
 				let thisTimeDate = "";
 				
 				if(i<10){
-					thisTimeDate = (date.year+1)+"0"+1+"0"+i
+					thisTimeDate = (date.year+1)+"0"+1+"0"+(i-1)
 				}
 				else{
-					thisTimeDate = (date.year+1)+"0"+1+""+i;
+					thisTimeDate = (date.year+1)+"0"+1+""+(i-1);
 				}
 				cc.addEventListener("click", visibleSchedule);
 				
@@ -1300,18 +1300,18 @@
 				
 				if(date.month<9){
 					if(i<10){
-						thisTimeDate = date.year+"0"+(date.month+1)+"0"+i;
+						thisTimeDate = date.year+"0"+(date.month+1)+"0"+(i-1);
 					}
 					else{
-						thisTimeDate = date.year+"0"+(date.month+1)+""+i;
+						thisTimeDate = date.year+"0"+(date.month+1)+""+(i-1);
 					}
 				}
 				else{
 					if(i<10){
-						thisTimeDate = date.year+""+(date.month+1)+"0"+i;
+						thisTimeDate = date.year+""+(date.month+1)+"0"+(i-1);
 					}
 					else{
-						thisTimeDate = date.year+""+(date.month+1)+""+i;
+						thisTimeDate = date.year+""+(date.month+1)+""+(i-1);
 					}
 				}
 				cc.addEventListener("click", visibleSchedule);
@@ -1538,18 +1538,18 @@
 					
 					if(date.month<10){
 						if(i<10){
-							thisTimeDate = date.year+"0"+date.month+"0"+i;
+							thisTimeDate = date.year+"0"+date.month+"0"+(i-1);
 						}
 						else{
-							thisTimeDate = date.year+"0"+date.month+""+i;
+							thisTimeDate = date.year+"0"+date.month+""+(i-1);
 						}
 					}
 					else{
 						if(i<10){
-							thisTimeDate = date.year+""+date.month+"0"+i;
+							thisTimeDate = date.year+""+date.month+"0"+(i-1);
 						}
 						else{
-							thisTimeDate = date.year+""+date.month+""+i;
+							thisTimeDate = date.year+""+date.month+""+(i-1);
 						}
 					}
 				
@@ -3540,7 +3540,7 @@
 			
 		}//주간 formElement 여기는 아직
 		
-		function createDayFormElement(){
+		function createDayFormElement(date){
 			
 			let v;
             let c;
@@ -3548,24 +3548,24 @@
             let ccc;
             let cccc;
             let ccccc;
-            let date = new Date();
+            let cccccc;
             let yoil = getYoil(getThisDay(date.year, date.month, 1, 0, 0));
             let day=date.getDate();
             let today=getToday();
-            let thisTimeDate="";
-            let selectedTime="";
+            let thisDayToday=false;
+            let thisTimeDate="";            
             
 			v = document.createElement("div");
 			v.classList.add("calendarArea");
 			
-			//data 끌어오는 input
-			c=document.createElement("input");
-			c.setAttribute("type", "hidden");
-			c.setAttribute("value", selectedTime);
-			c.classList.add("selectedTimeData");
-			
-			v.appendChild(c);
-			
+			//선택된 날짜가 오늘날짜인지 확인.
+			if(date.getFullYear()==today.year){
+				if((1+date.getMonth())==today.month){
+					if(date.getDate()==today.day){
+						thisDayToday=true;
+					}
+				}
+			}
 			c = document.createElement("div");
 			c.classList.add("dayTimeWrap");
            	
@@ -3622,7 +3622,7 @@
             
             ccc=document.createElement("div");
             ccc.classList.add("dayAreaHeadYoil");
-            ccc.innerHTML= yoil+""; // 이걸 지금 그냥 오늘날짜만 나오는데 select된 날짜가 나오게 바꾸려고합니다.
+            ccc.innerHTML= yoil+""; 
             cc.appendChild(ccc); // head 요일표시
             
             ccc=document.createElement("div");
@@ -3646,6 +3646,7 @@
             	ccccc.classList.add("dayScheduleLeftLine");
             	cccc.appendChild(ccccc);
             }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
+            
             ccc.appendChild(cccc);
             cc.appendChild(ccc);
                                   
@@ -3666,26 +3667,90 @@
                    	for(let j=0; j<4; j++){
                    		ccccc=document.createElement("div");
                        	ccccc.classList.add("dayScheduleCheck");
-                       	cccc.appendChild(ccccc);// 15분 단위로 dayScheduleCheck[0]: 0~15 / dayScheduleCheck[1] : 15~30 / dayScheduleCheck[2]: 30~45 / dayScheduleCheck[3]: 45~60
-                   	}
-                   	ccc.appendChild(cccc);
-            	}
-           		
-           	}
-            	
-            //여기서 first child는 일정표시줄. line은 ::after로 표시.
+                       	if(thisDayToday==true){
+                       		if(i==(1+date.getHour())){
+                       			if(j==0&&j==0){
+                       				cccccc=document.createElement("div");
+                       				cccccc.classList.add("thisTimeDot");
+                       				ccccc.appendChild(cccccc);
+                       			}else if(j==1&&j==1){
+                       				cccccc=document.createElement("div");
+                       				cccccc.classList.add("thisTimeDot");
+                       				ccccc.appendChild(cccccc);
+                       			}else if(j==2&&j==2){
+                       				cccccc=document.createElement("div");
+                       				cccccc.classList.add("thisTimeDot");
+                       				ccccc.appendChild(cccccc);
+                       			}else{
+                       				cccccc=document.createElement("div");
+                       				cccccc.classList.add("thisTimeDot");
+                       				ccccc.appendChild(cccccc);
+                       			}
+                       		}
+                      	}//현재시간표시 div생성
+                      	
+                      	if(i<11){
+                      		if(date.getMonth<10){
+                      			if(date.getDate()<10){
+                      				if(j==0){
+                      					thisTimeDate=date.getFullYear()+"0"+(date.getMonth()+1)+"0"+date.getDate()+"/"+"00"+(i-1)+":"+"0"+"00";		
+                      				}else if(j==1){
+                      					thisTimeDate=date.getFullYear()+"0"+(date.getMonth()+1)+"0"+date.getDate()+"/"+"00"+(i-1)+":"+"15";
+                      				}else if(j==2){
+                      					thisTimeDate=date.getFullYear()+"0"+(date.getMonth()+1)+"0"+date.getDate()+"/"+"00"+(i-1)+":"+"30";
+                      				}else{
+                      					thisTimeDate=date.getFullYear()+"0"+(date.getMonth()+1)+"0"+date.getDate()+"/"+"00"+(i-1)+":"+"45";
+                      				}
+                      			}else{
+                      				if(j==0){
+                      					thisTimeDate=date.getFullYear()+"0"+(date.getMonth()+1)+date.getDate()+"/"+"00"+(i-1)+":"+"0"+"00";		
+                      				}else if(j==1){
+                      					thisTimeDate=date.getFullYear()+"0"+(date.getMonth()+1)+date.getDate()+"/"+"00"+(i-1)+":"+"15";
+                      				}else if(j==2){
+                      					thisTimeDate=date.getFullYear()+"0"+(date.getMonth()+1)+date.getDate()+"/"+"00"+(i-1)+":"+"30";
+                      				}else{
+                      					thisTimeDate=date.getFullYear()+"0"+(date.getMonth()+1)+date.getDate()+"/"+"00"+(i-1)+":"+"45";
+                      				}
+                      			}
+                      		}else{
+                      			if(date.getDate()<10){
+                      				if(j==0){
+                      					thisTimeDate=date.getFullYear()+(date.getMonth()+1)+"0"+date.getDate()+"/"+(i-1)+":"+"0"+"00";		
+                      				}else if(j==1){
+                      					thisTimeDate=date.getFullYear()+(date.getMonth()+1)+"0"+date.getDate()+"/"+(i-1)+":"+"15";
+                      				}else if(j==2){
+                      					thisTimeDate=date.getFullYear()+(date.getMonth()+1)+"0"+date.getDate()+"/"+(i-1)+":"+"30";
+                      				}else{
+                      					thisTimeDate=date.getFullYear()+(date.getMonth()+1)+"0"+date.getDate()+"/"+(i-1)+":"+"45";
+                      				}
+                      			}else{
+                      				if(j==0){
+                      					thisTimeDate=date.getFullYear()+(date.getMonth()+1)+date.getDate()+"/"+(i-1)+":"+"0"+"00";		
+                      				}else if(j==1){
+                      					thisTimeDate=date.getFullYear()+(date.getMonth()+1)+date.getDate()+"/"+(i-1)+":"+"15";
+                      				}else if(j==2){
+                      					thisTimeDate=date.getFullYear()+(date.getMonth()+1)+date.getDate()+"/"+(i-1)+":"+"30";
+                      				}else{
+                      					thisTimeDate=date.getFullYear()+(date.getMonth()+1)+date.getDate()+"/"+(i-1)+":"+"45";
+                      				}
+                      			}
+                      		}
+                      	}
+                      	
+                       	cccccc=document.createElement("input");
+                     	cccccc.classList.add("dateTag");
+                       	cccccc.setAttribute("type","text");
+                       	cccccc.setAttribute("value",thisTimeDate);
+                       	ccccc.appendChild(cccccc);
+                     }
+                   	 cccc.appendChild(ccccc);// 15분 단위로 dayScheduleCheck[0]: 0~15 / dayScheduleCheck[1] : 15~30 / dayScheduleCheck[2]: 30~45 / dayScheduleCheck[3]: 45~60
+               	}
+               	ccc.appendChild(cccc);
+            }
             cc.appendChild(ccc);
-	            
             c.appendChild(cc);
             v.appendChild(c);
-            
-            
-           /*
-           	현재시간표시 - if를 포함한 div로 표현. (selectedTime == Today)
-           	오늘 날짜 선택시에만 표현되도록 구현해야함. 시간값을 가져올 방법 생각해서 Schedule시간, 현재시간, 선택날짜 및 시간 비교 및 표현 구현해야함.
-           */
             return v;
-			
 		}//일간 formElement
 		let calendar2 = document.getElementById("calendar2");
 		calendar2.appendChild(createDayFormElement());
