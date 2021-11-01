@@ -209,19 +209,86 @@
 	background-repeat: no-repeat;
 	background-size: contain;
 	display:block;
-	float: left;
 }
-groupMenu:after{
-	content: "";
+.groupDataName{
+	width: calc(100% - 10px);
+	min-height: 25px;
 	display: block;
-	clear:both;
+	border: 0;
+	margin-bottom: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	background-color: rgb(245,245,245);
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
+
+.groupDataColor{
+	min-width: calc(50% - 5px);
+	min-height: 32px;
+	line-height: 32px;
+	margin-right: 5px;
+	margin-bottom: 10px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+
+.groupDataSearchable{
+	min-width: calc(50% - 5px);
+	min-height: 32px;
+	line-height: 32px;
+	margin-bottom: 10px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+
+.groupDataMembers{
+	width: calc(100% - 10px);
+	min-height: 25px;
+	display: block;
+	border: 0;
+	margin-bottom: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	background-color: rgb(245,245,245);
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.groupDataAdd{
+	min-width: calc(50% - 5px);
+	min-height: 32px;
+	line-height: 32px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 10px;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+
+.groupDataClose{
+	min-width: calc(50% - 5px);
+	min-height: 32px;
+	line-height: 32px;
+	margin-right: 0;
+	margin-bottom: 10px;
+	border: 0;
+	background-color: rgb(245,245,245);
+}
+
+
 /* =====================================================
  * === 스케줄 추가 폼 ======================================
  * ===================================================== */
 .calendarSchedule{
 	position:relative;
-	display:none;
+	display:block;
  }
 .scheduleForm{
 	margin-top: 10px;
@@ -237,7 +304,7 @@ groupMenu:after{
 	border: 1px solid lightgray;
 }
 .scheduleFormTitle{
-	min-width: 284.5px;
+	min-width: 279.5px;
 	min-height: 30px;
 	margin-top: 10px;
 	margin-left: 80px;
@@ -245,6 +312,7 @@ groupMenu:after{
 	float: left;
 	border: 0;
 	background-color: rgb(245,245,245);
+	padding-left: 5px;
 }
 .scheduleFormAllday{
 	min-width: 86px;
@@ -274,7 +342,7 @@ groupMenu:after{
 	float: left;
 }
 .scheduleFormGroupSelect{
-	min-width: 80px;
+	min-width: 150px;
 	min-height: 30px;
 	display: block;
 	float: left;
@@ -297,14 +365,14 @@ groupMenu:after{
 .scheduleFormDiv{
 	width: 80px;
 	min-height: 32px;
-	line-height: 32px;
+	line-height: 28px;
 	margin-top: 10px;
 	text-align: center;
 	display: block;
 	float: left;
 }
 .scheduleFormStart{
-	min-width: 284.5px;
+	min-width: 279.5px;
 	min-height: 30px;
 	margin-top: 10px;
 	display: block;
@@ -326,7 +394,7 @@ groupMenu:after{
 	background-color: rgb(245,245,245);
 }
 .scheduleFormEnd{
-	min-width: 284.5px;
+	min-width: 279.5px;
 	min-height: 30px;
 	margin-top: 10px;
 	display: block;
@@ -348,7 +416,7 @@ groupMenu:after{
 	background-color: rgb(245,245,245);
 }
 .scheduleFormContent{
-	min-width: 284.5px;
+	min-width: 279.5px;
 	min-height: 115px;
 	margin-top: 10px;
 	margin-left: 80px;
@@ -357,6 +425,7 @@ groupMenu:after{
 	border: 0;
 	resize: none;
 	background-color: rgb(245,245,245);
+	padding-left: 5px;
 }
 .scheduleFormSubmit{
 	min-width: 86px;
@@ -371,6 +440,14 @@ groupMenu:after{
 	border: 0;
 	border-radius: 10px;
 	background-color: rgb(235,235,235);
+}
+.scheduleFormStart{
+	letter-spacing: -0.15px;
+	padding-left: 5px;
+}
+.scheduleFormEnd{
+	letter-spacing: -0.15px;
+	padding-left: 5px;
 }
 /* =====================================================
  * === 월간캘린더 =========================================
@@ -411,7 +488,7 @@ groupMenu:after{
 }
 .monthBox{
     min-height: 120px;
-    height: 8vw;
+    height: 10vw;
     padding-top: 5px;
     display: inline-block;
     text-align: center;

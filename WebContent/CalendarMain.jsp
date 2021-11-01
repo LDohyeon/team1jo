@@ -26,6 +26,7 @@
 		<div id="calendar">
 			
 		</div>
+		<jsp:include page="footer.jsp"/>
 	</body>
 	<script type="text/javascript">
 		// 소켓 통신으로 알림 구현을 해보려는 블럭 
@@ -75,6 +76,7 @@
 		
 		// 소켓 사용을 위한 자바스크립트
 		// 추후에 jsp include에 사용되어 모든 페이지에 적용할 수도 있음
+		
 		let webSocket = new WebSocket("ws://localhost:8080/team1jo/socketAlert");
 		
 		webSocket.onopen=function(){
@@ -688,7 +690,7 @@
         		info.value = date.year+""+month+""+date.day;
         	}
         }
-
+		
         // Calendar Body 영역 만들기 
         function createToBodyLayout(){
             let v = document.createElement("div");
@@ -743,6 +745,12 @@
             cc = document.createElement("div");
             cc.classList.add("scheduleFormAllday");
             cc.innerHTML = "종일";
+            
+            ccc = document.createElement("input");
+            ccc.setAttribute("type", "hidden");
+            ccc.setAttribute("value", "false");
+            ccc.classList.add("scheduleFormAlldayInput");
+            cc.appendChild(ccc);
             c.appendChild(cc);
             
         	cc = document.createElement("div");
@@ -782,6 +790,7 @@
             cc.setAttribute("name", "start");
             cc.setAttribute("min", "1900-01-01");
             cc.classList.add("scheduleFormStart");
+            cc.setAttribute("readonly", "true");
             c.appendChild(cc);
             
             cc = document.createElement("select");
@@ -827,6 +836,7 @@
             cc.setAttribute("name", "end");
             cc.setAttribute("min", "1900-01-01");
             cc.classList.add("scheduleFormEnd");
+            cc.setAttribute("readonly", "true");
             c.appendChild(cc);
             
             cc = document.createElement("select");
@@ -877,6 +887,64 @@
             
             return v;
         }
+        
+        let scheduleFormAlldayBtn = document.getElementsByClassName("scheduleFormAllday")[0];
+        
+        scheduleFormAlldayBtn.addEventListener("click", function(){
+        	let value = scheduleFormAlldayBtn.getElementsByClassName("scheduleFormAlldayInput")[0];
+        	let btn = document.getElementsByClassName("scheduleFormAllday")[0];
+        	let sels = document.getElementsByClassName("scheduleFormStartTime")[0];
+        	let sele = document.getElementsByClassName("scheduleFormEndTime")[0];
+        	let datestart = document.getElementsByClassName("scheduleFormStart")[0];
+        	let dateend = document.getElementsByClassName("scheduleFormEnd")[0];
+        	
+        	if(value.value=="false"){
+        		value.setAttribute("value", "true");
+        		sels.setAttribute("style", "visibility: hidden;");
+        		sele.setAttribute("style", "visibility: hidden;");
+        		sels.setAttribute("value", "00:00")
+        		sels.value="00:00";
+        		sele.setAttribute("value", "23:45")
+        		sele.value="23:45";
+        		btn.setAttribute("style", "background-color: #7dc5ea")
+        	}
+        	else{
+        		value.setAttribute("value", "false");
+        		sels.removeAttribute("style");
+        		sele.removeAttribute("style");
+        		btn.removeAttribute("style");
+        	}
+        });
+        
+        let scheduleFormStartTimeBtn = document.getElementsByClassName("scheduleFormStartTime")[0];
+        scheduleFormStartTimeBtn.addEventListener("change", function(){
+        	
+        });
+        
+        let scheduleFormEndTimeBtn = document.getElementsByClassName("scheduleFormEndTime")[0];
+        scheduleFormEndTimeBtn.addEventListener("change", function(){
+        	let scfet = event.target;
+        	let scfst = document.getElementsByClassName("scheduleFormStartTime")[0];
+        	let options = scfst.getElementsByTagName("option");
+        	
+        	let time = scfet.value;
+        	let hour = time.substring(0,2);
+        	let min = time.substring(3,5);
+    
+        	for(let i = 0; i < options.length; i++){
+        		let temptime = options.value;
+        		let temphour = temptime.substring(0,2);
+            	let tempmin = temptime.substring(3,5);
+            	
+            	if(temphour>=hour){
+            		if(tempmin>=min){
+            			console.log("수정중")
+            		}
+            	}
+            	
+        	}
+        });
+        
         
         // 달력 TodoList 영역 만들기 
         function createToDoLayout(){   
@@ -945,6 +1013,12 @@
             cc = document.createElement("div");
             cc.classList.add("groupAdd");
             cc.addEventListener("click", addGroupBtn);
+            
+            ccc = document.createElement("input");
+            ccc.setAttribute("type", "hidden");
+            ccc.setAttribute("value", "false");
+            ccc.classList.add("groupAddFlag");
+            cc.appendChild(ccc);
             c.appendChild(cc);
             
             v.appendChild(c);
@@ -2067,7 +2141,9 @@
 			let formtitle = form.getElementsByClassName("scheduleFormTitle")[0];
 			let formcontent = form.getElementsByClassName("scheduleFormContent")[0];
 			let formstart = form.getElementsByClassName("scheduleFormStart")[0];
+			let formstarttime = form.getElementsByClassName("scheduleFormStartTime")[0];
 			let formend = form.getElementsByClassName("scheduleFormEnd")[0];
+			let formendtime = form.getElementsByClassName("scheduleFormEndTime")[0];
 			let formcolor = form.getElementsByClassName("scheduleFormColor")[0];
 			let formgroupSelect = form.getElementsByClassName("scheduleFormGroupSelect")[0];
 			let options = formgroupSelect.getElementsByClassName("scheduleFormGroupSelectOption");
@@ -2077,7 +2153,11 @@
 			formcontent.setAttribute("value", data.content);
 			formstart.setAttribute("value", startDay);
 			formstart.value=startDay;
+			formstarttime.setAttribute("value", startTime);
+			formstarttime.value=startTime;
 			formend.setAttribute("value", endDay);
+			formendtime.setAttribute("value", endTime);
+			formendtime.value=endTime;
 			formend.value=endDay;
 			formcolor.setAttribute("value", data.color);
 			
@@ -2138,7 +2218,9 @@
 				cc = document.createElement("input");
 				cc.classList.add("groupDataName");
 				cc.setAttribute("type", "text");
+				cc.setAttribute("placeholder", "그룹의 이름을 입력하세요.")
 				cc.setAttribute("value", groupDivs[i].groupname);
+				cc.setAttribute("readonly", "true");
 				c.appendChild(cc);
 				
 				cc = document.createElement("div");
@@ -2146,53 +2228,57 @@
 				cc.addEventListener("click", viewGroupTool);
 				cc.innerHTML = "설정";
 				c.appendChild(cc);
-
-				cc = document.createElement("input");
-				cc.classList.add("groupDataColor");
-				cc.setAttribute("type", "color");
-				cc.setAttribute("value", groupDivs[i].groupcolor);
-				cc.innerHTML = groupDivs[i].groupcolor;
-				c.appendChild(cc);
-				
-				cc = document.createElement("select");
-				cc.classList.add("groupDataSearchable");
-				ccc = document.createElement("option");
-				ccc.classList.add("groupDataSearchOption");
-				ccc.setAttribute("value", "disable");
-				ccc.innerHTML = "비공개";
-				cc.appendChild(ccc);
-				ccc = document.createElement("option");
-				ccc.classList.add("groupDataSearchOption");
-				ccc.setAttribute("value", "able");
-				ccc.innerHTML = "공개";
-				cc.appendChild(ccc);
-				cc.setAttribute("value", groupDivs[i].searchable);
-				c.appendChild(cc);
 				
 				cc = document.createElement("div");
-				cc.classList.add("groupDataMemberAdd");
-				cc.innerHTML="멤버 추가";
-				c.appendChild(cc);
+				cc.classList.add("groupDataInfos");
+				cc.setAttribute("style", "display:none");
 				
-				ccc = document.createElement("div");
-				ccc.classList.add("groupDataMemberSearch");
-				ccc.setAttribute("contenteditable", "true");
-				ccc.addEventListener("keyup", searchGroupMember)
+				ccc = document.createElement("input");
+				ccc.classList.add("groupDataColor");
+				ccc.setAttribute("type", "color");
+				ccc.setAttribute("value", groupDivs[i].groupcolor);
+				ccc.innerHTML = groupDivs[i].groupcolor;
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("select");
+				ccc.classList.add("groupDataSearchable");
+				cccc = document.createElement("option");
+				cccc.classList.add("groupDataSearchOption");
+				cccc.setAttribute("value", "disable");
+				cccc.innerHTML = "비공개";
+				ccc.appendChild(cccc);
+				cccc = document.createElement("option");
+				cccc.classList.add("groupDataSearchOption");
+				cccc.setAttribute("value", "able");
+				cccc.innerHTML = "공개";
+				ccc.appendChild(cccc);
+				ccc.setAttribute("value", groupDivs[i].searchable);
 				cc.appendChild(ccc);
 				
 				ccc = document.createElement("div");
-				ccc.classList.add("groupDataMemberResult");
+				ccc.classList.add("groupDataMemberAdd");
+				ccc.innerHTML="멤버 검색";
 				cc.appendChild(ccc);
-				c.appendChild(cc);
 				
-				cc = document.createElement("input");
-				cc.setAttribute("type","hidden");
-				cc.classList.add("groupDataMaster");
-				cc.setAttribute("value", groupDivs[i].master);
-				c.appendChild(cc);
+				cccc = document.createElement("div");
+				cccc.classList.add("groupDataMemberSearch");
+				cccc.setAttribute("contenteditable", "true");
+				cccc.addEventListener("keyup", searchGroupMember)
+				ccc.appendChild(cccc);
 				
-				cc = document.createElement("div");
-				cc.classList.add("groupDataMembers");
+				cccc = document.createElement("div");
+				cccc.classList.add("groupDataMemberResult");
+				ccc.appendChild(cccc);
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.setAttribute("type","hidden");
+				ccc.classList.add("groupDataMaster");
+				ccc.setAttribute("value", groupDivs[i].master);
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("div");
+				ccc.classList.add("groupDataMembers");
 				
 				let memberList = groupDivs[i].members;
 				
@@ -2241,13 +2327,13 @@
 						tempChild.appendChild(tempGrandChild);
 						tempDiv.appendChild(tempChild);
 						
-						cc.appendChild(tempDiv);
+						ccc.appendChild(tempDiv);
 					}
 				}
-				c.appendChild(cc);
+				cc.appendChild(ccc);
 				
-				cc = document.createElement("div");
-				cc.classList.add("groupDataModifier");
+				ccc = document.createElement("div");
+				ccc.classList.add("groupDataModifier");
 				
 				let modifierList = groupDivs[i].modifiers;
 				
@@ -2262,33 +2348,42 @@
 						cc.appendChild(tempDiv);
 					}
 				}
-				c.appendChild(cc);
+				cc.appendChild(ccc);
 				
-				cc = document.createElement("input");
-				cc.classList.add("groupDataDelBtn");
-				cc.setAttribute("type", "button");
-				cc.setAttribute("value", "삭제");
-				cc.addEventListener("click", delGroup);
-				c.appendChild(cc);
+				ccc = document.createElement("input");
+				ccc.classList.add("groupDataDelBtn");
+				ccc.setAttribute("type", "button");
+				ccc.setAttribute("value", "그룹 삭제");
+				ccc.addEventListener("click", delGroup);
+				cc.appendChild(ccc);
 				
-				cc = document.createElement("input");
-				cc.classList.add("groupDataAdd");
-				cc.setAttribute("type", "button");
-				cc.setAttribute("value", "완료");
-				cc.addEventListener("click", addGroup)
-				c.appendChild(cc);
+				ccc = document.createElement("input");
+				ccc.classList.add("groupDataAdd");
+				ccc.setAttribute("type", "button");
+				ccc.setAttribute("value", "정보 수정");
+				ccc.addEventListener("click", addGroup)
+				cc.appendChild(ccc);
 				
-				cc = document.createElement("input");
-				cc.classList.add("groupDataNum");
-				cc.setAttribute("type", "hidden");
-				cc.setAttribute("value", groupDivs[i].groupnum);
-				c.appendChild(cc);
+				ccc = document.createElement("input");
+				ccc.classList.add("groupDataNum");
+				ccc.setAttribute("type", "hidden");
+				ccc.setAttribute("value", groupDivs[i].groupnum);
+				cc.appendChild(ccc);
 				
 				// 그룹 요소를 클릭할 경우, 해당 요소가 보일지 말지를 결정
-				cc = document.createElement("input");
-				cc.classList.add("groupDataFlag");
-				cc.setAttribute("type", "hidden");
-				cc.setAttribute("value", "true");
+				// 얘는 스케줄보는거, 아래는 해당 설정 창 보는거 
+				ccc = document.createElement("input");
+				ccc.classList.add("groupDataFlag");
+				ccc.setAttribute("type", "hidden");
+				ccc.setAttribute("value", "true");
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("input");
+				ccc.classList.add("groupDataInfosFlag");
+				ccc.setAttribute("type", "hidden");
+				ccc.setAttribute("value", "false");
+				cc.appendChild(ccc);
+				
 				c.appendChild(cc);
 				
 				v.appendChild(c);
@@ -2312,7 +2407,24 @@
 		// 그룹에 있는 설정 항목을 누를시 활성화될 항목
 		// 그룹에서 안보여줘도 될 데이터들을 은닉하거나 보여주는 용도임
 		function viewGroupTool(){
+			let target = event.target;
+			let p = target.parentNode;
+			let v = p.getElementsByClassName("groupDataInfos")[0];
+			let flag = v.getElementsByClassName("groupDataInfosFlag")[0];
+			let groupDataName = p.getElementsByClassName("groupDataName")[0];
+			console.log(p);
+			console.log("타겟 아이콘도 변경해야한다.");
 			
+			if(flag.value=="false"){
+				flag.setAttribute("value", "true");
+				groupDataName.removeAttribute("readonly");
+				v.setAttribute("style", "display:block;")
+			}
+			else{
+				flag.setAttribute("value", "false");
+				groupDataName.setAttribute("readonly", "true");
+				v.setAttribute("style", "display:none;")
+			}
 		}
 		
 		// 그룹 클릭에 따라 스케줄 보이거나 감추기
@@ -2883,11 +2995,17 @@
 			let title = document.getElementsByClassName("scheduleFormTitle")[0].value;
 			let content = document.getElementsByClassName("scheduleFormContent")[0].value;
 			let start = document.getElementsByClassName("scheduleFormStart")[0].value;
+			let starttime = document.getElementsByClassName("scheduleFormStartTime")[0].value;
 			let end = document.getElementsByClassName("scheduleFormEnd")[0].value;
+			let endtime = document.getElementsByClassName("scheduleFormEndTime")[0].value;
 			let color = document.getElementsByClassName("scheduleFormColor")[0].value;
 			let writer = userKey;
 			let groupnum = document.getElementsByClassName("scheduleFormGroupSelect")[0].value;
 			
+			//20211010/15:15
+			start+="/"+starttime;
+			end+="/"+endtime;
+
 			jsonSchedule = JSON.stringify(createJsonSchedule(num, title, content, start, end, color, writer, groupnum));
 			
 			if(typeof(date)=="undefined"){
@@ -3568,6 +3686,14 @@
 		// 그룹 추가 버튼 누를시 폼을 생성함
 		function addGroupBtn(){
 			let v = document.getElementsByClassName("groupMain")[0];
+			let flag = document.getElementsByClassName("groupAddFlag")[0];
+			
+			if(flag.value=="true"){
+				return;
+			}
+			else{
+				flag.setAttribute("value", "true");
+			}
 			
 			c = document.createElement("div");
 			c.classList.add("groupElement");
@@ -3580,6 +3706,7 @@
 			cc=document.createElement("input");
 			cc.setAttribute("type", "text");
 			cc.classList.add("groupDataName");
+			cc.setAttribute("placeholder", "그룹의 이름을 입력하세요.")
 			c.appendChild(cc);
 			
 			cc=document.createElement("input");
@@ -3606,31 +3733,36 @@
 			cc.appendChild(ccc);
 
 			c.appendChild(cc);
-			
-			cc=document.createElement("div");
-			cc.classList.add("groupDataMemberList");
-			
-			ccc = document.createElement("div");
-			ccc.classList.add("groupDataMemberSearch");
-			ccc.setAttribute("contenteditable", "true");
-			ccc.addEventListener("keyup", searchGroupMember)
-			cc.appendChild(ccc);
-			
-			ccc = document.createElement("input");
-			ccc.setAttribute("type", "text");
-			ccc.classList.add("groupDataMembers");
-			
-			cc.appendChild(ccc);
+		
+			cc = document.createElement("input");
+			cc.classList.add("groupDataClose");
+			cc.setAttribute("type", "button");
+			cc.setAttribute("value", "닫기");
+			cc.addEventListener("click", closeGroupAdd)
 			c.appendChild(cc);
 			
 			cc = document.createElement("input");
 			cc.classList.add("groupDataAdd");
 			cc.setAttribute("type", "button");
-			cc.setAttribute("value", "완료");
+			cc.setAttribute("value", "만들기");
 			cc.addEventListener("click", addGroup)
 			c.appendChild(cc);
 			
 			v.insertBefore(c, v.firstChild);
+		}
+		
+		// 그룹 추가 버튼 요소를 제거
+		function closeGroupAdd(){
+			let flag = document.getElementsByClassName("groupAddFlag")[0];
+
+			if(flag.value=="true"){
+				let p = document.getElementsByClassName("groupElement")[0].parentNode;
+				p.removeChild(p.firstChild);
+				flag.setAttribute("value", "false");
+			}
+			else{
+				return;
+			}
 		}
 				// 그룹 추가 폼에서 완료버튼 누를시 데이터를 전송함 
 		// AJAX로 처리
@@ -3639,6 +3771,11 @@
 			
 			let target = event.target;
 			let v = target.parentNode;
+			let flag = document.getElementsByClassName("groupAddFlag")[0];
+			
+			if(flag.value=="true"){
+				flag.setAttribute("value", "false");
+			}
 			
 			let num = v.getElementsByClassName("groupDataNum")[0].value;
 			let name = v.getElementsByClassName("groupDataName")[0].value;
@@ -3829,8 +3966,9 @@
 			let p = v.parentNode;
 			let pp = p.parentNode;
 			let list = p.getElementsByClassName("groupDataMemberResult")[0];
-			
+			console.log(pp);
 			let members = pp.getElementsByClassName("groupDataMembers");
+			console.log(members);
 			let idArr = []; 
 			
 			for(let i = 0; i<members.length; i++){
