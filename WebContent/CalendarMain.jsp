@@ -814,7 +814,7 @@
             cc.setAttribute("name", "start");
             cc.setAttribute("min", "1900-01-01");
             cc.classList.add("scheduleFormStart");
-            cc.setAttribute("readonly", "true");
+          
             c.appendChild(cc);
             
             cc = document.createElement("select");
@@ -860,7 +860,7 @@
             cc.setAttribute("name", "end");
             cc.setAttribute("min", "1900-01-01");
             cc.classList.add("scheduleFormEnd");
-            cc.setAttribute("readonly", "true");
+            
             c.appendChild(cc);
             
             cc = document.createElement("select");
@@ -945,11 +945,13 @@
         	let scfet = event.target;
         	let scfst = document.getElementsByClassName("scheduleFormEndTime")[0];
         	let options = scfst.getElementsByTagName("option");
-        	
+        	let tempdate = scfst.value;
+        	console.log(tempdate);
         	let time = scfet.value;
         	let hour = time.substring(0,2);
         	let min = time.substring(3,5);
-    
+    		let tempflag = false;
+    		
         	for(let i = 0; i < options.length; i++){
         		let temptime = options[i].value;
         		let temphour = temptime.substring(0,2);
@@ -968,11 +970,14 @@
             	else{
             		options[i].setAttribute("style", "display:block;");
             	}
-            	if(i==options.length-1){
+            	if(tempdate<scfet.value&&tempflag==false){
             		let str = temphour+":"+tempmin
             		scfst.setAttribute("value", str);
             		scfst.value = str;
-            		console.log(str);
+            		
+            		if(str==scfet.value){
+            			tempdate = true;
+            		}
             	}
         	}
         });
@@ -991,8 +996,6 @@
         		let temptime = options[i].value;
         		let temphour = temptime.substring(0,2);
             	let tempmin = temptime.substring(3,5);
-            	console.log(temphour);
-            	console.log(tempmin);
             	if(temphour==hour){
             		if(tempmin<=min){
             			options[i].setAttribute("style", "display:block;");
@@ -2275,23 +2278,26 @@
 				c.classList.add("groupElement");
 				
 				cc = document.createElement("div");
-				cc.classList.add("groupDataCheckBox");
-				cc.addEventListener("click", viewGroupForSchedule);
-				cc.innerHTML = "보기/끄기";
-				c.appendChild(cc);
+				cc.classList.add("groupDataTitle");
 				
-				cc = document.createElement("input");
-				cc.classList.add("groupDataName");
-				cc.setAttribute("type", "text");
-				cc.setAttribute("placeholder", "그룹의 이름을 입력하세요.")
-				cc.setAttribute("value", groupDivs[i].groupname);
-				cc.setAttribute("readonly", "true");
-				c.appendChild(cc);
+				ccc = document.createElement("div");
+				ccc.classList.add("groupDataCheckBox");
+				ccc.addEventListener("click", viewGroupForSchedule);
+				ccc.innerHTML = "보기";
+				cc.appendChild(ccc);
 				
-				cc = document.createElement("div");
-				cc.classList.add("groupDataTool");
-				cc.addEventListener("click", viewGroupTool);
-				cc.innerHTML = "설정";
+				ccc = document.createElement("input");
+				ccc.classList.add("groupDataName");
+				ccc.setAttribute("type", "text");
+				ccc.setAttribute("placeholder", "그룹의 이름을 입력하세요.")
+				ccc.setAttribute("value", groupDivs[i].groupname);
+				ccc.setAttribute("readonly", "true");
+				cc.appendChild(ccc);
+				
+				ccc = document.createElement("div");
+				ccc.classList.add("groupDataTool");
+				ccc.addEventListener("click", viewGroupTool);
+				cc.appendChild(ccc);
 				c.appendChild(cc);
 				
 				cc = document.createElement("div");
@@ -2328,6 +2334,7 @@
 				cccc = document.createElement("div");
 				cccc.classList.add("groupDataMemberSearch");
 				cccc.setAttribute("contenteditable", "true");
+				cccc.setAttribute("placeholder", "멤버를 검색하여 추가");
 				cccc.addEventListener("keyup", searchGroupMember)
 				ccc.appendChild(cccc);
 				
@@ -2473,12 +2480,11 @@
 		// 그룹에서 안보여줘도 될 데이터들을 은닉하거나 보여주는 용도임
 		function viewGroupTool(){
 			let target = event.target;
-			let p = target.parentNode;
+			let p = target.parentNode.parentNode;
 			let v = p.getElementsByClassName("groupDataInfos")[0];
-			let flag = v.getElementsByClassName("groupDataInfosFlag")[0];
+			let flag = v.parentNode.getElementsByClassName("groupDataInfosFlag")[0];
 			let groupDataName = p.getElementsByClassName("groupDataName")[0];
-			console.log(p);
-			console.log("타겟 아이콘도 변경해야한다.");
+			
 			
 			if(flag.value=="false"){
 				flag.setAttribute("value", "true");
@@ -2497,17 +2503,18 @@
 		function viewGroupForSchedule(){
 			let clicked = event.target;
 			let groupDiv = clicked.parentNode;
-			let num = groupDiv.getElementsByClassName("groupDataNum")[0].value;
-			let flag = groupDiv.getElementsByClassName("groupDataFlag")[0];
+			let num = groupDiv.parentNode.getElementsByClassName("groupDataNum")[0].value;
+			let flag = groupDiv.parentNode.getElementsByClassName("groupDataFlag")[0];
 			
 			if(flag.value=="true"){
 				flag.setAttribute("value", "false"); // 안보이는 상태
-				groupDiv.classList.add("lineThrough");
+				clicked.setAttribute("style", "background-color: #ff3409;");
+				clicked.innerHTML="끄기";
 			}
 			else if(flag.value=="false"){
 				flag.setAttribute("value", "true"); // 보이는 상태 
-				groupDiv.classList.remove("lineThrough");
-				console.log("d");
+				clicked.removeAttribute("style");
+				clicked.innerHTML="보기";
 			}
 			
 			viewScheduleElementFlag();
@@ -2895,6 +2902,7 @@
 				let flagSize = 0;
 				let flagYoil;
 				let flagDrawn = 0;
+				let flagBefore = 0;
 				
 				for(let l = 0; l<boxArray.length; l++){
 					// 해당 태그의 첫 요소의 데이터를 가져와서, 날짜를 파악> 요일 구해서 요일따라 길이 정해야함
@@ -2910,30 +2918,51 @@
 						if(dateTagYoil=="일"){
 							flagSize = 7;
 							flagDrawn = 7;
+							flagBefore = 0;
 						}
 						else if(dateTagYoil=="월"){
 							flagSize = 6;
 							flagDrawn = 6;
+							flagBefore = 1;
 						}
 						else if(dateTagYoil=="화"){
 							flagSize = 5;
 							flagDrawn = 5;
+							flagBefore = 2;
 						}
 						else if(dateTagYoil=="수"){
 							flagSize = 4;
 							flagDrawn = 4;
+							flagBefore = 3;
 						}
 						else if(dateTagYoil=="목"){
 							flagSize = 3;
 							flagDrawn = 3;
+							flagBefore = 4;
 						}
 						else if(dateTagYoil=="금"){
 							flagSize = 2;
 							flagDrawn = 2;
+							flagBefore = 5;
 						}
 						else if(dateTagYoil=="토"){
 							flagSize = 1;
 							flagDrawn = 1;
+							flagBefore = 6;
+						}
+						let grandfa = boxArray[l].parentNode.parentNode;
+						let pregrandfa;
+						// 새로 보강한 알고리즘
+						for(let t = 0; t < flagBefore; t++){
+							pregrandfa = grandfa.previousSibling;
+							grandfa = pregrandfa;
+							console.log(pregrandfa);
+							let pregrandfabox = pregrandfa.getElementsByClassName("monthBoxBody")[0];
+							console.log(pregrandfabox);
+							let boxx = document.createElement("div");
+							boxx.classList.add("cmpb0");
+							
+							pregrandfabox.appendChild(boxx);
 						}
 						
 						if(flagSize>boxArray.length-l){
@@ -2978,7 +3007,7 @@
 						}	
 					}
 					else{
-						boxArray[l].classList.add("cmpb0");
+						boxArray[l].classList.add("cmpbzero");
 					}
 					flagDrawn--;
 				}
@@ -2987,7 +3016,7 @@
 		
 		function checkFirstElement(){
 			let scheduleBox = document.getElementsByClassName("scheduleBox ");
-			
+			let temp = 0; 
 			for(let i = 0; i < scheduleBox.length; i++){
 				if(scheduleBox[i].classList.contains("firstElementSchedule")){
 					let p = scheduleBox[i].parentNode;
@@ -2995,25 +3024,29 @@
 					let fr = p.getElementsByClassName("firstElementSchedule");
 					
 					let height = 22;
-					if(fr.length==1){
-						// 높이 수정
-						// 첫 요소가 1이면 자기 자신이므로, cmpb0의 값만 구해서 곱하고 세팅하면 됨 
-						let getAtt = fr[0].getAttribute("style")+";";
-						let hg = "margin-top:"+(height*cmpb0.length)+"px;";
+					
+					for(let j = 0; j < fr.length; j++){
+						let getAtt = fr[j].getAttribute("style")+";";
+						let num = cmpb0.length+j;
+
+						let hg = "margin-top:"+(height*num)+"px;";
 					    
-						scheduleBox[i].setAttribute("style", getAtt+hg);
-					}
-					else{
-						for(let j = 0; j < fr.length; j++){
-							let getAtt = fr[j].getAttribute("style")+";";
-							let hg = "margin-top:"+(height*j)+"px;";
-							
-							fr[j].setAttribute("style", getAtt+hg);
-						}
+						fr[j].setAttribute("style", getAtt+hg);
+						
 					}
 				}
+				let pnum = scheduleBox[i].parentNode.childElementCount;
+				if(temp<pnum){
+					temp = pnum;
+				}
 			}
+			let monthBoxs = document.getElementsByClassName("monthBox");
 			
+			for(let i = 0; i < monthBoxs.length; i++){
+				let hg = temp*22;
+				hg = hg+22;
+				monthBoxs[i].setAttribute("style", "height:"+hg+"px;");
+			}
 		}
 		
 		// 현재 스케줄의 Bar 길이를 확인
@@ -3849,14 +3882,15 @@
 			
 			let target = event.target;
 			let v = target.parentNode;
+			let p = v.parentNode;
 			let flag = document.getElementsByClassName("groupAddFlag")[0];
-			
+
 			if(flag.value=="true"){
 				flag.setAttribute("value", "false");
 			}
-			
+			console.log(p);
 			let num = v.getElementsByClassName("groupDataNum")[0].value;
-			let name = v.getElementsByClassName("groupDataName")[0].value;
+			let name = v.parentNode.getElementsByClassName("groupDataName")[0].value;
     		let memberlist = v.getElementsByClassName("groupDataMemebersListName");
     		let modifierlist = v.getElementsByClassName("groupDataModifierList");
     		let color = v.getElementsByClassName("groupDataColor")[0].value;
