@@ -79,7 +79,6 @@
 	
 	function mouseoverUlist(){
 		headerUlist.setAttribute("style", "display:block");
-
 	}
 	
 	function mouseoutUlist(){

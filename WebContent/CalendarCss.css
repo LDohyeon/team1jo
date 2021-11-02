@@ -1,5 +1,7 @@
 @charset "utf-8";
-
+::-webkit-scrollbar        { width: 8px; height: 8px; }
+::-webkit-scrollbar-track  { background-color: #ffffff;  }
+::-webkit-scrollbar-thumb  { background-color: #c0c0c0;  }
 #calendar{
     width: 100%;
 	z-index: 100;
@@ -135,18 +137,26 @@
 	display:block;
 	float: right;
 }
-.calendarSearchBar{
+.calendarSearchBarArea{
 	margin-top: 3px;
 	margin-bottom: 3px;
 	height: 32px; 
 	width: 80%;
 	padding-left: 25px;
 	padding-right: 25px;
-	border: 1px solid lightgray;
-	border-radius: 16px;
-	float: left;
 	margin-left: 4%;
 	float: right;
+	line-height: 32px;
+	position: relative;
+}
+.calendarSearchBar{
+	
+	width: 92%;
+	padding-left: 25px;
+	padding-right: 25px;
+	border: 1px solid lightgray;
+	border-radius: 16px;
+	margin-left: 4%;
 	line-height: 32px;
 }
 .calendarSearchBtn{
@@ -184,22 +194,24 @@
 .calendarSearchResult{
 	position: absolute;
 	z-index: 600;
-	display: block;
-	width: calc(100% - 200px);
-	margin-top: 36px;
+	width: 92%;
+	margin-left: 4%;
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	line-height: 32px;
+	background-color: white;
+	display: none;
 }
 .scheduleSearchLists{
 	height: 32px; 
-	width: 80%;
-	padding-left: 25px;
+	width: calc(100% - 50px);
 	padding-right: 25px;
-	border: 1px solid lightgray;
-	border-radius: 16px;
+	padding-left: 25px;
+	display: block;
 	float: left;
-	margin-left: 4%;
-	float: right;
-	line-height: 32px;
-	background-color: white;
+	font-size: 0.9em;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 .calendarXBtn:hover{
 	animation-duration: 0.3s;
@@ -258,11 +270,56 @@
     min-width: 200px;
     min-height: 360px;
 }
-.toDoListTitle{
+.toDoListTitleHead{
+	width: calc(100% - 7px);
 	font-size: 1.2em;
-	padding-top: 10px;
-	
+	padding-top: 5px;
+	padding-bottom: 5px;
 	letter-spacing: -0.6px;
+	margin-top: 3px;
+}
+.toDoListTitle{
+	width: calc(100% - 7px);
+	height: 25px;
+	line-height: 25px;
+	font-size: 1.2em;
+	letter-spacing: -0.6px;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	border: 0;
+	font-size: 1em;
+}
+.toDolistTitleSecond{
+	float: left;
+}
+.toDoListMenu::after{
+	content: "";
+	display: block;
+	clear: both;
+}
+.toDoListCheckBox{
+	height: 27px;
+	width: 27px;
+	float: left;
+	margin-right: 2px;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	background-image: url(./imgSource/checkbefore.png);
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	background-position: center;;
+}
+.toDoListFixBtn{
+	height: 27px;
+	width: 27px;
+	float: left;
+	margin-left: 2px;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	background-image: url(./imgSource/fix.png);
+	background-repeat: no-repeat;
+	background-size: 20px 20px;
+	background-position: center;;
 }
 .toDoListAdd{
 	width: 25px;
@@ -292,6 +349,62 @@
 	display: block;
 	clear:both;
 }
+.toDoListDate{
+	width: 100%;
+	min-height: 30px;
+	margin-top: 5px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+	margin-bottom: 5px;
+}
+.toDoListTime, .toDoListImportance{
+	width: calc(50% - 2px);
+	min-height: 32px;
+	line-height: 32px;
+	margin-left: 2px;
+	text-align: center;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(235,235,235);
+	margin-bottom: 5px;
+}
+.toDoListTimeTitle, .toDoListImportanceTitle{
+	width: calc(50% - 2px);
+	min-height: 32px;
+	line-height: 32px;
+	margin-right: 2px;
+	text-align: center;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+	margin-bottom: 5px;
+}
+.toDoListTimeTitle, .toDoListTime, .toDoListImportanceTitle, .toDoListImportance{
+	margin-bottom: 10px;
+}
+
+.toDoListDelBtn, .toDoListAddBtn{
+	width: calc(50% - 2px);
+	min-height: 32px;
+	line-height: 32px;
+	margin-left: 2px;
+	text-align: center;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: #c5e2a9;
+	margin-bottom: 5px;
+	
+}
+.toDoListDelBtn:hover, .toDoListAddBtn:hover{
+	background-color: #81c147;
+}
+
+
 /* =====================================================
  * === 그룹리스트 =========================================
  * ===================================================== */
@@ -340,18 +453,26 @@
 	display: block;
 	float: left;
 	border: 0;
+	position: relative;
+	z-index: 300;
 	background-color: rgb(245,245,245);
 }
-
+.groupDataInfos{
+	position: relative;
+}
 .groupDataSearchable{
 	min-width: calc(50% - 5px);
 	min-height: 32px;
 	line-height: 32px;
 	margin-bottom: 10px;
 	display: block;
+	margin-left: auto;
 	float: left;
 	border: 0;
 	background-color: rgb(245,245,245);
+	font-size: 0.9em;
+	position: relative;
+	z-index: 300;
 }
 .groupDataSearchable::after{
 	content: "";
@@ -373,16 +494,72 @@
 	margin-bottom: 10px;
 	margin-top: 10px;
 }
-
+.groupDataMemebersListName{
+	margin-top: 6px;
+	width: 50%;
+	min-height: 26px;
+	line-height: 26px;
+	display:block;
+	text-align: left;
+	float: left;
+	font-size: 0.85em;
+	text-overflow: ellipsis;
+}
+.groupDataMemebersListNameDummy{
+	width: 50%;
+	margin-top: 6px;
+	display: block;
+	min-height: 26px;
+	line-height: 26px;
+	float: left;
+}
+.groupDataMembersListFixModify{
+	width: calc(50% - 7px);
+	margin-top: 2px;
+	min-height: 32px;
+	line-height: 32px;
+	display: block;
+	border-radius: 10px;
+	text-align: left;
+	font-size: 0.85em;
+	float: left;
+	background-color: rgb(245,245,245);
+	margin-right: 4px;
+}
+.groupDataMembersListFixModify:hover{
+	color: #6a8518;
+}
+.groupDataMembersListFixDelete{
+	width: calc(50% - 7px);
+	min-height: 32px;
+	margin-top: 2px;
+	line-height: 32px;
+	display: block;
+	border-radius: 10px;
+	text-align: left;
+	font-size: 0.85em;
+	float: left;
+	background-color: rgb(245,245,245);
+}
+.groupDataMemebersListFix::after{
+	content:"";
+	display: block;
+	clear:both;
+}
+.groupDataMembersListFixDelete:hover{
+	color: #ff3409;
+}
 .groupDataAdd{
 	min-width: calc(50% - 5px);
 	min-height: 32px;
 	line-height: 32px;
-	margin-left: 5px;
 	margin-right: 5px;
 	margin-bottom: 10px;
+	display: block;
+	float: left;
 	border: 0;
 	background-color: rgb(245,245,245);
+	border-radius: 10px;
 }
 
 .groupDataClose{
@@ -394,7 +571,23 @@
 	border: 0;
 	background-color: rgb(245,245,245);
 }
-
+.groupDataModifierList{
+	font-size: 0.9em;
+}
+.groupDataModifierListName{
+	font-size: 0.9em;
+	width: calc(100% - 10px);
+	min-height: 25px;
+	line-height: 25px;
+	display: block;
+	border: 0;
+	margin-bottom: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	margin-top: 10px;
+	background-color: rgb(245,245,245);
+}
 
 /* =====================================================
  * === 스케줄 추가 폼 ======================================
@@ -415,12 +608,26 @@
 	letter-spacing: -0.6px;
 	max-width: 484.5px;
 	border: 1px solid lightgray;
+	display: none;
+}
+.scheduleFormX{
+	min-height: 26px;
+	border-radius: 8px;
+	border: 1px solid rgba(235,235,235);
+	margin: 0 auto;
+	margin-left: 10px;
+	margin-right: 10px;
+	line-height: 26px;
+	font-weight: 500;
+	background-color: rgba(235,235,235);
+}
+.scheduleFormX:hover{
+	background-color: rgba(235,235,235);
 }
 .scheduleFormTitle{
 	min-width: 279.5px;
 	min-height: 30px;
 	margin-top: 10px;
-	margin-left: 80px;
 	display: block;
 	float: left;
 	border: 0;
@@ -831,6 +1038,7 @@
 	line-height: 35px;
 	border-radius: 2px;
 	background-color: #81c147;
+	
 }
 .groupDataName{
 	width: calc(100% - 74px);
@@ -857,35 +1065,145 @@
 	padding-bottom: 5px;
 	padding-left: 5px;
 	margin-top: 10px;
-	background-color: lightgrey;
+	background-color: rgb(245,245,245);
 }
 .groupDataMemberAdd{
 	border-radius: 5px;
 	margin-top: 10px;
 	width: 100%;
+	position: relative;
+	font-size: 0.9em;
 }
 
 .memerListId{
-	width:30%;
+	margin-top: 6px;
+	width: calc(100% - 60px);
+	min-height: 32px;
+	line-height: 32px;
+	text-align: left;
+	float: left;
+	font-size: 0.9em;
 }
-.memerListName{
-	width:30%;
-}
-.memerListAddBtn{
-	width:30%;
+.memerListIdTitle{
+	margin-top: 6px;
+	min-width: 60px;
+	min-height: 28px;
+	line-height: 28px;
+	text-align: center;
+	float: left;
+	font-size: 0.9em;
 }
 
+.memerListName{
+	margin-bottom: 6px;
+	width: calc(100% - 60px);
+	min-height: 28px;
+	line-height: 28px;
+	text-align: left;
+	float: left;
+	font-size: 0.9em;
+}
+.memerListNameTitle{
+	margin-bottom: 6px;
+	min-width: 60px;
+	min-height: 28px;
+	line-height: 28px;
+	text-align: center;
+	float: left;
+	font-size: 0.9em;
+}
+.memerListAddBtn{
+	width: calc(100% - 10px);
+	min-height: 32px;
+	line-height: 32px;
+	text-align: center;
+	float: left;
+	border-radius: 10px;
+	background-color: rgb(245,245,245);
+}
+.memerListAddBtn:hover{
+	background-color: #81c147;
+}
 .groupDataMemberResult{
 	position: relative;
-}
-.memerListBox{
+	display: block;
 	position: absolute;
 	z-index: 500;
+	width: 100%;
+	max-height: 126px;
+	overflow: auto;
+    scrollbar-color: #c0c0c0 #f5f5f5;
+    scrollbar-width: thin;
+}
+.memerListData::after{
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.memerListBox::after{
+	content: "";
+	display: block;
+	clear: both;
+}
+.groupDataMemberResult::after{
+	content: "";
+	display: block;
+	clear: both;
+}
+.memerListBox{
+
 	background-color: white;
 	width: 100%;
 }
+.groupDataModifierListTitle{
+	padding-left: 5px;
+	font-size: 0.9em;
+}
+.groupDataMembersListTitle{
+	padding-left: 5px;
+	font-size: 0.9em;
+}
+.groupDataDelBtn{
+	min-width: calc(50% - 5px);
+	min-height: 32px;
+	line-height: 32px;
+	margin-right: 5px;
+	margin-bottom: 10px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+	border-radius: 10px;
+}
+.groupDataDelBtn:hover{
+	background-color: #ff3409;
+}
+.groupDataAdd:hover{
+	background-color: rgb(235,235,235);
+}
 
+.toDoLists{
+	margin-top: 6px;
+}
 
+.toDoListContent{
+	width: calc(100% - 6px);
+	min-height: 25px;
+	line-height: 25px;
+	display: block;
+	border: 0;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: rgb(245,245,245);
+}
+
+.toDoListView{
+	display: none;
+}
 
 
 /*제민- 작업*/
