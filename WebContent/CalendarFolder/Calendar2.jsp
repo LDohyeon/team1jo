@@ -18,15 +18,14 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Calendar</title>
-        <link rel="stylesheet" href="CalendarCss.css">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../CalendarCss.css">
+        <link rel="stylesheet" href="../style.css">
 	</head>
 	<body>
 		<jsp:include page="../header.jsp"/>
 		<div id="calendar">
 			
 		</div>
-		<div id="calendar2"></div>
 	</body>
 	<script type="text/javascript">
 	
@@ -400,12 +399,12 @@
             ccc.setAttribute("value", "M");
             ccc.setAttribute("selected", "true");
             cc.appendChild(ccc);
-            
+            /*
             ccc = document.createElement("option");
             ccc.innerHTML = "주";
             ccc.setAttribute("value", "W");
             cc.appendChild(ccc);
-            
+            */
             ccc = document.createElement("option");
             ccc.innerHTML = "일";
             ccc.setAttribute("value", "D");
@@ -448,7 +447,8 @@
         		// 현재의 구간을 구하고, 해당 구간을 기준으로 더라기 빼기 
         	}
 			else if(select=="D"){
-				
+				let date = getToday();
+				changeForm("D", date);
 			}
         }
 		
@@ -490,11 +490,43 @@
 				
 				changeForm("M", date);
         	}
-			else if(select=="W"){
-        		// 현재의 구간을 구하고, 해당 구간을 기준으로 더라기 빼기 
-        	}
 			else if(select=="D"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+				let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
 				
+				let changeYear = inputYear;
+				let changeMonth = inputMonth;
+				let changeDay = inputDay-1;
+				
+				//아래는 날짜가 이전달로 이동할 경우에 적용.
+				if(changeDay<1){
+					changeMonth=inputMonth-1
+					//changeMonth값을 먼저 구하고 이후 Day값 설정실행.
+					
+					if(changeMonth<1){
+						changeMonth=12; // 1월 1일에서 뒤로 갔을 경우 적용. 년도 값-1, month값 12.
+						changeYear=changeYear-1;
+						changeDay=31;
+					}
+					if(changeMonth==1||changeMonth==3||changeMonth==5||changeMonth==7||changeMonth==8||changeMonth==10){
+						
+						changeDay=31; //31일이 마지막인 달은 31일로 Day값 적용
+					}else if(changeMonth==4||changeMonth==6||changeMonth==9||changeMonth==11){
+						changeDay=30; //30일이 마지막인 달은 30일로 Day값 적용
+					}else{
+						//2월의 경우 윤년여부 판단해야함.
+						if(getYunNyen(changeYear)==true){
+							changeDay=29; // 윤년의 경우 29일로 적용.
+						}else{
+							changeDay=28; // 윤년이 아닐경우 28일로 적용.
+						}
+					}
+				}
+				
+				let date= getThisDay(changeYear, changeMonth, changeDay, 0, 0);
+				changeForm("D", date);
 			}
         }
 		
@@ -535,11 +567,54 @@
 				
 				changeForm("M", date);
         	}
-			else if(select=="W"){
-        		
-        	}
 			else if(select=="D"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+				let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
 				
+				let changeYear=inputYear;
+				let changeMonth=inputMonth;
+				let changeDay=inputDay;
+				
+				if(changeMonth==1||changeMonth==3||changeMonth==5||changeMonth==7||changeMonth==8||changeMonth==10){
+					if(changeDay>31){
+						//31일까지 있는 월 중 12월은 제외한 나머지월 말일에서 넘어갈 때 처리.
+						changeMonth=changeMonth+1;
+						changeDay=1;
+					}
+				}else if(changeMonth==12){
+					if(changeDay>31){
+						//12월 31일에서 넘어갈 때 처리
+						changeYear=changeYear+1;
+						changeMonth=1;
+						changeDay=1;	
+					}
+				}else if(changeMonth==4||changeMonth==6||changeMonth==9||changeMonth==11){
+					
+					if(changeDay>30){
+						//30일까지 있는 월의 마지막 날에서 넘어갈 때 처리.
+						changeMonth=changeMonth+1;
+						changeDay=1;
+					}
+				}else{
+					//2월의 경우 윤년에따라 넘어갈 날짜 설정.
+					if(getYunNyen(changeYear)==true){
+						//윤년인 경우 29일에서 넘어갈 때 실행. 28일에서 넘어가면 29일
+						if(changeDay>29){
+							changeMonth=changeMonth+1;
+							changeDay=1;
+						}
+					}else{
+						//윤년이 아닌 경우 28일에서 넘어갈 때 실행. 29일이 아닌 3월 1일로 진행.
+						if(changeDay>28){
+							changeMonth=changeMonth+1;
+							changeDay=1;
+						}
+					}
+				}
+				let date = getThisDay(changeYear, changeMonth, changeDay, 0, 0);
+				changeForm("D", date);
 			}
         }
 		
@@ -571,7 +646,7 @@
         			day = "0"+date.day;
         		}
         		
-        		info.value = date.year+""+month+""+date.day;
+        		info.value = date.year+""+month+""+day;
         	}
         	else if(form="M"){
         		v.innerHTML += date.year+"년 "+date.month+"월";
@@ -586,22 +661,7 @@
         			day = "0"+date.day;
         		}
         		
-        		info.value = date.year+""+month+""+date.day;
-        	}
-        	else if(form="W"){
-        		v.innerHTML += date.year+"년 "+date.month+"월";
-        		let info = document.getElementsByClassName("calendarHeadDateInfo")[0];
-        		let month = date.month;
-        		let day = date.day;
-        		
-        		if(date.month<10){
-        			month = "0"+date.month;
-        		}
-        		if(date.day<10){
-        			day = "0"+date.day;
-        		}
-        		
-        		info.value = date.year+""+month+""+date.day;
+        		info.value = date.year+""+month+""+day;
         	}
         	else if(form="D"){
         		v.innerHTML += date.year+"년 "+date.month+"월 "+date.day+"일";
@@ -616,7 +676,7 @@
         			day = "0"+date.day;
         		}
         		// 달비교하고 초과할 경우에 대한 변수도 마련해야함
-        		info.value = date.year+""+month+""+date.day;
+        		info.value = date.year+""+month+""+day;
         	}
         }
 
@@ -842,7 +902,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm(date);
-					scheduleCheckMonth(date);
+					scheduleCheck(date);
 					whatIsDateInfo(selectForm, date);
 				}
 				else if(selectForm=="W"){
@@ -861,7 +921,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm();
-					scheduleCheckMonth(getToday());
+					scheduleCheck (getToday());
 					whatIsDateInfo(selectForm, getToday());
 				}
 				else if(selectForm=="W"){
@@ -951,7 +1011,19 @@
 		
 		// 일 폼 만들기 
 		function DayForm(){
-
+			if(typeof(date)!='undefined'&&date!=null){
+				let div = document.getElementsByClassName("calendarDiv")[0];
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);
+				}
+				div.appendChild(createDayFormElement(date));
+			}else{
+				let div = document.getElementsByClassName("calendarDiv")[0];
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);					
+				}
+				div.appendChild(createDayFormElement());
+			}
 		}
 
 		// 월 폼의 Element 만들기
@@ -1038,7 +1110,7 @@
 	                cc.classList.add("monthBox"); 
 	                
 	                let thisTimeDate="";
-	                
+	                08 > 8
 					if(i<10){
 						if(date.month<10){
 							thisTimeDate = date.year+"0"+date.month+"0"+i
@@ -1054,7 +1126,7 @@
 						else{
 							thisTimeDate = date.year+""+date.month+""+i;
 						}
-					}					
+					}				
 					console.log("중요! 해당 위의 구문과 같이 모든 데이터를 처리하는 별도 태그가 해당 폼의 요소에 포함되어 정보를 식별해야함");
 	                cc.addEventListener("click", visibleSchedule);
 
@@ -2711,7 +2783,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			};
@@ -2737,7 +2809,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			};
@@ -2913,6 +2985,21 @@
 				
 			}
 		}
+		
+		function scheduleCheck (date){
+			let form = document.getElementsByClassName("selectForm")[0].value;
+			
+			if(form=="Y"){
+				
+			}
+			else if(form=="M"){
+				scheduleCheckMonth(date);
+			}
+			else if(form=="D"){
+				
+			}
+		}
+		
 		
 		// 월 형식 스케줄을 체크하고 구현
 		function scheduleCheckMonth (date){
@@ -3492,7 +3579,7 @@
 			XHRGroup.onreadystatechange=function(){
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3555,7 +3642,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3721,7 +3808,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3778,7 +3865,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3803,52 +3890,8 @@
 		}
 		
 	</script>
-
 	
-	
-	<script> //제민_ 일간/주간 form.
-	// for, if 쓰실때 {}, () 확인하고 잘닫아주셔야 합니다.
-		
-		function createWeekFormElement(){
-			
-			let v;
-            let c;
-            let cc;
-            let ccc;    
-            
-			if((typeof(date)!='undefined'||date!=null)){
-				v = document.createElement("div");
-		        v.classList.add("calendarArea");
-		        		         
-				c = document.createElement("div");
-	            c.classList.add("WeekAreaHead");
-	            
-	            for(let i = 0; i < 7; i++){
-	                cc = document.createElement("div");
-	                cc.classList.add("weekAreaHeadTitle");
-	                cc.innerHTML = monthDayTitle[i];
-	                c.appendChild(cc);
-	            }
-			}
-			v.appendChild(c); //주간 form Head 생성
-			
-			c=document.createElement("div");
-			c.classList.add("weekAreaBody");
-			
-			for(let i=0; i<7; i++){
-				cc=document.createElement("div");
-				cc.classList.add("weekDayBox");
-				for(let j=0; j<24; j++){
-					ccc=document.createElement("div");
-					ccc.classList.add("weekDayTimeBox");
-					cc.appendChild(ccc);
-				}
-				c.appendChild(cc);
-			}
-			v.appendChild(c);//주간 form body 생성
-			
-		}//주간 formElement 여기는 아직
-		
+	<script> // 제민 workspace
 		function createDayFormElement(date){
 			
 			let v;
@@ -3858,14 +3901,15 @@
             let cccc;
             let ccccc;
             let cccccc;
-            
-            let yoil = getYoil(getThisDay(date.year, date.month, 1, 0, 0));
-            let today=getToday();
-            let thisDayToday=false;
-            let thisTimeDate="";            
-            
+                       
             if(typeof(date)!='undefined'||date!=null){
-				v = document.createElement("div");
+            	
+            	let yoil = getYoil(getThisDay(date.year, date.month, date.day, 0, 0));
+                let today=getToday();
+                let thisDayToday=false;
+                let thisTimeDate=""; 
+            	
+            	v = document.createElement("div");
 				v.classList.add("calendarArea");
 				
 				//선택된 날짜가 오늘날짜인지 확인.
@@ -3955,7 +3999,7 @@
 	            	ccccc=document.createElement("div");
 	            	ccccc.classList.add("dayScheduleLeftLine");
 	            	cccc.appendChild(ccccc);
-	            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
+	            }
 	            
 	            ccc.appendChild(cccc);
 	            cc.appendChild(ccc);
@@ -3967,7 +4011,7 @@
 	            	
 	            	if(i==0){
 	            		cccc=document.createElement("div");
-	                    cccc.classList.add("alldaySchedule"); //얘는 왜 라인이 위에 그려질까....
+	                    cccc.classList.add("alldaySchedule");
 	                    ccc.appendChild(cccc);
 	            	}else{
 	            		cccc=document.createElement("div");
@@ -3976,6 +4020,7 @@
 	                   	for(let j=0; j<4; j++){
 	                   		ccccc=document.createElement("div");
 	                       	ccccc.classList.add("dayScheduleCheck");
+	                       	
 	                       	if(thisDayToday==true){
 	                       		if(i==(1+today.hour)){
 	                       			if(today.minute<15&&j==0){
@@ -4012,13 +4057,13 @@
 	                      				}
 	                      			}else{
 	                      				if(j==0){
-	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"00";		
+	                      					thisTimeDate=date.year+"0"+date.month+""+date.day+"/"+"0"+(i-1)+":"+"00";		
 	                      				}else if(j==1){
-	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"15";
+	                      					thisTimeDate=date.year+"0"+date.month+""+date.day+"/"+"0"+(i-1)+":"+"15";
 	                      				}else if(j==2){
-	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"30";
+	                      					thisTimeDate=date.year+"0"+date.month+""+date.day+"/"+"0"+(i-1)+":"+"30";
 	                      				}else{
-	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"45";
+	                      					thisTimeDate=date.year+"0"+date.month+""+date.day+"/"+"0"+(i-1)+":"+"45";
 	                      				}
 	                      			}	
 	                      		}else{
@@ -4034,13 +4079,13 @@
 	                      				}
 	                      			}else{
 	                      				if(j==0){
-	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"00";		
+	                      					thisTimeDate=date.year+""+date.month+""+date.day+"/"+"0"+(i-1)+":"+"00";		
 	                      				}else if(j==1){
-	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"15";
+	                      					thisTimeDate=date.year+""+date.month+""+date.day+"/"+"0"+(i-1)+":"+"15";
 	                      				}else if(j==2){
-	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"30";
+	                      					thisTimeDate=date.year+""+date.month+""+date.day+"/"+"0"+(i-1)+":"+"30";
 	                      				}else{
-	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"45";
+	                      					thisTimeDate=date.year+""+date.month+""+date.day+"/"+"0"+(i-1)+":"+"45";
 	                      				}
 	                      			}
 	                      		}
@@ -4056,7 +4101,6 @@
 	                  				}else{
 	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"45";
 	                  				}
-	                  				console.log(thisTimeDate);
 	                  			}
 	                  			else{
 	                  				if(j==0){
@@ -4084,10 +4128,229 @@
 	            cc.appendChild(ccc);
 	            c.appendChild(cc);
 	            v.appendChild(c);
-            }
+            }//day formdate defined end
+            else{
+
+               	let yoil = getYoil(getToday());
+           	 	let today=getToday();
+            	let thisDayToday=true;
+           	 	let thisTimeDate=""; 
+               	
+               	
+            	v = document.createElement("div");
+   				v.classList.add("calendarArea");
+   				
+   				c = document.createElement("div");
+   				c.classList.add("dayTimeWrap");
+   	           	
+   	            cc= document.createElement("div");
+   	            cc.classList.add("dayHeadSize"); // dayAreahead와 같은 height값으로 공간 차지
+   	            c.appendChild(cc);
+   	            
+   	            for(let i=0; i<25; i++){
+   	            	if(i==0){
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("scheduleTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("scheduleTime");
+   	            		ccc.innerHTML="일정";
+   	            		cc.appendChild(ccc);
+   	            	}else if(i==1){
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("dayTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("dayTime");
+   	            		ccc.innerHTML="오전"+12+"시";
+   	            		cc.appendChild(ccc);//오전 12시 표시
+   	            	}else if(i<13){
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("dayTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("dayTime");
+   	            		ccc.innerHTML="오전"+(i-1)+"시";
+   	            		cc.appendChild(ccc);//오전 1~11시 표시
+   	            	}else if(i==13){
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("dayTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("dayTime");
+   	            		ccc.innerHTML="오후"+12+"시";
+   	            		cc.appendChild(ccc);//12시 표시
+   	            	}else{
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("dayTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("dayTime");
+   	            		ccc.innerHTML="오후"+(i-13)+"시";
+   	            		cc.appendChild(ccc);//오후1~12시 표시
+   	            	}
+   	           	c.appendChild(cc);
+   	            }
+   	            v.appendChild(c);//dayTimeBox end
+   	            
+   	            c=document.createElement("div");
+   	            c.classList.add("dayArea");
+   	            
+   	            cc=document.createElement("div");
+   	            cc.classList.add("dayAreaHead");
+   	            
+   	            ccc=document.createElement("div");
+   	            ccc.classList.add("dayAreaHeadYoil");
+   	            ccc.innerHTML= yoil+""; 
+   	            cc.appendChild(ccc); // head 요일표시
+   	            
+   	            ccc=document.createElement("div");
+   	            ccc.classList.add("dayAreaHeadDate");
+   	            ccc.innerHTML= today.day+"";
+   	            cc.appendChild(ccc); // head 날짜표시
+   	            
+   	            c.appendChild(cc); 
+   	           
+   	            
+   	            cc=document.createElement("div");
+   	            cc.classList.add("dayAreaBody");
+   	            
+   	            ccc=document.createElement("div");
+   	            ccc.classList.add("dayBodyWrap");
+   	            
+   	            cccc=document.createElement("div");
+   	            cccc.classList.add("dayScheduleLeftLineWrap");
+   	            for(let i=0; i<25; i++){
+   	            	ccccc=document.createElement("div");
+   	            	ccccc.classList.add("dayScheduleLeftLine");
+   	            	cccc.appendChild(ccccc);
+   	            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
+   	            
+   	            ccc.appendChild(cccc);
+   	            cc.appendChild(ccc);
+   	                                  
+   	            ccc=document.createElement("div");
+   	            ccc.classList.add("dayScheduleWrap");
+   	                        
+   	            for(let i=0; i<25; i++){
+   	            	
+   	            	if(i==0){
+   	            		cccc=document.createElement("div");
+   	                    cccc.classList.add("alldaySchedule"); //::after의 line처리 안됨 ==> daySchedule:secondchild before로 해결
+   	                    ccc.appendChild(cccc);
+   	            	}else{
+   	            		cccc=document.createElement("div");
+   	                   	cccc.classList.add("daySchedule");
+   	                   	
+   	                   	for(let j=0; j<4; j++){
+   	                   		ccccc=document.createElement("div");
+   	                       	ccccc.classList.add("dayScheduleCheck");
+   	                       	
+   	                       	if(thisDayToday==true){
+   	                       		if(i==(1+today.hour)){
+   	                       			if(today.minute<15&&j==0){
+   	                       				cccccc=document.createElement("div");
+   	                       				cccccc.classList.add("thisTimeDot");
+   	                       				ccccc.appendChild(cccccc);
+   	                       			}else if(today.minute<30&&j==1){
+   	                       				cccccc=document.createElement("div");
+   	                       				cccccc.classList.add("thisTimeDot");
+   	                       				ccccc.appendChild(cccccc);
+   	                       			}else if(today.minute<45&&j==2){
+   	                       				cccccc=document.createElement("div");
+   	                       				cccccc.classList.add("thisTimeDot");
+   	                       				ccccc.appendChild(cccccc);
+   	                       			}else{
+   	                       				cccccc=document.createElement("div");
+   	                       				cccccc.classList.add("thisTimeDot");
+   	                       				ccccc.appendChild(cccccc);
+   	                       			}
+   	                       		}
+   	                       	}
+   	                      	
+   	                      	if(i<11){
+   	                      		if(today.month<10){
+   	                      			if(today.day<10){
+   	                      				if(j==0){
+   	                      					thisTimeDate=today.year+"0"+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      				}else if(j==1){
+   	                      					thisTimeDate=today.year+"0"+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"15";
+   	                      				}else if(j==2){
+   	                      					thisTimeDate=today.year+"0"+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"30";
+   	                      				}else{
+   	                      					thisTimeDate=today.year+"0"+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"45";
+   	                      				}
+   	                      			}else{
+   	                      				if(j==0){
+   	                      					thisTimeDate=today.year+"0"+today.month+""+today.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      				}else if(j==1){
+   	                      					thisTimeDate=today.year+"0"+today.month+""+today.day+"/"+"0"+(i-1)+":"+"15";
+   	                      				}else if(j==2){
+   	                      					thisTimeDate=today.year+"0"+today.month+""+today.day+"/"+"0"+(i-1)+":"+"30";
+   	                      				}else{
+   	                      					thisTimeDate=today.year+"0"+today.month+""+today.day+"/"+"0"+(i-1)+":"+"45";
+   	                      				}
+   	                      			}	
+   	                      		}else{
+   	                      			if(today.day<10){
+   	                      				if(j==0){
+   	                      					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      				}else if(j==1){
+   	                      					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"15";
+   	                      				}else if(j==2){
+   	                      					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"30";
+   	                      				}else{
+   	                      					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"45";
+   	                      				}
+   	                      			}else{
+   	                      				if(j==0){
+   	                      					thisTimeDate=today.year+""+today.month+""+today.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      				}else if(j==1){
+   	                      					thisTimeDate=today.year+""+today.month+""+today.day+"/"+"0"+(i-1)+":"+"15";
+   	                      				}else if(j==2){
+   	                      					thisTimeDate=today.year+""+today.month+""+today.day+"/"+"0"+(i-1)+":"+"30";
+   	                      				}else{
+   	                      					thisTimeDate=today.year+""+today.month+""+today.day+"/"+"0"+(i-1)+":"+"45";
+   	                      				}
+   	                      			}
+   	                      		}
+   	                      	}
+   	                      	else{
+   	                  			if(today.day<10){
+   	                  				if(j==0){
+   	                  					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+""+(i-1)+":"+"00";		
+   	                  				}else if(j==1){
+   	                  					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+""+(i-1)+":"+"15";
+   	                  				}else if(j==2){
+   	                  					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+""+(i-1)+":"+"30";
+   	                  				}else{
+   	                  					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+""+(i-1)+":"+"45";
+   	                  				}
+   	                  			}
+   	                  			else{
+   	                  				if(j==0){
+   	                  					thisTimeDate=today.year+""+today.month+""+today.day+"/"+""+(i-1)+":"+"00";		
+   	                  				}else if(j==1){
+   	                  					thisTimeDate=today.year+""+today.month+""+today.day+"/"+""+(i-1)+":"+"15";
+   	                  				}else if(j==2){
+   	                  					thisTimeDate=today.year+""+today.month+""+today.day+"/"+""+(i-1)+":"+"30";
+   	                  				}else{
+   	                  					thisTimeDate=today.year+""+today.month+""+today.day+"/"+""+(i-1)+":"+"45";
+   	                  				}
+   	                  			}
+   	                      	}
+   	                      	cccccc=document.createElement("input");
+   		                	cccccc.classList.add("dateTag");
+   		                  	cccccc.setAttribute("type","text");
+   		                  	cccccc.setAttribute("value", thisTimeDate);
+   		                  	ccccc.appendChild(cccccc);
+   		                   	cccc.appendChild(ccccc);// 15분 단위로 dayScheduleCheck[0]: 0~15 / dayScheduleCheck[1] : 15~30 / dayScheduleCheck[2]: 30~45 / dayScheduleCheck[3]: 45~60
+   	                    }
+   	                      	
+   	               	}
+   	            	ccc.appendChild(cccc);
+   				}
+   	            cc.appendChild(ccc);
+   	            c.appendChild(cc);
+   	            v.appendChild(c);
+
+            }//day form undefined or null date end
             return v;
-		}//일간 formElement
-		let calendar2 = document.getElementById("calendar2");
-		calendar2.appendChild(createDayFormElement(getToday()));
+		}//createDayformElement(date) end
 	</script>
 </html>
