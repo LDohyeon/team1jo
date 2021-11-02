@@ -178,6 +178,7 @@
 				
 				width: 80px;
 				display: inline-block;
+				border:0;
 			}
 			.button:hover
 			{
@@ -229,10 +230,10 @@
         	<p>작성자 ${pDTO.getId() } 작성시간 ${pDTO.getDatetime() } 조회수 ${pDTO.getHits() }</p>
         	<c:set var="tag" value="${fn:split(pDTO.getTag(),'★') }"></c:set>
         	<c:forEach items="${tag }" var="tags">
-        		<c:if test="${pDTO.getTag() == null }">
+        		<c:if test="${pDTO.getTag() == '' }">
         		
         		</c:if>
-        		<c:if test="${pDTO.getTag() !=null }">
+        		<c:if test="${pDTO.getTag() !='' }">
         			<span class="tagColor"><a href="#" onclick="getTag(this)">${tags }</a></span>
         		</c:if>
 				

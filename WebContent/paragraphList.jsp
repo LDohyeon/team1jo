@@ -165,6 +165,14 @@
 		      	overflow: hidden;
 		      	
 		 	}
+		 	.txt_line2 {
+				width:370px;
+		      	overflow:hidden;
+		      	text-overflow:ellipsis;
+		      	white-space:nowrap;
+		      	overflow: hidden;
+		      	line-height:36px;
+		 	}
 
 
 		</style>
@@ -201,8 +209,8 @@
 
 
 						<c:choose>
-							<c:when test="${list.getTag() == null}">
-								<div class="txt_line">
+							<c:when test="${list.getTag() == ''}">
+								<div class="txt_line2">
 						
 									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
 										
@@ -211,7 +219,7 @@
 								</div>
 							
 							</c:when>
-							<c:when test="${fn:length(tag) <= 3}">
+							<c:when test="${fn:length(tag) <= 3 && fn:length(tag) > 0}">
 								<div class="txt_line">
 						
 									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
