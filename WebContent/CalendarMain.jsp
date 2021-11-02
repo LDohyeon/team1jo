@@ -1157,6 +1157,7 @@
 				}
 				else if(selectForm=="D"){
 					DayForm(date);
+					getGroupSchedule(userKey, date);
 					whatIsDateInfo(selectForm, date);
 				}
 			}
@@ -1176,6 +1177,7 @@
 				}
 				else if(selectForm=="D"){
 					DayForm();
+					getGroupSchedule(userKey, date);
 					whatIsDateInfo(selectForm, getToday());
 				}
 			}	
@@ -2693,7 +2695,8 @@
 		function getGroupSchedule(userKey, date){
 			let scheduleTitleInSpans = document.getElementsByClassName("scheduleTitleInSpan");
 			let groupDivs = [];
-			
+			let selectForm = document.getElementsByClassName("selectForm")[0];
+			let jsons;
 			createXHRCalendar();
 			
 			XHRCalendar.onreadystatechange=function(){
@@ -2704,7 +2707,7 @@
 		
 		            if(XHRCalendar.status==200){
 		            	clearMonthBoxBody();
-		            	let jsons = JSON.parse(XHRCalendar.responseText, "text/json");
+		            	jsons = JSON.parse(XHRCalendar.responseText, "text/json");
 		            	
 		            	for(let i = 0; i < Object.keys(jsons).length; i++){
 		            		
@@ -2741,18 +2744,30 @@
 		            		}
 		            		groupDivs.push(tempDiv);
 		            	}
-		            	// 스케줄 먼저 그림
-		            	createScheduleElement(scheduleData);
-		            	// 스케줄 그리고 각 첫 요소 파악해서 첫요소 길이를 차등 부여
-		            	checkMonthScheduleFirst(); 
-		            	// 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
-		            	scheduleData = []; 
 		            	// 그룹 Div로 그룹 모양 구현 
 		            	createGroupDivs(groupDivs);
-		            	// 그룹에 부여된 데이터를 기반으로 보일지 정함
-		            	viewScheduleElementFlag();
-		            	// 스케줄의 영역 차지 박스를 바꿈 > 추후 모양 CSS에 따라 필요없을 수 있음
-		            	checkFirstElement();
+		            	
+		            	if(selectForm.value=="M"){
+		            		console.log("work");
+		            		console.log(scheduleData);
+		            		console.log(jsons);
+		            		// 스케줄 먼저 그림
+			            	createScheduleElement(scheduleData);
+			            	// 스케줄 그리고 각 첫 요소 파악해서 첫요소 길이를 차등 부여
+			            	checkMonthScheduleFirst(); 
+			            	// 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
+			            	viewScheduleElementFlag();
+			            	// 스케줄의 영역 차지 박스를 바꿈 > 추후 모양 CSS에 따라 필요없을 수 있음
+			            	checkFirstElement();
+		            	}
+		            	else if(selectForm.value=="D"){
+		            		console.log("work");
+		            		console.log(scheduleData);
+		            		console.log(jsons);
+		            	}
+
+		            	// 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
+		            	scheduleData = []; 
 		            	checkInvite();
 		            }
 				}
