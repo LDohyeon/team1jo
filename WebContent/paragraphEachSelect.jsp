@@ -203,6 +203,39 @@
 			{
 				background-color: #fff;
 			}
+			.fontType{
+				line-height:20px;
+			}
+			.fontColor, .bgColor{
+				height:23px;
+				width:23px;
+			}
+			.divColor{
+				border: 1px solid lightgray;				
+			}
+			.divColor:hover{
+				background-color: lightgray;
+			}
+			.buttonsArea
+			{
+				padding-top: 20px;
+				text-align: center;
+			}
+			
+			.button
+			{
+				background-color: #064998;
+				color: #fff;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				margin: 5px 0;
+				font-size: 14px;
+				
+				width: 80px;
+				display: inline-block;
+				border:0;
+			}
 
         </style>
 	</head>
@@ -317,17 +350,11 @@
 			                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
 			                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${clistSelect.getCommentCount()}].value);">글자색</button>
 			                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${clistSelect.getCommentCount()}].value);">배경색</button>
-			                        </div>
-			                        <div class="fontAlign">
 			                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
-			                            <button class="divColor" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>                      
-			                        	
-			                        </div>
-		
-			                        <div class="img">
-			                            <button class="divColor" type="button" onclick="imgInsert(${clistSelect.getCommentCount()})">사진</button>
+			                            <button class="divColor" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>
+			                            <button class="divColor" type="button" onclick="imgInsert(${clistSelect.getCommentCount()})">사진</button> 
 			                        </div>
 			                        
 			                        <div class="codeWrite">   
