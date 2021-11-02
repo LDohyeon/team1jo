@@ -24,7 +24,6 @@
 	<body>
 		<jsp:include page="../header.jsp"/>
 		<div id="calendar">
-			
 		</div>
 		<div id="calendar2"></div>
 	</body>
@@ -51,7 +50,6 @@
            	hour: 00, 
            	minites: 00
         }; 
-      
         let tempData; 
         // 특정 기능에서 데이터를 전역으로 할당하여 임시로 불러오는 경우에 사용함 
         
@@ -448,7 +446,8 @@
         		// 현재의 구간을 구하고, 해당 구간을 기준으로 더라기 빼기 
         	}
 			else if(select=="D"){
-				
+				let date= getToday();
+				changeForm("D", date);
 			}
         }
 		
@@ -950,10 +949,22 @@
 		}
 		
 		// 일 폼 만들기 
-		function DayForm(){
-
+		function DayForm(date){
+			if(typeof(date)!='undefined'&&date!=null){
+				let div= document.getElementsByClassName("calenderDiv")[0];
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);
+				}
+				div.appendChild(createDayFormElement(date));
+			}
+			else{
+				let div= document.getElementsByClassName("calenderDiv")[0];
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);
+				}
+				div.appendChild(createDayFormElement());
+			}
 		}
-
 		// 월 폼의 Element 만들기
 		function createMonthFormElement(date){
 			
@@ -3858,14 +3869,15 @@
             let cccc;
             let ccccc;
             let cccccc;
-            
-            let yoil = getYoil(getThisDay(date.year, date.month, 1, 0, 0));
-            let today=getToday();
-            let thisDayToday=false;
-            let thisTimeDate="";            
-            
+                       
             if(typeof(date)!='undefined'||date!=null){
-				v = document.createElement("div");
+            	
+            	let yoil = getYoil(getThisDay(date.year, date.month, date.day, 0, 0));
+                let today=getToday();
+                let thisDayToday=false;
+                let thisTimeDate=""; 
+            	
+            	v = document.createElement("div");
 				v.classList.add("calendarArea");
 				
 				//선택된 날짜가 오늘날짜인지 확인.
@@ -3955,7 +3967,7 @@
 	            	ccccc=document.createElement("div");
 	            	ccccc.classList.add("dayScheduleLeftLine");
 	            	cccc.appendChild(ccccc);
-	            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
+	            }
 	            
 	            ccc.appendChild(cccc);
 	            cc.appendChild(ccc);
@@ -3967,7 +3979,7 @@
 	            	
 	            	if(i==0){
 	            		cccc=document.createElement("div");
-	                    cccc.classList.add("alldaySchedule"); //얘는 왜 라인이 위에 그려질까....
+	                    cccc.classList.add("alldaySchedule");
 	                    ccc.appendChild(cccc);
 	            	}else{
 	            		cccc=document.createElement("div");
@@ -3976,6 +3988,7 @@
 	                   	for(let j=0; j<4; j++){
 	                   		ccccc=document.createElement("div");
 	                       	ccccc.classList.add("dayScheduleCheck");
+	                       	
 	                       	if(thisDayToday==true){
 	                       		if(i==(1+today.hour)){
 	                       			if(today.minute<15&&j==0){
@@ -4084,9 +4097,233 @@
 	            cc.appendChild(ccc);
 	            c.appendChild(cc);
 	            v.appendChild(c);
-            }
+            }//day formdate defined end
+            else{
+               	// typeof(date)==null||typeof(date)=='undefined'
+               	// date에서 끌어와서 쓰는 녀석들은 어떻게 해결해야하나...
+            	
+               	let yoil = getYoil(getThisDay(date.year, date.month, date.day, 0, 0));
+           	 	let today=getToday();
+            	let thisDayToday=false;
+           	 	let thisTimeDate=""; 
+               	
+               	
+            	v = document.createElement("div");
+   				v.classList.add("calendarArea");
+   				
+   				c = document.createElement("div");
+   				c.classList.add("dayTimeWrap");
+   	           	
+   	            cc= document.createElement("div");
+   	            cc.classList.add("dayHeadSize"); // dayAreahead와 같은 height값으로 공간 차지
+   	            c.appendChild(cc);
+   	            
+   	            for(let i=0; i<25; i++){
+   	            	if(i==0){
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("scheduleTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("scheduleTime");
+   	            		ccc.innerHTML="일정";
+   	            		cc.appendChild(ccc);
+   	            	}else if(i==1){
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("dayTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("dayTime");
+   	            		ccc.innerHTML="오전"+12+"시";
+   	            		cc.appendChild(ccc);//오전 12시 표시
+   	            	}else if(i<13){
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("dayTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("dayTime");
+   	            		ccc.innerHTML="오전"+(i-1)+"시";
+   	            		cc.appendChild(ccc);//오전 1~11시 표시
+   	            	}else if(i==13){
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("dayTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("dayTime");
+   	            		ccc.innerHTML="오후"+12+"시";
+   	            		cc.appendChild(ccc);//12시 표시
+   	            	}else{
+   	            		cc=document.createElement("div");
+   	            		cc.classList.add("dayTimeBox");
+   	            		ccc=document.createElement("span");
+   	            		ccc.classList.add("dayTime");
+   	            		ccc.innerHTML="오후"+(i-13)+"시";
+   	            		cc.appendChild(ccc);//오후1~12시 표시
+   	            	}
+   	           	c.appendChild(cc);
+   	            }
+   	            v.appendChild(c);//dayTimeBox end
+   	            
+   	            c=document.createElement("div");
+   	            c.classList.add("dayArea");
+   	            
+   	            cc=document.createElement("div");
+   	            cc.classList.add("dayAreaHead");
+   	            
+   	            ccc=document.createElement("div");
+   	            ccc.classList.add("dayAreaHeadYoil");
+   	            ccc.innerHTML= yoil+""; 
+   	            cc.appendChild(ccc); // head 요일표시
+   	            
+   	            ccc=document.createElement("div");
+   	            ccc.classList.add("dayAreaHeadDate");
+   	            ccc.innerHTML= date.day+"";
+   	            cc.appendChild(ccc); // head 날짜표시
+   	            
+   	            c.appendChild(cc); 
+   	           
+   	            
+   	            cc=document.createElement("div");
+   	            cc.classList.add("dayAreaBody");
+   	            
+   	            ccc=document.createElement("div");
+   	            ccc.classList.add("dayBodyWrap");
+   	            
+   	            cccc=document.createElement("div");
+   	            cccc.classList.add("dayScheduleLeftLineWrap");
+   	            for(let i=0; i<25; i++){
+   	            	ccccc=document.createElement("div");
+   	            	ccccc.classList.add("dayScheduleLeftLine");
+   	            	cccc.appendChild(ccccc);
+   	            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
+   	            
+   	            ccc.appendChild(cccc);
+   	            cc.appendChild(ccc);
+   	                                  
+   	            ccc=document.createElement("div");
+   	            ccc.classList.add("dayScheduleWrap");
+   	                        
+   	            for(let i=0; i<25; i++){
+   	            	
+   	            	if(i==0){
+   	            		cccc=document.createElement("div");
+   	                    cccc.classList.add("alldaySchedule"); //::after의 line처리 안됨 ==> daySchedule:secondchild before로 해결
+   	                    ccc.appendChild(cccc);
+   	            	}else{
+   	            		cccc=document.createElement("div");
+   	                   	cccc.classList.add("daySchedule");
+   	                   	
+   	                   	for(let j=0; j<4; j++){
+   	                   		ccccc=document.createElement("div");
+   	                       	ccccc.classList.add("dayScheduleCheck");
+   	                       	
+   	                       	if(thisDayToday==true){
+   	                       		if(i==(1+today.hour)){
+   	                       			if(today.minute<15&&j==0){
+   	                       				cccccc=document.createElement("div");
+   	                       				cccccc.classList.add("thisTimeDot");
+   	                       				ccccc.appendChild(cccccc);
+   	                       			}else if(today.minute<30&&j==1){
+   	                       				cccccc=document.createElement("div");
+   	                       				cccccc.classList.add("thisTimeDot");
+   	                       				ccccc.appendChild(cccccc);
+   	                       			}else if(today.minute<45&&j==2){
+   	                       				cccccc=document.createElement("div");
+   	                       				cccccc.classList.add("thisTimeDot");
+   	                       				ccccc.appendChild(cccccc);
+   	                       			}else{
+   	                       				cccccc=document.createElement("div");
+   	                       				cccccc.classList.add("thisTimeDot");
+   	                       				ccccc.appendChild(cccccc);
+   	                       			}
+   	                       		}
+   	                       	}
+   	                      	
+   	                      	if(i<11){
+   	                      		if(date.month<10){
+   	                      			if(date.day<10){
+   	                      				if(j==0){
+   	                      					thisTimeDate=date.year+"0"+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      				}else if(j==1){
+   	                      					thisTimeDate=date.year+"0"+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"15";
+   	                      				}else if(j==2){
+   	                      					thisTimeDate=date.year+"0"+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"30";
+   	                      				}else{
+   	                      					thisTimeDate=date.year+"0"+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"45";
+   	                      				}
+   	                      			}else{
+   	                      				if(j==0){
+   	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      				}else if(j==1){
+   	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"15";
+   	                      				}else if(j==2){
+   	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"30";
+   	                      				}else{
+   	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"45";
+   	                      				}
+   	                      			}	
+   	                      		}else{
+   	                      			if(date.day<10){
+   	                      				if(j==0){
+   	                      					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      				}else if(j==1){
+   	                      					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"15";
+   	                      				}else if(j==2){
+   	                      					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"30";
+   	                      				}else{
+   	                      					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"45";
+   	                      				}
+   	                      			}else{
+   	                      				if(j==0){
+   	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      				}else if(j==1){
+   	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"15";
+   	                      				}else if(j==2){
+   	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"30";
+   	                      				}else{
+   	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"45";
+   	                      				}
+   	                      			}
+   	                      		}
+   	                      	}
+   	                      	else{
+   	                  			if(date.day<10){
+   	                  				if(j==0){
+   	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"00";		
+   	                  				}else if(j==1){
+   	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"15";
+   	                  				}else if(j==2){
+   	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"30";
+   	                  				}else{
+   	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"45";
+   	                  				}
+   	                  				console.log(thisTimeDate);
+   	                  			}
+   	                  			else{
+   	                  				if(j==0){
+   	                  					thisTimeDate=date.year+""+date.month+""+date.day+"/"+""+(i-1)+":"+"00";		
+   	                  				}else if(j==1){
+   	                  					thisTimeDate=date.year+""+date.month+""+date.day+"/"+""+(i-1)+":"+"15";
+   	                  				}else if(j==2){
+   	                  					thisTimeDate=date.year+""+date.month+""+date.day+"/"+""+(i-1)+":"+"30";
+   	                  				}else{
+   	                  					thisTimeDate=date.year+""+date.month+""+date.day+"/"+""+(i-1)+":"+"45";
+   	                  				}
+   	                  			}
+   	                      	}
+   	                      	cccccc=document.createElement("input");
+   		                	cccccc.classList.add("dateTag");
+   		                  	cccccc.setAttribute("type","text");
+   		                  	cccccc.setAttribute("value", thisTimeDate);
+   		                  	ccccc.appendChild(cccccc);
+   		                   	cccc.appendChild(ccccc);// 15분 단위로 dayScheduleCheck[0]: 0~15 / dayScheduleCheck[1] : 15~30 / dayScheduleCheck[2]: 30~45 / dayScheduleCheck[3]: 45~60
+   	                    }
+   	                      	
+   	               	}
+   	            	ccc.appendChild(cccc);
+   				}
+   	            cc.appendChild(ccc);
+   	            c.appendChild(cc);
+   	            v.appendChild(c);
+
+            }//day form undefined or null date end
             return v;
-		}//일간 formElement
+		}//createDayformElement(date) end
 		let calendar2 = document.getElementById("calendar2");
 		calendar2.appendChild(createDayFormElement(getToday()));
 	</script>
