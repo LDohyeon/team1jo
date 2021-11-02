@@ -24,8 +24,10 @@
 	<body>
 		<jsp:include page="../header.jsp"/>
 		<div id="calendar">
+			
 		</div>
-		<div id="calendar2"></div>
+		<div id="calendar2">
+		</div>
 	</body>
 	<script type="text/javascript">
 	
@@ -50,6 +52,7 @@
            	hour: 00, 
            	minites: 00
         }; 
+      
         let tempData; 
         // 특정 기능에서 데이터를 전역으로 할당하여 임시로 불러오는 경우에 사용함 
         
@@ -398,12 +401,12 @@
             ccc.setAttribute("value", "M");
             ccc.setAttribute("selected", "true");
             cc.appendChild(ccc);
-            
+            /*
             ccc = document.createElement("option");
             ccc.innerHTML = "주";
             ccc.setAttribute("value", "W");
             cc.appendChild(ccc);
-            
+            */
             ccc = document.createElement("option");
             ccc.innerHTML = "일";
             ccc.setAttribute("value", "D");
@@ -446,8 +449,7 @@
         		// 현재의 구간을 구하고, 해당 구간을 기준으로 더라기 빼기 
         	}
 			else if(select=="D"){
-				let date= getToday();
-				changeForm("D", date);
+				
 			}
         }
 		
@@ -841,7 +843,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm(date);
-					scheduleCheckMonth(date);
+					scheduleCheck(date);
 					whatIsDateInfo(selectForm, date);
 				}
 				else if(selectForm=="W"){
@@ -860,7 +862,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm();
-					scheduleCheckMonth(getToday());
+					scheduleCheck (getToday());
 					whatIsDateInfo(selectForm, getToday());
 				}
 				else if(selectForm=="W"){
@@ -949,22 +951,10 @@
 		}
 		
 		// 일 폼 만들기 
-		function DayForm(date){
-			if(typeof(date)!='undefined'&&date!=null){
-				let div= document.getElementsByClassName("calenderDiv")[0];
-				while(div.hasChildNodes()){
-					div.removeChild(div.firstChild);
-				}
-				div.appendChild(createDayFormElement(date));
-			}
-			else{
-				let div= document.getElementsByClassName("calenderDiv")[0];
-				while(div.hasChildNodes()){
-					div.removeChild(div.firstChild);
-				}
-				div.appendChild(createDayFormElement());
-			}
+		function DayForm(){
+
 		}
+
 		// 월 폼의 Element 만들기
 		function createMonthFormElement(date){
 			
@@ -1049,7 +1039,7 @@
 	                cc.classList.add("monthBox"); 
 	                
 	                let thisTimeDate="";
-	                
+	                08 > 8
 					if(i<10){
 						if(date.month<10){
 							thisTimeDate = date.year+"0"+date.month+"0"+i
@@ -1065,7 +1055,7 @@
 						else{
 							thisTimeDate = date.year+""+date.month+""+i;
 						}
-					}					
+					}				
 					console.log("중요! 해당 위의 구문과 같이 모든 데이터를 처리하는 별도 태그가 해당 폼의 요소에 포함되어 정보를 식별해야함");
 	                cc.addEventListener("click", visibleSchedule);
 
@@ -2722,7 +2712,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			};
@@ -2748,7 +2738,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			};
@@ -2924,6 +2914,21 @@
 				
 			}
 		}
+		
+		function scheduleCheck (date){
+			let form = document.getElementsByClassName("selectForm")[0].value;
+			
+			if(form=="Y"){
+				
+			}
+			else if(form=="M"){
+				scheduleCheckMonth(date);
+			}
+			else if(form=="D"){
+				
+			}
+		}
+		
 		
 		// 월 형식 스케줄을 체크하고 구현
 		function scheduleCheckMonth (date){
@@ -3503,7 +3508,7 @@
 			XHRGroup.onreadystatechange=function(){
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3566,7 +3571,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3732,7 +3737,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3789,7 +3794,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	 scheduleCheck(date);
 		            }
 				}
 			}
@@ -3814,8 +3819,6 @@
 		}
 		
 	</script>
-
-	
 	
 	<script> //제민_ 일간/주간 form.
 	// for, if 쓰실때 {}, () 확인하고 잘닫아주셔야 합니다.
@@ -4025,13 +4028,13 @@
 	                      				}
 	                      			}else{
 	                      				if(j==0){
-	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"00";		
+	                      					thisTimeDate=date.year+"0"+date.month+""+date.day+"/"+"0"+(i-1)+":"+"00";		
 	                      				}else if(j==1){
-	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"15";
+	                      					thisTimeDate=date.year+"0"+date.month+""+date.day+"/"+"0"+(i-1)+":"+"15";
 	                      				}else if(j==2){
-	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"30";
+	                      					thisTimeDate=date.year+"0"+date.month+""+date.day+"/"+"0"+(i-1)+":"+"30";
 	                      				}else{
-	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"45";
+	                      					thisTimeDate=date.year+"0"+date.month+""+date.day+"/"+"0"+(i-1)+":"+"45";
 	                      				}
 	                      			}	
 	                      		}else{
@@ -4047,13 +4050,13 @@
 	                      				}
 	                      			}else{
 	                      				if(j==0){
-	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"00";		
+	                      					thisTimeDate=date.year+""+date.month+""+date.day+"/"+"0"+(i-1)+":"+"00";		
 	                      				}else if(j==1){
-	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"15";
+	                      					thisTimeDate=date.year+""+date.month+""+date.day+"/"+"0"+(i-1)+":"+"15";
 	                      				}else if(j==2){
-	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"30";
+	                      					thisTimeDate=date.year+""+date.month+""+date.day+"/"+"0"+(i-1)+":"+"30";
 	                      				}else{
-	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"45";
+	                      					thisTimeDate=date.year+""+date.month+""+date.day+"/"+"0"+(i-1)+":"+"45";
 	                      				}
 	                      			}
 	                      		}
@@ -4069,7 +4072,6 @@
 	                  				}else{
 	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"45";
 	                  				}
-	                  				console.log(thisTimeDate);
 	                  			}
 	                  			else{
 	                  				if(j==0){
@@ -4099,12 +4101,10 @@
 	            v.appendChild(c);
             }//day formdate defined end
             else{
-               	// typeof(date)==null||typeof(date)=='undefined'
-               	// date에서 끌어와서 쓰는 녀석들은 어떻게 해결해야하나...
-            	
-               	let yoil = getYoil(getThisDay(date.year, date.month, date.day, 0, 0));
+
+               	let yoil = getYoil(getToday());
            	 	let today=getToday();
-            	let thisDayToday=false;
+            	let thisDayToday=true;
            	 	let thisTimeDate=""; 
                	
                	
@@ -4172,7 +4172,7 @@
    	            
    	            ccc=document.createElement("div");
    	            ccc.classList.add("dayAreaHeadDate");
-   	            ccc.innerHTML= date.day+"";
+   	            ccc.innerHTML= today.day+"";
    	            cc.appendChild(ccc); // head 날짜표시
    	            
    	            c.appendChild(cc); 
@@ -4235,74 +4235,73 @@
    	                       	}
    	                      	
    	                      	if(i<11){
-   	                      		if(date.month<10){
-   	                      			if(date.day<10){
+   	                      		if(today.month<10){
+   	                      			if(today.day<10){
    	                      				if(j==0){
-   	                      					thisTimeDate=date.year+"0"+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      					thisTimeDate=today.year+"0"+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"00";		
    	                      				}else if(j==1){
-   	                      					thisTimeDate=date.year+"0"+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"15";
+   	                      					thisTimeDate=today.year+"0"+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"15";
    	                      				}else if(j==2){
-   	                      					thisTimeDate=date.year+"0"+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"30";
+   	                      					thisTimeDate=today.year+"0"+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"30";
    	                      				}else{
-   	                      					thisTimeDate=date.year+"0"+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"45";
+   	                      					thisTimeDate=today.year+"0"+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"45";
    	                      				}
    	                      			}else{
    	                      				if(j==0){
-   	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      					thisTimeDate=today.year+"0"+today.month+""+today.day+"/"+"0"+(i-1)+":"+"00";		
    	                      				}else if(j==1){
-   	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"15";
+   	                      					thisTimeDate=today.year+"0"+today.month+""+today.day+"/"+"0"+(i-1)+":"+"15";
    	                      				}else if(j==2){
-   	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"30";
+   	                      					thisTimeDate=today.year+"0"+today.month+""+today.day+"/"+"0"+(i-1)+":"+"30";
    	                      				}else{
-   	                      					thisTimeDate=date.year+"0"+date.month+date.day+"/"+"0"+(i-1)+":"+"45";
+   	                      					thisTimeDate=today.year+"0"+today.month+""+today.day+"/"+"0"+(i-1)+":"+"45";
    	                      				}
    	                      			}	
    	                      		}else{
-   	                      			if(date.day<10){
+   	                      			if(today.day<10){
    	                      				if(j==0){
-   	                      					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"00";		
    	                      				}else if(j==1){
-   	                      					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"15";
+   	                      					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"15";
    	                      				}else if(j==2){
-   	                      					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"30";
+   	                      					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"30";
    	                      				}else{
-   	                      					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+"0"+(i-1)+":"+"45";
+   	                      					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+"0"+(i-1)+":"+"45";
    	                      				}
    	                      			}else{
    	                      				if(j==0){
-   	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"00";		
+   	                      					thisTimeDate=today.year+""+today.month+""+today.day+"/"+"0"+(i-1)+":"+"00";		
    	                      				}else if(j==1){
-   	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"15";
+   	                      					thisTimeDate=today.year+""+today.month+""+today.day+"/"+"0"+(i-1)+":"+"15";
    	                      				}else if(j==2){
-   	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"30";
+   	                      					thisTimeDate=today.year+""+today.month+""+today.day+"/"+"0"+(i-1)+":"+"30";
    	                      				}else{
-   	                      					thisTimeDate=date.year+""+date.month+date.day+"/"+"0"+(i-1)+":"+"45";
+   	                      					thisTimeDate=today.year+""+today.month+""+today.day+"/"+"0"+(i-1)+":"+"45";
    	                      				}
    	                      			}
    	                      		}
    	                      	}
    	                      	else{
-   	                  			if(date.day<10){
+   	                  			if(today.day<10){
    	                  				if(j==0){
-   	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"00";		
+   	                  					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+""+(i-1)+":"+"00";		
    	                  				}else if(j==1){
-   	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"15";
+   	                  					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+""+(i-1)+":"+"15";
    	                  				}else if(j==2){
-   	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"30";
+   	                  					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+""+(i-1)+":"+"30";
    	                  				}else{
-   	                  					thisTimeDate=date.year+""+date.month+"0"+date.day+"/"+""+(i-1)+":"+"45";
+   	                  					thisTimeDate=today.year+""+today.month+"0"+today.day+"/"+""+(i-1)+":"+"45";
    	                  				}
-   	                  				console.log(thisTimeDate);
    	                  			}
    	                  			else{
    	                  				if(j==0){
-   	                  					thisTimeDate=date.year+""+date.month+""+date.day+"/"+""+(i-1)+":"+"00";		
+   	                  					thisTimeDate=today.year+""+today.month+""+today.day+"/"+""+(i-1)+":"+"00";		
    	                  				}else if(j==1){
-   	                  					thisTimeDate=date.year+""+date.month+""+date.day+"/"+""+(i-1)+":"+"15";
+   	                  					thisTimeDate=today.year+""+today.month+""+today.day+"/"+""+(i-1)+":"+"15";
    	                  				}else if(j==2){
-   	                  					thisTimeDate=date.year+""+date.month+""+date.day+"/"+""+(i-1)+":"+"30";
+   	                  					thisTimeDate=today.year+""+today.month+""+today.day+"/"+""+(i-1)+":"+"30";
    	                  				}else{
-   	                  					thisTimeDate=date.year+""+date.month+""+date.day+"/"+""+(i-1)+":"+"45";
+   	                  					thisTimeDate=today.year+""+today.month+""+today.day+"/"+""+(i-1)+":"+"45";
    	                  				}
    	                  			}
    	                      	}
@@ -4325,6 +4324,6 @@
             return v;
 		}//createDayformElement(date) end
 		let calendar2 = document.getElementById("calendar2");
-		calendar2.appendChild(createDayFormElement(getToday()));
+		calendar2.appendChild(createDayFormElement());
 	</script>
 </html>
