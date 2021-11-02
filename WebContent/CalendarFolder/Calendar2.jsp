@@ -18,15 +18,13 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Calendar</title>
-        <link rel="stylesheet" href="CalendarCss.css">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="../CalendarCss.css">
+        <link rel="stylesheet" href="../style.css">
 	</head>
 	<body>
 		<jsp:include page="../header.jsp"/>
 		<div id="calendar">
 			
-		</div>
-		<div id="calendar2">
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -449,7 +447,8 @@
         		// 현재의 구간을 구하고, 해당 구간을 기준으로 더라기 빼기 
         	}
 			else if(select=="D"){
-				
+				let date = getToday();
+				changeForm("D", date);
 			}
         }
 		
@@ -491,11 +490,43 @@
 				
 				changeForm("M", date);
         	}
-			else if(select=="W"){
-        		// 현재의 구간을 구하고, 해당 구간을 기준으로 더라기 빼기 
-        	}
 			else if(select=="D"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+				let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
 				
+				let changeYear = inputYear;
+				let changeMonth = inputMonth;
+				let changeDay = inputDay-1;
+				
+				//아래는 날짜가 이전달로 이동할 경우에 적용.
+				if(changeDay<1){
+					changeMonth=inputMonth-1
+					//changeMonth값을 먼저 구하고 이후 Day값 설정실행.
+					
+					if(changeMonth<1){
+						changeMonth=12; // 1월 1일에서 뒤로 갔을 경우 적용. 년도 값-1, month값 12.
+						changeYear=changeYear-1;
+						changeDay=31;
+					}
+					if(changeMonth==1||changeMonth==3||changeMonth==5||changeMonth==7||changeMonth==8||changeMonth==10){
+						
+						changeDay=31; //31일이 마지막인 달은 31일로 Day값 적용
+					}else if(changeMonth==4||changeMonth==6||changeMonth==9||changeMonth==11){
+						changeDay=30; //30일이 마지막인 달은 30일로 Day값 적용
+					}else{
+						//2월의 경우 윤년여부 판단해야함.
+						if(getYunNyen(changeYear)==true){
+							changeDay=29; // 윤년의 경우 29일로 적용.
+						}else{
+							changeDay=28; // 윤년이 아닐경우 28일로 적용.
+						}
+					}
+				}
+				
+				let date= getThisDay(changeYear, changeMonth, changeDay, 0, 0);
+				changeForm("D", date);
 			}
         }
 		
@@ -536,11 +567,54 @@
 				
 				changeForm("M", date);
         	}
-			else if(select=="W"){
-        		
-        	}
 			else if(select=="D"){
+				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
+				let inputYear = parseInt(input.value.substring(0,4));
+				let inputMonth = parseInt(input.value.substring(4,6));
+				let inputDay = parseInt(input.value.substring(6,8));
 				
+				let changeYear=inputYear;
+				let changeMonth=inputMonth;
+				let changeDay=inputDay;
+				
+				if(changeMonth==1||changeMonth==3||changeMonth==5||changeMonth==7||changeMonth==8||changeMonth==10){
+					if(changeDay>31){
+						//31일까지 있는 월 중 12월은 제외한 나머지월 말일에서 넘어갈 때 처리.
+						changeMonth=changeMonth+1;
+						changeDay=1;
+					}
+				}else if(changeMonth==12){
+					if(changeDay>31){
+						//12월 31일에서 넘어갈 때 처리
+						changeYear=changeYear+1;
+						changeMonth=1;
+						changeDay=1;	
+					}
+				}else if(changeMonth==4||changeMonth==6||changeMonth==9||changeMonth==11){
+					
+					if(changeDay>30){
+						//30일까지 있는 월의 마지막 날에서 넘어갈 때 처리.
+						changeMonth=changeMonth+1;
+						changeDay=1;
+					}
+				}else{
+					//2월의 경우 윤년에따라 넘어갈 날짜 설정.
+					if(getYunNyen(changeYear)==true){
+						//윤년인 경우 29일에서 넘어갈 때 실행. 28일에서 넘어가면 29일
+						if(changeDay>29){
+							changeMonth=changeMonth+1;
+							changeDay=1;
+						}
+					}else{
+						//윤년이 아닌 경우 28일에서 넘어갈 때 실행. 29일이 아닌 3월 1일로 진행.
+						if(changeDay>28){
+							changeMonth=changeMonth+1;
+							changeDay=1;
+						}
+					}
+				}
+				let date = getThisDay(changeYear, changeMonth, changeDay, 0, 0);
+				changeForm("D", date);
 			}
         }
 		
@@ -572,7 +646,7 @@
         			day = "0"+date.day;
         		}
         		
-        		info.value = date.year+""+month+""+date.day;
+        		info.value = date.year+""+month+""+day;
         	}
         	else if(form="M"){
         		v.innerHTML += date.year+"년 "+date.month+"월";
@@ -587,22 +661,7 @@
         			day = "0"+date.day;
         		}
         		
-        		info.value = date.year+""+month+""+date.day;
-        	}
-        	else if(form="W"){
-        		v.innerHTML += date.year+"년 "+date.month+"월";
-        		let info = document.getElementsByClassName("calendarHeadDateInfo")[0];
-        		let month = date.month;
-        		let day = date.day;
-        		
-        		if(date.month<10){
-        			month = "0"+date.month;
-        		}
-        		if(date.day<10){
-        			day = "0"+date.day;
-        		}
-        		
-        		info.value = date.year+""+month+""+date.day;
+        		info.value = date.year+""+month+""+day;
         	}
         	else if(form="D"){
         		v.innerHTML += date.year+"년 "+date.month+"월 "+date.day+"일";
@@ -617,7 +676,7 @@
         			day = "0"+date.day;
         		}
         		// 달비교하고 초과할 경우에 대한 변수도 마련해야함
-        		info.value = date.year+""+month+""+date.day;
+        		info.value = date.year+""+month+""+day;
         	}
         }
 
@@ -952,7 +1011,19 @@
 		
 		// 일 폼 만들기 
 		function DayForm(){
-
+			if(typeof(date)!='undefined'&&date!=null){
+				let div = document.getElementsByClassName("calendarDiv")[0];
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);
+				}
+				div.appendChild(createDayFormElement(date));
+			}else{
+				let div = document.getElementsByClassName("calendarDiv")[0];
+				while(div.hasChildNodes()){
+					div.removeChild(div.firstChild);					
+				}
+				div.appendChild(createDayFormElement());
+			}
 		}
 
 		// 월 폼의 Element 만들기
@@ -3820,49 +3891,7 @@
 		
 	</script>
 	
-	<script> //제민_ 일간/주간 form.
-	// for, if 쓰실때 {}, () 확인하고 잘닫아주셔야 합니다.
-		
-		function createWeekFormElement(){
-			
-			let v;
-            let c;
-            let cc;
-            let ccc;    
-            
-			if((typeof(date)!='undefined'||date!=null)){
-				v = document.createElement("div");
-		        v.classList.add("calendarArea");
-		        		         
-				c = document.createElement("div");
-	            c.classList.add("WeekAreaHead");
-	            
-	            for(let i = 0; i < 7; i++){
-	                cc = document.createElement("div");
-	                cc.classList.add("weekAreaHeadTitle");
-	                cc.innerHTML = monthDayTitle[i];
-	                c.appendChild(cc);
-	            }
-			}
-			v.appendChild(c); //주간 form Head 생성
-			
-			c=document.createElement("div");
-			c.classList.add("weekAreaBody");
-			
-			for(let i=0; i<7; i++){
-				cc=document.createElement("div");
-				cc.classList.add("weekDayBox");
-				for(let j=0; j<24; j++){
-					ccc=document.createElement("div");
-					ccc.classList.add("weekDayTimeBox");
-					cc.appendChild(ccc);
-				}
-				c.appendChild(cc);
-			}
-			v.appendChild(c);//주간 form body 생성
-			
-		}//주간 formElement 여기는 아직
-		
+	<script> // 제민 workspace
 		function createDayFormElement(date){
 			
 			let v;
@@ -4323,7 +4352,5 @@
             }//day form undefined or null date end
             return v;
 		}//createDayformElement(date) end
-		let calendar2 = document.getElementById("calendar2");
-		calendar2.appendChild(createDayFormElement());
 	</script>
 </html>
