@@ -54,10 +54,7 @@
                 margin: 0px 5px 0px 0px;
                 float: left;
             }
-            .button{
-            	float: right;
-            	clear: both;
-            }
+            
             .tagColor
 			{
 				border-radius: 15px;
@@ -163,11 +160,48 @@
 			}
 
 			
-
-
-
-
-
+			.buttonsArea
+			{
+				padding-top: 20px;
+				text-align: center;
+			}
+			
+			.button
+			{
+				background-color: #064998;
+				color: #fff;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				margin: 5px 0;
+				font-size: 14px;
+				
+				width: 80px;
+				display: inline-block;
+			}
+			.button:hover
+			{
+				background-color: #005cc3;
+			}
+			.button2
+			{
+			    height: 25px;
+			    line-height: 25px;
+			    text-align: center;
+			    margin: 5px;
+			    font-size: 10px;
+			    width: 44px;
+    			border: 1px solid #dbdadf;
+    			background-color: #f1f1f1;
+    			color: #000;
+    			
+    			display: inline-block;
+    			float: right;
+			}
+			.button2:hover
+			{
+				background-color: #fff;
+			}
 
         </style>
 	</head>
@@ -192,7 +226,7 @@
         
         <div class="bodys">
         	<h2>${pDTO.getTitle() }</h2>
-        	<p>Id ${pDTO.getId() },Num ${pDTO.getNum() },Name ${pDTO.getName() },Date ${pDTO.getDatetime() },Category ${pDTO.getCategory() },Hits ${pDTO.getHits() }</p>
+        	<p>작성자 ${pDTO.getId() } 작성시간 ${pDTO.getDatetime() } 조회수 ${pDTO.getHits() }</p>
         	<c:set var="tag" value="${fn:split(pDTO.getTag(),'★') }"></c:set>
         	<c:forEach items="${tag }" var="tags">
         		<c:if test="${pDTO.getTag() == null }">
@@ -221,12 +255,14 @@
 			</div>
 			<hr>
 			
-		 	<c:if test="${loginUserId == pDTO.getId() }">
-		 		<a href="paragraphUpdate.do?num=<%=num%>">수정</a>
-	 			<a onclick="return confirm('정말 삭제하시겠습니까?')" href="paragraphDelete.do?num=<%=num%>">삭제</a>
-		 	</c:if>
+			<div class="buttonsArea">
+				<c:if test="${loginUserId == pDTO.getId() }">
+			 		<a class="button" href="paragraphUpdate.do?num=<%=num%>">수정</a>
+		 			<a class="button" onclick="return confirm('정말 삭제하시겠습니까?')" href="paragraphDelete.do?num=<%=num%>">삭제</a>
+			 	</c:if>
+			</div>
 
-			<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button">신고</button></a>
+			<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
 			
 			<div>
 				<br>
@@ -241,15 +277,23 @@
 			<c:set var="count" value="${-1 }"></c:set>
 			
 			<c:forEach items="${clistSelect }" var="clistSelect">
+
 			
 				<span>댓글 고유 번호 : ${clistSelect.getNum() }</span>
 				<span>작성 아이디 : ${clistSelect.getId() }</span>
 				<span>작성 시간 : ${clistSelect.getTime() }</span>
 				<span>댓글 순서도 : ${clistSelect.getCommentCount()}</span>
 
+
+
 				<c:if test="${loginUserId == clistSelect.getId() }">
+
 					<span onclick="cup(${clistSelect.getCommentCount()})">수정</span>
 					<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
+
+					<span class="button2" onclick="cup(${clistSelect.getCommentCount()})">수정</span>
+					<a class="button2" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
+
 				</c:if>
 
 				<div class="commentUpdate">
@@ -321,8 +365,8 @@
 								
 			            	 </div>
 			            	 
-			            	 <input type="submit" value="글쓰기" onclick="return writeCheck(${clistSelect.getCommentCount()})">
-							 <input type="button" value="취소" onclick="cupCancle(${clistSelect.getCommentCount()})">
+			            	 <input class="button2"	type="submit" value="글쓰기" onclick="return writeCheck(${clistSelect.getCommentCount()})">
+							 <input class="button2" type="button" value="취소" onclick="cupCancle(${clistSelect.getCommentCount()})">
 						 	
 			            </div>
 		        	</form>
@@ -340,7 +384,7 @@
 
 				<hr>
 			</c:forEach> 
-        	<hr>
+        	
 			
 			
 			
@@ -404,8 +448,9 @@
 	                    <input class="num" type="hidden" value="${pDTO.getNum() }" name="paragraph_num">
 
 	            	 </div>
-	            	 
-	            	 <input type="submit" value="글쓰기" onclick="return writeCheck(${commentLastCount })">
+	            	 <div class="buttonsArea">
+	            	 	<input class="button" type="submit" value="글쓰기" onclick="return writeCheck(${commentLastCount })">
+	            	 </div>
 	            	 
 
 	            </div>

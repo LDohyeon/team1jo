@@ -96,6 +96,39 @@
 			{
 				display:none;
 			}
+			.fontType{
+				line-height:20px;
+			}
+			#fontColor, #bgColor{
+				height:23px;
+				width:23px;
+			}
+			.divColor{
+				border: 1px solid lightgray;				
+			}
+			.divColor:hover{
+				background-color: lightgray;
+			}
+			.buttonsArea
+			{
+				padding-top: 20px;
+				text-align: center;
+			}
+			
+			.button
+			{
+				background-color: #064998;
+				color: #fff;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				margin: 5px 0;
+				font-size: 14px;
+				
+				width: 80px;
+				display: inline-block;
+				border:0;
+			}
         </style>
 	</head>
 	<body>
@@ -134,18 +167,13 @@
 	                            <button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
 	                            <input type="color" id="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
 	                            <input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
-	                        </div>
-	                        <div class="fontAlign">
 	                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
 	                            <button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
 	                            <button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
-	                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>                      
-	                        	
-	                        </div>
-
-	                        <div class="img">
+	                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>  
 	                            <button class="divColor" type="button" onclick="imgInsert()">사진</button>
 	                        </div>
+
 	                        
 	                        <div class="codeWrite">   
 	                        	<select id="language" onchange="langs()">
@@ -174,13 +202,14 @@
 	                    <input id="num" type="hidden" value="${pDTO.getNum() }" name="num">
 
 	            	 </div>
-	            	 
-	            	 <c:if test="${pDTO.getTitle() ==null }">
-	            	 	<input type="submit" value="글쓰기" onclick="return writeCheck();">
-	            	 </c:if>
-	            	 <c:if test="${pDTO.getTitle() !=null }">
-	            	 	<input type="submit" value="글수정" onclick="return writeCheckUpdate();">
-	            	 </c:if>
+	            	 <div class="buttonsArea">
+	            	 	<c:if test="${pDTO.getTitle() ==null }">
+		            	 	<input class="button" type="submit" value="글쓰기" onclick="return writeCheck();">
+		            	 </c:if>
+		            	 <c:if test="${pDTO.getTitle() !=null }">
+		            	 	<input class="button" type="submit" value="글수정" onclick="return writeCheckUpdate();">
+		            	 </c:if>
+	            	 </div>
 				 	
 	            </div>
         	</form>

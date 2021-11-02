@@ -109,7 +109,7 @@
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
-				
+				line-height:36px;
 			}
 			
 			.medium
@@ -120,16 +120,18 @@
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				line-height:36px;
 			}
 			
 			.wide
 			{
-				text-align: center;
+				text-align: left;
 				display: inline-block;
 				width: 371px;
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				height:36px;
 			}
 			
 			.pageNum
@@ -155,6 +157,16 @@
 			    /*white-space:nowrap;*/
 			}
 			
+			.txt_line {
+				width:370px;
+		      	overflow:hidden;
+		      	text-overflow:ellipsis;
+		      	white-space:nowrap;
+		      	overflow: hidden;
+		      	
+		 	}
+
+
 		</style>
 	</head>
 	<body>
@@ -181,29 +193,51 @@
 				<c:forEach items="${list }" var="list">
 					<span class="narrow borderRight">${list.getNum() }</span>
 					<span class="wide borderRight">
-						<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]
-							<span class="titleLength">${list.getTitle()}</span>
-						</a>
+
 					
 						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
 						
+	
+
+
 						<c:choose>
 							<c:when test="${list.getTag() == null}">
+								<div class="txt_line">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
 							
 							</c:when>
 							<c:when test="${fn:length(tag) <= 3}">
+								<div class="txt_line">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
 								<c:forEach items="${tag }" var="tags">
-									<span class="tagColor"><a href="#" onclick="getTag(this)">${tags }</a></span>
+									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
 								</c:forEach>
 							</c:when>
 							<c:when test="${fn:length(tag) > 3}">
+								<div class="txt_line">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
 								<c:forEach begin="0" end="2" items="${tag }" var="tags">
-									<span class="tagColor"><a href="#" onclick="getTag(this)">${tags }</a></span>
+									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
 								</c:forEach>
 							</c:when>
-						</c:choose>
+						</c:choose>		
+						
 
-							
 					</span>
 					<span class="narrow borderRight">${list.getId()}</span>
 					<span class="medium borderRight">${list.getDatetime()}</span>
