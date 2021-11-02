@@ -738,6 +738,7 @@
             centerBox.classList.add("centerBox");
            
             centerBox.appendChild(createScheduleLayout());
+            centerBox.appendChild(createScheduleInfo())
             centerBox.appendChild(createCalanderLayout());
 
             v.appendChild(naviBox);
@@ -2082,10 +2083,88 @@
 				groupname: groupname
 			}
 			tempData = data;
-			
+
 			let body = document.getElementsByTagName("body")[0];
 
 			body.appendChild(createScheduleDetail(data));
+			visibleScheduleForm();
+		}
+		function createScheduleInfo(){
+			let v;
+			let c;
+			let cc;
+			let ccc;
+			
+			v = document.createElement("div"); 
+			v.classList.add("SchedulInfoArea");
+			
+			c = document.createElement("div"); 
+			c.classList.add("SchedulInfoHead");
+			
+			cc = document.createElement("div");
+			cc.classList.add("SchedulInfoFix");
+			cc.addEventListener("click", scheduleDetailInfoFix);
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("SchedulInfoFix");
+			cc.addEventListener("click", scheduleDetailInfoFix);
+			// 아이콘 만들어지면 삭제
+			cc.innerHTML="수정";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("SchedulInfoDelete");
+			cc.addEventListener("click", delGroupSchedule);
+			// 아이콘 만들어지면 삭제
+			cc.innerHTML="삭제";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("SchedulInfoQuit");
+			cc.addEventListener("click", quitScheduleDetail);
+			// 아이콘 만들어지면 삭제
+			cc.innerHTML="끄기";
+			c.appendChild(cc);
+			v.appendChild(c);
+			
+			c = document.createElement("div"); 
+			c.classList.add("SchedulInfoBody");
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "color");
+			cc.classList.add("SchedulInfoColor");
+			
+			//cc.appendChild(ccc);
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("SchedulInfoTitle");
+			c.appendChild(cc);
+			
+			cc = document.createElement("select"); 
+			cc.classList.add("SchedulInfoTime");
+			c.appendChild(cc);
+			v.appendChild(c);
+			
+			cc = document.createElement("div");
+			cc.classList.add("SchedulInfoContentText");
+			c.appendChild(cc);
+			v.appendChild(c);
+			
+			c = document.createElement("div"); 
+			c.classList.add("SchedulInfoGroup");
+			
+			cc = document.createElement("div");
+			cc.classList.add("SchedulInfoGroupName");
+			
+			cc = document.createElement("input");
+			cc.setAttribute("type", "hidden");
+			cc.classList.add("SchedulInfoGroupNum");
+			
+			c.appendChild(cc);
+			v.appendChild(c);
+			return v;
 		}
 		
 		// 스케줄 자세한 정보 창 ELEMENT 만들기
