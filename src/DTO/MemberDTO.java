@@ -8,6 +8,21 @@ public class MemberDTO {
 	private String name;
 	private String authority;
 	private String email;
+	private String stopdate;
+	private String createDate;
+	
+	public String getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
+	}
+	public String getStopdate() {
+		return stopdate;
+	}
+	public void setStopdate(String stopdate) {
+		this.stopdate = stopdate;
+	}
 	public int getNum() {
 		return num;
 	}
@@ -55,6 +70,11 @@ public class MemberDTO {
 //			name text,
 //			authority text,
 //			email text);
+//alter table member add stopdate date;	
+//alter table member add createdate date;
 	
+	
+	
+
 	
 }
