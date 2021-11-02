@@ -126,7 +126,7 @@
 				posotion: absolute;
 				z-index: 60;
 			}
-
+			
 			.CodeMirror {
 			    border: 1px solid #eee;
 			    height: auto;
@@ -137,6 +137,20 @@
 			    height: auto;
 			    max-height:200px;
 			}
+			
+			#ponup .CodeMirror
+			{
+				height: 400px;
+			}
+			#ponup .CodeMirror-scroll
+			{
+				height: 400px;
+			}
+
+			
+
+
+
 
 
 
@@ -728,6 +742,7 @@
 			location.href="search.do?searchValue="+text.replace('#','')+"&startPage=1";
 		}
 		
+
 	</script>
 	
 		<script>
@@ -762,6 +777,8 @@
 				//textArea.setSize("800", "200");
 
 			}
+			
+			
 			
 		</script>
 
@@ -806,7 +823,6 @@
 				//이미지
 			</script>
 		</c:if>
-
 	</body>
 </html>
 
