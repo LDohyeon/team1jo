@@ -167,35 +167,25 @@
 					<span class="narrow th">조회수</span>
 				</span>
 				<c:forEach items="${list }" var="list">
-					<span>
-
-					<span class="narrow">${list.getNum() }</span>
-					<span class="wide">
+					<span class="narrow borderRight">${list.getNum() }</span>
+					<span class="wide borderRight">
 						<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}</a>
-
-						<span class="narrow borderRight">${list.getNum() }</span>
-						<span class="wide borderRight">
-
-
-
-							<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
-								
-							<c:if test="${fn:length(tag) <= 3}">
-								<c:forEach items="${tag }" var="tags">
-									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
-								</c:forEach>
-							</c:if>
-							<c:if test="${fn:length(tag) > 3}">
-								<c:forEach begin="0" end="2" items="${tag }" var="tags">
-									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
-								</c:forEach>
-							</c:if>
-						</span>
-						<span class="narrow borderRight">${list.getId()}</span>
-						<span class="medium borderRight">${list.getDatetime()}</span>
-						<span class="narrow">${list.getHits()}</span>
-					</span>	
-				</span>			
+					
+						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
+						<c:if test="${fn:length(tag) <= 3}">
+							<c:forEach items="${tag }" var="tags">
+								<span class="tagColor">${tags }</span>
+							</c:forEach>
+						</c:if>
+						<c:if test="${fn:length(tag) > 3}">
+							<c:forEach begin="0" end="2" items="${tag }" var="tags">
+								<span class="tagColor">${tags }</span>
+							</c:forEach>
+						</c:if>		
+					</span>
+					<span class="narrow borderRight">${list.getId()}</span>
+					<span class="medium borderRight">${list.getDatetime()}</span>
+					<span class="narrow">${list.getHits()}</span>
 				</c:forEach>
 				
 			</div>
