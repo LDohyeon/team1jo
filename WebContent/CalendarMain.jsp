@@ -1148,7 +1148,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm(date);
-					scheduleCheckMonth(date);
+					getGroupSchedule(userKey, date);
 					whatIsDateInfo(selectForm, date);
 				}
 				else if(selectForm=="W"){
@@ -1168,7 +1168,7 @@
 				}
 				else if(selectForm=="M"){
 					MonthForm();
-					scheduleCheckMonth(getToday());
+					getGroupSchedule(userKey, getToday());
 					whatIsDateInfo(selectForm, getToday());
 				}
 				else if(selectForm=="W"){
@@ -1867,6 +1867,7 @@
 	            	
 	                cc = document.createElement("div");
 	                cc.classList.add("yearBox"); 
+	                cc.addEventListener("click", yearBoxGoto)
 	                
 	                ccc = document.createElement("div");
 	                ccc.classList.add("yearBoxTitle");
@@ -1917,6 +1918,18 @@
 	            yoil = getYoil(getThisDay(date.year, date.month+1, 1, 0, 0));
 	 			let afterYoil;
 	            NowMonth = months[date.month];
+	            
+	            function yearBoxGoto(){
+	            	let target = event.target;
+	            	let dateTag = target.parentNode.parentNode.getElementsByClassName("dateTag")[0];
+	            	
+	            	let year = parseInt(dateTag.value.substring(0,4));
+					let month = parseInt(dateTag.value.substring(4,6));
+					let day = parseInt(dateTag.value.substring(6,8));
+					
+					let date = getThisDay(year, month, day, 0, 0);
+					changeForm("D", date);
+	            }
 	            
 	            // 배열 값이 없는 항목을 참조: 할때 실행, 말을 12로 설정함 (1월일 경우 실행됨)
 	            if(NowMonth==NaN||NowMonth==null){
@@ -2536,19 +2549,19 @@
 				
 				let modifierList = groupDivs[i].modifiers;
 				
+				let tempDiv = document.createElement("div");
+				tempDiv.classList.add("groupDataModifierList");
+
+				let tempChild = document.createElement("span");
+				tempChild.classList.add("groupDataModifierListTitle");
+				tempChild.innerHTML = " 스케줄 수정 가능 멤버";
+				tempDiv.appendChild(tempChild);
+				
 				for(let i = 0; i<modifierList.length; i++){
 					if(modifierList==""){
 						
 					}
 					else{
-						let tempDiv = document.createElement("div");
-						tempDiv.classList.add("groupDataModifierList");
-						
-						let tempChild = document.createElement("span");
-						tempChild.classList.add("groupDataModifierListTitle");
-						tempChild.innerHTML = " 스케줄 수정 가능 멤버";
-						tempDiv.appendChild(tempChild);
-						
 						tempChild = document.createElement("div");
 						tempChild.classList.add("groupDataModifierListName");
 						tempChild.innerHTML = modifierList[i];
@@ -2748,9 +2761,6 @@
 		            	createGroupDivs(groupDivs);
 		            	
 		            	if(selectForm.value=="M"){
-		            		console.log("work");
-		            		console.log(scheduleData);
-		            		console.log(jsons);
 		            		// 스케줄 먼저 그림
 			            	createScheduleElement(scheduleData);
 			            	// 스케줄 그리고 각 첫 요소 파악해서 첫요소 길이를 차등 부여
@@ -2761,9 +2771,7 @@
 			            	checkFirstElement();
 		            	}
 		            	else if(selectForm.value=="D"){
-		            		console.log("work");
-		            		console.log(scheduleData);
-		            		console.log(jsons);
+
 		            	}
 
 		            	// 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
@@ -3231,6 +3239,7 @@
 		let scheduleFormBtn = document.getElementsByClassName("scheduleFormSubmit")[0];
 		scheduleFormBtn.addEventListener("click", function (){
 			addGroupSchedule();
+			visibleScheduleForm();
 		})
 
 		// 스케줄 추가 
@@ -3270,7 +3279,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	scheduleCheckMonth(date);
+		            	getGroupSchedule(userKey, date);
 		            }
 				}
 			};
@@ -3296,7 +3305,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
-		            	scheduleCheckMonth(date);
+		            	getGroupSchedule(userKey, date);
 		            }
 				}
 			};
@@ -3495,19 +3504,7 @@
 				
 			}
 		}
-		
-		// 월 형식 스케줄을 체크하고 구현
-		function scheduleCheckMonth (date){
-			
-			if(typeof(date)!='undefined'){
-				getGroupSchedule(userKey, date);
-			}
-			else{
-				date = getToday();
-				getGroupSchedule(userKey, date);
-			}
-		}
-		
+
 		// JSON SCHEDULE 객체 데이터 생성 
 		function createJsonSchedule(num, title, content, start, end, color, writer, groupnum){
 			let json = {
@@ -3770,6 +3767,10 @@
 				flag.setAttribute("value", "true");
 			}
 			else{
+				let p = document.getElementsByClassName("toDoListMain")[0];
+				flag.setAttribute("value", "false");
+				p.removeChild(p.firstChild);
+				
 				return;
 			}
 			
@@ -3896,7 +3897,6 @@
 			cc.addEventListener("click", todolistAddBtn);
 			cc.innerHTML = "저장하기";
 			c.appendChild(cc);
-
 			
 			v.insertBefore(c, v.firstChild);
 			temp.focus();
@@ -3928,7 +3928,7 @@
 
 		function todolistAddBtn(){
 			let target = event.target;
-			let v = target.parentNode;
+			let v = target.parentNode.parentNode;
 			
 			let title = v.getElementsByClassName("toDoListTitle")[0].value; 
 			let content = v.getElementsByClassName("toDoListContent")[0].value; 
@@ -3942,6 +3942,7 @@
 			let data = createJsonTodolist(num, title, content, id, date, time, importance, checked);
 			let json = JSON.stringify(data);
 			toDoListInsert(json);
+			todolistOffBtn();
 		}
 		
 		// 수정을 누를 경우 수정을 위한 폼이 보이도록 해야함 
@@ -4089,6 +4090,9 @@
 			let flag = document.getElementsByClassName("groupAddFlag")[0];
 			
 			if(flag.value=="true"){
+				let p = document.getElementsByClassName("groupMain")[0];
+				flag.setAttribute("value", "false");
+				p.removeChild(p.firstChild);
 				return;
 			}
 			else{
@@ -4143,7 +4147,7 @@
 			c.appendChild(cc);
 			
 			cc = document.createElement("input");
-			cc.classList.add("groupDataAdd");
+			cc.classList.add("groupDataAdd2");
 			cc.setAttribute("type", "button");
 			cc.setAttribute("value", "만들기");
 			cc.addEventListener("click", addGroup)
@@ -4195,7 +4199,9 @@
     		}
     		else{
     			for(let i = 0; i < memberlist.length; i++){
-        			members.push(memberlist[i].innerHTML);
+    				let str = memberlist[i].innerHTML.replace(")", "");
+    				str = str.split("(");
+            		members.push(str[1]);
         		}
     		}
     		
@@ -4204,7 +4210,9 @@
     		}
     		else{
     			for(let i = 0; i < modifierlist.length; i++){
-    				modifiers.push(modifierlist[i].innerHTML);
+    				let str = modifierlist[i].innerHTML.replace(")", "");
+    				str = str.split("(");
+        			modifiers.push(str[1]);
         		}
     		}
 			
@@ -4222,7 +4230,7 @@
 			XHRGroup.onreadystatechange=function(){
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	getGroupSchedule(userKey, date);
 		            }
 				}
 			}
@@ -4242,7 +4250,7 @@
 			let v = target.parentNode;
 			
 			let num = v.getElementsByClassName("groupDataNum")[0].value;
-			let name = v.getElementsByClassName("groupDataName")[0].value;
+			let name = v.parentNode.getElementsByClassName("groupDataName")[0].value;
     		let memberlist = v.getElementsByClassName("groupDataMemebersListName");
     		let modifierlist = v.getElementsByClassName("groupDataModifierList");
     		let color = v.getElementsByClassName("groupDataColor")[0].value;
@@ -4257,7 +4265,9 @@
     		}
     		else{
     			for(let i = 0; i < memberlist.length; i++){
-        			members.push(memberlist[i].innerHTML);
+    				let str = memberlist[i].innerHTML.replace(")", "");
+    				str = str.split("(");
+            		members.push(str[1]);
         		}
     		}
     		
@@ -4266,7 +4276,9 @@
     		}
     		else{
     			for(let i = 0; i < modifierlist.length; i++){
-    				modifiers.push(modifierlist[i].innerHTML);
+    				let str = modifierlist[i].innerHTML.replace(")", "");
+    				str = str.split("(");
+        			modifiers.push(str[1]);
         		}
     		}
 			
@@ -4285,7 +4297,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	getGroupSchedule(userKey, date);
 		            }
 				}
 			}
@@ -4450,13 +4462,14 @@
 			let target = event.target;
 			let v = target.parentNode
 			let p = v.parentNode;
-			let t = p.getElementsByClassName("groupDataMemebersListName")[0].innerHTML;
+			let t = p.getElementsByClassName("groupDataMemebersListInputId")[0].value;
 			let gp = p.parentNode.parentNode;
-			
+		
 			let num = gp.getElementsByClassName("groupDataNum")[0].value;
-			let name = gp.getElementsByClassName("groupDataName")[0].value;
-    		let memberlist = gp.getElementsByClassName("groupDataMemebersListName");
-    		let modifierlist = gp.getElementsByClassName("groupDataModifierList");
+			let name = gp.parentNode.getElementsByClassName("groupDataName")[0].value;
+
+			let memberlist = gp.getElementsByClassName("groupDataMemebersListName");
+    		let modifierlist = gp.getElementsByClassName("groupDataModifierListName");
     		let color = gp.getElementsByClassName("groupDataColor")[0].value;
     		let master = gp.getElementsByClassName("groupDataMaster")[0].value;
     		let searchable = gp.getElementsByClassName("groupDataSearchable")[0].value;
@@ -4465,15 +4478,20 @@
     		let modifiers=[];
     	
 			for(let i = 0; i < memberlist.length; i++){
-        		members.push(memberlist[i].innerHTML);
+				let str = memberlist[i].innerHTML.replace(")", "");
+				str = str.split("(");
+        		members.push(str[1]);
         	}
     		
     		for(let i = 0; i < modifierlist.length; i++){
-    			modifiers.push(modifierlist[i].innerHTML);
+    			let str = modifierlist[i].innerHTML.replace(")", "");
+				str = str.split("(");
+    			modifiers.push(str[1]);
         	}
     		
     		let data = createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable);
     		data.target = t;
+    		console.log(data);
     		let json = JSON.stringify(data);
     		
     		if(typeof(date)=="undefined"){
@@ -4488,7 +4506,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	getGroupSchedule(userKey, date);
 		            }
 				}
 			}
@@ -4506,13 +4524,12 @@
 			let target = event.target;
 			let v = target.parentNode
 			let p = v.parentNode;
-			let t = p.getElementsByClassName("groupDataMemebersListName")[0].innerHTML;
+			let t = p.getElementsByClassName("groupDataMemebersListInputId")[0].value;
 			let gp = p.parentNode.parentNode;
-			
 			let num = gp.getElementsByClassName("groupDataNum")[0].value;
-			let name = gp.getElementsByClassName("groupDataName")[0].value;
+			let name = gp.parentNode.getElementsByClassName("groupDataName")[0].value;
     		let memberlist = gp.getElementsByClassName("groupDataMemebersListName");
-    		let modifierlist = gp.getElementsByClassName("groupDataModifierList");
+    		let modifierlist = gp.getElementsByClassName("groupDataModifierListName");
     		let color = gp.getElementsByClassName("groupDataColor")[0].value;
     		let master = gp.getElementsByClassName("groupDataMaster")[0].value;
     		let searchable = gp.getElementsByClassName("groupDataSearchable")[0].value;
@@ -4521,17 +4538,22 @@
     		let modifiers=[];
     	
 			for(let i = 0; i < memberlist.length; i++){
-        		members.push(memberlist[i].innerHTML);
+				let str = memberlist[i].innerHTML.replace(")", "");
+				str = str.split("(");
+        		members.push(str[1]);
         	}
     		
     		for(let i = 0; i < modifierlist.length; i++){
-    			modifiers.push(modifierlist[i].innerHTML);
+    			let str = modifierlist[i].innerHTML.replace(")", "");
+				str = str.split("(");
+    			modifiers.push(str[1]);
         	}
     		
     		let data = createJsonGroup(userKey, num, name, members, modifiers, color, master, searchable);
     		data.target = t;
     		
     		let json = JSON.stringify(data);
+    		console.log(data);
     		
     		if(typeof(date)=="undefined"){
 				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
@@ -4545,7 +4567,7 @@
 				
 				if(XHRGroup.readyState==4){
 		            if(XHRGroup.status==200){
-		            	scheduleCheckMonth(date);
+		            	getGroupSchedule(userKey, date);
 		            }
 				}
 			}

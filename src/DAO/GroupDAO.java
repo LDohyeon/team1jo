@@ -269,7 +269,7 @@ public class GroupDAO {
 	
 	public void insertModifier(GroupModifierDTO gdDTO){
 
-		String sql="insert into groupmodifier(groupnum, id, name) value (?,?,?)";
+		String sql="insert into groupmodifier(groupnum, id) value (?,?)";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -364,7 +364,7 @@ public class GroupDAO {
 	
 	public void deleteMember(GroupMemberDTO gmDTO){
 
-		String sql="select num, id, groupmember from groupmodifier where id = ? and groupnum = ?";
+		String sql="select num from groupmember where id = ? and groupnum = ?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
