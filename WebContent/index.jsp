@@ -112,10 +112,15 @@
 			}
 			.tagColor
 			{
-				color: blue;
-			    background-color: lightblue;
-			    border-color: blue;
-			    margin-right:5px;
+				border-radius: 15px;
+				font-size:10.5px;
+				padding:3px;
+				color: black;
+			    background-color: cornsilk;
+			   
+			    border:1px solid #989898;
+			    margin-right: 5px;
+			   
 			}
 			.title{
 				text-align:center;
@@ -150,25 +155,30 @@
 					
 						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
 							
-						<c:if test="${fn:length(tag) <= 3}">
-							<c:forEach items="${tag }" var="tags">
-								<span class="tagColor">${tags }</span>
-							</c:forEach>
-						</c:if>
-						<c:if test="${fn:length(tag) > 3}">
-							<c:forEach begin="0" end="2" items="${tag }" var="tags">
-								<span class="tagColor">${tags }</span>
-							</c:forEach>
-						</c:if>		
+						<c:choose>
+							<c:when test="${list.getTag() == null}">
+							
+							</c:when>
+							<c:when test="${fn:length(tag) <= 3}">
+								<c:forEach items="${tag }" var="tags">
+									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
+								</c:forEach>
+							</c:when>
+							<c:when test="${fn:length(tag) > 3}">
+								<c:forEach begin="0" end="2" items="${tag }" var="tags">
+									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
+								</c:forEach>
+							</c:when>
+						</c:choose>	
 					</span>
 					<span class="narrow borderRight">${list.getId()}</span>
 					<span class="medium borderRight">${list.getDatetime()}</span>
 					<span class="narrow">${list.getHits()}</span>		
 				</c:forEach>
 			</div>
-			<c:if test="${loginUser.id!=null}">
-				<input class="writebutton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
-			</c:if>
+			
+			<input class="writebutton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
+			
 		</div>
 		
 		<a href="register.do">회원가입</a>
@@ -193,5 +203,6 @@
 			서울북부기술교육원 IOT융합프로그래밍과 팀프로젝트 1조<br>
 			조장: 이도현 / 조원: 김종현 박정현 석지애 유제민 윤하영
 		</footer>
+
 	</body>
 </html>

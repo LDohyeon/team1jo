@@ -24,6 +24,9 @@
 		<script src="codeMirror/sql.js"></script>
 		<script src="codeMirror/clike.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		
+		
+		<link rel="stylesheet" href="style.css">
 		<style>			
 
             .writeContent{ 
@@ -57,11 +60,15 @@
             }
             .tagColor
 			{
-				color: blue;
-			    background-color: lightblue;
-			    border-color: blue;
-			    float:left;
-			    margin-right:5px;
+				border-radius: 15px;
+				font-size:10.5px;
+				padding:3px;
+				color: black;
+			    background-color: cornsilk;
+			   
+			    border:1px solid #989898;
+			    margin-right: 5px;
+			   
 			}
 			.codeWrite
            	{
@@ -146,6 +153,14 @@
 			{
 				height: 400px;
 			}
+			.divColor
+			{
+				background-color:white;
+			}
+			.clicked
+			{
+				background-color:gray;
+			}
 
 			
 
@@ -180,7 +195,13 @@
         	<p>Id ${pDTO.getId() },Num ${pDTO.getNum() },Name ${pDTO.getName() },Date ${pDTO.getDatetime() },Category ${pDTO.getCategory() },Hits ${pDTO.getHits() }</p>
         	<c:set var="tag" value="${fn:split(pDTO.getTag(),'★') }"></c:set>
         	<c:forEach items="${tag }" var="tags">
-				<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
+        		<c:if test="${pDTO.getTag() == null }">
+        		
+        		</c:if>
+        		<c:if test="${pDTO.getTag() !=null }">
+        			<span class="tagColor"><a href="#" onclick="getTag(this)">${tags }</a></span>
+        		</c:if>
+				
 			</c:forEach>
 			
         	<div>
@@ -217,7 +238,10 @@
 			
 			<hr>
 			<p>댓글</p>
+			<c:set var="count" value="${-1 }"></c:set>
+			
 			<c:forEach items="${clistSelect }" var="clistSelect">
+			
 				<span>댓글 고유 번호 : ${clistSelect.getNum() }</span>
 				<span>작성 아이디 : ${clistSelect.getId() }</span>
 				<span>작성 시간 : ${clistSelect.getTime() }</span>
@@ -225,7 +249,7 @@
 
 				<c:if test="${loginUserId == clistSelect.getId() }">
 					<span onclick="cup(${clistSelect.getCommentCount()})">수정</span>
-					<a href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
+					<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
 				</c:if>
 
 				<div class="commentUpdate">
@@ -243,17 +267,17 @@
 			                            </select>
 			                        </div>
 			                        <div class="fontStyle">
-			                            <button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
-			                            <button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
-			                            <button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
-			                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${clistSelect.getCommentCount()}].value);">글자색</button>
-			                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${clistSelect.getCommentCount()}].value);">배경색</button>
+			                            <button class="divColor" type="button" onclick="document.execCommand('bold');">두껍게</button>
+			                            <button class="divColor" type="button" onclick="document.execCommand('Underline');">밑줄</button>
+			                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
+			                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${clistSelect.getCommentCount()}].value);">글자색</button>
+			                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${clistSelect.getCommentCount()}].value);">배경색</button>
 			                        </div>
 			                        <div class="fontAlign">
-			                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
-			                            <button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
-			                            <button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
-			                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>                      
+			                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
+			                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
+			                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
+			                            <button class="divColor" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>                      
 			                        	
 			                        </div>
 		
@@ -334,17 +358,17 @@
 	                            </select>
 	                        </div>
 	                        <div class="fontStyle">
-	                            <button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
-	                            <button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
-	                            <button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
-	                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${commentLastCount }].value);">글자색</button>
-	                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${commentLastCount }].value);">배경색</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('bold');">두껍게</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('Underline');">밑줄</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
+	                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${commentLastCount }].value);">글자색</button>
+	                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${commentLastCount }].value);">배경색</button>
 	                        </div>
 	                        <div class="fontAlign">
-	                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
-	                            <button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
-	                            <button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
-	                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>                      
+	                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>                      
 	                        	
 	                        </div>
 
@@ -424,22 +448,45 @@
 			document.execCommand("fontName", false, selectValue);
 		}
 		
+		
+		
 		var divColor=document.getElementsByClassName("divColor");
 		for(var i=0;i<divColor.length;i++){
 			divColor[i].style.backgroundColor="white";
 		}
 	
-		function btnColor(i){
-			if(i==8 || i==16){
-				for(var i=0;i<8;i++){
-					divColor[i].style.backgroundColor="white";
-				}
-			}else if(divColor[i].style.backgroundColor=="gray"){
-				divColor[i].style.backgroundColor="white";
-			}else if(divColor[i].style.backgroundColor=="white"){
-				divColor[i].style.backgroundColor="gray";
+		function btnColor(event){
+		
+			//console.log(event.target);
+			//console.log(this);
+			console.log(event.target.classList);
+		
+			if(event.target.classList[i] === "clicked")
+			{
+				 event.target.classList.remove("clicked");	
 			}
+			else
+			{
+				for (var i = 0; i < divColor.length; i++)
+				{
+					divColor[i].classList.remove("clicked");
+		        }
+				event.target.classList.add("clicked");
+			}
+
+			
 		}
+		
+		function init() 
+		{
+	        for (var i = 0; i <divColor.length; i++)
+	        {
+	        	divColor[i].addEventListener("click", btnColor);
+	        }
+	    }
+
+	    init();
+
 		
 		function writeCheck(e)
 		{

@@ -148,7 +148,7 @@ public class ParagraphDAO {
 				pDTO.setDatetime(rs.getString("date"));
 				pDTO.setHits(rs.getInt("hits"));
 				pDTO.setTag(rs.getString("tag"));
-				
+
 				list.add(pDTO);
 			}
 			

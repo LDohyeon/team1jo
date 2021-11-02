@@ -8,6 +8,7 @@
 		<meta charset="utf-8">
 		<title>게시판</title>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<link rel="stylesheet" href="style.css">
 		<style>
 			*
 			{
@@ -135,14 +136,25 @@
 			{
 				text-align: center;
 			}
-			
 			.tagColor
 			{
-				color: blue;
-			    background-color: lightblue;
-			    border-color: blue;
+				border-radius: 15px;
+				font-size:10.5px;
+				padding:3px;
+				color: black;
+			    background-color: cornsilk;
+			    border:1px solid #989898;
 			    margin-right: 5px;
 			}
+			.titleLength
+			{
+				/*display:inline-block;*/
+				width:50px;
+			    overflow:hidden;
+			    text-overflow:ellipsis;
+			    /*white-space:nowrap;*/
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -169,19 +181,29 @@
 				<c:forEach items="${list }" var="list">
 					<span class="narrow borderRight">${list.getNum() }</span>
 					<span class="wide borderRight">
-						<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}</a>
+						<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]
+							<span class="titleLength">${list.getTitle()}</span>
+						</a>
 					
 						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
-						<c:if test="${fn:length(tag) <= 3}">
-							<c:forEach items="${tag }" var="tags">
-								<span class="tagColor">${tags }</span>
-							</c:forEach>
-						</c:if>
-						<c:if test="${fn:length(tag) > 3}">
-							<c:forEach begin="0" end="2" items="${tag }" var="tags">
-								<span class="tagColor">${tags }</span>
-							</c:forEach>
-						</c:if>		
+						
+						<c:choose>
+							<c:when test="${list.getTag() == null}">
+							
+							</c:when>
+							<c:when test="${fn:length(tag) <= 3}">
+								<c:forEach items="${tag }" var="tags">
+									<span class="tagColor"><a href="#" onclick="getTag(this)">${tags }</a></span>
+								</c:forEach>
+							</c:when>
+							<c:when test="${fn:length(tag) > 3}">
+								<c:forEach begin="0" end="2" items="${tag }" var="tags">
+									<span class="tagColor"><a href="#" onclick="getTag(this)">${tags }</a></span>
+								</c:forEach>
+							</c:when>
+						</c:choose>
+
+							
 					</span>
 					<span class="narrow borderRight">${list.getId()}</span>
 					<span class="medium borderRight">${list.getDatetime()}</span>
