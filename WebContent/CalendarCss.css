@@ -1169,6 +1169,9 @@
 	border-radius: 2px;
 	opacity: 0.6;
 }
+.groupDataTool:hover{
+	opacity: 1;
+}
 .groupDataToolDummy{
 	min-width: 35px;
 	margin-left: 2px;
@@ -1319,11 +1322,36 @@
 	margin-bottom: 5px;
 	background-color: rgb(245,245,245);
 }
-
+.yearBoxBody{
+	display: block;
+}
 .toDoListView{
 	display: none;
 }
-
+.yearformEl{
+	width: 100%;
+	position: relative;
+}
+.yearBoxBody{
+	position: relative;
+}
+.yearFormSC{
+	position: absolute;
+	height: 20px;
+	line-height: 20px;
+	width: 100%;
+	z-index: 500;
+	margin: auto;
+	text-align: center;
+	font-size: 2em;
+	font-weight: 600;
+	margin-top: -60%;
+	color: #ffd700;
+}
+.checkedTodoStmt{
+	opacity: 0.6;
+	text-decoration:line-through;
+}
 .SchedulInfoArea{
 	margin-top: 10px;
 	border-radius: 5px;

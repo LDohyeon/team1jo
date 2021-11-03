@@ -2840,9 +2840,9 @@
 		function createYearSchedule(scheduleData){
 	
 			let yearBoxBodys = document.getElementsByClassName("yearBoxBody");
-			console.log(scheduleData);
 			
 			for(let i = 0; i < scheduleData.length; i++){
+				
 				let startYear = scheduleData[i].start.substring(0, 4);
 				let startMonth = scheduleData[i].start.substring(5, 7);
 				let startDay = scheduleData[i].start.substring(8, 10);
@@ -2856,6 +2856,7 @@
 					let yfdYear =  yfd.substring(0, 4);
 					let yfdMonth =  yfd.substring(4, 6);
 					let yfdDay =  yfd.substring(6, 8);
+					
 					
 					if(startYear>yfdYear){
 						// 일정 시작 안함
@@ -2873,7 +2874,7 @@
 								if(startDay>yfdDay){
 									// 안그림 
 								}
-								else if(startDay==yfdDay){
+								else if(startDay<=yfdDay){
 									// 일정 시작 > 년도 끝까지 // 시간을 비교후 
 								}
 								else if(startDay<yfdDay){
@@ -2899,9 +2900,11 @@
 									}
 									else if(startDay==yfdDay){
 										// 시작 함 > 월 끝 // 시작 날짜 시간 비교 
+										createYearElement(yearBoxBodys[j], scheduleData[i]);
 									}
 									else if(startDay<yfdDay){
 										// 시작함 > 월 끝 // 종일 
+										createYearElement(yearBoxBodys[j], scheduleData[i]);
 									}
 								}
 								else if(endMonth==yfdMonth){
@@ -2913,9 +2916,11 @@
 										// 시작 함 > 끝 날짜 탐색 // 시간봐야함 
 										if(endDay>yfdDay){
 											// 그림  //
+											createYearElement(yearBoxBodys[j], scheduleData[i]);
 										}
 										else if(endDay==yfdDay){
 											// 그림
+											createYearElement(yearBoxBodys[j], scheduleData[i]);
 											
 										}
 										else if(endDay<yfdDay){
@@ -2926,10 +2931,11 @@
 										// 시작함 > 끝나는 날짜까지 가는중 
 										if(endDay>yfdDay){
 											// 그림 
+											createYearElement(yearBoxBodys[j], scheduleData[i]);
 										}
 										else if(endDay==yfdDay){
 											// 그림
-											
+											createYearElement(yearBoxBodys[j], scheduleData[i]);
 										}
 										else if(endDay<yfdDay){
 											// 안그림 > 끝난 일정 
@@ -2944,14 +2950,17 @@
 								// 일을 비교하고 구간 
 								if(endMonth>yfdMonth){
 									// 전체 그림 	
+									createYearElement(yearBoxBodys[j], scheduleData[i]);
 								}
 								else if(endMonth==yfdMonth){
 									// 날짜비교> 언제 끝나는지 찾음 
 									if(endDay>yfdDay){
 										// 그림 
+										createYearElement(yearBoxBodys[j], scheduleData[i]);
 									}
 									else if(endDay==yfdDay){
 										// 그림
+										createYearElement(yearBoxBodys[j], scheduleData[i]);
 									}
 									else if(endDay<yfdDay){
 										// 안그림 > 끝난 일정 
@@ -2970,19 +2979,23 @@
 						// 일정 시작을 했음 
 						if(endYear>yfdYear){
 							// 전체 들어감 (년도에 한해서)
+							createYearElement(yearBoxBodys[j], scheduleData[i]);
 						}
 						else if(endYear==yfdYear){
 							// 뭘 하고 날짜 비교해서 끝나는 구간 설정 
 							if(endMonth>yfdMonth){
 								// 전체 
+								createYearElement(yearBoxBodys[j], scheduleData[i]);
 							}
 							else if(endMonth==yfdMonth){
 									// 날짜 비교 
 								if(endDay>yfdDay){
 									// 그려야 함 
+									createYearElement(yearBoxBodys[j], scheduleData[i]);
 								}
 								else if(endDay==yfdDay){
 									// 그려야 함/ 끝나는 시점
+									createYearElement(yearBoxBodys[j], scheduleData[i]);
 								}
 								else if(endDay<yfdDay){
 									// 안그림 
@@ -2999,6 +3012,115 @@
 				}
 			}
 		}
+		
+		function createYearElement(yearBoxBodys, scheduleData){
+			console.log(scheduleData);
+			
+			let numberChilds = yearBoxBodys.parentNode.childNodes.length;
+			if(numberChilds>2){
+				return;
+			}
+			let p = yearBoxBodys.parentNode;
+			let v;
+			let c;
+			let cc;
+			let ccc;
+			
+			v = document.createElement("div");
+			v.classList.add("yearformEl");
+			
+			c = document.createElement("div");
+			c.classList.add("yearFormSC");
+			c.innerHTML = ".";
+			v.appendChild(c);
+			
+			c = document.createElement("div");
+			c.classList.add("scHidden");
+			c.setAttribute("style", "display: none;")
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupName"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.groupname);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupColor"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.groupcolor);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("modifier"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.modifier);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleNum"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.num);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleTitle"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.title);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleStart"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.start);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleEnd"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.end);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleContent"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.content);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleWriter"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.writer);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleColor"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.color);
+			
+			c.appendChild(cc);
+			
+			v.appendChild(c);
+			p.insertBefore(v, p.firstChild);
+		}
+		
+		
 		// 스케줄 요소를 제작
 		// 스케줄 데이터에 따라 스케줄이 그려질 영역을 구현함
 		// 스케줄 시작 및 끝 데이터를 각각 비교하며 경우의 수를 따져야함
@@ -3809,6 +3931,10 @@
 				cc.setAttribute("readonly", "true");
 				cc.classList.add("toDoListTitle");
 				cc.classList.add("toDolistTitleSecond");
+				
+				if(jsons[i].checked=="true"){
+					cc.classList.add("checkedTodoStmt");
+				}
 				cc.setAttribute("placeholder", "일정 제목을 입력하세요.");
 				cc.setAttribute("style", "width: calc(100% - 62px);");
 				c.appendChild(cc);
