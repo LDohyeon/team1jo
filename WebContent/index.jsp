@@ -234,7 +234,7 @@
 		<a href="leaveId.do">회원 탈퇴</a>
 		<a href="memberList.do?startPage=1">회원 게시판</a>
 		<a href="chartServlet.do">차트</a>
-		<a href="suspension.do">에디터 작성</a>
+		<a href="paragraphEditorWrite.do">에디터 작성</a>
 		<a href="paragraphList.do?startPage=1">게시판 확인</a>
 		
 		${loginUser.getId()}<!-- 로그인 잘 되는지 확인용 헤더가 없어서.. -->

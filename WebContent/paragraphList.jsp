@@ -219,7 +219,7 @@
 				</c:forEach>
 			</div>
 			<c:if test="${loginUser.id!=null}">
-				<input class="blackSmallButton" type="button" value="글쓰기" onclick="location.href='suspension.do';">
+				<input class="blackSmallButton" type="button" value="글쓰기" onclick="location.href='paragraphEditorWrite.do';">
 			</c:if>
 		</div>
 	</body>
