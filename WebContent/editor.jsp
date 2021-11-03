@@ -254,6 +254,7 @@
 		}
 	
 		function btnColor(i){
+
 			if(i==8){
 				for(var i=0;i<8;i++){
 					divColor[i].style.backgroundColor="white";
@@ -263,6 +264,7 @@
 			}else if(divColor[i].style.backgroundColor=="white"){
 				divColor[i].style.backgroundColor="gray";
 			}
+		
 		}
 
 		function writeCheck()
