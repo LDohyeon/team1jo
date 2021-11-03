@@ -48,7 +48,7 @@ public class SuspensionServlet extends HttpServlet {
 	                //권한 수정된 것 세션에 반영하기
 	                MemberDTO mUpdate=mDAO.loginMember(id, mDTO.getPw());
 	        		session.setAttribute("loginUser", mUpdate);
-	            } 
+	            }
 	            else
 	            {
 	            	//아직 정지날짜가 지나지 않았다면, 권한 4 유지
@@ -62,10 +62,9 @@ public class SuspensionServlet extends HttpServlet {
 			{
 				System.out.println("날짜 포맷 변경 중 오류 "+e);
 	        }
-			
-			RequestDispatcher dispatcher=request.getRequestDispatcher("editor.jsp");
-			dispatcher.forward(request, response);
 		}
+		RequestDispatcher dispatcher=request.getRequestDispatcher("editor.jsp");
+		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
