@@ -7,6 +7,43 @@
 	z-index: 100;
 	margin-top: 27px;
 }
+.yearAreaHead>.yearAreaHeadTitle:first-child{
+	color: crimson;
+}
+.yearAreaHead>.yearAreaHeadTitle:last-child{
+	color: #0000fa;
+}
+.yearAreaBody>.yearBoxYoil:first-child{
+	color: crimson;
+}
+.yearAreaBody>.yearBoxYoil:nth-child(7n+1){
+	color: crimson;
+}
+.yearAreaBody>.yearBoxYoil:nth-child(7n){
+	color: #0000fa;
+}
+
+.monthAreaHead>.monthAreaHeadTitle:first-child{
+	color: crimson;
+}
+.monthAreaHead>.monthAreaHeadTitle:last-child{
+	color: #0000fa;
+}
+.monthAreaBody>.monthBox:first-child{
+	color: crimson;
+}
+.monthAreaBody>.monthBox:nth-child(7n+1){
+	color: crimson;
+}
+.monthAreaBody>.monthBox:nth-child(7n){
+	color: #0000fa;
+}
+
+.Xbutton{
+	-ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
 /* =====================================================
  * === 켈린더 헤더 ========================================
  * ===================================================== */
@@ -434,7 +471,20 @@
 	margin-bottom: 10px;
 }
 
-.toDoListDelBtn, .toDoListAddBtn{
+.toDoListDelBtn{
+	width: calc(50% - 2px);
+	min-height: 32px;
+	line-height: 32px;
+	margin-right: 2px;
+	text-align: center;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: #c5e2a9;
+	margin-bottom: 5px;
+	
+}
+.toDoListAddBtn{
 	width: calc(50% - 2px);
 	min-height: 32px;
 	line-height: 32px;
@@ -445,7 +495,6 @@
 	border: 0;
 	background-color: #c5e2a9;
 	margin-bottom: 5px;
-	
 }
 .toDoListDelBtn:hover, .toDoListAddBtn:hover{
 	background-color: #81c147;
@@ -1119,6 +1168,12 @@
 	background-position: center;
 	border-radius: 2px;
 	opacity: 0.6;
+}
+.groupDataToolDummy{
+	min-width: 35px;
+	margin-left: 2px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .groupDataMemberSearch{
 	width: calc(100% - 10px);
