@@ -307,16 +307,20 @@
 			<hr>
 			
 			<div class="buttonsArea">
-				<c:if test="${loginUserId == pDTO.getId() }">
-			 		<a class="button" href="paragraphUpdate.do?num=<%=num%>">수정</a>
-		 			<a class="button" onclick="return confirm('정말 삭제하시겠습니까?')" href="paragraphDelete.do?num=<%=num%>">삭제</a>
-			 	</c:if>
+				<c:choose>
+					<c:when test="${loginUser.getAuthority()==4 }">
+						<a class="button" onclick="alert('${loginMsg}')">수정</a>
+						<a class="button" onclick="alert('${loginMsg}')">삭제</a>
+					</c:when>
+					<c:when test="${loginUserId == pDTO.getId() }">
+				 		<a class="button" href="paragraphUpdate.do?num=<%=num%>">수정</a>
+			 			<a class="button" onclick="return confirm('정말 삭제하시겠습니까?')" href="paragraphDelete.do?num=<%=num%>">삭제</a>
+				 	</c:when>
+				</c:choose>
+				
 			</div>
 
 			<c:choose>
-				<c:when test="${loginUser.getAuthority()==4 }">
-					<a onclick="alert('${loginMsg}')"><button type="button" class="button2">신고</button></a>
-				</c:when>
 				<c:when test="${loginUserId==null }">
 					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
 				</c:when>
@@ -343,18 +347,31 @@
 				<span><strong>${clistSelect.getId() }</strong></span>
 				<span class="smallText">${clistSelect.getTime() }</span>
 				<!--<span>댓글 순서도 : ${clistSelect.getCommentCount()}</span>  -->
-				<c:if test="${loginUserId == clistSelect.getId() }">
-						
-					<span class="button3" onclick="cup(${clistSelect.getCommentCount()})">수정</span>				
-					<a onclick="return confirm('정말 삭제하시겠습니까?')" class="button3" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>				
-				</c:if>
+				<c:choose>
+					<c:when test="${loginUser.getAuthority()==4 }">
+						<a class="button3" onclick="alert('${loginMsg}')">수정</a>
+						<a class="button3" onclick="alert('${loginMsg}')">삭제</a>
+					</c:when>
+					<c:when test="${loginUserId == clistSelect.getId() }">	
+						<span class="button3" onclick="cup(${clistSelect.getCommentCount()})">수정</span>				
+						<a onclick="return confirm('정말 삭제하시겠습니까?')" class="button3" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>				
+					</c:when>
+				</c:choose>
 				
-				<c:if test="${loginUserId== null }">
-					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
-				</c:if>
-				<c:if test="${loginUserId!= null }">
-					<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${clistSelect.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
-				</c:if>			
+
+				<c:choose>
+					<c:when test="${loginUserId==null }">
+						<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
+					</c:when>
+					<c:when test="${loginUserId!=null }">
+						<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${clistSelect.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
+					</c:when>
+				</c:choose>
+				
+					
+				
+				
+				
 				<div>
 					<br>
 				</div>
@@ -502,8 +519,20 @@
 	                    <input class="num" type="hidden" value="${pDTO.getNum() }" name="paragraph_num">
 
 	            	 </div>
+	            	 
+
+	            	 
 	            	 <div class="buttonsArea">
-	            	 	<input class="button" type="submit" value="글쓰기" onclick="return writeCheck(${commentLastCount })">
+	            	 	<c:choose>
+							<c:when test="${loginUser.getAuthority()==4 }">
+								<input class="button" type="button" value="글쓰기" onclick="alert('${loginMsg}')">
+							</c:when>
+							<c:when test="${loginUserId !=null }">
+								<input class="button" type="submit" value="글쓰기" onclick="return writeCheck(${commentLastCount })">
+							</c:when>
+						</c:choose>
+						
+	            	 	
 	            	 </div>
 	            	 
 
