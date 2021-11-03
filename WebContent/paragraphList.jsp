@@ -230,7 +230,7 @@
 					
 				</c:when>
 				<c:otherwise>
-					<input class="blackSmallButton" type="button" value="글쓰기" onclick="location.href='suspension.do';">
+					<input class="blackSmallButton" type="button" value="글쓰기" onclick="location.href='paragraphEditorWrite.do';">
 				</c:otherwise>
 			</c:choose>
 		</div>
