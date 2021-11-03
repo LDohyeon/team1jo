@@ -14,6 +14,12 @@
 		<title>STATUS 200</title>
 		<link rel="stylesheet" href="style.css">
 		<style>
+		
+			/*임시 a태그 hover*/
+			a:hover
+			{
+				color:lightgray;
+			}
 			body
 			{
                 margin: 0;
@@ -170,8 +176,7 @@
 				<c:forEach items="<%=list %>" var="list">
 					<span class="narrow borderRight">${list.getNum() }</span>
 					<span class="wide borderRight">
-
-						<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}] ${list.getTitle()}</a>
+						
 					
 						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
 							
@@ -217,9 +222,8 @@
 				</c:forEach>
 			</div>
 			
-			<c:if test="${loginUser.id!=null}">
-				<input class="blackSmallButton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
-			</c:if>
+			<input class="writebutton blackSmallButton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
+			
 		</div>
 		
 		<a href="register.do">회원가입</a>
@@ -227,12 +231,11 @@
 		<a href="logout.jsp">로그아웃</a>
 		<a href="changePw.do">비밀번호 수정</a>
 		<a href="userInfo.do">회원정보 수정</a>
-		<a href="leaveId.jsp">회원 탈퇴</a>
+		<a href="leaveId.do">회원 탈퇴</a>
 		<a href="memberList.do?startPage=1">회원 게시판</a>
 		<a href="chartServlet.do">차트</a>
-		<a href="paragraphEditorWrite.do">에디터 작성</a>
+		<a href="suspension.do">에디터 작성</a>
 		<a href="paragraphList.do?startPage=1">게시판 확인</a>
-		<a href="suspension.do?">회원정지 날짜 계산하기</a>
 		
 		${loginUser.getId()}<!-- 로그인 잘 되는지 확인용 헤더가 없어서.. -->
 		${loginUser.getPw()}
@@ -240,6 +243,10 @@
 		${loginUser.getEmail()}
 		${loginUser.getAuthority()}
 		
-		<jsp:include page="footer.jsp"/>
+		<footer>
+			서울북부기술교육원 IOT융합프로그래밍과 팀프로젝트 1조<br>
+			조장: 이도현 / 조원: 김종현 박정현 석지애 유제민 윤하영
+		</footer>
+
 	</body>
 </html>
