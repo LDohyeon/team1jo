@@ -313,12 +313,15 @@
 			 	</c:if>
 			</div>
 
-			<c:if test="${loginUserId== null }">
-				<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
-			</c:if>
-			<c:if test="${loginUserId!=null }">
-				<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
-			</c:if>
+			<c:choose>
+				<c:when test="${loginUserId==null }">
+					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
+				</c:when>
+				<c:when test="${loginUserId!=null }">
+					<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
+				</c:when>
+			</c:choose>
+
 			
 			
 			<div>
