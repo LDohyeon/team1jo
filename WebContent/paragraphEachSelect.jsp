@@ -313,8 +313,6 @@
 			</div>
 
 			<c:choose>
-				<!--<c:when test="${ }"></c:when>  -->
-				
 				<c:when test="${loginUserId==null }">
 					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
 				</c:when>
