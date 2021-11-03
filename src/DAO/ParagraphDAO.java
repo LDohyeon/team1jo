@@ -24,8 +24,8 @@ public class ParagraphDAO {
 		Connection conn = null;
 		String url = "jdbc:mysql://127.0.0.1:3306/status200";
 		String db_id = "root";
-		//String db_pw="iotiot";
-		String db_pw="iotiot12*";
+		String db_pw="iotiot";
+		//String db_pw="iotiot12*";
 		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
 		
 		try
@@ -247,7 +247,7 @@ public class ParagraphDAO {
 	//게시판 수정
 	public void paragraphUpdate(ParagraphDTO pDTO)
 	{
-		String sql="update paragraph set title=?, contents = ? where num = ?";
+		String sql="update paragraph set title=?, contents = ?, tag = ? where num = ?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -259,7 +259,8 @@ public class ParagraphDAO {
 			
 			pstmt.setString(1, pDTO.getTitle());
 			pstmt.setString(2, pDTO.getContents());
-			pstmt.setInt(3, pDTO.getNum());
+			pstmt.setString(3, pDTO.getTag());
+			pstmt.setInt(4, pDTO.getNum());
 			
 			pstmt.executeUpdate();
 			

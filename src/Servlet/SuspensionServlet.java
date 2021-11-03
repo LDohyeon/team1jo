@@ -63,8 +63,10 @@ public class SuspensionServlet extends HttpServlet {
 				System.out.println("날짜 포맷 변경 중 오류 "+e);
 	        }
 		}
+		
 		RequestDispatcher dispatcher=request.getRequestDispatcher("editor.jsp");
 		dispatcher.forward(request, response);
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

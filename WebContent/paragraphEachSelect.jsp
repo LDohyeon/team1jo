@@ -25,10 +25,8 @@
 		<script src="codeMirror/clike.js"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		
-		
 		<link rel="stylesheet" href="style.css">
 		<style>			
-
             .writeContent{ 
                 width: 800px;
                 height: 300px;
@@ -150,9 +148,15 @@
 			{
 				height: 400px;
 			}
-			.divColor
+			.divColor2
 			{
 				background-color:white;
+				border:1px solid lightgray;
+			}
+			.divColor3
+			{
+				background-color:white;
+				border:1px solid lightgray;
 			}
 			.clicked
 			{
@@ -221,7 +225,6 @@
 				padding-top: 20px;
 				text-align: center;
 			}
-			
 			.button
 			{
 				background-color: #064998;
@@ -240,9 +243,6 @@
         </style>
 	</head>
 	<body>
-
-		
-	
 	<c:if test="${report!=null }">
 		<script>
 			alert("신고가 완료되었습니다.");
@@ -276,14 +276,11 @@
 				<br>
 			</div>
         	<hr>
-        	
-			
-			
+
 			<p>${pDTO.getContents() }</p>
 			<input id="languageMode" type="hidden" value="${languageMode }">
 			<input id="languageModeId" type="hidden" value="${languageModeId }">
-			
-			
+
 			<div>
 				<br>
 			</div>
@@ -305,31 +302,21 @@
 				<br>
 			</div>
 
-			
 			<hr>
 			<p>댓글</p>
 			<c:set var="count" value="${-1 }"></c:set>
-			
+				
 			<c:forEach items="${clistSelect }" var="clistSelect">
-
-			
-				<span>댓글 고유 번호 : ${clistSelect.getNum() }</span>
+				<!--<span>댓글 고유 번호 : ${clistSelect.getNum() }</span>  -->
 				<span>작성 아이디 : ${clistSelect.getId() }</span>
 				<span>작성 시간 : ${clistSelect.getTime() }</span>
-				<span>댓글 순서도 : ${clistSelect.getCommentCount()}</span>
-
-
-
+				<!--<span>댓글 순서도 : ${clistSelect.getCommentCount()}</span>  -->
 				<c:if test="${loginUserId == clistSelect.getId() }">
-
 					<span onclick="cup(${clistSelect.getCommentCount()})">수정</span>
 					<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
-
 					<span class="button2" onclick="cup(${clistSelect.getCommentCount()})">수정</span>
-					<a class="button2" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
-
+					<a onclick="return confirm('정말 삭제하시겠습니까?')" class="button2" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
 				</c:if>
-
 				<div class="commentUpdate">
 					<form method="post" action="commentUpdate.do" class="frm" name="frm">
 			            <div>
@@ -353,8 +340,8 @@
 			                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
-			                            <button class="divColor" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>
-			                            <button class="divColor" type="button" onclick="imgInsert(${clistSelect.getCommentCount()})">사진</button> 
+			                            <button class="divColor3" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>
+			                            <button class="divColor2" type="button" onclick="imgInsert(${clistSelect.getCommentCount()})">사진</button> 
 			                        </div>
 			                        
 			                        <div class="codeWrite">   
@@ -366,10 +353,8 @@
 			                            	<option value="text/x-sql">sql</option>
 			                            	<option value="text/javascript">javascript</option>
 			                        	</select>
-			                        	
-			                        	
-			                        	<input class="divColor" type="button" onclick="code(${clistSelect.getCommentCount()})" value="코드 작성 하러 가기">  
-			                        	<input class="divColor" type="button" onclick="codeUpdate(${clistSelect.getCommentCount()})" value="코드 수정하러 가기">
+			                        	<input class="divColor2" type="button" onclick="code(${clistSelect.getCommentCount()})" value="코드 작성 하러 가기">  
+			                        	<input class="divColor2" type="button" onclick="codeUpdate(${clistSelect.getCommentCount()})" value="코드 수정하러 가기">
 			                        </div>
 		
 			                    </div>
@@ -385,12 +370,6 @@
 			                    
 			                    <input class="num" type="hidden" value="${clistSelect.getNum() }" name="commentNum">
 			                    <input class="num" type="hidden" value="${pDTO.getNum() }" name="num">
-			                    
-			                    
-			                    <!-- br개수 -->
-			                    
-			                    
-								
 			            	 </div>
 			            	 
 			            	 <input class="button2"	type="submit" value="글쓰기" onclick="return writeCheck(${clistSelect.getCommentCount()})">
@@ -433,19 +412,19 @@
 	                            <button class="divColor" type="button" onclick="document.execCommand('bold');">두껍게</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('Underline');">밑줄</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
-	                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${commentLastCount }].value);">글자색</button>
-	                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${commentLastCount }].value);">배경색</button>
+	                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${commentLastCount }].value);">글자색</button>
+	                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${commentLastCount }].value);">배경색</button>
 	                        </div>
 	                        <div class="fontAlign">
 	                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
-	                            <button class="divColor" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>                      
+	                            <button class="divColor3" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>                      
 	                        	
 	                        </div>
 
 	                        <div class="img">
-	                            <button class="divColor" type="button" onclick="imgInsert(${commentLastCount })">사진</button>
+	                            <button class="divColor2" type="button" onclick="imgInsert(${commentLastCount })">사진</button>
 	                        </div>
 	                        
 	                        <div class="codeWrite">   
@@ -459,8 +438,8 @@
 	                        	</select>
 	                        	
 	                        	
-	                        	<input class="divColor" type="button" onclick="code(${commentLastCount })" value="코드 작성 하러 가기">  
-	                        	<input class="divColor" type="button" onclick="codeUpdate(${commentLastCount })" value="코드 수정하러 가기">
+	                        	<input class="divColor2" type="button" onclick="code(${commentLastCount })" value="코드 작성 하러 가기">  
+	                        	<input class="divColor2" type="button" onclick="codeUpdate(${commentLastCount })" value="코드 수정하러 가기">
 	                        </div>
 
 	                    </div>
@@ -505,11 +484,8 @@
 			</div>
 		</div>
 		<input id="hid" type="hidden">
-        
         <input id="commentLastCount" type="hidden" value="${commentLastCount }">
-        
-        
-        
+
         <div id="imageInsertContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
         <input id="commentNum" type="hidden" value="${commentNum }">
 
@@ -528,39 +504,51 @@
 			divColor[i].style.backgroundColor="white";
 		}
 	
-		function btnColor(event){
-		
-			//console.log(event.target);
-			//console.log(this);
-			console.log(event.target.classList);
-		
-			if(event.target.classList[i] === "clicked")
+		function btnColor(e)
+		{
+			if(document.getSelection().anchorNode !=null)
 			{
-				 event.target.classList.remove("clicked");	
-			}
-			else
-			{
-				for (var i = 0; i < divColor.length; i++)
+				if(e.target.style.backgroundColor=="white")
 				{
-					divColor[i].classList.remove("clicked");
-		        }
-				event.target.classList.add("clicked");
+					e.target.style.backgroundColor="gray";
+				}
+				else
+				{
+					e.target.style.backgroundColor="white";
+				}
 			}
-
-			
 		}
 		
-		function init() 
-		{
+		function init()
+		{	
 	        for (var i = 0; i <divColor.length; i++)
 	        {
-	        	divColor[i].addEventListener("click", btnColor);
+	        	divColor[i].addEventListener("click", btnColor, false);
 	        }
 	    }
 
 	    init();
+	    
+	    var divColor3 = document.getElementsByClassName("divColor3");
+	    
+	    function init3()
+	    {
+	    	 for (var i = 0; i <divColor3.length; i++)
+		        {
+	    			 divColor3[i].addEventListener("click", function(){
+	    		    	for(var j=0; j<divColor.length; j++)
+	    		    	{
+	    		    		divColor[j].style.backgroundColor="white";
+	    		    	}
+	    		    });
+		        }
+	    }
+	    init3();
+	    
+	   
+	    
+	    
 
-		
 		function writeCheck(e)
 		{
 			if(document.getElementsByClassName("writeContent")[e].innerHTML=="")
@@ -589,9 +577,7 @@
 		function imgChange(e, action)
 		{
 			var imgInput = document.getElementsByClassName("imgInput");
-			
-			console.log("e : "+e);
-			
+
 			if(imgInput[e].files.length>0)
 			{
 				if(imgInput[e].files)
@@ -659,7 +645,6 @@
 
 		function code(e)
 		{
-			
 			langs(e);//온체인지
 			
 			if(language == "none")
@@ -723,12 +708,10 @@
 				
 				var selectedObj = window.getSelection();
 				var selected = selectedObj.getRangeAt(0).toString();
-
 				
 				document.getElementById("focusValue").innerText=selected;
 				selectedObj.deleteFromDocument();
-				
-				
+
 				getSels=selected.split("※");
 				                   
 				//getSels[1]; 언어
@@ -762,7 +745,6 @@
 				realgoButton.innerText="저장";
 				
 				Lib(getSels[1]);
-
 			}	
 		}
 		function realGo()
@@ -795,8 +777,6 @@
 			wrapPonup.style.display="none";
 		}
 		
-	
-
 		var cupClass = document.getElementsByClassName("commentUpdate");
 		function cup(count)
 		{
@@ -815,14 +795,7 @@
 		{
 			cupClass[count].style.display="none";
 		}
-		
-		
-		
-		
 
-		
-
-	
 		function scrolled(viewScroll)
 		{
 			//판업창 디자인
@@ -864,7 +837,6 @@
 		
 
 	</script>
-	
 		<script>
 			var languageMode =document.getElementById("languageMode").value;
 			var languageModeId =document.getElementById("languageModeId").value;
@@ -897,13 +869,7 @@
 				//textArea.setSize("800", "200");
 
 			}
-			
-			
-			
 		</script>
-
-
-
 		<c:if test="${focusdown!=null }">
 			<script>
 				
