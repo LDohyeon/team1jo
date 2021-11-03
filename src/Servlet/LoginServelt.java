@@ -83,7 +83,7 @@ public class LoginServelt extends HttpServlet {
 		            	session.invalidate();
 		            	String alertt="정지 날짜("+susLastDay_dao+") 자정까지 로그인이 제한됩니다.";
 		            	url="login.jsp"; 
-		    			request.setAttribute("loginMsg",alertt);
+		    			session.setAttribute("loginMsg",alertt);
 		            }
 		        }
 				catch (Exception e)

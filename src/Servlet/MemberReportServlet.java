@@ -23,7 +23,7 @@ public class MemberReportServlet extends HttpServlet {
 		
 		request.setAttribute("report", "1");
 		
-		RequestDispatcher dispatcher= request.getRequestDispatcher("paragraphEachSelect.do?num="+num);
+		RequestDispatcher dispatcher= request.getRequestDispatcher("paragraphEachSelect.do?num="+num+"&&flag=0");
 		dispatcher.forward(request, response);
 		
 	}

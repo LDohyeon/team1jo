@@ -224,7 +224,7 @@
 			</div>
 			<c:choose>
 				<c:when test="${loginUser.getAuthority()==4 }">
-					<input class="blackSmallButton" type="button" value="글쓰기" onclick="alert(정지 되었음)">
+					<input class="blackSmallButton" type="button" value="글쓰기" onclick="alert('${loginMsg}')">
 				</c:when>
 				<c:when test="${loginUser.getId()==null }">
 					
