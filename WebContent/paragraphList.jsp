@@ -9,6 +9,7 @@
 		<title>게시판</title>
 		<link rel="stylesheet" href="style.css">
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<link rel="stylesheet" href="style.css">
 		<style>
 			*
 			{
@@ -80,7 +81,7 @@
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
-				
+				line-height:36px;
 			}
 			
 			.medium
@@ -91,30 +92,61 @@
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				line-height:36px;
 			}
 			
 			.wide
 			{
-				text-align: center;
+				text-align: left;
 				display: inline-block;
 				width: 371px;
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				height:36px;
 			}
 			
 			.pageNum
 			{
 				text-align: center;
 			}
-			
 			.tagColor
 			{
-				color: blue;
-			    background-color: lightblue;
-			    border-color: blue;
+				border-radius: 15px;
+				font-size:10.5px;
+				padding:3px;
+				color: black;
+			    background-color: cornsilk;
+			    border:1px solid #989898;
 			    margin-right: 5px;
 			}
+			.titleLength
+			{
+				/*display:inline-block;*/
+				width:50px;
+			    overflow:hidden;
+			    text-overflow:ellipsis;
+			    /*white-space:nowrap;*/
+			}
+			
+			.txt_line {
+				width:370px;
+		      	overflow:hidden;
+		      	text-overflow:ellipsis;
+		      	white-space:nowrap;
+		      	overflow: hidden;
+		      	
+		 	}
+		 	.txt_line2 {
+				width:370px;
+		      	overflow:hidden;
+		      	text-overflow:ellipsis;
+		      	white-space:nowrap;
+		      	overflow: hidden;
+		      	line-height:36px;
+		 	}
+
+
 		</style>
 	</head>
 	<jsp:include page="./header.jsp"/>
@@ -132,19 +164,51 @@
 				<c:forEach items="${list }" var="list">
 					<span class="narrow borderRight">${list.getNum() }</span>
 					<span class="wide borderRight">
-						<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}</a>
+
 					
 						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
-						<c:if test="${fn:length(tag) <= 3}">
-							<c:forEach items="${tag }" var="tags">
-								<span class="tagColor">${tags }</span>
-							</c:forEach>
-						</c:if>
-						<c:if test="${fn:length(tag) > 3}">
-							<c:forEach begin="0" end="2" items="${tag }" var="tags">
-								<span class="tagColor">${tags }</span>
-							</c:forEach>
-						</c:if>		
+						
+	
+
+
+						<c:choose>
+							<c:when test="${list.getTag() == ''}">
+								<div class="txt_line2">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
+							
+							</c:when>
+							<c:when test="${fn:length(tag) <= 3 && fn:length(tag) > 0}">
+								<div class="txt_line">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
+								<c:forEach items="${tag }" var="tags">
+									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
+								</c:forEach>
+							</c:when>
+							<c:when test="${fn:length(tag) > 3}">
+								<div class="txt_line">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
+								<c:forEach begin="0" end="2" items="${tag }" var="tags">
+									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
+								</c:forEach>
+							</c:when>
+						</c:choose>		
+						
+
 					</span>
 					<span class="narrow borderRight">${list.getId()}</span>
 					<span class="medium borderRight">${list.getDatetime()}</span>

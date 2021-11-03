@@ -26,6 +26,7 @@ public class ParagraphListServlet extends HttpServlet {
 		
 		List<ParagraphDTO> list = pDAO.paragraphList(StartPage, lastPage);
 		
+
 		
 		request.setAttribute("list", list);
 		

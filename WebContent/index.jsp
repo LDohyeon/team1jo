@@ -90,6 +90,7 @@
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				line-height:36px;
 				
 			}
 			.medium
@@ -100,6 +101,7 @@
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				line-height:36px;
 			}
 			.wide
 			{
@@ -109,13 +111,19 @@
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				height:36px;
 			}
 			.tagColor
 			{
-				color: blue;
-			    background-color: lightblue;
-			    border-color: blue;
-			    margin-right:5px;
+				border-radius: 15px;
+				font-size:10.5px;
+				padding:3px;
+				color: black;
+			    background-color: cornsilk;
+			   
+			    border:1px solid #989898;
+			    margin-right: 5px;
+			   
 			}
 			.title{
 				text-align:center;
@@ -124,6 +132,22 @@
 				color: black;
 				text-decoration:none;
 			}
+			.txt_line {
+				width:370px;
+		      	overflow:hidden;
+		      	text-overflow:ellipsis;
+		      	white-space:nowrap;
+		      	overflow: hidden;
+		      	
+		 	}
+		 	.txt_line2 {
+				width:370px;
+		      	overflow:hidden;
+		      	text-overflow:ellipsis;
+		      	white-space:nowrap;
+		      	overflow: hidden;
+		      	line-height:36px;
+		 	}
 		</style>
 	</head>
 	<body>
@@ -146,26 +170,53 @@
 				<c:forEach items="<%=list %>" var="list">
 					<span class="narrow borderRight">${list.getNum() }</span>
 					<span class="wide borderRight">
+
 						<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}] ${list.getTitle()}</a>
 					
 						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
 							
-						<c:if test="${fn:length(tag) <= 3}">
-							<c:forEach items="${tag }" var="tags">
-								<span class="tagColor">${tags }</span>
-							</c:forEach>
-						</c:if>
-						<c:if test="${fn:length(tag) > 3}">
-							<c:forEach begin="0" end="2" items="${tag }" var="tags">
-								<span class="tagColor">${tags }</span>
-							</c:forEach>
-						</c:if>		
+						<c:choose>
+							<c:when test="${list.getTag() == ''}">
+								<div class="txt_line2">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
+							</c:when>
+							<c:when test="${fn:length(tag) <= 3}">
+								<div class="txt_line">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
+								<c:forEach items="${tag }" var="tags">
+									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
+								</c:forEach>
+							</c:when>
+							<c:when test="${fn:length(tag) > 3}">
+								<div class="txt_line">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
+								<c:forEach begin="0" end="2" items="${tag }" var="tags">
+									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
+								</c:forEach>
+							</c:when>
+						</c:choose>	
 					</span>
 					<span class="narrow borderRight">${list.getId()}</span>
 					<span class="medium borderRight">${list.getDatetime()}</span>
 					<span class="narrow">${list.getHits()}</span>		
 				</c:forEach>
 			</div>
+			
 			<c:if test="${loginUser.id!=null}">
 				<input class="blackSmallButton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
 			</c:if>
