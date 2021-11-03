@@ -39,8 +39,6 @@ public class ParagraphUpdateServlet extends HttpServlet {
 		String language="";
 		
 		
-		System.out.println("content : "+ content);
-		
 		String[] contents=content.split("※");
 		Map<String, String> map = new HashMap<String, String>();
 

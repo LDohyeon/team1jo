@@ -145,8 +145,6 @@
 		      	overflow: hidden;
 		      	line-height:36px;
 		 	}
-
-
 		</style>
 	</head>
 	<jsp:include page="./header.jsp"/>
@@ -167,28 +165,20 @@
 
 					
 						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
-						
-	
-
 
 						<c:choose>
 							<c:when test="${list.getTag() == ''}">
 								<div class="txt_line2">
-						
 									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
 										
 									</a>
-									
 								</div>
-							
 							</c:when>
 							<c:when test="${fn:length(tag) <= 3 && fn:length(tag) > 0}">
 								<div class="txt_line">
-						
 									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
 										
 									</a>
-									
 								</div>
 								<c:forEach items="${tag }" var="tags">
 									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
@@ -196,25 +186,20 @@
 							</c:when>
 							<c:when test="${fn:length(tag) > 3}">
 								<div class="txt_line">
-						
 									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
 										
 									</a>
-									
 								</div>
 								<c:forEach begin="0" end="2" items="${tag }" var="tags">
 									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
 								</c:forEach>
 							</c:when>
 						</c:choose>		
-						
-
 					</span>
 					<span class="narrow borderRight">${list.getId()}</span>
 					<span class="medium borderRight">${list.getDatetime()}</span>
 					<span class="narrow">${list.getHits()}</span>
 				</c:forEach>
-				
 			</div>
 			<div class="pageNum">
 				<c:forEach begin="1" end="${ nOfPages}" var="i">
