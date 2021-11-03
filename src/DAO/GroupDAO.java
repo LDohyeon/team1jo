@@ -395,7 +395,38 @@ public class GroupDAO {
 			close(conn, pstmt);
 		}
 	}
-	
+	//
+	public List<GroupMemberDTO> selctInvite(String userKey) {
+		List<GroupMemberDTO> list= new ArrayList<GroupMemberDTO>();
+		String sql="select * from groupmember where id = ? and invite = 'notaccept'";
+		GroupMemberDTO gmDTO = new GroupMemberDTO();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userKey);
+			System.out.println(pstmt);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				gmDTO.setGroupnum(rs.getString("groupnum"));
+				gmDTO.setId(rs.getString("id"));
+				gmDTO.setInvite(rs.getString("invite"));
+				gmDTO.setNum(rs.getString("num"));
+				list.add(gmDTO);
+			}
+		}
+		catch(Exception e){
+			System.out.println("GroupDAO > checkHaveInvite Error : "+ e);
+		}
+		finally{
+			close(conn, pstmt);
+		}
+		return list;
+	}
 	// 그룹 멤버 초대 수락 
 	public void inviteAccept(GroupMemberDTO gmDTO) {
 		String sql="update groupmember set invite = 'accept' where num = ?";

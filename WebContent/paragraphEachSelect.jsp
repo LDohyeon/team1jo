@@ -12,18 +12,6 @@
 	<head>
 		<meta charset="utf-8">
 		<title>게시판 내용 보기</title>
-		<link rel="stylesheet" href="codeMirror/codemirror.css">
-		<script src="codeMirror/codemirror.js"></script>
-		<script src="codeMirror/xml.js"></script>
-		<link rel="stylesheet" href="codeMirror/darcula.css">
-		<link rel="stylesheet" href="codeMirror/eclipse.css">
-		<script src="codeMirror/closetag.js"></script>
-		
-		<script src="codeMirror/python.js"></script>
-		<script src="codeMirror/javascript.js"></script>
-		<script src="codeMirror/sql.js"></script>
-		<script src="codeMirror/clike.js"></script>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<style>			
             .writeContent{ 
                 width: 800px;
