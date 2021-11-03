@@ -5,7 +5,6 @@
 <% 
 	// 유저키를 세션에서 가져옴
 	String userKey = null;
-
 	try{
 		userKey = "'"+session.getAttribute("loginUserId").toString()+"'"; 
 	}
@@ -32,7 +31,6 @@
 /* ====================================================================
  * ==== 기본 데이터 구성 확인 ===============================================
  * ====================================================================*/        
-
 		// 세션 데이터를 전역 변수로 할당하여 사용함 
 		let userKey = <%=userKey%>;
 		let calendar = document.getElementById("calendar");
@@ -306,7 +304,6 @@
 */
         // 달력 만들기 실행
         createToCalendar();
-
         // 달력 모양 만들기
         function createToCalendar(){
             let calendar = document.getElementById("calendar");
@@ -575,7 +572,7 @@
 				
 				let changeYear=inputYear;
 				let changeMonth=inputMonth;
-				let changeDay=inputDay;
+				let changeDay=inputDay+1;
 				
 				if(changeMonth==1||changeMonth==3||changeMonth==5||changeMonth==7||changeMonth==8||changeMonth==10){
 					if(changeDay>31){
@@ -679,7 +676,6 @@
         		info.value = date.year+""+month+""+day;
         	}
         }
-
         // Calendar Body 영역 만들기 
         function createToBodyLayout(){
             let v = document.createElement("div");
@@ -702,11 +698,9 @@
            
             centerBox.appendChild(createScheduleLayout());
             centerBox.appendChild(createCalanderLayout());
-
             v.appendChild(naviBox);
             v.appendChild(leftBox);
             v.appendChild(centerBox);
-
             return v;
         }
         
@@ -999,7 +993,6 @@
 				while(div.hasChildNodes()){
 					div.removeChild(div.firstChild);
 				}
-
 	            div.appendChild(createMonthFormElement());
 			}
 		}
@@ -1010,7 +1003,7 @@
 		}
 		
 		// 일 폼 만들기 
-		function DayForm(){
+		function DayForm(date){
 			if(typeof(date)!='undefined'&&date!=null){
 				let div = document.getElementsByClassName("calendarDiv")[0];
 				while(div.hasChildNodes()){
@@ -1025,7 +1018,6 @@
 				div.appendChild(createDayFormElement());
 			}
 		}
-
 		// 월 폼의 Element 만들기
 		function createMonthFormElement(date){
 			
@@ -1129,7 +1121,6 @@
 					}				
 					console.log("중요! 해당 위의 구문과 같이 모든 데이터를 처리하는 별도 태그가 해당 폼의 요소에 포함되어 정보를 식별해야함");
 	                cc.addEventListener("click", visibleSchedule);
-
 	                ccc = document.createElement("div");
 	                ccc.classList.add("monthBoxTitle");
 	                
@@ -1447,7 +1438,6 @@
 	            
 	            ccc = document.createElement("div");
 	            ccc.classList.add("monthBoxBody");
-
 	            cc.appendChild(ccc);
 			}
             return cc;
@@ -1498,7 +1488,6 @@
 	            
 	            ccc = document.createElement("div");
 	            ccc.classList.add("monthBoxBody");
-
 	            cc.appendChild(ccc);
 			}
 			else{
@@ -1851,7 +1840,6 @@
 			tempData = data;
 			
 			let body = document.getElementsByTagName("body")[0];
-
 			body.appendChild(createScheduleDetail(data));
 		}
 		
@@ -2019,7 +2007,6 @@
 		// 클릭했을때 현제 요소를 가져오고 안에 숨겨논 잇풋 감 가져옴
 		// 가져온 값을 기초로 현재 폼에 지정된 데이터를 변경할 수 있다.
 		function visibleSchedule(){
-
 			let formStart = document.getElementsByClassName("scheduleFormStart")[0];
 			let formEnd = document.getElementsByClassName("scheduleFormEnd")[0];
 			
@@ -2051,7 +2038,6 @@
 	        let c;
 	        let cc;
 	        let ccc;
-
 			for(let i = 0; i<groupDivs.length; i++){
 				c = document.createElement("div");
 				c.classList.add("groupElement");
@@ -2073,7 +2059,6 @@
 				cc.addEventListener("click", viewGroupTool);
 				cc.innerHTML = "설정";
 				c.appendChild(cc);
-
 				cc = document.createElement("input");
 				cc.classList.add("groupDataColor");
 				cc.setAttribute("type", "color");
@@ -2373,7 +2358,6 @@
 				let endYear = parseInt(scheduleData[i].end.substring(0,4));
 				let endMonth = parseInt(scheduleData[i].end.substring(5,7));
 				let endDay = parseInt(scheduleData[i].end.substring(8,10));
-
 				// 이어와 몬스에 따라 리턴해서 불필요한 경우 포문이 계속 돌게함 
 				for(let j = 0; j < dateTags.length; j++){
 					
@@ -2752,7 +2736,6 @@
 		scheduleFormBtn.addEventListener("click", function (){
 			addGroupSchedule();
 		})
-
 		// 스케줄 추가 
 		// AJAX로 구현, 실행 후에 스케줄 재차 로딩
 		function addGroupSchedule(){
@@ -2855,7 +2838,6 @@
 			while(v.hasChildNodes()){
 				v.removeChild(v.firstChild);
 			}
-
 			for(let i = 0; i < Object.keys(jsons).length; i++){
 			
 				c = document.createElement("div");
@@ -3036,7 +3018,6 @@
  		// 투두리스트 모양을 그려줌 
 		function toDoList(){
 			createXHRTodolist();
-
 			XHRTodolist.onreadystatechange=function(){
 				if(XHRTodolist.readyState==4){
 		            if(XHRTodolist.status==200){
@@ -3200,7 +3181,6 @@
 				v.appendChild(c);
 			}
 		}
-
 		// 투두리스트를 추가하기 위한 폼 생성
 		function todolistAdd (){
 			let v;
@@ -3302,7 +3282,6 @@
 			// 아이콘 만들어지면 지울거
 			cc.innerHTML = "완료";
 			c.appendChild(cc);
-
 			
 			v.appendChild(c);
 			
@@ -3325,7 +3304,6 @@
 			XHRTodolist.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 			XHRTodolist.send(data);
 		}
-
 		function todolistAddBtn(){
 			let target = event.target;
 			let v = target.parentNode;
@@ -3486,7 +3464,6 @@
 			cc.setAttribute("type", "hidden");
 			cc.classList.add("groupDataMaster");
 			c.appendChild(cc);
-
 			cc = document.createElement("select");
 			cc.classList.add("groupDataSearchable");
 			ccc = document.createElement("option");
@@ -3499,7 +3476,6 @@
 			ccc.setAttribute("value", "able");
 			ccc.innerHTML = "공개";
 			cc.appendChild(ccc);
-
 			c.appendChild(cc);
 			
 			cc=document.createElement("div");
@@ -3637,7 +3613,6 @@
 				
 				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
 			}
-
 			XHRGroup.onreadystatechange=function(){
 				
 				if(XHRGroup.readyState==4){
@@ -3650,7 +3625,6 @@
 			XHRGroup.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
 			XHRGroup.send(json);
 		}
-
 		function addGroupMember(date){
 			
 			
@@ -3803,7 +3777,6 @@
 				let inputDay = parseInt(input.value.substring(6,8));
 				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
 			}
-
 			XHRGroup.onreadystatechange=function(){
 				
 				if(XHRGroup.readyState==4){
@@ -3860,7 +3833,6 @@
 				let inputDay = parseInt(input.value.substring(6,8));
 				date = getThisDay(inputYear, inputMonth, inputDay, 0, 0)
 			}
-
 			XHRGroup.onreadystatechange=function(){
 				
 				if(XHRGroup.readyState==4){
@@ -4130,7 +4102,6 @@
 	            v.appendChild(c);
             }//day formdate defined end
             else{
-
                	let yoil = getYoil(getToday());
            	 	let today=getToday();
             	let thisDayToday=true;
@@ -4348,7 +4319,6 @@
    	            cc.appendChild(ccc);
    	            c.appendChild(cc);
    	            v.appendChild(c);
-
             }//day form undefined or null date end
             return v;
 		}//createDayformElement(date) end
