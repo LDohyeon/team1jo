@@ -80,9 +80,7 @@ public class LoginServelt extends HttpServlet {
 		            {
 		            	//아직 정지날짜가 지나지 않았다면, 권한 4 유지
 		            	//댓글 쓰기, 글 쓰기 기능 막기
-		            	session.invalidate();
-		            	String alertt="정지 날짜("+susLastDay_dao+") 자정까지 로그인이 제한됩니다.";
-		            	url="login.jsp"; 
+		            	String alertt="정지 날짜("+susLastDay_dao+") 자정까지 글쓰기가 제한됩니다.";
 		    			session.setAttribute("loginMsg",alertt);
 		            }
 		        }
