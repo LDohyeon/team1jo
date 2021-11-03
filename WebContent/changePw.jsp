@@ -5,10 +5,12 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>비밀번호 수정 페이지</title>
+		<link rel="stylesheet" href="style.css">
 		<style>
 			body
 			{
 				background-color: #e2e2e2;
+				margin:0;
 			}
 		
 			#wrap
@@ -83,6 +85,7 @@
 			}
 		</style>
 	</head>
+	<jsp:include page="./header.jsp"/>
 	<body>
 		<div id="wrap">
 			<form name="update" method="post" action="changePw.do">
@@ -204,4 +207,5 @@
 			}
 		</script>
 	</body>
+	<jsp:include page="./footer.jsp"/>
 </html>

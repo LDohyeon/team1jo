@@ -7,6 +7,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>게시판</title>
+		<link rel="stylesheet" href="style.css">
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<link rel="stylesheet" href="style.css">
 		<style>
@@ -29,20 +30,6 @@
 				margin : 60px auto;		
 			}
 			
-			.search
-			{
-				background-color: #f1f1f1;
-				padding: 15px;
-				margin: 15px 0;
-			}
-			
-			#searchValue
-			{
-				width: 487px;
-				height: 28px;
-				padding: 5px;
-			}
-			
 			.button
 			{
 				background-color: #064998;
@@ -54,21 +41,6 @@
 				width: 60px;
 				height: 42px;
 				line-height: 42px;
-				display: inline-block;
-			}
-			
-			.writebutton
-			{
-    			background-color: #222;
-    			color: #fff;
-    			border: 1px solid #000;
-    			line-height: 40px;
-				text-align: center;
-				font-size: 14px;
-				
-				margin: 0 0 0 190px;
-				width: 60px;
-				height: 42px;
 				display: inline-block;
 			}
 			
@@ -177,19 +149,10 @@
 
 		</style>
 	</head>
+	<jsp:include page="./header.jsp"/>
 	<body>
 		<div class ="paragraphListWrap">
 			<h2 class="titleArea">게시판</h2>
-			<div class="search">
-				<form method="get" action="search.do" name="frm">
-					<input type="text" name="searchValue" id="searchValue">
-					<input type="hidden" name="startPage" value="1">
-					<input class="button nonInputSub" type="submit" value="검색" onclick="writeCheck()">
-					<c:if test="${loginUser.id!=null}">
-						<input class="writebutton" type="button" value="글쓰기" onclick="location.href='paragraphEditorWrite.do';">
-					</c:if>
-				</form>
-			</div>
 			<div class="spanWrap">
 				<span>
 					<span class="narrow th borderRight">번호</span>
@@ -270,6 +233,9 @@
 					</c:choose>
 				</c:forEach>
 			</div>
+			<c:if test="${loginUser.id!=null}">
+				<input class="blackSmallButton" type="button" value="글쓰기" onclick="location.href='suspension.do';">
+			</c:if>
 		</div>
 	</body>
 	<script>
@@ -286,4 +252,5 @@
 			location.href="search.do?searchValue="+text.replace('#','')+"&startPage=1";
 		}
 	</script>
+	<jsp:include page="./footer.jsp"/>
 </html>

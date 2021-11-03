@@ -14,6 +14,12 @@
 		<title>STATUS 200</title>
 		<link rel="stylesheet" href="style.css">
 		<style>
+		
+			/*임시 a태그 hover*/
+			a:hover
+			{
+				color:lightgray;
+			}
 			body
 			{
                 margin: 0;
@@ -216,7 +222,7 @@
 				</c:forEach>
 			</div>
 			
-			<input class="writebutton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
+			<input class="writebutton blackSmallButton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
 			
 		</div>
 		
@@ -228,9 +234,8 @@
 		<a href="leaveId.do">회원 탈퇴</a>
 		<a href="memberList.do?startPage=1">회원 게시판</a>
 		<a href="chartServlet.do">차트</a>
-		<a href="paragraphEditorWrite.do">에디터 작성</a>
+		<a href="suspension.do">에디터 작성</a>
 		<a href="paragraphList.do?startPage=1">게시판 확인</a>
-		<a href="suspension.do?">회원정지 날짜 계산하기</a>
 		
 		${loginUser.getId()}<!-- 로그인 잘 되는지 확인용 헤더가 없어서.. -->
 		${loginUser.getPw()}

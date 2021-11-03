@@ -1,24 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="EUC-KR">
-		<title>Insert title here</title>
-		<style>
-			footer{
-            	text-align: center;
-            	font-size: 0.6em;
-                padding: 20px;
-                background-color: #222;
-                color: #BEBEBE;
-            }
-		</style>
-	</head>
-	<body>
-		<footer>
-			╪╜©О╨о╨н╠Б╪З╠Ёю╟©Ь IOTю╤гуга╥н╠в╥║╧ж╟З фюга╥на╖ф╝ 1а╤<br>
-			а╤юЕ: юл╣╣гЖ / а╤©Ь: ╠Ха╬гЖ ╧за╓гЖ ╪╝аЖ╬ж ю╞а╕╧н ю╠го©╣
-		</footer>
-	</body>
-</html>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+
+<footer>
+	Л└°Л ╦К╤│К╤─Й╦╟Л┬═Й╣░Л°║Л⌡░ IOTЛ°╣М∙╘М■└К║°Й╥╦К·≤К╟█ЙЁ╪ М▄─М■└К║°Л═²М┼╦ 1Л║╟<br>
+	Л║╟Л·╔: Л²╢К▐└М≤└ / Л║╟Л⌡░: Й╧─Л╒┘М≤└ К╟∙Л═∙М≤└ Л└²Л╖─Л∙═ Л°═Л═°К╞╪ Л°╓М∙≤Л≤│
+</footer>
