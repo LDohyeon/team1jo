@@ -146,7 +146,7 @@
 				<c:forEach items="<%=list %>" var="list">
 					<span class="narrow borderRight">${list.getNum() }</span>
 					<span class="wide borderRight">
-						<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}</a>
+						<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}] ${list.getTitle()}</a>
 					
 						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
 							
@@ -167,7 +167,7 @@
 				</c:forEach>
 			</div>
 			<c:if test="${loginUser.id!=null}">
-				<input class="writebutton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
+				<input class="blackSmallButton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
 			</c:if>
 		</div>
 		
@@ -176,7 +176,7 @@
 		<a href="logout.jsp">로그아웃</a>
 		<a href="changePw.do">비밀번호 수정</a>
 		<a href="userInfo.do">회원정보 수정</a>
-		<a href="leaveId.do">회원 탈퇴</a>
+		<a href="leaveId.jsp">회원 탈퇴</a>
 		<a href="memberList.do?startPage=1">회원 게시판</a>
 		<a href="chartServlet.do">차트</a>
 		<a href="paragraphEditorWrite.do">에디터 작성</a>
@@ -189,9 +189,6 @@
 		${loginUser.getEmail()}
 		${loginUser.getAuthority()}
 		
-		<footer>
-			서울북부기술교육원 IOT융합프로그래밍과 팀프로젝트 1조<br>
-			조장: 이도현 / 조원: 김종현 박정현 석지애 유제민 윤하영
-		</footer>
+		<jsp:include page="footer.jsp"/>
 	</body>
 </html>

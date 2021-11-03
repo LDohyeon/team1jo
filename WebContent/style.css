@@ -13,6 +13,7 @@ a{
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	min-width : 860px;
+	background-color:white;
 }
 #headerIcon:after{
 	content: "";
@@ -166,117 +167,28 @@ a{
 	position:relative;
 }
 
-.wrap1{
-	width: 800px;
-	padding: 30px;
-	border: 2px solid lightgray;
-	margin: 250px auto;
-}
-
-.wrap2{
-	width: 700px;
-	padding: 5px;
-	border: 1px solid lightgray;
-	margin: 0px auto;
-}
-
-h1{
-	padding: 10px;
-	margin: 0 auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	text-align: center;
-	margin-right: 20px;
-}
-
-.registerSpan{
-	margin-right: 115px;
-}
-
-form div span{
-	padding: 10px;
-	text-align: left;
-	margin-right: 10px;
-	display: inline-block;
-	width: 80px;	
-}
-
-form div span input{
-	display: inline-block;
-	width: 140px;	
-}
-
-.registerIdCheck{
-	display: inline-block;
-	width: 120px;	
-	margin-left: 50px;
-}
-
-.registerIdCheckMsg{
-	display: inline-block;	
-	font-size: 13px;
-	margin: 0;
-	color: red;
-}
-
-.registerIdCheckMsg > input{
-	display: inline-block;
-	width: 200px;
-}
-	
-.registerMsg, .loginIdPw{
-	width: 300px;
-	padding-top: 0;
-	padding-left: 127px;
-	font-size: 13px;
-	color: red;
-}
-
-.loginMsg{
-	width: 300px;
-	padding-left: 10px;
-	font-size: 15px;
-	color: red;
-}
-
-.registerSubmit{
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.memberList{
-	border: 1px solid black;
-	padding: 20px;
-}
-
-.memberListSelect1{
-	margin-left: 30px;
-}
-
-.memberListSelect2{
-	width: 173px;
-}
-
-.memberListUpdate{
-	display: inline-block;
-	width: 445px;
-	text-align: right;
-}
-
-.memberList td {
-	border: 1px solid black;
-	padding: 5px;
-}
-
-.mListPage{
-	list-style: none;
-	padding-left: 0px;
-}
-.mListPage li{
-	float: left;
-	padding-left: 10px;
-}
-
-.stopDay{
-	display: none;
-}
+/* =====================================================
+ * ====================== 헤더 ==========================
+ * ===================================================== */
+ footer{
+            	text-align: center;
+            	font-size: 0.6em;
+                padding: 20px;
+                background-color:white;
+                color: #bebebe;
+            }
+            
+ .blackSmallButton
+			{
+    			background-color: #222;
+    			color: #fff;
+    			border: 1px solid #000;
+    			line-height: 30px;
+				text-align: center;
+				font-size: 10px;
+				
+				margin: 20px 0 0 790px;
+				width: 55px;
+				height: 30px;
+				display: inline-block;
+			}

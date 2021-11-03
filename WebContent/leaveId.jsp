@@ -4,16 +4,30 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>회원 탈퇴 페이지</title>
+		<link rel="stylesheet" href="style.css">
 		<style>
+			
+			html,
+			body
+			{
+				height:100%;
+			}
+		
 			body
 			{
 				background-color:#e2e2e2;
+				margin:0;
 			}
 		
 			#wrap
 			{
 				position: relative;
     			padding: 32px 51px 95px;
+    			height:65%;
+    			display:flex;
+    			align-items:center;
+    			justify-content:center;
+    			
 			}
 		
 			#wrap2
@@ -25,6 +39,7 @@
 				padding: 20px;
 				border: 5px solid #000;
 				border-style: double;
+				vertical-align: middle;
 			}
 		
 			.leaveIdP
@@ -78,6 +93,7 @@
 		</style>
 	</head>
 	<body>
+		<jsp:include page="./header.jsp"/>
 		<div id="wrap">
 			<form name="update" method="post" action="leaveId.do">
 				<div id="wrap2">
@@ -94,17 +110,18 @@
 				</div>
 			</form>
 		</div>
-		<script>
-			var checkbox=document.getElementById("check");
-			function check1()
-			{ 
-				if(checkbox.checked==false)
-				{
-					alert("안내사항을 동의해야 탈퇴가 가능합니다.");
-					return false;
-				}
-				return true;
-			}
-		</script>
 	</body>
+	<script>
+		var checkbox=document.getElementById("check");
+		function check1()
+		{ 
+			if(checkbox.checked==false)
+			{
+				alert("안내사항을 동의해야 탈퇴가 가능합니다.");
+				return false;
+			}
+			return true;
+		}
+	</script>
+	<jsp:include page="./footer.jsp"/>
 </html>

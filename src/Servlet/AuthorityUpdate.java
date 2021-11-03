@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 
 import DAO.MemberDAO;
 //import DTO.MemberDTO;
+import DTO.MemberDTO;
 
 @WebServlet("/AuthorityUpdate.do")
 public class AuthorityUpdate extends HttpServlet {
@@ -206,6 +207,13 @@ public class AuthorityUpdate extends HttpServlet {
 			//쿼리문으로 던지기
 			mDAO.updateSuspension(date, selAuIdValue);
 		}
+		
+		//session에 권한 수정해서 넣어주기
+		HttpSession session=request.getSession();
+		Object obj=session.getAttribute("loginUser");
+		MemberDTO m=(MemberDTO)obj;
+		MemberDTO mDTO = mDAO.loginMember(m.getId(),m.getPw());
+		session.setAttribute("loginUser", mDTO);
 		
 		//팝업으로 돌아가기
 		String val = "T";

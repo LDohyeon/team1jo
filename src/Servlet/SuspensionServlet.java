@@ -53,13 +53,18 @@ public class SuspensionServlet extends HttpServlet {
 	            {
 	            	//아직 정지날짜가 지나지 않았다면, 권한 4 유지
 	            	//댓글 쓰기, 글 쓰기 기능 막기
-	            	System.out.println("아직 정지날짜가 지나지 않았다.");
+	            	String alertt="정지 날짜("+susLastDay_dao+") 자정까지 글쓰기가 제한됩니다.";
+	            	System.out.println(alertt);
+	            	request.setAttribute("alertt", alertt);
 	            }
 	        }
 			catch (Exception e)
 			{
 				System.out.println("날짜 포맷 변경 중 오류 "+e);
 	        }
+			
+			RequestDispatcher dispatcher=request.getRequestDispatcher("editor.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 
