@@ -203,7 +203,21 @@
     			display: inline-block;
     			float: right;
 			}
-			.button2:hover
+			.button3
+			{
+			    height: 25px;
+			    line-height: 25px;
+			    text-align: center;
+			    margin: 5px;
+			    font-size: 10px;
+			    width: 44px;
+    			border: 1px solid #dbdadf;
+    			background-color: #f1f1f1;
+    			color: #000;
+    			
+    			display: inline-block;
+			}
+			.button2:hover, .button3:hover
 			{
 				background-color: #fff;
 			}
@@ -243,10 +257,15 @@
 			{
 				padding:0;
 			}
+			.smallText{
+				font-size: 10px;
+				color:gray;
+			}
 
         </style>
 	</head>
 	<body>
+	<jsp:include page="header.jsp"/>
 	<c:if test="${report!=null }">
 		<script>
 			alert("신고가 완료되었습니다.");
@@ -258,13 +277,9 @@
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		ParagraphDTO pDTO = pDAO.ParagraphContents(num);
 	%>
-		<div class="header">
-            header
-        </div>
-        
         <div class="bodys">
         	<h2>${pDTO.getTitle() }</h2>
-        	<p>작성자 ${pDTO.getId() } 작성시간 ${pDTO.getDatetime() } 조회수 ${pDTO.getHits() }</p>
+        	<p><strong>${pDTO.getId() }</strong> <span class="smallText">${pDTO.getDatetime() } 조회수 ${pDTO.getHits() }</span></p>
         	<c:set var="tag" value="${fn:split(pDTO.getTag(),'★') }"></c:set>
         	<c:forEach items="${tag }" var="tags">
         		<c:if test="${pDTO.getTag() == '' }">
@@ -318,18 +333,17 @@
 				
 			<c:forEach items="${clistSelect }" var="clistSelect">
 				<!--<span>댓글 고유 번호 : ${clistSelect.getNum() }</span>  -->
-				<span>작성 아이디 : ${clistSelect.getId() }</span>
-				<span>작성 시간 : ${clistSelect.getTime() }</span>
+				<span><strong>${clistSelect.getId() }</strong></span>
+				<span class="smallText">${clistSelect.getTime() }</span>
 				<!--<span>댓글 순서도 : ${clistSelect.getCommentCount()}</span>  -->
 				<c:if test="${loginUserId == clistSelect.getId() }">
-					<span onclick="cup(${clistSelect.getCommentCount()})">수정</span>
-					<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
-					<span class="button2" onclick="cup(${clistSelect.getCommentCount()})">수정</span>				
-					<a onclick="return confirm('정말 삭제하시겠습니까?')" class="button2" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>				
+						
+					<span class="button3" onclick="cup(${clistSelect.getCommentCount()})">수정</span>				
+					<a onclick="return confirm('정말 삭제하시겠습니까?')" class="button3" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>				
 				</c:if>
 				
 				<c:if test="${loginUserId== null }">
-					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
+					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button3">신고</button></a>
 				</c:if>
 				<c:if test="${loginUserId!= null }">
 					<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${clistSelect.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
@@ -488,10 +502,6 @@
 	        </form>
 
 		</div>
-		
-		<div class="footer">
-            footer
-        </div>
 
         <!-- 결제 창 판업 띄우기 -->
 		<div id="wrapPonup">
@@ -927,6 +937,7 @@
 				//이미지
 			</script>
 		</c:if>
+		<jsp:include page="footer.jsp"/>
 	</body>
 </html>
 
