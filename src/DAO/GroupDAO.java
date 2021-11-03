@@ -399,6 +399,7 @@ public class GroupDAO {
 	public List<GroupMemberDTO> selctInvite(String userKey) {
 		List<GroupMemberDTO> list= new ArrayList<GroupMemberDTO>();
 		String sql="select * from groupmember where id = ? and invite = 'notaccept'";
+		
 		GroupMemberDTO gmDTO = new GroupMemberDTO();
 		Connection conn = null;
 		PreparedStatement pstmt = null;

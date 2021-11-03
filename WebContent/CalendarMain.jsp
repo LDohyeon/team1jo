@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+    <!-- LoginUserKey: loginUserId -->
+<% 
+	// 유저키를 세션에서 가져옴
+	String userKey = null;
+
+	try{
+		userKey = "'"+session.getAttribute("loginUserId").toString()+"'"; 
+	}
+	catch(Exception e){
+		System.out.println("Session get Error: calendarMain.jsp: line 10: >>" +e);
+	}
+%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -21,7 +33,7 @@
 /* ====================================================================
  * ==== 기본 데이터 구성 확인 ===============================================
  * ====================================================================*/        
-		
+ 		userKey = <%=userKey%>
 		let calendar = document.getElementById("calendar");
    		
 		// DAY의 구성을 미리 정의함 
@@ -3420,6 +3432,7 @@
 		function checkFirstElement(){
 			let scheduleBox = document.getElementsByClassName("scheduleBox ");
 			let temp = 0; 
+			
 			for(let i = 0; i < scheduleBox.length; i++){
 				if(scheduleBox[i].classList.contains("firstElementSchedule")){
 					let p = scheduleBox[i].parentNode;
@@ -3446,10 +3459,13 @@
 			let monthBoxs = document.getElementsByClassName("monthBox");
 			
 			for(let i = 0; i < monthBoxs.length; i++){
+				
 				let hg = temp*22;
 				hg = hg+22;
 				monthBoxs[i].setAttribute("style", "height:"+hg+"px;");
 			}
+			
+			
 		}
 		
 		// 현재 스케줄의 Bar 길이를 확인
@@ -4419,11 +4435,12 @@
 			let v = target.parentNode;
 			let p = v.parentNode;
 			let flag = document.getElementsByClassName("groupAddFlag")[0];
-
+			let button = p.parentNode.getElementsByClassName("groupAdd")[0];
+			
 			if(flag.value=="true"){
 				flag.setAttribute("value", "false");
+				button.classList.remove("Xbutton");
 			}
-			console.log(p);
 			let num = v.getElementsByClassName("groupDataNum")[0].value;
 			let name = v.parentNode.getElementsByClassName("groupDataName")[0].value;
     		let memberlist = v.getElementsByClassName("groupDataMemebersListName");
@@ -4623,13 +4640,16 @@
 			let list = p.getElementsByClassName("groupDataMemberResult")[0];
 			let members = pp.getElementsByClassName("groupDataMembers");
 			let idArr = []; 
-			
-			console.log(json);
-			console.log(Object.keys(json));
-			
+		
 			for(let i = 0; i<members.length; i++){
-				let checkId = members[i].getElementsByClassName("groupDataMemebersListInputId")[0].value;
-				idArr.push(checkId);
+				console.log(members)
+				if (members.length>1){
+					let checkId = members[i].getElementsByClassName("groupDataMemebersListInputId")[0].value;
+					idArr.push(checkId);
+				}
+				else{
+					
+				}
 			}
 			while(list.hasChildNodes()){
 				list.removeChild(list.firstChild);

@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<!-- LoginUserKey: loginUserId -->
 <% 
 	// 유저키를 세션에서 가져옴
 	String userKey = null;
@@ -15,84 +14,6 @@
 		System.out.println("Session get Error: calendarMain.jsp: line 10: >>" +e);
 	}
 %>
-<script>
-	// 소켓 통신으로 알림 구현을 해보려는 블럭 
-	// 세션 데이터를 전역 변수로 할당하여 사용함 
-	let userKey = <%=userKey%>;
-		let alertHave = false; 
-		
-/* ====================================================================
- * ==== 알림 ===========================================================
- * ====================================================================*/  	
- 		
-	//Invite XHR 
-	var XHRInvite;
-	
-	function createXHRInvite(){
-		if(window.ActiveXObject){ 
-			XHRInvite=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		else if(window.XMLHttpRequest){
-			XHRInvite=new XMLHttpRequest();
-		}
-	}
-	
-	function checkInvite(){
-		createXHRInvite();
-		
-		XHRInvite.onreadystatechange=function(){
-			if(XHRInvite.readyState==4){
-	            if(XHRInvite.status==200){
-	            	let jsons = JSON.parse(XHRInvite.responseText, "text/json");
-	            	
-	            	if(jsons.alert==true){
-	            		alertHave = true;
-	            	}
-	            	else{
-	            		alertHave = false;
-	            	}
-	            	youHaveAlert();
-	            	console.log(XHRInvite);
-	            }
-			}
-		}
-		XHRInvite.open("POST", "checkInvite", true);
-		XHRInvite.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
-		XHRInvite.send("userKey="+userKey);
-	}
-	
-	// 소켓 사용을 위한 자바스크립트
-	// 추후에 jsp include에 사용되어 모든 페이지에 적용할 수도 있음
-	
-	let webSocket = new WebSocket("ws://localhost:8080/team1jo/socketAlert");
-	
-	webSocket.onopen=function(){
-		
-	};
-	
-	webSocket.onclose=function(){
-		
-	};
-	
-	webSocket.onmessage = function inviteAlert(message){
-		let data = message.data; 
-		console.log(message);
-		if(data==userKey){
-			alertHave = true;
-		}
-		youHaveAlert();
-	};
-	
-	function youHaveAlert(){
-		let profile = document.getElementById("headerProfileIcon");
-		if(alertHave==true){
-			profile.setAttribute("style", "background-image: url(./imgSource/profileIconAlert.png);")
-		}
-		else{
-			profile.removeAttribute("style");
-		}
-	}
-</script>
 <div class=headerArea>
 	<div id=headerBasicArea>
 		<div id=headerLogo></div>
@@ -131,15 +52,25 @@
 			</c:when>
 			<c:otherwise>
 				<div class="headerlist">안녕하세요, ${loginUser.getId()}님!</div>
-				<div class="headerlist"><a class="linkBlack" href="CalendarInviteList.jsp">초대보기</a></div>
+				<div class="headerlist"><a class="linkBlack" id="inviteGo" href="#" onclick="inviteSubmit()">초대보기</a></div>
 		        <div class="headerlist"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
 		        <div class="headerlist"><a class="linkBlack" href="#">마이페이지</a></div>
 			</c:otherwise>
 		</c:choose>
 	</div>
 	</div>
+	<div style="display: none;">
+		<form method="post" action="InviteList" id="headHiddenForm">
+			<input type="hidden" name="userKey" value="${loginUser.getId()}">
+		</form>
+	</div>
 </div>
 <script>	
+	let hiddenFormInvite = document.getElementById("headHiddenForm");
+
+	function inviteSubmit(){
+		hiddenFormInvite.submit();
+	}
 	let headerSearchBarStmt = false;
 	
 	// 헤더 서치 기능 동작 
@@ -186,4 +117,81 @@
 	headerProfileIcon.addEventListener("mouseout", mouseoutUlist);
 	headerUlist.addEventListener("mouseout", mouseoutUlist);
 	
+</script>
+<script>
+	// 소켓 통신으로 알림 구현을 해보려는 블럭 
+	// 세션 데이터를 전역 변수로 할당하여 사용함 
+	let userKey=<%=userKey%>;
+	let alertHave = false; 
+	
+/* ====================================================================
+ * ==== 알림 ===========================================================
+ * ====================================================================*/  	
+ 		
+	//Invite XHR 
+	var XHRInvite;
+	
+	function createXHRInvite(){
+		if(window.ActiveXObject){ 
+			XHRInvite=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		else if(window.XMLHttpRequest){
+			XHRInvite=new XMLHttpRequest();
+		}
+	}
+	
+	function checkInvite(){
+		createXHRInvite();
+		
+		XHRInvite.onreadystatechange=function(){
+			if(XHRInvite.readyState==4){
+	            if(XHRInvite.status==200){
+	            	let jsons = JSON.parse(XHRInvite.responseText, "text/json");
+	            	
+	            	if(jsons.alert==true){
+	            		alertHave = true;
+	            	}
+	            	else{
+	            		alertHave = false;
+	            	}
+	            	youHaveAlert();
+	            }
+			}
+		}
+		XHRInvite.open("POST", "checkInvite", true);
+		XHRInvite.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+		XHRInvite.send("userKey="+userKey);
+	}
+	
+	// 소켓 사용을 위한 자바스크립트
+	// 추후에 jsp include에 사용되어 모든 페이지에 적용할 수도 있음
+	
+	let webSocket = new WebSocket("ws://localhost:8080/team1jo/socketAlert");
+	
+	webSocket.onopen=function(){
+		
+	};
+	
+	webSocket.onclose=function(){
+		
+	};
+	
+	webSocket.onmessage = function inviteAlert(message){
+		let data = message.data; 
+		console.log(message);
+		if(data==userKey){
+			alertHave = true;
+		}
+		youHaveAlert();
+	};
+	checkInvite();
+	function youHaveAlert(){
+		let profile = document.getElementById("headerProfileIcon");
+		if(alertHave==true){
+			profile.setAttribute("style", "background-image: url(./imgSource/profileIconAlert.png);")
+		}
+		else{
+			profile.removeAttribute("style");
+		}
+	}
 </script>
