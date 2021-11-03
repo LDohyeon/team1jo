@@ -314,6 +314,9 @@
 			</div>
 
 			<c:choose>
+				<c:when test="${loginUser.getAuthority()==4 }">
+					<a onclick="alert('${loginMsg}')"><button type="button" class="button2">신고</button></a>
+				</c:when>
 				<c:when test="${loginUserId==null }">
 					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
 				</c:when>
