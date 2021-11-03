@@ -141,9 +141,13 @@
 				width:370px;
 		      	overflow:hidden;
 		      	text-overflow:ellipsis;
-		      	white-space:nowrap;
+		      	white-space:nowrap;S
 		      	overflow: hidden;
 		      	line-height:36px;
+		 	}
+		 	span
+		 	{
+		 		padding:0;
 		 	}
 		</style>
 	</head>
@@ -218,9 +222,17 @@
 					</c:choose>
 				</c:forEach>
 			</div>
-			<c:if test="${loginUser.id!=null}">
-				<input class="blackSmallButton" type="button" value="글쓰기" onclick="location.href='suspension.do';">
-			</c:if>
+			<c:choose>
+				<c:when test="${loginUser.getAuthority()==4 }">
+					<input class="blackSmallButton" type="button" value="글쓰기" onclick="alert(정지 되었음)">
+				</c:when>
+				<c:when test="${loginUser.getId()==null }">
+					
+				</c:when>
+				<c:otherwise>
+					<input class="blackSmallButton" type="button" value="글쓰기" onclick="location.href='suspension.do';">
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</body>
 	<script>

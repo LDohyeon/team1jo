@@ -239,6 +239,10 @@
 				display: inline-block;
 				border:0;
 			}
+			form div span
+			{
+				padding:0;
+			}
 
         </style>
 	</head>
@@ -293,7 +297,13 @@
 			 	</c:if>
 			</div>
 
-			<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
+			<c:if test="${loginUserId== null }">
+				<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
+			</c:if>
+			<c:if test="${loginUserId!=null }">
+				<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
+			</c:if>
+			
 			
 			<div>
 				<br>
@@ -314,9 +324,17 @@
 				<c:if test="${loginUserId == clistSelect.getId() }">
 					<span onclick="cup(${clistSelect.getCommentCount()})">수정</span>
 					<a onclick="return confirm('정말 삭제하시겠습니까?')" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
-					<span class="button2" onclick="cup(${clistSelect.getCommentCount()})">수정</span>
-					<a onclick="return confirm('정말 삭제하시겠습니까?')" class="button2" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>		
+					<span class="button2" onclick="cup(${clistSelect.getCommentCount()})">수정</span>				
+					<a onclick="return confirm('정말 삭제하시겠습니까?')" class="button2" href="commentDelete.do?num=${pDTO.getNum() }&&commentNum=${clistSelect.getNum() }"><span>삭제</span></a>				
 				</c:if>
+				
+				<c:if test="${loginUserId== null }">
+					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
+				</c:if>
+				<c:if test="${loginUserId!= null }">
+					<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${clistSelect.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
+				</c:if>			
+				
 				<div class="commentUpdate">
 					<form method="post" action="commentUpdate.do" class="frm" name="frm">
 			            <div>
@@ -335,8 +353,8 @@
 			                            <button class="divColor" type="button" onclick="document.execCommand('bold');">두껍게</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('Underline');">밑줄</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
-			                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${clistSelect.getCommentCount()}].value);">글자색</button>
-			                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(); document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${clistSelect.getCommentCount()}].value);">배경색</button>
+			                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${clistSelect.getCommentCount()}].value);">글자색</button>
+			                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${clistSelect.getCommentCount()}].value);">배경색</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
