@@ -111,6 +111,15 @@
 			}
 			.wide
 			{
+				text-align: left;
+				display: inline-block;
+				width: 371px;
+				padding: 10px;
+				float: left;
+				border-bottom: 1px solid #dbdadf;
+				height:36px;
+			}
+			.wideTitle{
 				text-align: center;
 				display: inline-block;
 				width: 371px;
@@ -167,7 +176,7 @@
 			<div class="spanWrap">
 				<span>
 					<span class="narrow th borderRight">번호</span>
-					<span class="wide th borderRight">제목</span>
+					<span class="wideTitle th borderRight txt_line2">제목</span>
 					<span class="narrow th borderRight">글쓴이</span>
 					<span class="medium th borderRight">날짜</span>
 					<span class="narrow th">조회수</span>
