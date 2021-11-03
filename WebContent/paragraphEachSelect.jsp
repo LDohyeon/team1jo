@@ -217,6 +217,7 @@
     			
     			display: inline-block;
 			}
+
 			.button2:hover, .button3:hover
 			{
 				background-color: #fff;
@@ -264,8 +265,8 @@
 
         </style>
 	</head>
+	<jsp:include page="./header.jsp"/>
 	<body>
-	<jsp:include page="header.jsp"/>
 	<c:if test="${report!=null }">
 		<script>
 			alert("신고가 완료되었습니다.");
@@ -343,11 +344,14 @@
 				</c:if>
 				
 				<c:if test="${loginUserId== null }">
-					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button3">신고</button></a>
+					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
 				</c:if>
 				<c:if test="${loginUserId!= null }">
 					<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${clistSelect.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
 				</c:if>			
+				<div>
+					<br>
+				</div>
 				
 				<div class="commentUpdate">
 					<form method="post" action="commentUpdate.do" class="frm" name="frm">
@@ -393,7 +397,6 @@
 			                    <div>
 			                    	<br>
 			                    </div>
-		          
 			                    <div class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${clistSelect.getComment()}</div>
 			                    
 			                    <input class="content" type="hidden" name="commentContent">
@@ -404,8 +407,14 @@
 			                    <input class="num" type="hidden" value="${pDTO.getNum() }" name="num">
 			            	 </div>
 			            	 
-			            	 <input class="button2"	type="submit" value="글쓰기" onclick="return writeCheck(${clistSelect.getCommentCount()})">
-							 <input class="button2" type="button" value="취소" onclick="cupCancle(${clistSelect.getCommentCount()})">
+			            	 <input class="button2" type="button" value="취소" onclick="cupCancle(${clistSelect.getCommentCount()})">
+			            	 <input class="button2"	type="submit" value="수정" onclick="return writeCheck(${clistSelect.getCommentCount()})">
+			            	 <div>
+			                    <br>
+			                 </div>
+			                 <div>
+			                    <br>
+			                 </div>
 						 	
 			            </div>
 		        	</form>
@@ -937,8 +946,8 @@
 				//이미지
 			</script>
 		</c:if>
-		<jsp:include page="footer.jsp"/>
 	</body>
+	<jsp:include page="./footer.jsp"/>
 </html>
 
 

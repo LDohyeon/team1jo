@@ -6,6 +6,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>에디터</title>
+		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="codeMirror/codemirror.css">
 		<script src="codeMirror/codemirror.js"></script>
 		<script src="codeMirror/xml.js"></script>
@@ -142,11 +143,7 @@
         </style>
 	</head>
 	<body>
-		<!--헤더 시작-->
-        <div class="header">
-            header
-        </div>
-        <!--헤더 종료-->
+		<jsp:include page="header.jsp"/>
         
         <!--컨텐츠 시작-->
         <div class="content">
@@ -232,11 +229,7 @@
         	<input id="imgTitle" type="hidden" name="imgTitle">
         </form>
         
-        <!--푸터 시작-->
-        <div class="footer">
-            footer
-        </div>
-        <!--푸터 종료-->
+        <jsp:include page="footer.jsp"/>
         
         
 		<!-- 결제 창 판업 띄우기 -->
