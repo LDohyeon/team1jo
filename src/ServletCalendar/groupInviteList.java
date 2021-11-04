@@ -12,20 +12,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import DAO.GroupDAO;
 import DTO.GroupMemberDTO;
+import DTO.MemberDTO;
 
 @WebServlet("/InviteList")
-public class InviteList extends HttpServlet {
+public class groupInviteList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
 		request.setCharacterEncoding("utf-8");
 		
-		String userKey = request.getParameter("userKey");
-		GroupDAO gDAO = new GroupDAO();
-		List<GroupMemberDTO> list = gDAO.selctInvite(userKey);
+		MemberDTO userKey;
+		List<GroupMemberDTO> list;
 		
-		request.setAttribute("list", list);
+		try {
+			userKey = (MemberDTO) request.getSession().getAttribute("loginUser");
+			GroupDAO gDAO = new GroupDAO();
+			
+			list = gDAO.selctInvite(userKey.getId());
+			request.setAttribute("list", list);
+		}
+		catch(Exception e) {
+			System.out.println("InviteList Servlet Error:: "+e);
+		}
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("CalendarInviteList.jsp");
 		dispatcher.forward(request, response);	

@@ -25,5 +25,7 @@ public class groupMemberInviteAccept extends HttpServlet {
 		GroupDAO gDAO = GroupDAO.getInstance();
 		
 		gDAO.inviteAccept(gmDTO);
+		
+		response.sendRedirect("http://localhost/team1jo/InviteList");
 	}
 }

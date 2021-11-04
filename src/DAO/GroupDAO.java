@@ -398,9 +398,8 @@ public class GroupDAO {
 	//
 	public List<GroupMemberDTO> selctInvite(String userKey) {
 		List<GroupMemberDTO> list= new ArrayList<GroupMemberDTO>();
-		String sql="select * from groupmember where id = ? and invite = 'notaccept'";
+		String sql="select groupmember.num, groupmember.id, groupmember.groupnum, groupdata.groupname, groupmember.invite from groupmember left join groupdata on groupdata.groupnum = groupmember.groupnum where groupmember.id = ? and groupmember.invite='notaccept'";
 		
-		GroupMemberDTO gmDTO = new GroupMemberDTO();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -413,10 +412,12 @@ public class GroupDAO {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+				GroupMemberDTO gmDTO = new GroupMemberDTO();
 				gmDTO.setGroupnum(rs.getString("groupnum"));
 				gmDTO.setId(rs.getString("id"));
 				gmDTO.setInvite(rs.getString("invite"));
 				gmDTO.setNum(rs.getString("num"));
+				gmDTO.setName(rs.getString("groupname"));
 				list.add(gmDTO);
 			}
 		}
