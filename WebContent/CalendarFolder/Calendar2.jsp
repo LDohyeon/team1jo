@@ -2471,6 +2471,7 @@
 			}
 		}
 		
+		
 		// 스케줄 박스 요소 제작
 		function createScheduleBox(scheduleData, dateTags){
 			let p;
@@ -4323,7 +4324,7 @@
             return v;
 		}//createDayformElement(date) end
 		
-		console.log("=====제민 작업중=====");
+		
 		//checkDate 와 스케줄을 비교. 종일에 해당되면 createAlldaySchedule(), 해당 일자에 시작 혹은 종료인 경우 createDaySchedule()을 통해 스케줄 구현.
 		function createDayScheduleElement(scheduleData){
 			
@@ -4518,178 +4519,272 @@
 			}//scheduleDate for 종료
 		}//createDayScheduleElement end
 		
-		/* 참고용 data
-		function createYearSchedule(scheduleData){
-			
-			let yearBoxBodys = document.getElementsByClassName("yearBoxBody");
-			console.log(scheduleData);
-			
-			for(let i = 0; i < scheduleData.length; i++){
-				let startYear = scheduleData[i].start.substring(0, 4);
-				let startMonth = scheduleData[i].start.substring(5, 7);
-				let startDay = scheduleData[i].start.substring(8, 10);
-				
-				let endYear = scheduleData[i].end.substring(0, 4);
-				let endMonth = scheduleData[i].end.substring(5, 7);
-				let endDay = scheduleData[i].end.substring(8, 10);
-				
-				for(let j = 0; j < yearBoxBodys.length; j++){
-					let yfd = yearBoxBodys[j].getElementsByClassName("dateTag")[0].value;
-					let yfdYear =  yfd.substring(0, 4);
-					let yfdMonth =  yfd.substring(4, 6);
-					let yfdDay =  yfd.substring(6, 8);
-					
-					if(startYear>yfdYear){
-						// 일정 시작 안함
-						// 건너감 
-					}
-					else if(startYear==yfdYear){
-						// 일정 시작을 했음 
-						if(endYear>yfdYear){
-							// 월 하고 날 찾고 그뒤로 다들어감 
-							if(startMonth>yfdMonth){
-								// 작동 안함 
-							}
-							else if(startMonth==yfdMonth){
-								// 년간폼이면 그냥 넣음 일을 비교해서
-								if(startDay>yfdDay){
-									// 안그림 
-								}
-								else if(startDay==yfdDay){
-									// 일정 시작 > 년도 끝까지 // 시간을 비교후 
-								}
-								else if(startDay<yfdDay){
-									// 일정 시작 > 년도 끝까지 // 종일 
-								}
-							}
-							else if(startMonth<yfdMonth){
-								// 시작 함 
-								// 다 그림 // 종일 
-							}
-						}
-						else if(endYear==yfdYear){
-							// 월하고 날을 비교 해서 구간을 정해야함 
-							if(startMonth>yfdMonth){
-								// 안함 // 시작 안함 
-							}
-							else if(startMonth==yfdMonth){
-								// 년간폼이면 그냥 넣음 일을 비교해서
-								if(endMonth>yfdMonth){
-									// 전체 그림 > 일간은 종일 
-									if(startDay>yfdDay){
-										// 시작 안함 
-									}
-									else if(startDay==yfdDay){
-										// 시작 함 > 월 끝 // 시작 날짜 시간 비교 
-									}
-									else if(startDay<yfdDay){
-										// 시작함 > 월 끝 // 종일 
-									}
-								}
-								else if(endMonth==yfdMonth){
-									// 시작날짜, 끝 날짜를 비교해서 구간을 설정 
-									if(startDay>yfdDay){
-										// 시작 안함 
-									}
-									else if(startDay==yfdDay){
-										// 시작 함 > 끝 날짜 탐색 // 시간봐야함 
-										if(endDay>yfdDay){
-											// 그림  //
-										}
-										else if(endDay==yfdDay){
-											// 그림
-											
-										}
-										else if(endDay<yfdDay){
-											// 안그림 > 끝난 일정 
-										}
-									}
-									else if(startDay<yfdDay){
-										// 시작함 > 끝나는 날짜까지 가는중 
-										if(endDay>yfdDay){
-											// 그림 
-										}
-										else if(endDay==yfdDay){
-											// 그림
-											
-										}
-										else if(endDay<yfdDay){
-											// 안그림 > 끝난 일정 
-										}
-									}
-								}
-								else if(endMonth<yfdMonth){
-									// 일정이 끝남 
-								}
-							}
-							else if(startMonth<yfdMonth){
-								// 일을 비교하고 구간 
-								if(endMonth>yfdMonth){
-									// 전체 그림 	
-								}
-								else if(endMonth==yfdMonth){
-									// 날짜비교> 언제 끝나는지 찾음 
-									if(endDay>yfdDay){
-										// 그림 
-									}
-									else if(endDay==yfdDay){
-										// 그림
-									}
-									else if(endDay<yfdDay){
-										// 안그림 > 끝난 일정 
-									}
-								}
-								else if(endMonth<yfdMonth){
-									// 일정이 끝남 
-								}
-							}
-						}
-						else if(endYear<yfdYear){
-							// 불가능한 경우 
-						}
-					}
-					else if(startYear<yfdYear){
-						// 일정 시작을 했음 
-						if(endYear>yfdYear){
-							// 전체 들어감 (년도에 한해서)
-						}
-						else if(endYear==yfdYear){
-							// 뭘 하고 날짜 비교해서 끝나는 구간 설정 
-							if(endMonth>yfdMonth){
-								// 전체 
-							}
-							else if(endMonth==yfdMonth){
-									// 날짜 비교 
-								if(endDay>yfdDay){
-									// 그려야 함 
-								}
-								else if(endDay==yfdDay){
-									// 그려야 함/ 끝나는 시점
-								}
-								else if(endDay<yfdDay){
-									// 안그림 
-								}
-							}
-							else if(endMonth<yfdMonth){
-									// 일정이 끝남 
-							}
-						}
-						else if(endYear<yfdYear){
-							// 이미 끝난 일정 // 동작 안함 
-						}
-					}
-				}
-			}
-		}*/
-		
+		console.log("=====제민 작업중=====");
 		// 종일 스케줄 모양 구현.
-		function createAlldaySchedule(){
+		function createAlldaySchedule(scheduleData){
+			
+			// 갯수에 따라 .alldaySchedule/ .scheduleTimeBox의 높이 값을 바꿔야함.
+			// alldaySchedule은 ScheduleData를 매개변수로 받아서 실행해야되는 날짜에 alldaySchdule div에 들어감.
+			// 종료시점이 day 내에서 바뀌지 않음. ==> 추가 매개변수가 필요할까..?
+					
+			let alldaySchedule = document.getElementsByClassName("alldaySchedule")[0];
+			
+			let v;
+			let c;
+			
+			v=document.createElement("div");
+			v.classList.add("alldayScheduleBox");
+			
+			c.document.createElement("span"); // sceduleData의 값을 넣을 span
+			c.classList.add("scheduleInfos"); // class명 month폼과 통일. 내부 data input도 통일. css문제로 필요시 변경.
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupNum"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.groupnum);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupName"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.groupname);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupColor"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.groupcolor);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("modifier"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.modifier);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleNum"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.num);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleTitle"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.title);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleStart"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.start);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleEnd"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.end);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleContent"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.content);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleWriter"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.writer);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleColor"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.color);
+			
+			c.appendChild(cc); // scheduleInfos end
+			v.appendChild(c);  // alldayScheduleBox end
+			
+			alldaySchedule.appendChild(v);
+			
+			/*alldayScheduleBox가 여러개일때 처리 아직 미구현.*/
 			
 		}//createAlldaySchedule end
 		
+		console.log(scheduleData);
+		
 		// 일일 스케줄 모양 구현.
-		function createDaySchedule(){
+		function createDaySchedule(scheduleData, daySchedule){
 			
-		}//createDaySchedule end
+			let p;
+			
+			p=daySchedule.parentNode;
+			
+			let thisTime = daySchedule.getElementsByClassName("dataTag")[0].value;
+			let thisTimeHour = thisTime.substring(9, 11);
+			let thisTimeMin = thisTime.substring(12);
+			let endTime = scheduleData.end
+			let endTimeHour; // substring값은 확인 필요
+			let endTimeMin;  // substring값은 확인 필요
+			
+			// ScheduleBox
+			// {그리기 시작하는 시간값 - 스케줄이 끝나는 시간값 x4 (1 hour가 4칸을 가지므로)} + {그리기 시작하는 분값 - 스케줄이 끝나는 분값/15(15분당 1칸이므로)}
+			
+			let boxHeight = 4*(parseInt(endTimeHour)-parseInt(thisTimeHour))+(parseInt(endTimeMin)-parseInt(thisTimeMin))/15
+			
+			let v;
+			let c;
+			let cc;
+			
+			v = document.createElement("div");
+			v.classList.add("dayScheduleBox");
+			v.style.height=boxHeight; // 이렇게 해도될까...?
+			
+			c = document.createElement("span");
+			c.classList.add("scheduleInfos");
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupNum"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.groupnum);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupName"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.groupname);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupColor"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.groupcolor);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("modifier"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.modifier);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleNum"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.num);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleTitle"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.title);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleStart"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.start);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleEnd"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.end);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleContent"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.content);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleWriter"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.writer);
+			
+			c.appendChild(cc);
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("scheduleColor"); 
+			cc.setAttribute("type", "text");
+			cc.setAttribute("value", scheduleData.color);
+			
+			c.appendChild(cc);
+			v.appendChild(c);
+			
+			//	자신이 몇번째 schedule인지에 따라 left 위치값을 바꿔줘야함. schedule.style.left
+			//	다 그린 후에 dayScheduleBox 를 getElementByClassName 으로 묶은 변수를 만들고 해당 변수의 길이만큼 for문을 돌면서 몇번째인지에 따라 left값을 바꾸는 방식은 어떨까...
+			//	scheduleBoxMarginLeft()로 설정함.
+			
+			//	daySchedule==dataTags
+			//	daySchedule.parentNode(p) == dayScheduleCheck[15분 단위 div] ==> 여기서 scheduleBox를 appendChild한다.
+			//	dayScheduleCheck(p).parentNode(pp) == daySchedule[1시간 단위 div]
+		}
+		//createDaySchedule end
+		
+		//scheduleBox의 left값 처리. DayForm이 그려질 때 마다 실행.
+		function scheduleBoxMarginLeft(){
+			let scheduleBoxes = document.getElementsByClassName("dayScheduleBox");
+			// 이렇게 처리가 될까...
+			for(let i = 0; i<scheduleBoxes.length; i++){
+				scheduleBoxes[i].style.marginLeft= (i*40)+10; // *40은 임의 값. 세부조정가능. 
+			}
+		}//scheduleBoxMarginLeft end
+		
+		
+		//.alldaySchedule div와 .scheduleTimeBox div의 높이값 처리 dayForm이 그려질 때 마다 실행.
+		function alldayScheduleHeight(){
+			// .alldaySchedule div와 .scheduleTimeBox div의 높이값을 alldaySchedule의 갯수에 따라 조정.
+			let alldaySchedule = document.getElementsByClassName("alldaySchedule")[0];
+			let scheduleTimeBox = document.getElementsByClassName("scheduleTimeBox")[0];
+			let alldayScheduleBoxes = document.getElementsByClassName("alldayScheduleBox");
+			
+			let divHeight = (alldayScheduleBoxes.length)*30; // *30은 임의값. alldayScheduleBox의 height와 margin값에 따라 바꿔서 적용해줘야함.
+			
+			alldaySchedule.style.height = divHeight;
+			scheduleTimeBox.style.height = divHeight;
+		}// alldayScheduleHeight end
 	</script>
 </html>
