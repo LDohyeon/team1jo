@@ -216,21 +216,108 @@
 				</c:forEach>
 			</div>
 			<div class="pageNum">
-				<c:forEach begin="1" end="${ nOfPages}" var="i">
-					<c:choose>
-						<c:when test="${StartPage eq i}">
-							<a>${i}(현재)</a>
-						</c:when>
-						<c:otherwise>
-							<c:if test="${searchFlag==0 }">
-								<a href="paragraphList.do?startPage=${i}">${i}</a>
-							</c:if>
-							<c:if test="${searchFlag==1 }">
-								<a href="search.do?searchValue=${searchValue}&startPage=${i}">${i}</a>
-							</c:if>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
+				<c:choose>
+					<c:when test="${StartPage -10 <= 0}">
+						<a href="paragraphList.do?startPage=1">&#60;&#60;</a>
+					</c:when>
+					<c:otherwise>
+						<a href="paragraphList.do?startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${StartPage == 1}">
+						<a href="paragraphList.do?startPage=1">&#60;</a>
+					</c:when>
+					<c:otherwise>
+						<a href="paragraphList.do?startPage=${StartPage-1 }">&#60;</a>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${pageBlock==1 && pageBlock+9 >= nOfPages}">
+						<c:forEach begin="${pageBlock }" end="${nOfPages}" var="i">
+							<c:choose>
+								<c:when test="${StartPage eq i}">
+									<a><strong>${i}</strong></a>
+								</c:when>
+								<c:otherwise>
+									<c:if test="${searchFlag==0 }">
+										<a href="paragraphList.do?startPage=${i}">${i}</a>
+									</c:if>
+									<c:if test="${searchFlag==1 }">
+										<a href="search.do?searchValue=${searchValue}&startPage=${i}">${i}</a>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</c:when>
+					<c:when test="${pageBlock==1 && pageBlock+9 < nOfPages}">
+						<c:forEach begin="${pageBlock }" end="${pageBlock+9}" var="i">
+							<c:choose>
+								<c:when test="${StartPage eq i}">
+									<a><strong>${i}</strong></a>
+								</c:when>
+								<c:otherwise>
+									<c:if test="${searchFlag==0 }">
+										<a href="paragraphList.do?startPage=${i}">${i}</a>
+									</c:if>
+									<c:if test="${searchFlag==1 }">
+										<a href="search.do?searchValue=${searchValue}&startPage=${i}">${i}</a>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</c:when>
+					<c:when test="${pageBlock>=2 && pageBlock*10 >= nOfPages}">
+						<c:forEach begin="${pageBlock*10-9 }" end="${nOfPages}" var="i">
+							<c:choose>
+								<c:when test="${StartPage eq i}">
+									<a><strong>${i}</strong></a>
+								</c:when>
+								<c:otherwise>
+									<c:if test="${searchFlag==0 }">
+										<a href="paragraphList.do?startPage=${i}">${i}</a>
+									</c:if>
+									<c:if test="${searchFlag==1 }">
+										<a href="search.do?searchValue=${searchValue}&startPage=${i}">${i}</a>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</c:when>
+					<c:when test="${pageBlock>=2 && pageBlock*10 < nOfPages}">
+						<c:forEach begin="${pageBlock*10-9 }" end="${pageBlock*10}" var="i">
+							<c:choose>
+								<c:when test="${StartPage eq i}">
+									<a><strong>${i}</strong></a>
+								</c:when>
+								<c:otherwise>
+									<c:if test="${searchFlag==0 }">
+										<a href="paragraphList.do?startPage=${i}">${i}</a>
+									</c:if>
+									<c:if test="${searchFlag==1 }">
+										<a href="search.do?searchValue=${searchValue}&startPage=${i}">${i}</a>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${StartPage == nOfPages}">
+						<a href="paragraphList.do?startPage=${nOfPages }">&#62;</a>
+					</c:when>
+					<c:otherwise>
+						<a href="paragraphList.do?startPage=${StartPage+1 }">&#62;</a>
+					</c:otherwise>
+				</c:choose>
+				<c:choose>
+					<c:when test="${StartPage +10 > nOfPages}">
+						<a href="paragraphList.do?startPage=${nOfPages }">&#62;&#62;</a>
+					</c:when>
+					<c:otherwise>
+						<a href="paragraphList.do?startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<c:choose>
 				<c:when test="${loginUser.getAuthority()==4 }">
