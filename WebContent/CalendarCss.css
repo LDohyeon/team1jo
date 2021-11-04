@@ -44,6 +44,15 @@
     -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
     transform: rotate(45deg);
 }
+.topBoderCenter{
+	border-top: 2px solid rgb(255,255,255);
+	padding-top: 4px;
+}
+.titleBlock{
+	padding-left: 5px;
+	font-size: 1vw;
+	margin-top: 20px;
+}
 /* =====================================================
  * === 켈린더 헤더 ========================================
  * ===================================================== */
@@ -539,6 +548,7 @@
 	background-color: rgb(245,245,245);
 	margin-bottom: 10px;
 	margin-top: 10px;
+	font-size: 0.85em;
 }
 
 .groupDataColor{
@@ -583,16 +593,13 @@
 	min-height: 25px;
 	display: block;
 	border: 0;
+	margin-top: 10px;
 	margin-bottom: 10px;
-	padding-top: 5px;
-	padding-bottom: 5px;
 	padding-left: 5px;
 	background-color: rgb(245,245,245);
-	margin-bottom: 10px;
-	margin-top: 10px;
 }
 .groupDataMemebersListName{
-	margin-top: 6px;
+	margin-top: 5px;
 	width: 50%;
 	min-height: 26px;
 	line-height: 26px;
@@ -601,36 +608,54 @@
 	float: left;
 	font-size: 0.85em;
 	text-overflow: ellipsis;
+	margin-bottom: 5px;
 }
+
 .groupDataMemebersListNameDummy{
 	width: 50%;
-	margin-top: 6px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 	display: block;
 	min-height: 26px;
 	line-height: 26px;
 	float: left;
 }
+.groupDataMembersList{
+	width: calc(100% - 10px);
+	font-size: 0.9em;
+	list-style-type: disc;
+	padding-left: 5px;
+	margin-right: 10px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	content:"";
+}
+
+.groupDataMembersList::after{
+	content: "";
+	display: block;
+	clear: both;
+}
 .groupDataMembersListFixModify{
-	width: calc(50% - 7px);
-	margin-top: 2px;
-	min-height: 32px;
-	line-height: 32px;
+	width: 50%;
+	margin-bottom: 5px;
+	min-height: 24px;
+	line-height:24px;
 	display: block;
 	border-radius: 10px;
 	text-align: left;
 	font-size: 0.85em;
 	float: left;
 	background-color: rgb(245,245,245);
-	margin-right: 4px;
 }
 .groupDataMembersListFixModify:hover{
 	color: #6a8518;
 }
 .groupDataMembersListFixDelete{
-	width: calc(50% - 7px);
-	min-height: 32px;
-	margin-top: 2px;
-	line-height: 32px;
+	width: 50%;
+	min-height: 24px;
+	margin-bottom: 5px;
+	line-height: 24px;
 	display: block;
 	border-radius: 10px;
 	text-align: left;
@@ -650,7 +675,6 @@
 	min-width: calc(50% - 5px);
 	min-height: 32px;
 	line-height: 32px;
-	margin-right: 5px;
 	margin-bottom: 10px;
 	margin-top: 10px;
 	display: block;
@@ -658,6 +682,7 @@
 	border: 0;
 	background-color: rgb(245,245,245);
 	border-radius: 10px;
+	font-size: 0.85em;
 }
 .groupDataModifierListTitle>groupDataModifierListName:first-child{
 	margin-top: 10px;
@@ -685,19 +710,34 @@
 .groupDataModifierList{
 	font-size: 0.9em;
 }
-.groupDataModifierListName{
-	font-size: 0.9em;
+.groupNodifierBlock{
 	width: calc(100% - 10px);
 	min-height: 25px;
 	line-height: 25px;
 	display: block;
+	margin-top: 10px;
 	border: 0;
-	padding-top: 5px;
-	padding-bottom: 5px;
 	padding-left: 5px;
 	background-color: rgb(245,245,245);
 }
-
+.groupDataModifierListName{
+	font-size: 0.9em;
+	min-height: 25px;
+	line-height: 25px;
+	display: block;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border: 0;
+	margin-left: 5px;
+	margin-right: 5px;
+	
+}
+.groupNodifierBlock>.groupDataModifierListName:last-child{
+	padding-bottom: 10px;
+}
+.groupNodifierBlock>.groupDataModifierListName:first-child{
+	padding-top: 10px;
+}
 /* =====================================================
  * === 스케줄 추가 폼 ======================================
  * ===================================================== */
@@ -1152,7 +1192,7 @@
 	line-height: 35px;
 	border-radius: 2px;
 	background-color: #81c147;
-	
+	font-size: 0.85em;
 }
 .groupDataName{
 	width: calc(100% - 74px);
@@ -1280,14 +1320,6 @@
 	background-color: white;
 	width: 100%;
 }
-.groupDataModifierListTitle{
-	padding-left: 5px;
-	font-size: 0.9em;
-}
-.groupDataMembersListTitle{
-	padding-left: 5px;
-	font-size: 0.9em;
-}
 .groupDataDelBtn{
 	min-width: calc(50% - 5px);
 	min-height: 32px;
@@ -1300,6 +1332,7 @@
 	border: 0;
 	background-color: rgb(245,245,245);
 	border-radius: 10px;
+	font-size: 0.85em;
 }
 .groupDataDelBtn:hover{
 	background-color: #ff3409;
@@ -1308,6 +1341,11 @@
 	background-color: rgb(235,235,235);
 }
 
+.groupDataMembersList::after{
+	content:"";
+	display: block;
+	clear:both;
+}
 
 .toDoListContent{
 	width: calc(100% - 6px);
@@ -1352,7 +1390,7 @@
 	opacity: 0.6;
 	text-decoration:line-through;
 }
-.SchedulInfoArea{
+.schedulInfoArea{
 	margin-top: 10px;
 	border-radius: 5px;
 	width: 57%;
@@ -1365,42 +1403,62 @@
 	max-width: 484.5px;
 	border: 1px solid lightgray;
 	display: none;
+	
 }
-
-.SchedulInfoQuit{
-	min-height: 26px;
-	border-radius: 8px;
+.schedasd{}
+.schedulInfoQuit{
+	height: 25px;
+	width: 25px;
+	text-align: center;
+	border-radius: 12.5px;
 	border: 1px solid rgba(235,235,235);
 	margin: 0 auto;
 	margin-left: 10px;
 	margin-right: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 	line-height: 26px;
 	font-weight: 500;
 	background-color: rgba(235,235,235);
+	float: right;
 }
-.SchedulInfoFix{
-	min-width: 35px;
-	margin-left: 2px;
+.schedulInfoFix{
+	height: 25px;
+	width: 25px;
+	border-radius: 12.5px;
+	margin-left: 3px;
+	margin-right: 10px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	background-image: url(./imgSource/fix.png);
 	background-repeat: no-repeat;
-	background-size: 30px 30px;
+	background-size: 20px 20px;
 	background-position: center;
 	border-radius: 2px;
+	float: right;
 }
-.SchedulInfoDelete{
-	min-width: 35px;
-	margin-left: 2px;
+.schedulInfoFix:hover{
+	background-color: rgba(235,235,235);
+}
+.schedulInfoDelete{
+	height: 25px;
+	width: 25px;
+	border-radius: 12.5px;
+	margin-left: 3px;
+	margin-right: 10px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	background-image: url(./imgSource/TodolistTrash.png);
 	background-repeat: no-repeat;
-	background-size: 30px 30px;
+	background-size: 20px 20px;
 	background-position: center;
 	border-radius: 2px;
+	float: right;
 }
-.SchedulInfoTitle{
+.schedulInfoDelete:hover{
+	background-color: rgba(235,235,235);
+}
+.schedulInfoTitle{
 	min-width: 279.5px;
 	min-height: 30px;
 	margin-top: 10px;
@@ -1410,7 +1468,7 @@
 	background-color: rgb(245,245,245);
 	padding-left: 5px;
 }
-.SchedulInfoColorBox{
+.schedulInfoColorBox{
 	min-width: 50px;
 	min-height: 30px;
 	margin-left:5px;

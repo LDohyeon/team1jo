@@ -16,14 +16,12 @@ public class groupMemberInviteDenied extends HttpServlet {
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		
 		String num = request.getParameter("num");
 		GroupMemberDTO gmDTO = new GroupMemberDTO();
-		
-		gmDTO.setNum(num);
-		
+		gmDTO.setNum(num);	
 		GroupDAO gDAO = GroupDAO.getInstance();
-		
 		gDAO.inviteDenied(gmDTO);
+		
+		response.sendRedirect("http://localhost/team1jo/InviteList");
 	}
 }

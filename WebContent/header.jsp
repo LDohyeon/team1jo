@@ -3,17 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<% 
-	// 유저키를 세션에서 가져옴
-	String userKey = null;
-
-	try{
-		userKey = "'"+session.getAttribute("loginUserId").toString()+"'"; 
-	}
-	catch(Exception e){
-		System.out.println("Session get Error: calendarMain.jsp: line 10: >>" +e);
-	}
-%>
 <div class=headerArea>
 	<div id=headerBasicArea>
 		<div id=headerLogo></div>
@@ -28,7 +17,7 @@
 	</div>
 	<div id=headerSearchArea>
 		<div id="headerSearch">
-			<form method="get" action="search.do" name="frm" id="headerForm">
+			<form method="get" action="search.do" name="formHeader" id="headerForm">
 				<input type="text" name="searchValue" id="searchValue">
 				<input type="hidden" name="startPage" value="1">
 				<input type="submit" value="" onclick="writeCheck()" id="searchValueBtn">
@@ -52,7 +41,7 @@
 			</c:when>
 			<c:otherwise>
 				<div class="headerlist">안녕하세요, ${loginUser.getId()}님!</div>
-				<div class="headerlist"><a class="linkBlack" id="inviteGo" href="#" onclick="inviteSubmit()">초대보기</a></div>
+				<div class="headerlist"><a class="linkBlack" id="inviteGo" href="InviteList">초대보기</a></div>
 		        <div class="headerlist"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
 		        <div class="headerlist"><a class="linkBlack" href="#">마이페이지</a></div>
 			</c:otherwise>
@@ -121,7 +110,7 @@
 <script>
 	// 소켓 통신으로 알림 구현을 해보려는 블럭 
 	// 세션 데이터를 전역 변수로 할당하여 사용함 
-	let userKey=<%=userKey%>;
+	let userKey = "${loginUser.getId()}+";
 	let alertHave = false; 
 	
 /* ====================================================================
