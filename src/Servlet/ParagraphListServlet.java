@@ -18,7 +18,7 @@ public class ParagraphListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		int StartPage = Integer.parseInt(request.getParameter("startPage"));
-		int lastPage = 1;
+		int lastPage = 20;
 
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		
