@@ -3,6 +3,7 @@
 /* =====================================================
  * ====================== 헤더 ==========================
  * ===================================================== */
+
 a{
   text-decoration-line: none;
   color: black;
@@ -13,7 +14,6 @@ a{
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	min-width : 860px;
-	background-color:white;
 }
 #headerIcon:after{
 	content: "";
@@ -168,27 +168,13 @@ a{
 }
 
 /* =====================================================
- * ====================== 헤더 ==========================
+ * ====================== 푸터 ==========================
  * ===================================================== */
- footer{
-            	text-align: center;
-            	font-size: 0.6em;
-                padding: 20px;
-                background-color:white;
-                color: #bebebe;
-            }
-            
- .blackSmallButton
-			{
-    			background-color: #222;
-    			color: #fff;
-    			border: 1px solid #000;
-    			line-height: 30px;
-				text-align: center;
-				font-size: 10px;
-				
-				margin: 20px 0 0 790px;
-				width: 55px;
-				height: 30px;
-				display: inline-block;
-			}
+
+footer{
+	text-align: center;
+	font-size: 0.6em;
+ 	padding: 20px;
+   	background-color: white;
+   	color: #BEBEBE;
+}

@@ -78,8 +78,6 @@
 	
 	function mouseoverUlist(){
 		headerUlist.setAttribute("style", "display:block");
-		
-		let headerBlackArea = document.getElementById()
 	}
 	
 	function mouseoutUlist(){

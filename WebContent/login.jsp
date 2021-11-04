@@ -5,31 +5,36 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>로그인 페이지</title>
+		<link rel="stylesheet" href="style.css">
 		<style>
+			.wrap{
+				margin:30px 0px 100px 0px;
+				align-items:center;
+				display:flex;
+				justify-content:center;
+			}
 			.loginWrap{
-				width:660px;
-				margin:0px auto;
+				width:546px; 
 				border:1px solid black;
-				margin-top:260px;
+				padding:15px 0px;
 			}
 			.loginForm{ 
-				width:600px; 
 				background:#f1f1f1;
 			}
 			.loginForm div{
-				padding: 20px 30px;
+				padding:20px 30px;
 			}
-			.loginForm h1{
-				margin-left:92px; 
+			.loginForm .LoginH1{ 
 				margin-bottom:10px; 
-				font-size: 40px;
-				padding-top: 10px;
+				font-size:40px;
+				padding-top:10px;
+				text-align:center;
 			}
 			.loginForm div span{
 				display:inline-block; 
-				width:200px; 
+				width:150px; 
 				text-align:center; 
-				font-size: 17px;
+				font-size:17px;
 			}
 			.loginInput{
 				margin:0; 
@@ -37,23 +42,30 @@
 				line-height:40px; 
 				font-size:15px; 
 				border:1px solid #dbdadf;
+			}
+			.button
+			{
+				background-color:#064998;
+				color:#fff;
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				margin:5px 70px;
+				font-size:15px;
+				width:330px;
+			}
+			.button:hover
+			{
+				background-color:#005cc3;
+			}
+			.buttonSub
+			{
+				padding:0;
+			    border-width:0;
+			    border-style:none;
+			    border-color:#fff;
+			    font-family:inherit;
 			}	
-			.blueButton{ 
-				display:block;
-				width:660px;
-				height:50px; 
-				color:#fff; 
-				background:#152aa1; 
-				font-size:16px;		
-			}
-			.grayButton { 
-				display:block;
-				width:660px;
-				height:50px; 
-				color:#fff; 
-				background:#5f5f61; 
-				font-size:16px;	
-			}
 			.loginIdPw{
 				display:inline-block;
 				width:200px;
@@ -62,48 +74,51 @@
 				padding-left:210px;
 			}
 			.loginMsg{
-				width: 320px;
 				color:#152aa1;
-				margin-left:65px;
+				text-align:center;
 			}	
 		</style>
 	</head>
 	<body>
+		<jsp:include page="./header.jsp"></jsp:include>
 		<%
 			String loginMsg = (String)request.getAttribute("loginMsg");
 		%>
-		
-		<div class="loginWrap">
+		<div class="wrap">
 			<form name="login" method="post" action="login.do" class="loginForm">
-				<div class="loginForm">
-					<h1>로그인</h1>
-					<%
-						if(loginMsg != null){
-					%>
-							<div class="loginMsg"><%=loginMsg %>
-							</div>
-					<%
-						}
-					%>
-					<div>
-						<span>아이디</span>
-						<span>
-							<input type="text" name="id" class="loginInput">
-						</span>
-						<span class="loginIdPw"></span>
-					</div>
-					<div>
-						<span>비밀번호</span>
-						<span>
-							<input type="password" name="pw" class="loginInput">
-						</span>
-						<span class="loginIdPw"></span>
-					</div>
+				<div class="loginWrap">
+					<div class="loginForm">
+						<h1 class="LoginH1">로그인</h1>
+						<%
+							if(loginMsg != null){
+						%>
+								<div class="loginMsg"><%=loginMsg %>
+								</div>
+						<%
+							}
+						%>
+						<div>
+							<span>아이디</span>
+							<span>
+								<input type="text" name="id" class="loginInput">
+							</span>
+							<span class="loginIdPw"></span>
+						</div>
+						<div>
+							<span>비밀번호</span>
+							<span>
+								<input type="password" name="pw" class="loginInput">
+							</span>
+							<span class="loginIdPw"></span>
+						</div>
+						<input class="button buttonSub" type="button" value="로그인" onclick="return loginCheck()">
+						<input class="button buttonSub" type="button" value="취소" onclick="cancel()">
+					</div>	
 				</div>
-					<span><input class="blueButton" type="button" value="로그인" onclick="return loginCheck()"></span>
-					<span><input class="grayButton" type="button" value="취소" onclick="cancel()"></span>
 			</form>
 		</div>
+		<jsp:include page="./footer.jsp"></jsp:include>
+		
 		<script>
 			var frm = document.login;
 			var loginIdPw = document.getElementsByClassName("loginIdPw");
