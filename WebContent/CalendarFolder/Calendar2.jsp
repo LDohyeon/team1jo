@@ -4322,5 +4322,374 @@
             }//day form undefined or null date end
             return v;
 		}//createDayformElement(date) end
+		
+		console.log("=====제민 작업중=====");
+		//checkDate 와 스케줄을 비교. 종일에 해당되면 createAlldaySchedule(), 해당 일자에 시작 혹은 종료인 경우 createDaySchedule()을 통해 스케줄 구현.
+		function createDayScheduleElement(scheduleData){
+			
+			let daySchedule = document.getElementsByClassName("dayScheduleCheck");
+			
+			for(let i=0; i<scheduleData.length; i++){
+				
+				let startYear = scheduleData[i].start.substring(0, 4);
+				let startMonth = scheduleData[i].start.substring(5, 7);
+				let startDay = scheduleData[i].start.substring(8, 10);
+				let startHour; // json 구현 필요. 위에 substring 값도 구현시 start모양에 따라 달라질 수 있음.
+				let startMin; //json 
+				
+				let endYear = scheduleData[i].end.substring(0, 4);
+				let endMonth= scheduleData[i].end.substring(5, 7);
+				let endDay= scheduleData[i].end.substring(8, 10);
+				let endHour; // json 구현 필요. 위에 substring 값도 구현시 end모양에 따라 달라질 수 있음.
+				let endMin; // json
+				
+				for(let j=0; j<daySchedule.length; j++){
+					let checkDate = daySchedule[j].getElementsByClassName("dateTag")[0].value;
+					let checkDateYear = checkDate.substring(0, 4);
+					let checkDateMonth = checkDate.substring(4, 6);
+					let checkDateDay = checkDate.substring(6, 8);
+					let checkDateHour = checkDate.substring(9, 11);
+					let checkDateMin = checkDate.substring(12); 
+					
+					//아래부터 if시작. 대전제 => StartYear,checkDateYear 비교. 값 확인을 위해 else는 사용하지않고 마지막 항까지 else if처리.
+					if(startYear>checkDateYear){
+						// 아직 시작하지 않은 스케줄. 구현x
+					}//StartYear>checkDateYear end
+					
+					else if(startYear==checkDateYear){
+						//올해 시작한 스케줄. month 비교에 따라 현재 진행여부 확인.
+						if(startMonth>checkDateMonth){
+							//아직 시작하지 않은 스케줄. 구현x
+						}else if(startMonth==checkDateMonth){
+							//시작년도, 시작 월이 현재 날짜와 동일. day값 비교에 따라 구현여부 판단.
+							if(startDay>checkDateDay){
+								//아직 시작하지 않은 스케줄. 구현 x
+							}else if(startDay==checkDateDay){
+								//오늘 시작하는 스케줄. 시간값 찾아서 구현. 00시 00분 시작으로 endDay가 checkDateDay 넘어가면 종일처리, 그 외에는 시작부터 그려야함. endDay도 오늘일 경우 시간 처리해야함.
+								if(startHour=="00"&&startMin=="00"){
+									if(endDay>checkDateDay){
+										//오늘 00시00분 시작으로 오늘 이후에 끝나는 경우. 종일처리.
+										//종일처리는 for문이 처음 돌 때(시간값이 00:00일때만 진행하도록 한다. 그렇지 않으면 모든 시간대에 무한반복됨.)
+										if(j==0){
+											createAlldaySchedule();//종일 처리구현 else if절 부터 값 비교 구현.
+										}
+									}else if(endDay==checkDateDay){
+										//오늘 00시 00분 시작으로 오늘 내에 끝나는 경우. 종료값이 24:00인 경우에만 종일처리.
+										if(endHour==24){
+											if(j==0){
+												createAlldaySchedule();
+											}
+										}else{
+											//00시 00분부터 종료시간까지 schedule표시.
+											if(j==0){
+												createDaySchedule();
+											}
+										}
+									}else if(endDay<checkDateDay){
+										//존재할 수 없는 값. 오늘 시작했는데 오늘보다 전에 끝날 수 없음.
+									}
+								} // 00시 00분 시작하는 경우 end
+								else if(startHour>checkDateHour){
+									//아직 시작하지 않은 스케줄. 구현x
+								}else if(startHour==checkDateHour){
+									if(startMin==checkDateMin){
+										//시작시간, 분이 동일하므로 여기서 구현.
+										createDaySchedule();
+									}
+									//min값 비교후 구현.
+								}else if(startHour<checkDateHour){
+									//이미 createSchedule으로 스케줄이 생성되어 있었어야 함.
+								}
+							}
+							else if(startDay<checkDateDay){
+								//해당 월에 이미 시작한 스케줄. endDay가 checkday와 동일하면 createDaySchedule(), endDay가 이후이면 createAllDaySchedule()
+								if(endDay>checkDateDay){
+									//종료일자가 checkDay보다 이후 이므로 종일처리.
+									if(j==0){
+										createAlldaySchedule();
+									}
+								}else if(endDay==checkDateDay){
+									//종료일자가 오늘. 24:00 종료인 경우에만 종일 스케줄. 그 외에는 createDaySchedule/시작점은 00:00.
+									if(endHour==24){
+										if(j==0){
+											createAlldaySchedule();
+										}
+									}else{
+										if(j==0){
+											createDaySchedule();
+										}
+									}
+								}else if(endDay<checkDateDay){
+									//종료일자가 이미 지난 스케줄. 구현x
+								}
+							}
+						}
+						//startYear == checkDateYear && startMonth==checkDateMonth end
+						
+						else if(startMonth<checkDateMonth){
+							//시작은 함. end값 비교에 따라 구현 여부 판단.
+							if(endYear>checkDateYear){
+								//아직 진행중인 스케줄. 모든 날짜에 종일처리.
+								if(j==0){
+									createAlldaySchedule();
+								}
+							}else if(endYear==checkDateYear){
+								//올해 시작해서 올해 끝나는 스케줄. end month, endDay 비교. endMonth,Day까지 동일하면 시간값 비교.
+								if(endMonth>checkDateMonth){
+									//아직 끝나는 달 이전. 종일스케줄처리.
+									if(j==0){
+										createAlldaySchedule();
+									}
+								}else if(endMonth==checkDateMonth){
+									//day값 비교로 이전이면 종일처리, 이후면 구현x , 당일이면 createDaySchedule 처리
+									if(endDay>checkDateDay){
+										//아직 끝나기 전이므로 종일처리.
+										if(j==0){
+											createAlldaySchedule();
+										}
+									}else if(endDay==checkDateDay){
+										//종료날짜=checkDateDay -- 시간값비교 및 처리. 24시 종료인 경우에는 종일처리 나머지는 00시부터 daySchedule처리
+										if(endHour==24){
+											if(j==0){
+												createAlldaySchedule();
+											}
+										}else{
+											if(j==0){
+												createDaySchedule();
+											}
+										}
+									}else if(endDay<checkDateDay){
+										//이미 종료된 스케줄. 구현x
+									}
+								}else if(endMonth<checkDateMonth){
+									//이미 종료된 스케줄. 구현x
+								}								
+							}
+						}//startYear==checkYear Month값 비교 end
+					}//startYear==checkDateYear end
+					
+					else if(startYear<checkDateYear){
+						//이미 시작한 스케줄 endYear과 endMonth값 endDay값에 따라 현재 진행여부확인. ==> 이미 종료, 현재 진행, 종료일자.
+						if(endYear>checkDateYear){
+							//끼인 연도. 모두 종일처리
+							if(j==0){
+								createAlldaySchedule();
+							}
+						}else if(endYear==checkDateYear){
+							//올해 끝나는 스케줄. 월 day 비교 필요
+							if(endMonth>checkDateMonth){
+								//아직 끝나지 않음. 모두 종일처리
+								if(j==0){
+									createAlldaySchedule();
+								}
+							}else if(endMonth==checkDateMonth){
+								//day값 비교해서 종일 혹은 스케줄로 처리
+								if(endDay>checkDateDay){
+									//끝나는 날 이전에는 종일처리
+									if(j==0){
+										createAlldaySchedule();
+									}
+								}else if(endDay==checkDateDay){
+									//끝나는 당일에는 00시부터 스케줄 처리. 24시 종료인 경우에만 종일처리
+									if(endHour==24){
+										if(j==0){
+											createAlldaySchedule();
+										}
+									}else{
+										if(j==0){
+											createDaySchedule();
+										}
+									}
+								}else if(endDay<checkDateDay){
+									//이미 끝난 스케줄. 구현x
+								}
+							}else if(endMonth<checkDateMonth){
+								//이미 끝난 스케줄. 구현x
+							}
+						}
+						//startYear<checkDateYear && endYear==checkDateYear end
+						
+						else if(endYear<checkDateYear){
+							//이미 끝난 스케줄. 구현x
+						}
+					}//startYear<checkDateYear end
+					
+				}//checkDate for문 종료
+			}//scheduleDate for 종료
+		}//createDayScheduleElement end
+		
+		/* 참고용 data
+		function createYearSchedule(scheduleData){
+			
+			let yearBoxBodys = document.getElementsByClassName("yearBoxBody");
+			console.log(scheduleData);
+			
+			for(let i = 0; i < scheduleData.length; i++){
+				let startYear = scheduleData[i].start.substring(0, 4);
+				let startMonth = scheduleData[i].start.substring(5, 7);
+				let startDay = scheduleData[i].start.substring(8, 10);
+				
+				let endYear = scheduleData[i].end.substring(0, 4);
+				let endMonth = scheduleData[i].end.substring(5, 7);
+				let endDay = scheduleData[i].end.substring(8, 10);
+				
+				for(let j = 0; j < yearBoxBodys.length; j++){
+					let yfd = yearBoxBodys[j].getElementsByClassName("dateTag")[0].value;
+					let yfdYear =  yfd.substring(0, 4);
+					let yfdMonth =  yfd.substring(4, 6);
+					let yfdDay =  yfd.substring(6, 8);
+					
+					if(startYear>yfdYear){
+						// 일정 시작 안함
+						// 건너감 
+					}
+					else if(startYear==yfdYear){
+						// 일정 시작을 했음 
+						if(endYear>yfdYear){
+							// 월 하고 날 찾고 그뒤로 다들어감 
+							if(startMonth>yfdMonth){
+								// 작동 안함 
+							}
+							else if(startMonth==yfdMonth){
+								// 년간폼이면 그냥 넣음 일을 비교해서
+								if(startDay>yfdDay){
+									// 안그림 
+								}
+								else if(startDay==yfdDay){
+									// 일정 시작 > 년도 끝까지 // 시간을 비교후 
+								}
+								else if(startDay<yfdDay){
+									// 일정 시작 > 년도 끝까지 // 종일 
+								}
+							}
+							else if(startMonth<yfdMonth){
+								// 시작 함 
+								// 다 그림 // 종일 
+							}
+						}
+						else if(endYear==yfdYear){
+							// 월하고 날을 비교 해서 구간을 정해야함 
+							if(startMonth>yfdMonth){
+								// 안함 // 시작 안함 
+							}
+							else if(startMonth==yfdMonth){
+								// 년간폼이면 그냥 넣음 일을 비교해서
+								if(endMonth>yfdMonth){
+									// 전체 그림 > 일간은 종일 
+									if(startDay>yfdDay){
+										// 시작 안함 
+									}
+									else if(startDay==yfdDay){
+										// 시작 함 > 월 끝 // 시작 날짜 시간 비교 
+									}
+									else if(startDay<yfdDay){
+										// 시작함 > 월 끝 // 종일 
+									}
+								}
+								else if(endMonth==yfdMonth){
+									// 시작날짜, 끝 날짜를 비교해서 구간을 설정 
+									if(startDay>yfdDay){
+										// 시작 안함 
+									}
+									else if(startDay==yfdDay){
+										// 시작 함 > 끝 날짜 탐색 // 시간봐야함 
+										if(endDay>yfdDay){
+											// 그림  //
+										}
+										else if(endDay==yfdDay){
+											// 그림
+											
+										}
+										else if(endDay<yfdDay){
+											// 안그림 > 끝난 일정 
+										}
+									}
+									else if(startDay<yfdDay){
+										// 시작함 > 끝나는 날짜까지 가는중 
+										if(endDay>yfdDay){
+											// 그림 
+										}
+										else if(endDay==yfdDay){
+											// 그림
+											
+										}
+										else if(endDay<yfdDay){
+											// 안그림 > 끝난 일정 
+										}
+									}
+								}
+								else if(endMonth<yfdMonth){
+									// 일정이 끝남 
+								}
+							}
+							else if(startMonth<yfdMonth){
+								// 일을 비교하고 구간 
+								if(endMonth>yfdMonth){
+									// 전체 그림 	
+								}
+								else if(endMonth==yfdMonth){
+									// 날짜비교> 언제 끝나는지 찾음 
+									if(endDay>yfdDay){
+										// 그림 
+									}
+									else if(endDay==yfdDay){
+										// 그림
+									}
+									else if(endDay<yfdDay){
+										// 안그림 > 끝난 일정 
+									}
+								}
+								else if(endMonth<yfdMonth){
+									// 일정이 끝남 
+								}
+							}
+						}
+						else if(endYear<yfdYear){
+							// 불가능한 경우 
+						}
+					}
+					else if(startYear<yfdYear){
+						// 일정 시작을 했음 
+						if(endYear>yfdYear){
+							// 전체 들어감 (년도에 한해서)
+						}
+						else if(endYear==yfdYear){
+							// 뭘 하고 날짜 비교해서 끝나는 구간 설정 
+							if(endMonth>yfdMonth){
+								// 전체 
+							}
+							else if(endMonth==yfdMonth){
+									// 날짜 비교 
+								if(endDay>yfdDay){
+									// 그려야 함 
+								}
+								else if(endDay==yfdDay){
+									// 그려야 함/ 끝나는 시점
+								}
+								else if(endDay<yfdDay){
+									// 안그림 
+								}
+							}
+							else if(endMonth<yfdMonth){
+									// 일정이 끝남 
+							}
+						}
+						else if(endYear<yfdYear){
+							// 이미 끝난 일정 // 동작 안함 
+						}
+					}
+				}
+			}
+		}*/
+		
+		// 종일 스케줄 모양 구현.
+		function createAlldaySchedule(){
+			
+		}//createAlldaySchedule end
+		
+		// 일일 스케줄 모양 구현.
+		function createDaySchedule(){
+			
+		}//createDaySchedule end
 	</script>
 </html>
