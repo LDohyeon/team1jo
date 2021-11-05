@@ -41,7 +41,7 @@
 				<div class="headerlist">안녕하세요, ${loginUser.getId()}님!</div>
 				<div class="headerlist"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
 		        <div class="headerlist"><a class="linkBlack" href="#">마이페이지</a></div>
-		        <div class="headerlist"><a class="linkBlack" href="#">관리페이지</a></div>
+		        <div class="headerlist"><a class="linkBlack" href="memberList.do?startPage=1">관리페이지</a></div>
 			</c:when>
 			<c:otherwise>
 				<div class="headerlist">안녕하세요, ${loginUser.getId()}님!</div>
