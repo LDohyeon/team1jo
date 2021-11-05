@@ -96,6 +96,14 @@
 				font-size:14px; 
 				margin-top:15px;
 			}			
+			.btnChart{
+				height:41px; 
+				background:#f1f1f1; 
+				border:0; 
+				padding:1px 20px 5px 20px; 
+				font-size:14px;
+				margin-left:110px;
+			}		
 			.memberListPaging{
 				text-align:center; 
 				margin-top:30px;
@@ -140,6 +148,7 @@
 						</select>
 						<input type="text" class="memberListInputBox" name="selValue"  placeholder="검색어를 입력해주세요">
 						<input type="submit" class="btnSerch" value="검색" onclick="return serchCheck()">
+						<input type="button" class="btnChart" value="차트보기" onclick="chart()">
 					</form>
 				</div>
 				<div class="memberListTableDiv">
@@ -213,6 +222,10 @@
 					return false;
 				}
 				return true;
+			}
+			
+			function chart(){
+				location.href="chartServlet.do";
 			}
 			
 			function authorityPopUp(selAuIdValue,selAuValue){
