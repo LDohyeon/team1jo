@@ -1714,21 +1714,17 @@
     margin-top: -1px;
 }
 .dayScheduleBox{
-
-	width: 90%;
-	height: 48px;
-	text-align: left;
+	text-align: center;
 	position: absolute;
 	z-index: 450;
-	border-radius: 3px;
+	border-radius: 3rem;
 }
 .alldayScheduleBox{
 	width: 90%;
 	height: 38px;
-	margin-bottom: 2px;
-	text-align: left;
+	text-align: center;
+	line-height: 38px;
 	position: absolute;
 	z-index: 450;
-	border-radius: 3px;
-	background-color: red;
+	border-radius: 10rem;
 }

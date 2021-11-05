@@ -5728,6 +5728,7 @@
 			
 			v=document.createElement("div");
 			v.classList.add("alldayScheduleBox");
+			v.style.backgroundColor= scheduleData.color+"";
 			
 			c = document.createElement("span"); // sceduleData의 값을 넣을 span
 			c.classList.add("scheduleInfos"); // class명 month폼과 통일. 내부 data input도 통일. css문제로 필요시 변경.
@@ -5819,11 +5820,16 @@
 			cc.setAttribute("value", scheduleData.color);
 			
 			c.appendChild(cc); // scheduleInfos end
-			v.appendChild(c);  // alldayScheduleBox end
+			v.appendChild(c);
+			
+			c = document.createElement("span");
+			c.classList.add("scheduleTitle");
+			c.innerHTML= scheduleData.title;
+			
+			v.appendChild(c);
 			
 			alldaySchedule.appendChild(v);
-			
-			/*alldayScheduleBox가 여러개일때 처리 아직 미구현.*/
+
 			
 		}//createAlldaySchedule end
 		
@@ -5859,7 +5865,7 @@
 			// ScheduleBox
 			// {그리기 시작하는 시간값 - 스케줄이 끝나는 시간값 x4 (1 hour가 4칸을 가지므로)} + {그리기 시작하는 분값 - 스케줄이 끝나는 분값/15(15분당 1칸이므로)}
 			
-			let boxHeight = 4*(parseInt(dsEndHour)-parseInt(dsStartHour))+(parseInt(dsEndMin)-parseInt(dsStartMin))/15
+			let boxHeight = (4*(parseInt(dsEndHour)-parseInt(dsStartHour))+(parseInt(dsEndMin)-parseInt(dsStartMin))/15)*12
 			
 			let v;
 			let c;
@@ -5867,6 +5873,8 @@
 			
 			v = document.createElement("div");
 			v.classList.add("dayScheduleBox");
+			v.style.backgroundColor= scheduleData.color;
+			v.style.height= boxHeight+"px";
 			
 			
 			c = document.createElement("span");
@@ -5961,7 +5969,13 @@
 			c.appendChild(cc);
 			v.appendChild(c);
 			
-			dayScheduleChecks[0].appendChild(v);
+			c = document.createElement("span");
+			c.classList.add("scheduleTitle");
+			c.innerHTML= scheduleData.title;
+			
+			v.appendChild(c);
+			
+			
 			
 			// dayScheduleBox Starting point에 append시키는 작업.
 			/*
@@ -5972,7 +5986,7 @@
 				let dayScheduleChecks;
 			*/
 			
-			/* 잠깐 가리고 테스트중. 박스는 그려지는데 아래 if절에 문제가 있는 것으로 확인.
+			
 			for(let i=0; i<daySchedules.length; i++){
 				//	시간단위로 쪼개진 횟수만큼 실행 (그 안에서 15분 단위로 또 실행.)
 				dayScheduleChecks = daySchedules[i].getElementsByClassName("dayScheduleCheck");
@@ -5980,10 +5994,11 @@
 				for(let j=0; j<dayScheduleChecks.length; j++){
 					// 15분단위 div안에 있는 dateTag의 값을 통해 checkTime을 설정
 					let startCheck = dayScheduleChecks[j].getElementsByClassName("dateTag")[0].value;
-					let startCheckHour = startCheck.substring(10,12);
-					let startCheckMin = startCheck.substring(13);
+					let startCheckHour = startCheck.substring(9,11);
+					let startCheckMin = startCheck.substring(12);
 					
 					// 먼저 start와 맞는 시간값을 찾는다. 일 단위까지는 createDayScheduleElement 에서 걸러짐.
+					// substring 오류 해결!
 					if(startCheckHour==dsStartHour){
 						//분 단위까지 동일한 값을 찾는다.
 						if(startCheckMin==dsStartMin){
@@ -5993,7 +6008,7 @@
 					}
 				}
 			}
-			*/
+			
 			
 			//	자신이 몇번째 schedule인지에 따라 left 위치값을 바꿔줘야함. schedule.style.left
 			//	다 그린 후에 dayScheduleBox 를 getElementByClassName 으로 묶은 변수를 만들고 해당 변수의 길이만큼 for문을 돌면서 몇번째인지에 따라 left값을 바꾸는 방식은 어떨까...
@@ -6009,11 +6024,12 @@
 		function scheduleBoxMarginLeft(){
 			let scheduleBoxes = document.getElementsByClassName("dayScheduleBox");
 			let boxWidth = 100/scheduleBoxes.length;
-			// 이렇게 처리가 될까...
 			for(let i = 0; i<scheduleBoxes.length; i++){
-				scheduleBoxes[i].style.marginLeft = 20; // *40은 임의 값. 세부조정가능.
+				scheduleBoxes[i].style.marginLeft = "calc("+i*boxWidth*1.01+"%)"; // *40은 임의 값. 세부조정가능.
+				scheduleBoxes[i].style.width = "calc("+boxWidth*1+"%)";
 				
 			}
+			console.log("===== dayScheduleBox width/마진설정!!!!! =====");
 		}//scheduleBoxMarginLeft end
 		
 		
@@ -6024,10 +6040,22 @@
 			let scheduleTimeBox = document.getElementsByClassName("scheduleTimeBox")[0];
 			let alldayScheduleBoxes = document.getElementsByClassName("alldayScheduleBox");
 			
-			let divHeight = (alldayScheduleBoxes.length)*40; // *40은 임의값. alldayScheduleBox의 height와 margin값에 따라 바꿔서 적용해줘야함.
+			if(alldayScheduleBoxes.length!=0){
+				let divHeight = (alldayScheduleBoxes.length)*40;
+				alldaySchedule.style.height = divHeight+"px";
+				scheduleTimeBox.style.height = divHeight+"px";
+			}else{
+				let divHeight = 40; // alldaySchedule이 존재하지 않는 날짜에서는 기본값 40px로 유지
+				alldaySchedule.style.height = divHeight+"px";
+				scheduleTimeBox.style.height = divHeight+"px";
+			}
 			
-			alldaySchedule.style.height = divHeight;
-			scheduleTimeBox.style.height = divHeight;
+			
+			for(let i=0; i<alldayScheduleBoxes.length; i++){
+				alldayScheduleBoxes[i].style.marginTop = "calc("+40*i+"px)";
+			}
+			
+			console.log("====== alldaySchedule / scheduleTimeBox 높이설정!!!!! ======");
 		}// alldayScheduleHeight end
 	</script>
 </html>
