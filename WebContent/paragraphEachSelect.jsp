@@ -547,12 +547,12 @@
 
 		</div>
 
-        <!-- 결제 창 판업 띄우기 -->
+
 		<div id="wrapPonup">
 			<div id="ponup">
 				<textarea id="writeContentLib"></textarea>
-				<button onclick="cansle()">취소</button>
-				<button onclick="realGo()">저장</button>
+				<button class="button2" onclick="cansle()">취소</button>
+				<button class="button2" onclick="realGo()">저장</button>
 			</div>
 		</div>
 		<input id="hid" type="hidden">
@@ -752,10 +752,12 @@
 	
 			textarea.setAttribute("id", "writeContentLib");
 			cansleButton.setAttribute("onclick", "cansle()");
+			cansleButton.setAttribute("class", "button2");
 			cansleButton.innerText="취소";
 			wrapPonup.style.display="block";
 			
 			realgoButton.setAttribute("onclick", "realGo()");
+			realgoButton.setAttribute("class", "button2");
 			realgoButton.innerText="저장";
 			
 			Lib(hid);
@@ -810,10 +812,12 @@
 				
 				
 				cansleButton.setAttribute("onclick", "cansleUpdate()");
+				cansleButton.setAttribute("class", "button2");
 				cansleButton.innerText="취소";
 				wrapPonup.style.display="block";
 				
 				realgoButton.setAttribute("onclick", "realGoUpdate()");
+				realgoButton.setAttribute("class", "button2");
 				realgoButton.innerText="저장";
 				
 				Lib(getSels[1]);

@@ -521,5 +521,65 @@ public class ParagraphDAO {
 		}
 		//게시판 검색 페이지 버튼
 
+		
+		//게시판 자동 완성 기능
+		
+		public List<String> searchAutoParagraph(String searchAuto)
+		{
+			List<String> list = new ArrayList<String>();
+			
+			String auto=searchAuto+"%";
+			String sql="select title from Paragraph where title like ? or contents like ? or tag like ? order by hits desc limit 10;";
+			
+			Connection conn =null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try
+			{
+				conn=getConnection();
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, auto);
+				pstmt.setString(2, auto);
+				pstmt.setString(3, auto);
+						
+				rs = pstmt.executeQuery();
+				
+				while(rs.next())
+				{
+					list.add(rs.getString(1));
+				}
+				
+			}
+			catch(Exception e)
+			{
+				System.out.println("게시판 자동완성 기능 실패 " +e);
+			}
+			finally
+			{
+				close(conn, pstmt, rs);
+			}
+			
+			
+			return list;
+		}
+		
+		
+		
+		//게시판 자동 완성 기능
+		
+		
 	}
-	//게시판 검색 페이지 버튼
+
+
+
+
+
+
+
+
+
+
+
+

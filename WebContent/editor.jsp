@@ -6,7 +6,6 @@
 	<head>
 		<meta charset="utf-8">
 		<title>에디터</title>
-		<link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="codeMirror/codemirror.css">
 		<script src="codeMirror/codemirror.js"></script>
 		<script src="codeMirror/xml.js"></script>
@@ -18,6 +17,7 @@
 		<script src="codeMirror/javascript.js"></script>
 		<script src="codeMirror/sql.js"></script>
 		<script src="codeMirror/clike.js"></script>
+		<link rel="stylesheet" href="style.css">
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Myeongjo&display=swap');
 			
@@ -140,11 +140,33 @@
 				display: inline-block;
 				border:0;
 			}
+			.button:hover
+			{
+				background-color: #005cc3;
+			}
+			.button2
+			{
+			    height: 25px;
+			    line-height: 25px;
+			    text-align: center;
+			    margin: 5px;
+			    font-size: 10px;
+			    width: 44px;
+    			border: 1px solid #dbdadf;
+    			background-color: #f1f1f1;
+    			color: #000;
+    			
+    			display: inline-block;
+    			float: right;
+			}
+			.button2:hover
+			{
+				background-color: #fff;
+			}
         </style>
 	</head>
+	<jsp:include page="./header.jsp"/>
 	<body>
-		<jsp:include page="header.jsp"/>
-        
         <!--컨텐츠 시작-->
         <div class="content">
         	<form method="post" action="paragraphEditorWrite.do" id="frm" name="frm">
@@ -229,21 +251,17 @@
         	<input id="imgTitle" type="hidden" name="imgTitle">
         </form>
         
-        <jsp:include page="footer.jsp"/>
-        
-        
 		<!-- 결제 창 판업 띄우기 -->
 		<div id="wrapPonup">
 			<div id="ponup">
 				<textarea id="writeContentLib"></textarea>
-				<button onclick="cansle()">취소</button>
-				<button onclick="realGo()">저장</button>
+				<button class="button" onclick="cansle()">취소</button>
+				<button class="button" onclick="realGo()">저장</button>
 			</div>
 		</div>
 		<input id="hid" type="hidden">
 	</body>
-	
-
+	<jsp:include page="./footer.jsp"/>
 	<script>
 		function selectFont(){
 			var select=document.getElementById("fontType");
@@ -430,10 +448,12 @@
 	
 			textarea.setAttribute("id", "writeContentLib");
 			cansleButton.setAttribute("onclick", "cansle()");
+			cansleButton.setAttribute("class", "button2");
 			cansleButton.innerText="취소";
 			wrapPonup.style.display="block";
 			
 			realgoButton.setAttribute("onclick", "realGo()");
+			realgoButton.setAttribute("class", "button2");
 			realgoButton.innerText="저장";
 			
 			Lib(hid);
@@ -487,10 +507,12 @@
 				
 				
 				cansleButton.setAttribute("onclick", "cansleUpdate()");
+				cansleButton.setAttribute("class", "button2");
 				cansleButton.innerText="취소";
 				wrapPonup.style.display="block";
 				
 				realgoButton.setAttribute("onclick", "realGoUpdate()");
+				realgoButton.setAttribute("class", "button2");
 				realgoButton.innerText="저장";
 				
 				Lib(getSels[1]);
