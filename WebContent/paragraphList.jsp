@@ -217,19 +217,35 @@
 			</div>
 			<div class="pageNum">
 				<c:choose>
+					<c:when test="${StartPage==1 }">	
+					</c:when>
 					<c:when test="${StartPage -10 <= 0}">
-						<a href="paragraphList.do?startPage=1">&#60;&#60;</a>
+						<c:if test="${searchFlag==0 }">
+							<a href="paragraphList.do?startPage=1">&#60;&#60;</a>
+						</c:if>
+						<c:if test="${searchFlag==1 }">
+							<a href="search.do?searchValue=${searchValue}&startPage=1">&#60;&#60;</a>
+						</c:if>
 					</c:when>
 					<c:otherwise>
-						<a href="paragraphList.do?startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
+						<c:if test="${searchFlag==0 }">
+							<a href="paragraphList.do?startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
+						</c:if>
+						<c:if test="${searchFlag==1 }">
+							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
+						</c:if>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
 					<c:when test="${StartPage == 1}">
-						<a href="paragraphList.do?startPage=1">&#60;</a>
 					</c:when>
 					<c:otherwise>
-						<a href="paragraphList.do?startPage=${StartPage-1 }">&#60;</a>
+						<c:if test="${searchFlag==0 }">
+							<a href="paragraphList.do?startPage=${StartPage-1 }">&#60;</a>
+						</c:if>
+						<c:if test="${searchFlag==1 }">
+							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage-1 }">&#60;</a>
+						</c:if>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
@@ -304,18 +320,33 @@
 				</c:choose>
 				<c:choose>
 					<c:when test="${StartPage == nOfPages}">
-						<a href="paragraphList.do?startPage=${nOfPages }">&#62;</a>
 					</c:when>
 					<c:otherwise>
-						<a href="paragraphList.do?startPage=${StartPage+1 }">&#62;</a>
+						<c:if test="${searchFlag==0 }">
+							<a href="paragraphList.do?startPage=${StartPage+1 }">&#62;</a>
+						</c:if>
+						<c:if test="${searchFlag==1 }">
+							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage+1 }">&#62;</a>
+						</c:if>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
+					<c:when test="${StartPage==nOfPages }"></c:when>
 					<c:when test="${StartPage +10 > nOfPages}">
-						<a href="paragraphList.do?startPage=${nOfPages }">&#62;&#62;</a>
+						<c:if test="${searchFlag==0 }">
+							<a href="paragraphList.do?startPage=${nOfPages }">&#62;&#62;</a>
+						</c:if>
+						<c:if test="${searchFlag==1 }">
+							<a href="search.do?searchValue=${searchValue}&startPage=${nOfPages }">&#62;&#62;</a>
+						</c:if>
 					</c:when>
 					<c:otherwise>
-						<a href="paragraphList.do?startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
+						<c:if test="${searchFlag==0 }">
+							<a href="paragraphList.do?startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
+						</c:if>
+						<c:if test="${searchFlag==1 }">
+							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
+						</c:if>
 					</c:otherwise>
 				</c:choose>
 			</div>

@@ -31,7 +31,7 @@ public class ParagraphListServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		
 		int nOfPages=page/lastPage;
-		if(nOfPages%lastPage>0) {
+		if(nOfPages%lastPage>=0) {
 			nOfPages++;
 		}
 		
@@ -46,6 +46,7 @@ public class ParagraphListServlet extends HttpServlet {
 		request.setAttribute("nOfPages",nOfPages);
 		request.setAttribute("StartPage", StartPage);
 		request.setAttribute("searchFlag", 0);
+
 		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("paragraphList.jsp");
 		dispatcher.forward(request, response);
