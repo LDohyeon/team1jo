@@ -6,19 +6,32 @@
 		<meta charset="UTF-8">
 		<title>차트</title>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
+		<link rel="stylesheet" href="style.css">
 		<style>
+			.wrap{
+				margin:30px 0px 100px 0px;
+				align-items:center;
+				display:flex;
+				justify-content:center;
+			}
 			.chartWrap{
-				width: 1252px;
-				margin: 270px auto;
+				width:1260px;
+				margin:0 auto;
+				vertical-align:middle;
 			}
 		</style>
 	</head>
 	<body>
-		<div class="chartWrap">
-			<canvas id="myChart" style="display:inline-block; width:400px; height:400px;"></canvas>
-  			<canvas id="myChart02" style="display:inline-block; width:400px; height:400px; margin-left:20px;"></canvas>
-  			<canvas id="myChart03" style="display:inline-block; width:400px; height:400px; margin-left:20px;"></canvas>
+		<jsp:include page="./header.jsp"></jsp:include>
+		<div class="wrap">
+			<div class="chartWrap">
+				<canvas id="myChart" style="display:inline-block; width:400px; height:400px;"></canvas>
+	  			<canvas id="myChart02" style="display:inline-block; width:400px; height:400px; margin-left:20px;"></canvas>
+	  			<canvas id="myChart03" style="display:inline-block; width:400px; height:400px; margin-left:20px;"></canvas>
+			</div>
 		</div>
+		<jsp:include page="./footer.jsp"></jsp:include>
+		
 		<script>
 			///////////////////////////////정현/////////////////////////////////
 			var ctx = document.getElementById('myChart');

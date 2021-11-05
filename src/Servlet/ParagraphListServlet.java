@@ -26,6 +26,7 @@ public class ParagraphListServlet extends HttpServlet {
 		
 		List<ParagraphDTO> list = pDAO.paragraphList(StartPage, lastPage);
 		
+
 		
 		request.setAttribute("list", list);
 		
@@ -33,6 +34,15 @@ public class ParagraphListServlet extends HttpServlet {
 		if(nOfPages%lastPage>0) {
 			nOfPages++;
 		}
+		
+		int pageBlock = 0;
+		if(StartPage%10==0) {
+			pageBlock = (StartPage-StartPage%10)/10;
+		}else {
+			pageBlock = (StartPage-StartPage%10)/10+1;
+		}
+		
+		request.setAttribute("pageBlock",pageBlock);
 		request.setAttribute("nOfPages",nOfPages);
 		request.setAttribute("StartPage", StartPage);
 		request.setAttribute("searchFlag", 0);

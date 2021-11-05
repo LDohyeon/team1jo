@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>회원정보 수정 페이지</title>
+		<link rel="stylesheet" href="style.css">
 		<style>
 			#wrap
 			{
@@ -109,6 +110,7 @@
 			}
 		</style>
 	</head>
+	<jsp:include page="./header.jsp"/>
 	<body>
 		<div id="wrap">
 			<form name="update" method="post" action="userInfo.do">
@@ -210,4 +212,5 @@
 			}
 	</script>
 	</body>
+	<jsp:include page="./footer.jsp"/>
 </html>

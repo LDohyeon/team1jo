@@ -148,7 +148,7 @@ public class ParagraphDAO {
 				pDTO.setDatetime(rs.getString("date"));
 				pDTO.setHits(rs.getInt("hits"));
 				pDTO.setTag(rs.getString("tag"));
-				
+
 				list.add(pDTO);
 			}
 			
@@ -247,7 +247,7 @@ public class ParagraphDAO {
 	//게시판 수정
 	public void paragraphUpdate(ParagraphDTO pDTO)
 	{
-		String sql="update paragraph set title=?, contents = ? where num = ?";
+		String sql="update paragraph set title=?, contents = ?, tag = ? where num = ?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -259,7 +259,8 @@ public class ParagraphDAO {
 			
 			pstmt.setString(1, pDTO.getTitle());
 			pstmt.setString(2, pDTO.getContents());
-			pstmt.setInt(3, pDTO.getNum());
+			pstmt.setString(3, pDTO.getTag());
+			pstmt.setInt(4, pDTO.getNum());
 			
 			pstmt.executeUpdate();
 			

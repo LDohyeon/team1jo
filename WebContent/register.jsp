@@ -5,20 +5,30 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>회원가입 페이지</title>
+		<link rel="stylesheet" href="./style.css">
 		<style>
+			.wrap{
+				margin:30px 0px 100px 0px;
+				align-items:center;
+				display:flex;
+				justify-content:center;
+			}
 			.registerWrap{
-				width:700px;
-				margin:140px auto;
+				width:800px;
+				border:1px solid black;
+				padding:15px 0px;
 			}
 			.registerWrap h2{
 				padding-left:8px;
 				font-size:30px;
+				width:700px;
+				margin:10px auto;
 			}
 			.registerDiv table{
 				width:700px;
 				border-top:1px solid black;
-				height:500px;
-				border-spacing:0; 
+				border-spacing:0;
+				margin:0 auto;
 			}
 			.registerDiv table th {
 				background:#f1f1f1; 
@@ -27,13 +37,11 @@
 				font-size:16px;  
 				padding:0 10px; 
 				text-align:left;
-				height: 115px;
 			}
 			.registerDiv table td {
 				border-bottom:1px solid #dbdadf; 
 				border-right:1px solid #dbdadf; 
 				padding:10px 10px;
-				height: 115px;
 			}
 			.registerDiv table td:last-child {
 				border-right:0;
@@ -45,78 +53,101 @@
 				border:1px solid #dbdadf;
 				padding:0 10px; 
 			}
-			.grayButton { 
-				height:40px; 
-				color:#fff; 
-				background:#5f5f61;
-				padding:10px 20px; 
-				font-size:15px; 
-				display:block; 
-				width:700px;
+			.buttonWrap
+			{
+				padding-top:20px;
+				text-align:center;
 			}
-			.blueButton { 
-				height:40px; 
-				color:#fff; 
-				background:#152aa1; 
-				font-size:15px; 
-				display:block; 
-				width:700px;
+			.button
+			{
+				background-color:#064998;
+				color:#fff;
+				height:40px;
+				line-height:40px;
+				text-align:center;
+				margin:5px 97px 0px 0px;
+				font-size:15px;
+				width:103px;
+				display:inline-block;
+    			margin:0 auto;
+    			margin-top:3px;
+			}
+			.button:hover
+			{
+				background-color:#005cc3;
+			}
+			.buttonSub
+			{
+				padding:0;
+			    border-width:0;
+			    border-style:none;
+			    border-color:#fff;
+			    font-family:inherit;
 			}
 			.registerIdCheck{
 				padding:5px; 
 				margin-left:10px;
+				height:40px;
 				color:#fff; 
-				background:#152aa1;
+			    border-color:#064998;
+				background:#064998;
 			}
 			.registerMsg{
 				color:#152aa1;
 				margin-top:20px;
-				width: 350px;
+				width:350px;
 			}
 		</style>
 	</head>
 	<body>
-		<div class="registerWrap">
-			<h2>회원가입</h2>		
-			<div class="registerDiv">
-				<form name="register" method="post" action="register.do">
-					<table>
-						<tr>
-							<th>아이디</th>
-							<td>
-								<input class="registerInput" id="id" type="text" name="id">
-								<input type="button" class="registerIdCheck" value="아이디 중복 확인" onclick="request_doPost()">
-								<span class="registerMsg">아이디를 입력해주세요</span>
-							</td>
-						</tr>
-						<tr>
-							<th>비밀번호</th>
-							<td>
-								<input class="registerInput" type="password" name="pw">
-								<span class="registerMsg">비밀번호를 입력해주세요</span>
-							</td>
-						</tr>
-						<tr>
-							<th>이름</th>
-							<td>
-								<input class="registerInput" type="password" name="name">
-								<span class="registerMsg">이름을 입력해주세요</span>
-							</td>
-							
-						</tr>
-						<tr>
-							<th>이메일</th>
-							<td>
-								<input class="registerInput" type="email" name="email">
-								<span class="registerMsg">이름을 입력해주세요</span>
-							</td>
-						</tr>
-					</table>
-					<span><input class="blueButton" type="submit" value="회원가입" onclick="return registerCheck()"></span>
-					<span><input class="grayButton" type="button" value="취소" onclick="locationHref()"></span>
-				</form>
+		<jsp:include page="./header.jsp"></jsp:include>
+		<div class="wrap">
+			<div class="registerWrap">
+				<h2>회원가입</h2>		
+				<div class="registerDiv">
+					<form name="register" method="post" action="register.do">
+						<table>
+							<tr>
+								<th>아이디</th>
+								<td>
+									<input class="registerInput" id="id" type="text" name="id">
+									<input type="button" class="registerIdCheck buttonSub" value="아이디 중복 확인" onclick="request_doPost()">
+									<span class="registerMsg">아이디를 입력해주세요</span>
+								</td>
+							</tr>
+							<tr>
+								<th>비밀번호</th>
+								<td>
+									<input class="registerInput" type="password" name="pw">
+									<span class="registerMsg">비밀번호를 입력해주세요</span>
+								</td>
+							</tr>
+							<tr>
+								<th>이름</th>
+								<td>
+									<input class="registerInput" type="password" name="name">
+									<span class="registerMsg">이름을 입력해주세요</span>
+								</td>
+								
+							</tr>
+							<tr>
+								<th>이메일</th>
+								<td>
+									<input class="registerInput" type="email" name="email">
+									<span class="registerMsg">이름을 입력해주세요</span>
+								</td>
+							</tr>
+						</table>
+						<div class="buttonWrap">
+							<input class="button buttonSub" type="submit" value="회원가입" onclick="return registerCheck()">
+							<input class="button buttonSub" type="button" value="취소" onclick="locationHref()">
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
+		<jsp:include page="./footer.jsp"></jsp:include>
+		
 		<script>
 			var frm = document.register;
 			var regMsg = document.getElementsByClassName("registerMsg");
