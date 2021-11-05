@@ -547,12 +547,12 @@
 
 		</div>
 
-        <!-- 결제 창 판업 띄우기 -->
+
 		<div id="wrapPonup">
 			<div id="ponup">
 				<textarea id="writeContentLib"></textarea>
-				<button onclick="cansle()">취소</button>
-				<button onclick="realGo()">저장</button>
+				<button class="button2" onclick="cansle()">취소</button>
+				<button class="button2" onclick="realGo()">저장</button>
 			</div>
 		</div>
 		<input id="hid" type="hidden">

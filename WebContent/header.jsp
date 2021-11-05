@@ -16,16 +16,19 @@
 			<div id="headerProfileIcon"></div>
 		</div>
 	</div>
-	<div id=headerSearchArea>
+	<div id=headerSearchArea >
 		<div id="headerSearch">
-			<form method="get" action="search.do" name="frm" id="headerForm">
-				<input type="text" name="searchValue" id="searchValue">
+			<form method="get" action="search.do" id="headerForm">
+				<input type="text" name="searchValue" id="searchValue" onKeyup="autoSearch()" onKeydown="autoSearch()">
 				<input type="hidden" name="startPage" value="1">
 				<input type="submit" value="" onclick="writeCheck()" id="searchValueBtn">
-				<input type="button" value="X" id="searchXBtn">
-			</form>
+				<input type="button" value="X" id="searchXBtn">		
+				<div id="divTable"></div>
+			</form>	
 		</div>
+		
 	</div>
+	
 	<div id="headerProfileArea">
 		<div id="headerBlackArea"></div>
 		<div class="headerUlist">
@@ -97,3 +100,130 @@
 	headerUlist.addEventListener("mouseout", mouseoutUlist);
 	
 </script>
+
+
+
+
+<script>
+	var XHR;
+	
+	function createXMLHttpRequest()
+	{
+		if(window.ActiveXObject)
+		{
+			XHR=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		else if(window.XMLHttpRequest)
+		{
+			XHR=new XMLHttpRequest();
+		}
+	}
+	
+	function autoSearch()
+	{
+		var searchValue = document.getElementById("searchValue").value;
+		if(searchValue.length>0)
+		{
+			createXMLHttpRequest();
+			console.log(XHR);
+			var url="paragraphAutoSearch.do";
+			XHR.open("POST", url, true);
+			XHR.onreadystatechange=handleStateChange;
+			XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			
+			XHR.send("searchAuto="+searchValue);
+	
+		}		
+	}
+	
+	function handleStateChange()
+	{
+		if(XHR.readyState==4)
+		{
+			if(XHR.status==200)
+			{
+				//console.log(XHR.responseText);
+				
+				var json = JSON.parse(XHR.responseText);
+
+				searchDiv(json);
+			}
+		}
+		else if(XHR.status==204)
+		{
+			alert("204");
+		}
+	}
+	
+	
+
+	
+	
+	function searchDiv(json)
+	{
+
+		
+		var divTable = document.getElementById("divTable");
+		var searchValue = document.getElementById("searchValue");
+		
+		while(divTable.hasChildNodes())
+		{
+			divTable.removeChild(divTable.firstChild);	
+		}
+		
+		if(searchValue.value.length!=0){
+			divTable.setAttribute("style", "display: block;");
+		
+			console.log(searchValue.value.length);
+		}
+		else{
+			divTable.setAttribute("style", "display: none;");
+		}
+		
+		var divTr = document.createElement("div");
+		
+		divTr.setAttribute("id", "divTr");
+		
+		
+		
+		for(var i=0; i<json.length; i++)
+		{
+			var divTd = document.createElement("div");
+
+			var aTag = document.createElement("a");
+			
+			aTag.setAttribute("href", "search.do?searchValue="+json[i].auto+"&startPage=1");
+	
+			
+			divTd.innerText=json[i].auto;
+			
+			aTag.appendChild(divTd);
+			
+			divTd.setAttribute("class", "divTd");
+
+			
+			divTr.appendChild(aTag);
+			
+		}
+		
+		divTable.appendChild(divTr);
+			
+	}
+	
+	
+
+	
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -150,7 +150,7 @@ a{
 	background-color: white;
 	display: none;
 	position:relative;
-	z-index: 2;
+	z-index: 10;
 	background-color: rgba(245, 245, 245);
 	margin-right: 20px;
 }
@@ -166,11 +166,58 @@ a{
 #headerProfileArea{
 	position:relative;
 }
+#headerForm
+{
+	position: relative;
+}
+#divTable
+{
+	margin-top: 36px;
+	margin-bottom: 3px;
+	width: 80%;
+	padding-left: 25px;
+	padding-right: 25px;
+	border: 1px solid lightgray;
+	border-radius: 16px;
+	float: left;
+	margin-left: 4%;
+	background-color:white;
+	z-index: 5;
+	position: absolute;
+	display: none;
+}
+.divTd
+{
+	padding-top:1%;
+	padding-bottom:1%;
+}
+.divTd:hover
+{
+	background-color:lightgray;
+}
+
+
+
 
 /* =====================================================
  * ====================== 푸터 ==========================
  * ===================================================== */
 
+
+.blackSmallButton
+{
+	background-color: #222;
+	color: #fff;
+	border: 1px solid #000;
+	line-height: 30px;
+	text-align: center;
+	font-size: 10px;
+
+	margin: 20px 0 0 790px;
+	width: 55px;
+	height: 30px;
+	display: inline-block;
+} 
 footer{
 	text-align: center;
 	font-size: 0.6em;
