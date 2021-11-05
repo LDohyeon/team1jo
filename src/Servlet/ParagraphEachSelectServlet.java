@@ -22,13 +22,11 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 
 
 		int flag= Integer.parseInt(request.getParameter("flag"));
-		
-		
-		
+
 		if(flag==0)
 		{
 			HttpSession session = request.getSession();
-			session.setAttribute("imageInsertContent", "");
+			session.removeAttribute("imageInsertContent");
 			//session에 남아있는 이미지와 글귀들 삭제
 			//commentInsertImage 확인
 		}
@@ -43,10 +41,13 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 			request.setAttribute("focusdown", focus);
 			
 			HttpSession session = request.getSession();
-			session.setAttribute("imageInsertContent", "");
+			session.removeAttribute("imageInsertContent");
 		}
-		
-		
+		if(flag==3)
+		{
+			
+		}
+
 		int num = Integer.parseInt(request.getParameter("num"));
 		
 		String code="";
@@ -68,9 +69,6 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		
 		for(int i=0; i<contents.length; i++)
 		{
-			
-			System.out.println("Contents : "+ contents[i]);
-			
 			if(i%3==0)
 			{
 				code+=contents[i];
@@ -88,13 +86,9 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 				code+=contents[i];
 				code+="</textarea>";
 			}
-			
-			
 		}
 		
 		pDTO.setContents(code);
-		
-		
 		
 
 		CommentDAO cDAO = CommentDAO.getInstance();
@@ -112,15 +106,14 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		String commentCode="";
 
 
+
 		for(int i=0; i<clist.size(); i++)
-		{
-			System.out.println("clist :" +clist.get(i).getComment());
+		{	
+
 			String[] commentContent = clist.get(i).getComment().split("※");
 			
 			for(int j=0; j<commentContent.length; j++)
-			{
-				System.out.println("commentContent : "+commentContent[j]);
-				
+			{	
 				if(j%3==0)
 				{
 					commentCode+=commentContent[j];
@@ -138,24 +131,32 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 					commentCode+=commentContent[j];
 					commentCode+="</textarea>";
 				}
-				
-				
+
 			}
 			CommentDTO cDTO = new CommentDTO();
+			
+	
+			
 			
 			cDTO.setNum(clist.get(i).getNum());
 			cDTO.setId(clist.get(i).getId());
 			cDTO.setTime(clist.get(i).getTime());
 			
 			
-			cDTO.setCommentSplit(commentCode);
+			cDTO.setCommentCount(clist.get(i).getCommentCount());//댓글 순서도
+			cDTO.setComment(clist.get(i).getComment());//원본 코맨트 내용
+			cDTO.setCommentSplit(commentCode);//textArea를 결합
 			clistSelect.add(cDTO);
 			
-			commentCode="";
-			
+			commentCode="";//코멘트 코드 초기화
 		}
 		
+		
+		int commentLastCount = cDAO.commentLastCount(num);
+		
 
+
+		request.setAttribute("commentLastCount", commentLastCount);//댓글 수정이 아닌 댓글 쓰기를 위한 숫자
 		request.setAttribute("clistSelect", clistSelect);
 
 
@@ -171,5 +172,14 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	}
+	
+	
+	
+
+	
+	
 
 }
+
+	
+

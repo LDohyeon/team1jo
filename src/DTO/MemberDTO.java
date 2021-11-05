@@ -62,18 +62,16 @@ public class MemberDTO {
 
 	
 	
-/*
-create database status200;
-	create table member(
-			num int primary key auto_increment,
-			id text,			
-pw text,
-			name text,
-			authority text,
-			email text);
-alter table member add stopdate date;	
-alter table member add createdate date;
- */
+//	create database status200;
+//	create table member(
+//			num int primary key auto_increment,
+//			id text,
+//			pw text,
+//			name text,
+//			authority text,
+//			email text);
+//alter table member add stopdate date;	
+//alter table member add createdate date;
 	
 	
 	

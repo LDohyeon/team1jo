@@ -28,10 +28,20 @@ public class ParagraphSerchServlet extends HttpServlet {
 		
 		int page = pDAO.searchPageBtnParagraph(searchValue);
 		int nOfPages=page/lastPage;
-		if(nOfPages%lastPage>0) {
+		if(nOfPages%lastPage>=0) {
 			nOfPages++;
 		}
+		
+		int pageBlock = 0;
+		if(StartPage%10==0) {
+			pageBlock = (StartPage-StartPage%10)/10;
+		}else {
+			pageBlock = (StartPage-StartPage%10)/10+1;
+		}
+		
+		request.setAttribute("pageBlock",pageBlock);
 		request.setAttribute("nOfPages",nOfPages);
+		System.out.println(nOfPages);
 		request.setAttribute("StartPage", StartPage);
 		request.setAttribute("searchValue", searchValue);
 		

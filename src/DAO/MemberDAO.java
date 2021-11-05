@@ -168,6 +168,60 @@ public class MemberDAO {
 	}
 	//login 끝
 	
+	//신고 기능을 위한 loginmember 오버로딩
+	
+	public MemberDTO loginMember(String id)
+	{
+		
+		MemberDTO mDTO=null;
+		String sql="select * from member where id = ?";
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+		
+
+			rs.next();
+		
+		
+			mDTO=new MemberDTO();
+			
+			mDTO.setNum(rs.getInt("num"));
+			mDTO.setId(rs.getString("id"));
+			mDTO.setPw(rs.getString("pw"));
+			mDTO.setName(rs.getString("name"));
+			mDTO.setEmail(rs.getString("email"));
+			mDTO.setAuthority(rs.getString("authority"));
+			
+									
+		}
+		catch(Exception e)
+		{
+			System.out.println("MemberDAO의 MemberLogin2에서 문제 발생"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+	
+		
+		return mDTO;
+		
+	}
+	
+	
+	//신고 기능을 위한 loginmember 오버로딩
+	
+	
 	//id 중복 체크 시작
 
 	public int idCheck(String id)
@@ -362,11 +416,11 @@ public class MemberDAO {
 	}
 	//관리자 회원 관리 끝
 	
-	//관리자 회원 관리 검색 시작
+	//관리자 회원 관리  시작
 	
 	public List<MemberDTO> memberIdSerachList(String id, int startPage, int lastPage)
 	{
-		String ids=id+"%";
+		String ids="%"+id+"%";
 		int start=startPage*lastPage-lastPage;
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
@@ -387,6 +441,8 @@ public class MemberDAO {
 			pstmt.setInt(2, start);
 			pstmt.setInt(3, lastPage);
 
+			System.out.print(pstmt);
+			
 			rs=pstmt.executeQuery();
 			
 			while(rs.next())
@@ -419,7 +475,7 @@ public class MemberDAO {
 
 	public List<MemberDTO> memberNameSerachList(String name, int startPage, int lastPage)
 	{
-		String names=name+"%";
+		String names="%"+name+"%";
 		int start=startPage*lastPage-lastPage;
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
@@ -439,6 +495,8 @@ public class MemberDAO {
 			pstmt.setString(1, names);
 			pstmt.setInt(2, start);
 			pstmt.setInt(3, lastPage);
+			
+			System.out.print(pstmt);
 
 			rs=pstmt.executeQuery();
 			
@@ -474,7 +532,7 @@ public class MemberDAO {
 	
 	public List<MemberDTO> memberIdSerachList(String id, String authority, int startPage, int lastPage)
 	{
-		String ids=id+"%";
+		String ids="%"+id+"%";
 		int start=startPage*lastPage-lastPage;
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
@@ -530,7 +588,7 @@ public class MemberDAO {
 	
 	public List<MemberDTO> memberNameSerachList(String name, String authority, int startPage, int lastPage)
 	{
-		String names=name+"%";
+		String names="%"+name+"%";
 		int start=startPage*lastPage-lastPage;
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
@@ -551,6 +609,8 @@ public class MemberDAO {
 			pstmt.setString(2, authority);
 			pstmt.setInt(3, start);
 			pstmt.setInt(4, lastPage);
+			
+			System.out.print(pstmt);
 			
 			rs=pstmt.executeQuery();
 			
@@ -625,7 +685,7 @@ public class MemberDAO {
 	public int memberListIdPageBtn(String id)
 	{
 		String sql="select count(num) from member where id like ?";
-		String ids= id+"%";
+		String ids= "%"+id+"%";
 		
 		int pagebtn=0;
 		
@@ -639,6 +699,8 @@ public class MemberDAO {
 			pstmt=conn.prepareStatement(sql);
 			
 			pstmt.setString(1, ids);
+			
+			System.out.print(pstmt);
 			
 			rs=pstmt.executeQuery();
 			
@@ -663,7 +725,7 @@ public class MemberDAO {
 	public int memberListNamePageBtn(String name)
 	{
 		String sql="select count(num) from member where name like ?";
-		String names= name+"%";
+		String names= "%"+name+"%";
 		
 		int pagebtn=0;
 		
@@ -677,6 +739,8 @@ public class MemberDAO {
 			pstmt=conn.prepareStatement(sql);
 			
 			pstmt.setString(1, names);
+			
+			System.out.print(pstmt);
 			
 			rs=pstmt.executeQuery();
 			
@@ -700,7 +764,7 @@ public class MemberDAO {
 	public int memberListIdPageBtn(String id, String authority)
 	{
 		String sql="select count(num) from member where id like ? and authority=?";
-		String ids= id+"%";
+		String ids= "%"+id+"%";
 		
 		int pagebtn=0;
 		
@@ -715,6 +779,8 @@ public class MemberDAO {
 			
 			pstmt.setString(1, ids);
 			pstmt.setString(2, authority);
+			
+			System.out.print(pstmt);
 			
 			rs=pstmt.executeQuery();
 			
@@ -738,7 +804,7 @@ public class MemberDAO {
 	public int memberListNamePageBtn(String name, String authority)
 	{
 		String sql="select count(num) from member where name like ? and authority=?";
-		String names= name+"%";
+		String names= "%"+name+"%";
 		
 		int pagebtn=0;
 		
@@ -753,6 +819,8 @@ public class MemberDAO {
 			
 			pstmt.setString(1, names);
 			pstmt.setString(2, authority);
+			
+			System.out.print(pstmt);
 			
 			rs=pstmt.executeQuery();
 			
@@ -778,150 +846,148 @@ public class MemberDAO {
 	
 	//신고 기능
 	
-	public void memberReport(String id)
-	{
-		String sql = "update member set authority=3 where id=?";
+		public void memberReport(String id)
+		{
+			String sql = "update member set authority=3 where id=?";
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			
+			try
+			{
+				conn = getConnection();
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, id);
+				
+				pstmt.executeUpdate();
+				
+			}
+			catch(Exception e)
+			{
+				System.out.println("member 신고 버튼 실패"+e);
+			}
+			finally
+			{
+				close(conn, pstmt);
+			}
+			
+		}
 		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
+		//신고 기능
 		
-		try
-		{
-			conn = getConnection();
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, id);
-			
-			pstmt.executeUpdate();
-			
-		}
-		catch(Exception e)
-		{
-			System.out.println("member 신고 버튼 실패"+e);
-		}
-		finally
-		{
-			close(conn, pstmt);
-		}
+		//권한 수정
+		public void memberListAuthorityUpdate(String selAuIdValue, String authority) {
+		      
+		      String sql="update member set authority=? where id=?";
+		      
+		      Connection conn=null;
+		      PreparedStatement pstmt = null;
+		      
+		      try
+		      {
+		         conn=getConnection();
+		         pstmt=conn.prepareStatement(sql);
+		         
+		         pstmt.setString(1, authority);
+		         pstmt.setString(2, selAuIdValue);
+		         pstmt.executeUpdate();   
+		      }
+		      catch(Exception e)
+		      {
+		         System.out.println("회원 권한 수정 실패"+e);
+		      }
+		      finally
+		      {
+		         close(conn, pstmt);
+		      }
+		   }
+		//권한 수정
 		
-	}
-	
-	//신고 기능
-	
-	//권한 수정
-	public void memberListAuthorityUpdate(String selAuIdValue, String authority) {
-	      
-	      String sql="update member set authority=? where id=?";
-	      
-	      Connection conn=null;
-	      PreparedStatement pstmt = null;
-	      
-	      try
-	      {
-	         conn=getConnection();
-	         pstmt=conn.prepareStatement(sql);
-	         
-	         pstmt.setString(1, authority);
-	         pstmt.setString(2, selAuIdValue);
-	         pstmt.executeUpdate();   
-	      }
-	      catch(Exception e)
-	      {
-	         System.out.println("회원 권한 수정 실패"+e);
-	      }
-	      finally
-	      {
-	         close(conn, pstmt);
-	      }
-	   }
-	//권한 수정
-	
-	//정지 기간 설정
-	public void updateSuspension(String date, String selAuIdValue)
-	{
-		String sql="update Member set stopdate=? where id=?";
-		Connection conn=null;
-		PreparedStatement pstmt = null;
-	
-		try
+		//정지 기간 설정
+		public void updateSuspension(String date, String selAuIdValue)
 		{
-			conn=getConnection();
-			pstmt=conn.prepareStatement(sql);
-			
-			pstmt.setString(1, date);
-			pstmt.setString(2, selAuIdValue);
-			
-			pstmt.executeUpdate();
-		}
-		catch(Exception e)
-		{
-			System.out.println("MemberDAO의 updateSuspension에서 문제 발생"+e);
-		}
-		finally
-		{
-			close(conn, pstmt);
-		}
-	}
-	//정지 기간 설정
-	
-	//정지 기간 가져오기
-	public String getSusLastDay(String id)
-	{
-		String susLastDay="";
-		String sql="select stopdate from member where id = ?";
+			String sql="update Member set stopdate=? where id=?";
+			Connection conn=null;
+			PreparedStatement pstmt = null;
 		
-		Connection conn=null;
-		PreparedStatement pstmt = null;
-		ResultSet rs =null;
+			try
+			{
+				conn=getConnection();
+				pstmt=conn.prepareStatement(sql);
+				
+				pstmt.setString(1, date);
+				pstmt.setString(2, selAuIdValue);
+				
+				pstmt.executeUpdate();
+			}
+			catch(Exception e)
+			{
+				System.out.println("MemberDAO의 updateSuspension에서 문제 발생"+e);
+			}
+			finally
+			{
+				close(conn, pstmt);
+			}
+		}
+		//정지 기간 설정
 		
-		try
+		//정지 기간 가져오기
+		public String getSusLastDay(String id)
 		{
-			conn = getConnection();
-			pstmt = conn.prepareStatement(sql);
+			String susLastDay="";
+			String sql="select stopdate from member where id = ?";
 			
-			pstmt.setString(1, id);
+			Connection conn=null;
+			PreparedStatement pstmt = null;
+			ResultSet rs =null;
+			
+			try
+			{
+				conn = getConnection();
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, id);
 
-			rs = pstmt.executeQuery();
-		
-			rs.next();
-			susLastDay = rs.getString("stopdate");
-										
+				rs = pstmt.executeQuery();
+			
+				rs.next();
+				susLastDay = rs.getString("stopdate");
+											
+			}
+			catch(Exception e)
+			{
+				System.out.println("MemberDAO의 getSusLastDay에서 문제 발생"+e);
+			}
+			finally
+			{
+				close(conn, pstmt, rs);
+			}
+			return susLastDay;
 		}
-		catch(Exception e)
-		{
-			System.out.println("MemberDAO의 getSusLastDay에서 문제 발생"+e);
+		//정지 기간 가져오기
+			
+		// 회원가입자 수 
+		public String registerMemberDateCount(String ymdDate) {
+			String sql="select count(*) from member where createdate=?"; 
+			Connection conn=null;
+			PreparedStatement pstmt=null;
+			ResultSet rs=null; 
+			try {
+				conn=getConnection();
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, ymdDate);
+				rs=pstmt.executeQuery();
+				rs.next();
+				ymdDate = rs.getString(1);		
+			}
+			catch(Exception e) {
+				System.out.println("회원가입자 수 오류 발생 +e");
+			}
+			finally
+			{
+				close(conn, pstmt, rs);
+			}
+			return ymdDate;
 		}
-		finally
-		{
-			close(conn, pstmt, rs);
-		}
-		return susLastDay;
 	}
-	//정지 기간 가져오기
-		
-	// 회원가입자 수 
-	public String registerMemberDateCount(String ymdDate) {
-		String sql="select count(*) from member where createdate=?"; 
-		Connection conn=null;
-		PreparedStatement pstmt=null;
-		ResultSet rs=null; 
-		try {
-			conn=getConnection();
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, ymdDate);
-			rs=pstmt.executeQuery();
-			rs.next();
-			ymdDate = rs.getString(1);		
-		}
-		catch(Exception e) {
-			System.out.println("회원가입자 수 오류 발생 +e");
-		}
-		finally
-		{
-			close(conn, pstmt, rs);
-		}
-		return ymdDate;
-	}
-}
-
-

@@ -71,19 +71,16 @@ public class ParagraphDTO {
 	
 	
 	
-/*
- create table paragraph(
-			num int primary key auto_increment,
-			id text,
-			name text,
-			title text,
-			contents text,
-			category text,
-			date datetime);
-alter table paragraph add hits int;	
-alter table paragraph add tag text;
-
- */
+//	create table paragraph(
+//			num int primary key auto_increment,
+//			id text,
+//			name text,
+//			title text,
+//			contents text,
+//			category text,
+//			date datetime);
+//alter table paragraph add hits int;	
+//alter table paragraph add tag text;
 
 	
 }

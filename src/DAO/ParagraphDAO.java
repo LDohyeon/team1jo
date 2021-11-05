@@ -24,7 +24,9 @@ public class ParagraphDAO {
 		Connection conn = null;
 		String url = "jdbc:mysql://127.0.0.1:3306/status200";
 		String db_id = "root";
-		String db_pw = "iotiot";
+		String db_pw="iotiot";
+		//String db_pw="iotiot12*";
+		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
 		
 		try
 		{
@@ -34,9 +36,10 @@ public class ParagraphDAO {
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			System.out.println("ParagraphDAO�쓽 conn �뿉�꽌 �쉶�꽑 臾몄젣 諛쒖깮"+e);	
+			System.out.println("ParagraphDAO의 conn 에서 회선 문제 발생"+e);	
 		}
 		return conn;
+		
 	}
 	
 	public static void close(Connection conn, Statement stmt, ResultSet rs)
@@ -58,7 +61,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�꽑 醫낅즺 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("회선 종료 중 문제 발생 : "+ e);
 		}
 	}
 	public static void close(Connection conn, Statement stmt)
@@ -76,14 +79,14 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("�쉶�꽑 醫낅즺 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("회선 종료 중 문제 발생 : "+ e);
 		}
 	}
 	
 	
 	public void paragraphInsert(ParagraphDTO pDTO)
 	{
-		String sql="insert into paragraph(id, name, title, contents, category, date, hits) values(?, ?, ?, ?, ?, NOW(), 0)";
+		String sql="insert into paragraph(id, name, title, contents, category, date, hits, tag) values(?, ?, ?, ?, ?, NOW(), 0, ?)";
 		
 		Connection conn=null;
 		PreparedStatement pstmt = null;
@@ -98,18 +101,19 @@ public class ParagraphDAO {
 			pstmt.setString(3, pDTO.getTitle());
 			pstmt.setString(4, pDTO.getContents());
 			pstmt.setString(5, pDTO.getCategory());
+			pstmt.setString(6, pDTO.getTag());
 			
 			pstmt.execute();
 
 		}
 		catch(Exception e)
 		{
-			System.out.println("paragraphInsert 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("paragraphInsert 중 문제 발생 : "+ e);
 		}	
 	}
 	
 	public List<ParagraphDTO> paragraphList(int StartPage, int lastPage)
-	{
+	{ 
 		List<ParagraphDTO> list= new ArrayList<ParagraphDTO>();
 		int start = StartPage*lastPage-lastPage;
 		
@@ -143,14 +147,15 @@ public class ParagraphDAO {
 				pDTO.setCategory(rs.getString("category"));
 				pDTO.setDatetime(rs.getString("date"));
 				pDTO.setHits(rs.getInt("hits"));
-				
+				pDTO.setTag(rs.getString("tag"));
+
 				list.add(pDTO);
 			}
 			
 		}
 		catch(Exception e)
 		{
-			System.out.println("paragraphList 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("paragraphList 중 문제 발생 : "+ e);
 		}
 		finally
 		{
@@ -183,7 +188,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ParagraphPage 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("ParagraphPage 중 문제 발생 : "+ e);
 		}
 		finally
 		{
@@ -222,11 +227,12 @@ public class ParagraphDAO {
 			pDTO.setCategory(rs.getString("category"));
 			pDTO.setDatetime(rs.getString("date"));
 			pDTO.setHits(rs.getInt("hits"));
+			pDTO.setTag(rs.getString("tag"));
 			
 		}
 		catch(Exception e)
 		{
-			System.out.println("ParagraphContents 寃뚯떆�뙋 蹂닿린 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("ParagraphContents 게시판 보기 중 문제 발생 : "+ e);
 		}
 		finally
 		{
@@ -238,10 +244,10 @@ public class ParagraphDAO {
 	}
 	
 
-	//寃뚯떆�뙋 �닔�젙
+	//게시판 수정
 	public void paragraphUpdate(ParagraphDTO pDTO)
 	{
-		String sql="update paragraph set title=?, contents = ? where num = ?";
+		String sql="update paragraph set title=?, contents = ?, tag = ? where num = ?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -253,14 +259,15 @@ public class ParagraphDAO {
 			
 			pstmt.setString(1, pDTO.getTitle());
 			pstmt.setString(2, pDTO.getContents());
-			pstmt.setInt(3, pDTO.getNum());
+			pstmt.setString(3, pDTO.getTag());
+			pstmt.setInt(4, pDTO.getNum());
 			
 			pstmt.executeUpdate();
 			
 		}
 		catch(Exception e)
 		{
-			System.out.println("ParagraphContents 寃뚯떆�뙋 �닔�젙 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("ParagraphContents 게시판 수정 중 문제 발생 : "+ e);
 		}
 		finally
 		{
@@ -268,9 +275,9 @@ public class ParagraphDAO {
 		}
 
 	}
-	//寃뚯떆�뙋 �닔�젙
+	//게시판 수정
 	
-	//寃뚯떆�뙋 �궘�젣
+	//게시판 삭제
 	public void paragraphDelete(int num)
 	{
 		String sql ="delete from paragraph where num = ?";
@@ -290,7 +297,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("ParagraphContents 寃뚯떆�뙋 �궘�젣 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("ParagraphContents 게시판 삭제 중 문제 발생 : "+ e);
 		}
 		finally
 		{
@@ -298,10 +305,10 @@ public class ParagraphDAO {
 		}
 
 	}
-	//寃뚯떆�뙋 �닔�젙
+	//게시판 수정
 	
 	
-	//議고쉶�닔 �뾽
+	//조회수 업
 	
 	public void paragraphHitsUp(int num)
 	{
@@ -322,7 +329,7 @@ public class ParagraphDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("paragraphHitsUp 寃뚯떆�뙋 議고쉶�닔 �뾽 以� 臾몄젣 諛쒖깮 : "+ e);
+			System.out.println("paragraphHitsUp 게시판 조회수 업 중 문제 발생 : "+ e);
 		}
 		finally
 		{
@@ -330,7 +337,7 @@ public class ParagraphDAO {
 		}
 	}
 	
-	//議고쉶�닔 �뾽
+	//조회수 업
 	
 	//날짜별 작성글 개수 가져오기
 	public int countWritings(String date)
@@ -514,5 +521,65 @@ public class ParagraphDAO {
 		}
 		//게시판 검색 페이지 버튼
 
+		
+		//게시판 자동 완성 기능
+		
+		public List<String> searchAutoParagraph(String searchAuto)
+		{
+			List<String> list = new ArrayList<String>();
+			
+			String auto=searchAuto+"%";
+			String sql="select title from Paragraph where title like ? or contents like ? or tag like ? order by hits desc limit 10;";
+			
+			Connection conn =null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try
+			{
+				conn=getConnection();
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, auto);
+				pstmt.setString(2, auto);
+				pstmt.setString(3, auto);
+						
+				rs = pstmt.executeQuery();
+				
+				while(rs.next())
+				{
+					list.add(rs.getString(1));
+				}
+				
+			}
+			catch(Exception e)
+			{
+				System.out.println("게시판 자동완성 기능 실패 " +e);
+			}
+			finally
+			{
+				close(conn, pstmt, rs);
+			}
+			
+			
+			return list;
+		}
+		
+		
+		
+		//게시판 자동 완성 기능
+		
+		
 	}
-	//게시판 검색 페이지 버튼
+
+
+
+
+
+
+
+
+
+
+
+

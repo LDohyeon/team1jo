@@ -17,6 +17,7 @@
 		<script src="codeMirror/javascript.js"></script>
 		<script src="codeMirror/sql.js"></script>
 		<script src="codeMirror/clike.js"></script>
+		<link rel="stylesheet" href="style.css">
 		<style>
 			@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Myeongjo&display=swap');
 			
@@ -58,6 +59,16 @@
 			{
 				color:red;
 			}
+			.divColor2
+			{
+				background-color:white;
+				border:1px solid lightgray;
+			}
+			.divColor3
+			{
+				background-color:white;
+				border:1px solid lightgray;
+			}
 			
 			
 			#wrapPonup
@@ -96,15 +107,66 @@
 			{
 				display:none;
 			}
+			.fontType{
+				line-height:20px;
+			}
+			#fontColor, #bgColor{
+				height:23px;
+				width:23px;
+			}
+			.divColor{
+				border: 1px solid lightgray;				
+			}
+			.divColor:hover{
+				background-color: lightgray;
+			}
+			.buttonsArea
+			{
+				padding-top: 20px;
+				text-align: center;
+			}
+			
+			.button
+			{
+				background-color: #064998;
+				color: #fff;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				margin: 5px 0;
+				font-size: 14px;
+				
+				width: 80px;
+				display: inline-block;
+				border:0;
+			}
+			.button:hover
+			{
+				background-color: #005cc3;
+			}
+			.button2
+			{
+			    height: 25px;
+			    line-height: 25px;
+			    text-align: center;
+			    margin: 5px;
+			    font-size: 10px;
+			    width: 44px;
+    			border: 1px solid #dbdadf;
+    			background-color: #f1f1f1;
+    			color: #000;
+    			
+    			display: inline-block;
+    			float: right;
+			}
+			.button2:hover
+			{
+				background-color: #fff;
+			}
         </style>
 	</head>
+	<jsp:include page="./header.jsp"/>
 	<body>
-		<!--헤더 시작-->
-        <div class="header">
-            header
-        </div>
-        <!--헤더 종료-->
-        
         <!--컨텐츠 시작-->
         <div class="content">
         	<form method="post" action="paragraphEditorWrite.do" id="frm" name="frm">
@@ -129,23 +191,18 @@
 	                            </select>
 	                        </div>
 	                        <div class="fontStyle">
-	                            <button class="divColor" type="button" onclick="btnColor(0); document.execCommand('bold');">두껍게</button>
-	                            <button class="divColor" type="button" onclick="btnColor(1); document.execCommand('Underline');">밑줄</button>
-	                            <button class="divColor" type="button" onclick="btnColor(2); document.execCommand('italic');">기울이기</button>
-	                            <input type="color" id="fontColor"><button class="divColor" type="button" onclick="btnColor(3); document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
-	                            <input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="btnColor(4); document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
-	                        </div>
-	                        <div class="fontAlign">
-	                            <button class="divColor" type="button" onclick="btnColor(5); document.execCommand('justifyleft');">왼쪽</button>
-	                            <button class="divColor" type="button" onclick="btnColor(6); document.execCommand('justifycenter');">가운데</button>
-	                            <button class="divColor" type="button" onclick="btnColor(7); document.execCommand('justifyRight');">오른쪽</button>
-	                            <button class="divColor" type="button" onclick="btnColor(8); document.execCommand('removeFormat');">서식삭제</button>                      
-	                        	
+	                            <button class="divColor" type="button" onclick="document.execCommand('bold');">두껍게</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('Underline');">밑줄</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
+	                            <input type="color" id="fontColor"><button class="divColor" type="button" onclick="document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
+	                            <input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
+	                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
+	                            <button class="divColor3" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>  
+	                            <button class="divColor2" type="button" onclick="imgInsert()">사진</button>
 	                        </div>
 
-	                        <div class="img">
-	                            <button class="divColor" type="button" onclick="imgInsert()">사진</button>
-	                        </div>
 	                        
 	                        <div class="codeWrite">   
 	                        	<select id="language" onchange="langs()">
@@ -157,8 +214,8 @@
 	                            	<option value="text/javascript">javascript</option>
 	                        	</select>
 	                        	
-	                        	<input class="divColor" type="button" onclick="code()" value="코드 작성 하러 가기">  
-	                        	<input class="divColor" type="button" onclick="codeUpdate()" value="코드 수정하러 가기">
+	                        	<input class="divColor2" type="button" onclick="code()" value="코드 작성 하러 가기">  
+	                        	<input class="divColor2" type="button" onclick="codeUpdate()" value="코드 수정하러 가기">
 	                        </div>
 
 	                    </div>
@@ -174,13 +231,14 @@
 	                    <input id="num" type="hidden" value="${pDTO.getNum() }" name="num">
 
 	            	 </div>
-	            	 
-	            	 <c:if test="${pDTO.getTitle() ==null }">
-	            	 	<input type="submit" value="글쓰기" onclick="return writeCheck();">
-	            	 </c:if>
-	            	 <c:if test="${pDTO.getTitle() !=null }">
-	            	 	<input type="submit" value="글수정" onclick="return writeCheckUpdate();">
-	            	 </c:if>
+	            	 <div class="buttonsArea">
+	            	 	<c:if test="${pDTO.getTitle() ==null }">
+		            	 	<input class="button" type="submit" value="글쓰기" onclick="return writeCheck();">
+		            	 </c:if>
+		            	 <c:if test="${pDTO.getTitle() !=null }">
+		            	 	<input class="button" type="submit" value="글수정" onclick="return writeCheckUpdate();">
+		            	 </c:if>
+	            	 </div>
 				 	
 	            </div>
         	</form>
@@ -193,25 +251,17 @@
         	<input id="imgTitle" type="hidden" name="imgTitle">
         </form>
         
-        <!--푸터 시작-->
-        <div class="footer">
-            footer
-        </div>
-        <!--푸터 종료-->
-        
-        
 		<!-- 결제 창 판업 띄우기 -->
 		<div id="wrapPonup">
 			<div id="ponup">
 				<textarea id="writeContentLib"></textarea>
-				<button onclick="cansle()">취소</button>
-				<button onclick="realGo()">저장</button>
+				<button class="button" onclick="cansle()">취소</button>
+				<button class="button" onclick="realGo()">저장</button>
 			</div>
 		</div>
 		<input id="hid" type="hidden">
 	</body>
-	
-
+	<jsp:include page="./footer.jsp"/>
 	<script>
 		function selectFont(){
 			var select=document.getElementById("fontType");
@@ -224,17 +274,46 @@
 			divColor[i].style.backgroundColor="white";
 		}
 	
-		function btnColor(i){
-			if(i==8){
-				for(var i=0;i<8;i++){
-					divColor[i].style.backgroundColor="white";
+		function btnColor(e)
+		{
+			if(document.getSelection().anchorNode !=null)
+			{
+				if(e.target.style.backgroundColor=="white")
+				{
+					e.target.style.backgroundColor="gray";
 				}
-			}else if(divColor[i].style.backgroundColor=="gray"){
-				divColor[i].style.backgroundColor="white";
-			}else if(divColor[i].style.backgroundColor=="white"){
-				divColor[i].style.backgroundColor="gray";
+				else
+				{
+					e.target.style.backgroundColor="white";
+				}
 			}
 		}
+		
+		function init()
+		{	
+	        for (var i = 0; i <divColor.length; i++)
+	        {
+	        	divColor[i].addEventListener("click", btnColor, false);
+	        }
+	    }
+
+	    init();
+	    
+	    var divColor3 = document.getElementsByClassName("divColor3");
+	    
+	    function init3()
+	    {
+	    	 for (var i = 0; i <divColor3.length; i++)
+		        {
+	    			 divColor3[i].addEventListener("click", function(){
+	    		    	for(var j=0; j<divColor.length; j++)
+	    		    	{
+	    		    		divColor[j].style.backgroundColor="white";
+	    		    	}
+	    		    });
+		        }
+	    }
+	    init3();
 
 		function writeCheck()
 		{
@@ -261,7 +340,21 @@
 
 			frm.action="paragraphUpdate.do";
 			
-			writeCheck();
+			if(document.frm.writeTitle.value.length==0){
+				alert("제목을 입력해주세요.");
+				frm.writeTitle.focus();
+				return false;
+			}
+			if(document.getElementById("writeContent").innerHTML==""){
+				alert("내용을 입력해주세요.");
+				document.getElementById("writeContent").focus();
+				return false;
+			}
+				var text;
+				text=document.getElementById('writeContent').innerHTML;
+				document.getElementById('content').value=text;
+
+				return true;
 		}
 	
 	
@@ -369,10 +462,12 @@
 	
 			textarea.setAttribute("id", "writeContentLib");
 			cansleButton.setAttribute("onclick", "cansle()");
+			cansleButton.setAttribute("class", "button2");
 			cansleButton.innerText="취소";
 			wrapPonup.style.display="block";
 			
 			realgoButton.setAttribute("onclick", "realGo()");
+			realgoButton.setAttribute("class", "button2");
 			realgoButton.innerText="저장";
 			
 			Lib(hid);
@@ -426,10 +521,12 @@
 				
 				
 				cansleButton.setAttribute("onclick", "cansleUpdate()");
+				cansleButton.setAttribute("class", "button2");
 				cansleButton.innerText="취소";
 				wrapPonup.style.display="block";
 				
 				realgoButton.setAttribute("onclick", "realGoUpdate()");
+				realgoButton.setAttribute("class", "button2");
 				realgoButton.innerText="저장";
 				
 				Lib(getSels[1]);

@@ -33,7 +33,7 @@ public class CommentDAO {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			System.out.println("MemberDAOÀÇ MemberInsert¿¡¼­ È¸¼± ¹®Á¦ ¹ß»ı"+e);	
+			System.out.println("MemberDAOï¿½ï¿½ MemberInsertï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½"+e);	
 		}
 
 		return conn;
@@ -58,7 +58,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("È¸¼± Á¾·á Áß ¹®Á¦ ¹ß»ı : "+ e);
+			System.out.println("È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ : "+ e);
 		}
 	}
 	public static void close(Connection conn, Statement stmt)
@@ -76,7 +76,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("È¸¼± Á¾·á Áß ¹®Á¦ ¹ß»ı : "+ e);
+			System.out.println("È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ : "+ e);
 		}
 	}
 	
@@ -104,7 +104,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("´ñ±Û ÀúÀå Áß ¿À·ù ¹ß»ı : "+ e);
+			System.out.println("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ : "+ e);
 		}
 		finally
 		{
@@ -122,6 +122,7 @@ public class CommentDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
+		int commentCount=0;
 		
 		try
 		{
@@ -139,13 +140,16 @@ public class CommentDAO {
 				cDTO.setComment(rs.getString("comment"));
 				cDTO.setParagraph_num(rs.getInt("paragraph_num"));
 				cDTO.setTime(rs.getString("time"));
+				cDTO.setCommentCount(commentCount);
 				
 				list.add(cDTO);		
+				
+				commentCount++;
 			}
 		}
 		catch(Exception e)
 		{
-			System.out.println("´ñ±Û ¸®½ºÆ® Ãâ·Â Áß ¿À·ù ¹ß»ı : "+ e);
+			System.out.println("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ : "+ e);
 		}
 		finally
 		{
@@ -175,7 +179,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("´ñ±Û ¼öÁ¤ Áß ¿À·ù ¹ß»ı : "+ e);
+			System.out.println("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ : "+ e);
 		}
 		finally
 		{
@@ -199,7 +203,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("´ñ±Û »èÁ¦ Áß ¿À·ù ¹ß»ı : "+ e);
+			System.out.println("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ : "+ e);
 		}
 		finally
 		{
@@ -236,7 +240,7 @@ public class CommentDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println("CommentContents ´ñ±Û º¸±â Áß ¹®Á¦ ¹ß»ı : "+ e);
+			System.out.println("CommentContents ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ : "+ e);
 		}
 		finally
 		{
@@ -245,6 +249,40 @@ public class CommentDAO {
 		
 		
 		return cDTO;
+	}
+	
+	
+	public int commentLastCount(int paragraph_num)
+	{
+		int clc=0;
+		String sql="select count(num) from comment where paragraph_num="+paragraph_num;
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn= getConnection();
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			clc = rs.getInt(1);
+
+		}
+		catch(Exception e)
+		{
+			System.out.println("commentLastCount ì˜¤ë¥˜ ë°œìƒ : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		
+		return clc;
 	}
 	
 	

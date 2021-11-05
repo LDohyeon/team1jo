@@ -15,8 +15,109 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>회원 리스트 페이지</title>
+		<title>회원 리스트 관리자 페이지</title>
 		<link rel="stylesheet" href="style.css">
+		<style>
+			.wrap{
+				margin:30px 0px 100px 0px;
+				align-items:center;
+				display:flex;
+				justify-content:center;
+			}
+			.memberListWrap{
+				border: 1px solid black;
+				padding: 15px 35px;
+			}
+			.memberListH1{
+				line-height:71px;
+			}
+			.memberListForm{
+				margin-bottom: 15px;
+			}
+			.memberListselectBox{
+				height:42px; 
+				font-size:14px; 
+				border:1px solid #dbdadf;
+			}
+			.memberListInputBox{
+				padding:0 10px; 
+				line-height:40px; 
+				font-size:14px; 
+				border:1px solid #dbdadf; 
+			}
+			.btnSerch{
+				height:41px; 
+				color:#fff; 
+				background:#064998; 
+				border:0; 
+				padding:1px 20px 5px 20px; 
+				font-size:14px; 
+			}
+			.memberListTableDiv{
+				width:100%;
+				min-width:700px;
+			}
+			.memberListDiv .memberListTable{
+				border-spacing:0; 
+				width:700px; 
+				border-top:1px solid #272324;
+			}
+			.memberListDiv .memberListTable th{
+				background:#f1f1f1; 
+				border-bottom:1px solid #dbdadf; 
+				border-right:1px solid #dbdadf; 
+				height:40px; 
+				font-size:14px; 
+			}
+			.memberListDiv .memberListTable th:last-child{
+				border-right:0
+			}
+			.memberListDiv .memberListTable th{
+				padding:0 10px;
+			}
+			.memberListDiv .memberListTable td{
+				font-size:14px; 
+				border-bottom:1px solid #dbdadf; 
+				border-right:1px solid #dbdadf; 
+				text-align:center; 
+				padding:10px 10px; 
+			}
+			.authorityUpdate{
+				height:25px; 
+				background:#f1f1f1;
+				border: 0; 
+				font-size:13px;
+			}
+			.btnRegisterAdd{
+				height:35px; 
+				background:#f1f1f1;
+				border:0; 
+				padding:0px 20px; 
+				font-size:14px; 
+				margin-top:15px;
+			}			
+			.btnChart{
+				height:41px; 
+				background:#f1f1f1; 
+				border:0; 
+				padding:1px 20px 5px 20px; 
+				font-size:14px;
+				margin-left:110px;
+			}		
+			.memberListPaging{
+				text-align:center; 
+				margin-top:30px;
+			}
+			.memberListPaging a{ 
+				display:inline-block;
+				width:35px; 
+				line-height:35px; 
+				font-size: 12px;
+			}		
+			.memberListPaging .on{
+				font-weight:bold;
+			}
+		</style>
 	</head>
 	<body>
 		<%
@@ -27,80 +128,87 @@
 				list = list1;
 			}
 		%>
-		<div class="wrap1">
-			<div>
-				<h1>회원 리스트</h1>
-				<form name="frm" method="post" action="memberList.do?startPage=1">
-					<select name="selSerch1" class="memberListSelect1">
-						<option value="">==선택==</option>
-						<option value="id">아이디</option>
-						<option value="name">이름</option>
-					</select>
-					<select name="selSerch2" >
-						<option value="0">전체 보기</option>
-						<option value="1">관리자(1)</option>
-						<option value="2">일반 회원(2)</option>
-						<option value="3">신고 당한 사람(3)</option>
-						<option value="4">정지 권한(4)</option>
-					</select>
-					<input type="text" name="selValue" class="memberListSelect2" placeholder="검색어를 입력해주세요">
-					<input type="submit" value="검색" onclick="return serchCheck()">
-				</form>
-			</div>
-			<div class="wrap2">
-					<table class="memberList">
-						<tr>
-							<td>번호</td>
-							<td>아이디</td>
-							<td>이름</td>
-							<td>이메일</td>
-							<td>삭제</td>
-							<td>권한</td>
-							<td>권한 수정</td>
-						</tr>
-						<%
-							try{				
-								for(int i=0; i<list.size(); i++){					
-						%>			
-									<tr>
-										<td><%=list.get(i).getNum() %></td>
-										<td><%=list.get(i).getId() %></td>
-										<td><%=list.get(i).getName() %></td>
-										<td><%=list.get(i).getEmail() %></td>
-										<td><a href="ListLeaveldServlet.do?getId=<%=list.get(i).getId() %>&startPage=${startPage}">삭제</a></td>
-										<td><%=list.get(i).getAuthority() %></td>
-										<td><input type="button" name="popUp" value="설정" onclick="authorityPopUp('<%=list.get(i).getId() %>','<%=list.get(i).getAuthority() %>')"></td>
-									</tr>			
-						<% 
-								}
-							} catch(Exception e) {
-								System.out.println("member 리스트 조회 오류 발생 : " + e);
-							} 
-						%>					
-					</table>
-					<div>
-						<input type="button" value="회원추가!" onclick="register_add()">
+		<jsp:include page="./header.jsp"></jsp:include>
+		<div class="wrap">
+			<div class="memberListWrap">
+				<h1 class="memberListH1">회원 리스트</h1>
+				<div>
+					<form name="frm" class="memberListForm" method="post" action="memberList.do?startPage=1">
+						<select name="selSerch1" class="memberListselectBox">
+							<option value="">-- 선택 --</option>
+							<option value="id">아이디</option>
+							<option value="name">이름</option>
+						</select>
+						<select name="selSerch2" class="memberListselectBox">
+							<option value="0">-- 전체 --</option>
+							<option value="1">관리자(1)</option>
+							<option value="2">일반 회원(2)</option>
+							<option value="3">신고 당한 사람(3)</option>
+							<option value="4">정지 권한(4)</option>
+						</select>
+						<input type="text" class="memberListInputBox" name="selValue"  placeholder="검색어를 입력해주세요">
+						<input type="submit" class="btnSerch" value="검색" onclick="return serchCheck()">
+						<input type="button" class="btnChart" value="차트보기" onclick="chart()">
+					</form>
+				</div>
+				<div class="memberListTableDiv">
+					<div class="memberListDiv">
+						<table class="memberListTable">
+							<tr>
+								<th>번호</th>
+								<th>아이디</th>
+								<th>이름</th>
+								<th>이메일</th>
+								<th>삭제</th>
+								<th>권한</th>
+								<th>권한 수정</th>
+							</tr>
+							<%
+								try{				
+									for(int i=0; i<list.size(); i++){					
+							%>			
+										<tr>
+											<td><%=list.get(i).getNum() %></td>
+											<td><%=list.get(i).getId() %></td>
+											<td><%=list.get(i).getName() %></td>
+											<td><%=list.get(i).getEmail() %></td>
+											<td><a href="ListLeaveldServlet.do?getId=<%=list.get(i).getId() %>&startPage=${startPage}">삭제</a></td>
+											<td><%=list.get(i).getAuthority() %></td>
+											<td><input type="button" class="authorityUpdate" name="popUp" value="수정" onclick="authorityPopUp('<%=list.get(i).getId() %>','<%=list.get(i).getAuthority() %>')"></td>
+										</tr>			
+							<% 
+									}
+								} catch(Exception e) {
+									System.out.println("member 리스트 조회 오류 발생 : " + e);
+								} 
+							%>					
+						</table>
 					</div>
+					<div>
+						<input type="button" class="btnRegisterAdd" value="회원추가" onclick="register_add()">
+					</div>
+				</div>
+				<div class="memberListPaging">
+					<c:if test="${startPage != 1}">
+						<a href="memberList.do?startPage=${startPage-1}&lastPage=${lastPage}">이전</a>
+					</c:if>
+					<c:forEach begin="1" end="${totalPage}" var="i">
+						<c:choose>
+							<c:when test="${startPage eq i}">
+								<a href="#" class="on">${i}</a>
+							</c:when>
+							<c:otherwise>
+								<a href="memberList.do?startPage=${i}&lastPage=${lastPage}">${i}</a>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${startPage lt totalPage}">
+						<a href="memberList.do?startPage=${startPage+1}&lastPage=${lastPage}">다음</a>
+					</c:if>
+				</div>
 			</div>
-			<ul class="mListPage">
-				<c:if test="${startPage != 1}">
-					<li><a href="memberList.do?startPage=${startPage-1}&lastPage=${lastPage}">이전</a></li>
-				</c:if>
-				<c:forEach begin="1" end="${totalPage}" var="i">
-					<c:choose>
-						<c:when test="${startPage eq i}">
-							<li>${i}</li>
-						</c:when>
-						<c:otherwise>
-							<li><a href="memberList.do?startPage=${i}&lastPage=${lastPage}">${i}</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				<c:if test="${startPage lt totalPage}">
-					<li><a href="memberList.do?startPage=${startPage+1}&lastPage=${lastPage}">다음</a></li>
-				</c:if>
-			</ul>
 		</div>
+		<jsp:include page="./footer.jsp"></jsp:include>
 		<script>		
 			var selSerch1 = document.frm.selSerch1;		
 			var selValue = document.frm.selValue;		
@@ -116,8 +224,16 @@
 				return true;
 			}
 			
+			function chart(){
+				location.href="chartServlet.do";
+			}
+			
 			function authorityPopUp(selAuIdValue,selAuValue){
-				window.open("auUpdatePopUp.jsp?selAuIdValue="+selAuIdValue+"&selAuValue="+selAuValue,"update","width=500,height=250,left=650,top=240");
+			    var _width = '500';
+			    var _height = '280';
+			    var _left = Math.ceil(( window.screen.width - _width )/2);
+			    var _top = Math.ceil(( window.screen.height - _height )/2); 
+				window.open("auUpdatePopUp.jsp?selAuIdValue="+selAuIdValue+"&selAuValue="+selAuValue, "update", 'width='+ _width +', height='+ _height +', left=' + _left + ', top='+ _top);
 			}
 			
 			function register_add(){

@@ -14,6 +14,12 @@
 		<title>STATUS 200</title>
 		<link rel="stylesheet" href="style.css">
 		<style>
+		
+			/*임시 a태그 hover*/
+			a:hover
+			{
+				color:lightgray;
+			}
 			body
 			{
                 margin: 0;
@@ -90,6 +96,7 @@
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				line-height:36px;
 				
 			}
 			.medium
@@ -100,22 +107,38 @@
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				line-height:36px;
 			}
 			.wide
 			{
+				text-align: left;
+				display: inline-block;
+				width: 371px;
+				padding: 10px;
+				float: left;
+				border-bottom: 1px solid #dbdadf;
+				height:36px;
+			}
+			.wideTitle{
 				text-align: center;
 				display: inline-block;
 				width: 371px;
 				padding: 10px;
 				float: left;
 				border-bottom: 1px solid #dbdadf;
+				height:36px;
 			}
 			.tagColor
 			{
-				color: blue;
-			    background-color: lightblue;
-			    border-color: blue;
-			    margin-right:5px;
+				border-radius: 15px;
+				font-size:10.5px;
+				padding:3px;
+				color: black;
+			    background-color: cornsilk;
+			   
+			    border:1px solid #989898;
+			    margin-right: 5px;
+			   
 			}
 			.title{
 				text-align:center;
@@ -124,9 +147,25 @@
 				color: black;
 				text-decoration:none;
 			}
+			.txt_line {
+				width:370px;
+		      	overflow:hidden;
+		      	text-overflow:ellipsis;
+		      	white-space:nowrap;
+		      	overflow: hidden;
+		      	
+		 	}
+		 	.txt_line2 {
+				width:370px;
+		      	overflow:hidden;
+		      	text-overflow:ellipsis;
+		      	white-space:nowrap;
+		      	overflow: hidden;
+		      	line-height:36px;
+		 	}
 		</style>
 	</head>
-	<body>
+		<body>
 	<% 
 		ParagraphDAO pDAO = ParagraphDAO.getInstance();
 		List<ParagraphDTO> list = pDAO.paragraphList(1, 10);
@@ -137,46 +176,63 @@
 			<div class="spanWrap">
 				<span>
 					<span class="narrow th borderRight">번호</span>
-					<span class="wide th borderRight">제목</span>
+					<span class="wideTitle th borderRight txt_line2">제목</span>
 					<span class="narrow th borderRight">글쓴이</span>
 					<span class="medium th borderRight">날짜</span>
 					<span class="narrow th">조회수</span>
 					<br>
 				</span>
 				<c:forEach items="<%=list %>" var="list">
-					<span>
-						<span class="narrow">${list.getNum() }</span>
-						<span class="wide">
-							<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}</a>
-	
-							<span class="narrow borderRight">${list.getNum() }</span>
-							<span class="wide borderRight">
-	
-	
-								<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
+					<span class="narrow borderRight">${list.getNum() }</span>
+					<span class="wide borderRight">
+						
+					
+						<c:set var="tag" value="${fn:split(list.getTag(),'★')}"></c:set>
+							
+						<c:choose>
+							<c:when test="${list.getTag() == ''}">
+								<div class="txt_line2">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
 									
-								<c:if test="${fn:length(tag) <= 3}">
-									<c:forEach items="${tag }" var="tags">
-										<span class="tagColor">${tags }</span>
-									</c:forEach>
-								</c:if>
-								<c:if test="${fn:length(tag) > 3}">
-									<c:forEach begin="0" end="2" items="${tag }" var="tags">
-										<span class="tagColor">${tags }</span>
-									</c:forEach>
-								</c:if>
-							</span>
-							<span class="narrow borderRight">${list.getId()}</span>
-							<span class="medium borderRight">${list.getDatetime()}</span>
-							<span class="narrow">${list.getHits()}</span>
-							<br>
-						</span>	
-					</span>			
+								</div>
+							</c:when>
+							<c:when test="${fn:length(tag) <= 3}">
+								<div class="txt_line">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
+								<c:forEach items="${tag }" var="tags">
+									<span class="tagColor">${tags }</span>
+								</c:forEach>
+							</c:when>
+							<c:when test="${fn:length(tag) > 3}">
+								<div class="txt_line">
+						
+									<a href="paragraphEachSelect.do?num=${list.getNum()}&&flag=0">[${list.getCategory()}]${list.getTitle()}
+										
+									</a>
+									
+								</div>
+								<c:forEach begin="0" end="2" items="${tag }" var="tags">
+									<span class="tagColor">${tags }</span>
+								</c:forEach>
+							</c:when>
+						</c:choose>	
+					</span>
+					<span class="narrow borderRight">${list.getId()}</span>
+					<span class="medium borderRight">${list.getDatetime()}</span>
+					<span class="narrow">${list.getHits()}</span>		
 				</c:forEach>
 			</div>
-			<c:if test="${loginUser.id!=null}">
-				<input class="writebutton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
-			</c:if>
+			
+			<input class="writebutton blackSmallButton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
+			
 		</div>
 		
 		<a href="register.do">회원가입</a>
@@ -189,11 +245,17 @@
 		<a href="chartServlet.do">차트</a>
 		<a href="paragraphEditorWrite.do">에디터 작성</a>
 		<a href="paragraphList.do?startPage=1">게시판 확인</a>
-		<a href="suspension.do?">회원정지 날짜 계산하기</a>
-		<a href="CalendarMain.jsp">캘린더</a>		
+		
+		${loginUser.getId()}<!-- 로그인 잘 되는지 확인용 헤더가 없어서.. -->
+		${loginUser.getPw()}
+		${loginUser.getName()}
+		${loginUser.getEmail()}
+		${loginUser.getAuthority()}
+		
 		<footer>
 			서울북부기술교육원 IOT융합프로그래밍과 팀프로젝트 1조<br>
 			조장: 이도현 / 조원: 김종현 박정현 석지애 유제민 윤하영
 		</footer>
+
 	</body>
 </html>

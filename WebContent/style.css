@@ -1,15 +1,9 @@
 @charset "UTF-8";
-/*
-	z-index: Area 단위 100/ 그 하위 200/ 그 보다 아해 300 ..... <>
-
-*/
 
 /* =====================================================
  * ====================== 헤더 ==========================
  * ===================================================== */
-body{
-	position: relative; 
-}
+
 a{
   text-decoration-line: none;
   color: black;
@@ -20,7 +14,6 @@ a{
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	min-width : 860px;
-	z-index: -1;
 }
 #headerIcon:after{
 	content: "";
@@ -149,20 +142,17 @@ a{
 .linkWhite:hover{
 	color: rgb(0, 101, 131);
 }
-#headerProfileArea{
-	margin-top: -4px;
-	position: relative;
-	z-index: 100;
-}
+
 .headerUlist{
 	border-radius: 0 0 0.5em 0.5em;
 	width: 121.6px;
+	float: right;
 	background-color: white;
 	display: none;
-	z-index: 200;
+	position:relative;
+	z-index: 10;
 	background-color: rgba(245, 245, 245);
-	position:absolute;
-	margin-left: calc(100% - 132.4px);
+	margin-right: 20px;
 }
 .headerlist{
 	padding: 0.5em;
@@ -170,121 +160,68 @@ a{
 	margin-right: 0.5em;
 	margin-top: 0.7em;
 	margin-bottom: 0.7em;
-	font-size: 0.8em;
+	font-size: 0.9em;
 	letter-spacing: -0.5px;
 }
-.wrap1{
-	width: 450px;
-	padding: 30px;
-	border: 2px solid lightgray;
-	margin: 250px auto;
+#headerProfileArea{
+	position:relative;
 }
-
-
-.wrap2{
-	width: 420px;
-	padding: 5px;
+#headerForm
+{
+	position: relative;
+}
+#divTable
+{
+	margin-top: 36px;
+	margin-bottom: 3px;
+	width: 80%;
+	padding-left: 25px;
+	padding-right: 25px;
 	border: 1px solid lightgray;
-	margin: 0px auto;
-}
-
-h1{
-	padding: 10px;
-	margin: 0 auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	text-align: center;
-	margin-right: 20px;
-}
-
-.registerSpan{
-	margin-right: 115px;
-}
-
-form div span{
-	padding: 10px;
-	text-align: left;
-	margin-right: 10px;
-	display: inline-block;
-	width: 80px;	
-}
-
-form div span input{
-	display: inline-block;
-	width: 140px;	
-}
-
-.registerIdCheck{
-	display: inline-block;
-	width: 120px;	
-	margin-left: 50px;
-}
-
-.registerIdCheckMsg{
-	display: inline-block;	
-	font-size: 13px;
-	margin: 0;
-	color: red;
-}
-
-.registerIdCheckMsg > input{
-	display: inline-block;
-	width: 200px;
-}
-	
-.registerMsg, .loginIdPw{
-	width: 300px;
-	padding-top: 0;
-	padding-left: 127px;
-	font-size: 13px;
-	color: red;
-}
-
-.loginMsg{
-	width: 300px;
-	padding-left: 10px;
-	font-size: 15px;
-	color: red;
-}
-
-.registerSubmit{
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.memberList{
-	border: 1px solid black;
-	padding: 20px;
-}
-
-.memberListSelect1{
-	margin-left: 30px;
-}
-
-.memberListSelect2{
-	width: 173px;
-}
-
-.memberListUpdate{
-	display: inline-block;
-	width: 445px;
-	text-align: right;
-}
-
-.memberList td {
-	border: 1px solid black;
-	padding: 5px;
-}
-
-.mListPage{
-	list-style: none;
-	padding-left: 0px;
-}
-.mListPage li{
+	border-radius: 16px;
 	float: left;
-	padding-left: 10px;
+	margin-left: 4%;
+	background-color:white;
+	z-index: 5;
+	position: absolute;
+	display: none;
+}
+.divTd
+{
+	padding-top:1%;
+	padding-bottom:1%;
+}
+.divTd:hover
+{
+	background-color:lightgray;
 }
 
-.stopDay{
-	display: none;
+
+
+
+/* =====================================================
+ * ====================== 푸터 ==========================
+ * ===================================================== */
+
+
+.blackSmallButton
+{
+	background-color: #222;
+	color: #fff;
+	border: 1px solid #000;
+	line-height: 30px;
+	text-align: center;
+	font-size: 10px;
+
+	margin: 20px 0 0 790px;
+	width: 55px;
+	height: 30px;
+	display: inline-block;
+} 
+footer{
+	text-align: center;
+	font-size: 0.6em;
+ 	padding: 20px;
+   	background-color: white;
+   	color: #BEBEBE;
 }
