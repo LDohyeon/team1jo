@@ -22,8 +22,7 @@
 	</head>
 	<body>
 		<jsp:include page="../header.jsp"/>
-		<div id="calendar">
-			
+		<div id="calendar">			
 		</div>
 	</body>
 	<script type="text/javascript">
@@ -564,6 +563,7 @@
 				
 				changeForm("M", date);
         	}
+        	//제민//
 			else if(select=="D"){
 				let input = document.getElementsByClassName("calendarHeadDateInfo")[0];
 				let inputYear = parseInt(input.value.substring(0,4));
@@ -1001,7 +1001,7 @@
 		function WeekForm(date){
 			
 		}
-		
+		//제민//
 		// 일 폼 만들기 
 		function DayForm(date){
 			if(typeof(date)!='undefined'&&date!=null){
@@ -3864,7 +3864,7 @@
 		
 	</script>
 	
-	<script> // 제민 workspace
+	<script> //제민//
 		function createDayFormElement(date){
 			
 			let v;
@@ -4633,7 +4633,7 @@
 			
 		}//createAlldaySchedule end
 		
-		console.log(scheduleData);
+
 		
 		// 일일 스케줄 모양 구현.
 		function createDaySchedule(scheduleData, daySchedule){
@@ -4786,5 +4786,8 @@
 			alldaySchedule.style.height = divHeight;
 			scheduleTimeBox.style.height = divHeight;
 		}// alldayScheduleHeight end
+		
+		//	alldayScheduleBox, scheduleBox에 공통으로 클릭시 정보가 나오도록 처리해야함.
+		
 	</script>
 </html>
