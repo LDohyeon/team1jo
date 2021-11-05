@@ -208,7 +208,7 @@
 									
 								</div>
 								<c:forEach items="${tag }" var="tags">
-									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
+									<span class="tagColor">${tags }</span>
 								</c:forEach>
 							</c:when>
 							<c:when test="${fn:length(tag) > 3}">
@@ -220,7 +220,7 @@
 									
 								</div>
 								<c:forEach begin="0" end="2" items="${tag }" var="tags">
-									<span class="tagColor"><a onclick="getTag(this)" href="#">${tags }</a></span>
+									<span class="tagColor">${tags }</span>
 								</c:forEach>
 							</c:when>
 						</c:choose>	
