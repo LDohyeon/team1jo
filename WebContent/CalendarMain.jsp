@@ -1968,6 +1968,14 @@
 					
 					let date = getThisDay(year, month, day, 0, 0);
 					changeForm("D", date);
+					
+					let selectForm = document.getElementsByClassName("selectForm")[0];
+					let options = selectForm.getElementsByTagName("option");
+					for(let i = 0; i<options.length; i++){
+						if(options[i].value=="D"){
+							options[i].setAttribute("selected", "true");
+						}
+					}
 	            }
 	            
 	            // 배열 값이 없는 항목을 참조: 할때 실행, 말을 12로 설정함 (1월일 경우 실행됨)
@@ -2143,9 +2151,7 @@
 			visibleScheduleForm();
 			quitScheduleDetail();
 		}
-		
-		console.log("===========================지금 여기 하고 있음");
-		
+	
 		function createScheduleInfo(data){
 			let v;
 			let c;
@@ -2827,25 +2833,57 @@
 		// 스케줄을 보일때와 안보일때를 실제로 동작하는 구분 
 		// 위의 펑션과 연결되어 사용함 
 		function viewScheduleElementFlag(){
+			let selectForm = document.getElementsByClassName("selectForm")[0];
 			let groupDiv = document.getElementsByClassName("groupElement");
 			
-			let schedules = document.getElementsByClassName("scheduleBox");
-			
-			for(let i = 0; i < groupDiv.length; i++){
-				let flag = groupDiv[i].getElementsByClassName("groupDataFlag")[0].value+"";
-				let num = groupDiv[i].getElementsByClassName("groupDataNum")[0].value+"";;
-				for(let j = 0; j <schedules.length; j++){
-					let scheduleNum = schedules[j].getElementsByClassName("groupNum")[0].value+"";
+			if(selectForm.value=="Y"){
+				let yearformEls = document.getElementsByClassName("yearformEl");
+				
+				for(let i = 0; i < groupDiv.length; i++){
 					
-					if(num==scheduleNum){
-						if(flag=="true"){
-							schedules[j].classList.remove("hiddenElement");
-						}
-						else if(flag=="false"){
-							schedules[j].classList.add("hiddenElement");
+					let flag = groupDiv[i].getElementsByClassName("groupDataFlag")[0].value+"";
+					let num = groupDiv[i].getElementsByClassName("groupDataNum")[0].value+"";;
+				
+					for(let l = 0; l <yearformEls.length; l++){
+						let scHidden = yearformEls[l].getElementsByClassName("scHidden");
+						
+						for(let j = 0; j <scHidden.length; j++){
+							let scHiddenNum = scHidden[j].getElementsByClassName("groupNum")[0].value+"";
+							
+							if(num==scHiddenNum){
+								if(flag=="true"){
+									scHidden[j].parentNode.classList.remove("hiddenElement");
+								}
+								else if(flag=="false"){
+									scHidden[j].parentNode.classList.add("hiddenElement");
+								}
+							}
 						}
 					}
 				}
+			}
+			else if(selectForm.value=="M"){
+				let schedules = document.getElementsByClassName("scheduleBox");
+				
+				for(let i = 0; i < groupDiv.length; i++){
+					let flag = groupDiv[i].getElementsByClassName("groupDataFlag")[0].value+"";
+					let num = groupDiv[i].getElementsByClassName("groupDataNum")[0].value+"";;
+					for(let j = 0; j <schedules.length; j++){
+						let scheduleNum = schedules[j].getElementsByClassName("groupNum")[0].value+"";
+						
+						if(num==scheduleNum){
+							if(flag=="true"){
+								schedules[j].classList.remove("hiddenElement");
+							}
+							else if(flag=="false"){
+								schedules[j].classList.add("hiddenElement");
+							}
+						}
+					}
+				}
+			}
+			else if(selectForm.value=="D"){
+				
 			}
 		}
 		
@@ -3126,9 +3164,7 @@
 		function createYearElement(yearBoxBodys, scheduleData){
 			
 			let numberChilds = yearBoxBodys.parentNode.childNodes.length;
-			if(numberChilds>2){
-				return;
-			}
+			
 			let p = yearBoxBodys.parentNode;
 			let v;
 			let c;
@@ -3146,6 +3182,14 @@
 			c = document.createElement("div");
 			c.classList.add("scHidden");
 			c.setAttribute("style", "display: none;")
+			
+			cc = document.createElement("input");
+			cc.classList.add("scInfo"); 
+			cc.classList.add("groupNum"); 
+			cc.setAttribute("type", "hidden");
+			cc.setAttribute("value", scheduleData.groupnum);
+			
+			c.appendChild(cc);
 			
 			cc = document.createElement("input");
 			cc.classList.add("scInfo"); 
@@ -3520,38 +3564,39 @@
 						if(dateTagYoil=="일"){
 							flagSize = 7;
 							flagDrawn = 7;
-							flagBefore = 0;
+							//flagBefore = 0;
 						}
 						else if(dateTagYoil=="월"){
 							flagSize = 6;
 							flagDrawn = 6;
-							flagBefore = 1;
+							//flagBefore = 1;
 						}
 						else if(dateTagYoil=="화"){
 							flagSize = 5;
 							flagDrawn = 5;
-							flagBefore = 2;
+							//flagBefore = 2;
 						}
 						else if(dateTagYoil=="수"){
 							flagSize = 4;
 							flagDrawn = 4;
-							flagBefore = 3;
+							//flagBefore = 3;
 						}
 						else if(dateTagYoil=="목"){
 							flagSize = 3;
 							flagDrawn = 3;
-							flagBefore = 4;
+							//flagBefore = 4;
 						}
 						else if(dateTagYoil=="금"){
 							flagSize = 2;
 							flagDrawn = 2;
-							flagBefore = 5;
+							//flagBefore = 5;
 						}
 						else if(dateTagYoil=="토"){
 							flagSize = 1;
 							flagDrawn = 1;
-							flagBefore = 6;
+							//flagBefore = 6;
 						}
+						/*
 						let grandfa = boxArray[l].parentNode.parentNode;
 						let pregrandfa;
 						// 새로 보강한 알고리즘
@@ -3566,6 +3611,8 @@
 							
 							pregrandfabox.appendChild(boxx);
 						}
+						*/
+						
 						
 						if(flagSize>boxArray.length-l){
 							// 사이즈칸 짜리 플래그 넣어주면 됨.
@@ -3617,21 +3664,111 @@
 		}
 		
 		function checkFirstElement(){
-			let scheduleBox = document.getElementsByClassName("scheduleBox ");
-			let temp = 0; 
+			let monthBoxBodys = document.getElementsByClassName("monthBoxBody");
+			let height = 22;
 			
-			for(let i = 0; i < scheduleBox.length; i++){
-				if(scheduleBox[i].classList.contains("firstElementSchedule")){
-					/*//
-					let bar7 = schedulBox[i].getElementsByClassName("cmpb7");
+			let flag = [0, 0, 0, 0, 0, 0, 0];
+			//      block 0  1  2  3  4  5  6 
+			let block = 0; 
+			let reset = 0; 
+			// 2중 배열을 사용하면 스케줄이 바둑판 식으로 정확하게 배치가 될 수 있으나 2중 배열이 브라우저 속도를 저하할 가능성이 높기 때문에
+			// 특정 상황에서 빈공간이 생겨도 이를 건너 뛰고 그리도록 진행하는 것이 유리함 
+			
+			for(let i = 0; i < monthBoxBodys.length; i++){
+				block = (i%7);
+				reset++;
+				
+				let scheduleBoxs = monthBoxBodys[i].getElementsByClassName("scheduleBox");
+				let bar7 = monthBoxBodys[i].getElementsByClassName("cmpb7");
+				let bar6 = monthBoxBodys[i].getElementsByClassName("cmpb6");
+				let bar5 = monthBoxBodys[i].getElementsByClassName("cmpb5");
+				let bar4 = monthBoxBodys[i].getElementsByClassName("cmpb4");
+				let bar3 = monthBoxBodys[i].getElementsByClassName("cmpb3");
+				let bar2 = monthBoxBodys[i].getElementsByClassName("cmpb2");
+				let bar1 = monthBoxBodys[i].getElementsByClassName("cmpb1");
+				let barzero = monthBoxBodys[i].getElementsByClassName("cmpbzero");
+			
+				for(let j = 0; j < bar7.length; j++){
+					let getAtt = bar7[j].getAttribute("style")+";";
+
+					let hg = "margin-top:"+(height*flag[block])+"px;";
+					bar7[j].setAttribute("style", getAtt+hg);
 					
-					for(let j = 0; j <bar7; j++){
-						
+					for(let l = block; l < block+7 ; l++){
+						flag[l]+=1;
 					}
+				}
+				for(let j = 0; j < bar6.length; j++){
+					let getAtt = bar6[j].getAttribute("style")+";";
+
+					let hg = "margin-top:"+(height*flag[block])+"px;";
+					bar6[j].setAttribute("style", getAtt+hg);
 					
+					for(let l = block; l < block+6 ; l++){
+						flag[l]+=1;
+					}	
+				}
+				for(let j = 0; j < bar5.length; j++){
+					let getAtt = bar5[j].getAttribute("style")+";";
+	
+					let hg = "margin-top:"+(height*flag[block])+"px;";
+					bar5[j].setAttribute("style", getAtt+hg);
 					
+					for(let l = block; l < block+5 ; l++){
+						flag[l]+=1;
+					}
+				}
+				for(let j = 0; j < bar4.length; j++){
+					let getAtt = bar4[j].getAttribute("style")+";";
+	
+					let hg = "margin-top:"+(height*flag[block])+"px;";
+					bar4[j].setAttribute("style", getAtt+hg);
 					
-					//*/
+					for(let l = block; l < block+4 ; l++){
+						flag[l]+=1;
+					}
+				}
+				for(let j = 0; j < bar3.length; j++){
+					let getAtt = bar3[j].getAttribute("style")+";";
+	
+					let hg = "margin-top:"+(height*flag[block])+"px;";
+					bar3[j].setAttribute("style", getAtt+hg);
+					
+					for(let l = block; l < block+3 ; l++){
+						flag[l]+=1;
+					}
+				}
+				for(let j = 0; j < bar2.length; j++){
+					let getAtt = bar2[j].getAttribute("style")+";";
+
+					let hg = "margin-top:"+(height*flag[block])+"px;";
+					bar2[j].setAttribute("style", getAtt+hg);
+					
+					for(let l = block; l < block+2 ; l++){
+						flag[l]+=1;
+					}
+				}
+				for(let j = 0; j < bar1.length; j++){
+					let getAtt = bar1[j].getAttribute("style")+";";
+					
+					let hg = "margin-top:"+(height*flag[block])+"px;";
+					bar1[j].setAttribute("style", getAtt+hg);
+					
+					for(let l = block; l < block+1 ; l++){
+						flag[l]+=1;
+					}
+				}
+
+				if(reset==7){
+					block = 0;
+					flag = [0,0,0,0,0,0,0];
+					reset = 0;
+				}
+			}	
+				
+				
+				/*
+					
 					let p = scheduleBox[i].parentNode;
 					let cmpb0 = p.getElementsByClassName("cmpb0");
 					let fr = p.getElementsByClassName("firstElementSchedule");
@@ -3662,6 +3799,7 @@
 				hg = hg+22;
 				monthBoxs[i].setAttribute("style", "height:"+hg+"px;");
 			}
+			*/
 		}
 		
 		// 현재 스케줄의 Bar 길이를 확인
@@ -3915,12 +4053,12 @@
 			}
 			tempData = data;
 			
-			console.log("스케줄 수정 중 여기 -- ");
-			console.log("")
-			
-			
-			let body = document.getElementsByTagName("body")[0];
-			body.appendChild(createScheduleDetail(data));
+			let bar = document.getElementsByClassName("calendarSearchBar")[0];
+			bar.innerHTML = "";
+			searchSchedule();
+			viewScheduleDetail(data);
+			quitScheduleDetail();
+		
 		}
 	
 		// 스케줄 Box 영역 초기화
@@ -4771,6 +4909,10 @@
 			
 			let groupnum = ppp.getElementsByClassName("groupDataNum")[0].value;
 			let master = ppp.getElementsByClassName("groupDataMaster")[0].value;
+			
+			let list = document.getElementsByClassName("groupDataMemberResult")[0];
+			list.innerHTML = "";
+			searchGroupMember();
 			
 			if(userKey!=master){
 				return;
