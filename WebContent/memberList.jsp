@@ -139,7 +139,7 @@
 							<option value="4">정지 권한(4)</option>
 						</select>
 						<input type="text" class="memberListInputBox" name="selValue"  placeholder="검색어를 입력해주세요">
-						<input type="button" class="btnSerch" value="검색" onclick="return serchCheck()">
+						<input type="submit" class="btnSerch" value="검색" onclick="return serchCheck()">
 					</form>
 				</div>
 				<div class="memberListTableDiv">
