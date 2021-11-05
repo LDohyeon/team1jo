@@ -163,6 +163,9 @@
 		      	overflow: hidden;
 		      	line-height:36px;
 		 	}
+		 	.paragraphListWrap{
+		 		min-height: calc(100vh - 320px);
+		 	}
 		</style>
 	</head>
 		<body>
@@ -234,24 +237,7 @@
 			<input class="writebutton blackSmallButton" type="button" value="더보기" onclick="location.href='paragraphList.do?startPage=1';">
 			
 		</div>
-		
-		<a href="register.do">회원가입</a>
-		<a href="login.do">로그인</a>
-		<a href="logout.jsp">로그아웃</a>
-		<a href="changePw.do">비밀번호 수정</a>
-		<a href="userInfo.do">회원정보 수정</a>
-		<a href="leaveId.do">회원 탈퇴</a>
-		<a href="memberList.do?startPage=1">회원 게시판</a>
-		<a href="chartServlet.do">차트</a>
-		<a href="paragraphEditorWrite.do">에디터 작성</a>
-		<a href="paragraphList.do?startPage=1">게시판 확인</a>
-		
-		${loginUser.getId()}<!-- 로그인 잘 되는지 확인용 헤더가 없어서.. -->
-		${loginUser.getPw()}
-		${loginUser.getName()}
-		${loginUser.getEmail()}
-		${loginUser.getAuthority()}
-		
+
 		<footer>
 			서울북부기술교육원 IOT융합프로그래밍과 팀프로젝트 1조<br>
 			조장: 이도현 / 조원: 김종현 박정현 석지애 유제민 윤하영
