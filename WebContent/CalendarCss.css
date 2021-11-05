@@ -1393,8 +1393,8 @@
 .schedulInfoArea{
 	margin-top: 10px;
 	border-radius: 5px;
-	width: 57%;
 	background-color: white;
+	width: 486.5px;
 	height: 308px;
 	z-index: 500;
 	background-color: rgba(255,255,255);
@@ -1403,29 +1403,40 @@
 	max-width: 484.5px;
 	border: 1px solid lightgray;
 	display: none;
+}
+.schedulInfoHeadTitle{
+	height: 25px;
+	float: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 15px;
+	line-height: 25px;
+	font-size: 1.2em;
 	
 }
-.schedasd{}
 .schedulInfoQuit{
 	height: 25px;
 	width: 25px;
 	text-align: center;
 	border-radius: 12.5px;
-	border: 1px solid rgba(235,235,235);
+	border: 1px solid rgba(245,245,245);
 	margin: 0 auto;
 	margin-left: 10px;
-	margin-right: 10px;
+	margin-right: 15px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	line-height: 26px;
 	font-weight: 500;
-	background-color: rgba(235,235,235);
+	background-color: rgba(245,245,245);
 	float: right;
+}
+.schedulInfoQuit:hover{
+	background-color: rgba(235,235,235);
+	font-weight: 600;
 }
 .schedulInfoFix{
 	height: 25px;
 	width: 25px;
-	border-radius: 12.5px;
 	margin-left: 3px;
 	margin-right: 10px;
 	margin-top: 10px;
@@ -1438,7 +1449,7 @@
 	float: right;
 }
 .schedulInfoFix:hover{
-	background-color: rgba(235,235,235);
+	background-size: 22px 22px;
 }
 .schedulInfoDelete{
 	height: 25px;
@@ -1456,40 +1467,130 @@
 	float: right;
 }
 .schedulInfoDelete:hover{
-	background-color: rgba(235,235,235);
+	background-size: 22px 22px;
+}
+.schedulInfoHead::after{
+	content:"";
+	display: block;
+	clear: both;
 }
 .schedulInfoTitle{
-	min-width: 279.5px;
-	min-height: 30px;
+	width: 264.5px;
+	height: 30px;
+	line-height: 30px;
 	margin-top: 10px;
+	margin-left: 10px;
 	display: block;
 	float: left;
 	border: 0;
 	background-color: rgb(245,245,245);
 	padding-left: 5px;
+	font-size: 0.95em;
 }
-.schedulInfoColorBox{
-	min-width: 50px;
-	min-height: 30px;
-	margin-left:5px;
+.schedulInfoColor{
+	width: 80px;
+	height: 30px;
+	margin-top: 10px;
+	margin-left: 15px;
+	border: 0;
 	display: block;
 	float: left;
 	border: 0;
 }
-.SchedulInfoTime{
-	
+.blockBoxAllDay{
+	min-width: 85px;
+	min-height: 32px;
+	line-height: 32px;
+	margin-left:10px;
+	margin-right:15px;
+	margin-top: 10px;
+	text-align: center;
+	display: block;
+	float: left;
+	border: 0;
+	border-radius: 10px;
+	background-color: rgb(235,235,235);
+	visibility: hidden;
 }
-.SchedulInfoContentText{
-	
+.blockBox{
+	width: 80px;
+	height: 30px;
+	margin-top: 10px;
+	margin-left: 15px;
+	line-height: 30px;
+	text-align: center;
+	border: 0;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
 }
-.SchedulInfoGroupName{
-	
+.blockBoxDummy{
+	width: 80px;
+	height: 30px;
+	margin-top: 10px;
+	margin-left: 15px;
+	line-height: 30px;
+	text-align: center;
+	border: 0;
+	display: block;
+	float: left;
+	border: 0;
 }
-
-
-.cas{
+.schedulInfoStartDay, .schedulInfoEndDay{
+	min-width: 264.5px;
+	min-height: 30px;
+	margin-top: 10px;
+	line-height: 30px;
+	margin-left: 10px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+	padding-left: 5px;
+	font-size: 0.95em;
 }
-
+.schedulInfoStartTime, .schedulInfoEndTime{
+	width: 85px;
+	height: 30px;
+	margin-top: 10px;
+	margin-left: 10px;
+	line-height: 30px;
+	text-align: center;
+	border: 0;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+	font-size: 0.95em;
+}
+.schedulInfoContentText{
+	width: 444.5px;
+	height: 75px;
+	margin-top: 10px;
+	margin-left: 15px;
+	margin-right: 15px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+	padding-left: 5px;
+	padding-right: 5px;
+	overflow: auto;
+}
+.schedulInfoGroupName{
+	min-width: 264.5px;
+	min-height: 30px;
+	line-height: 30px;
+	margin-top: 10px;
+	margin-left: 10px;
+	display: block;
+	float: left;
+	border: 0;
+	background-color: rgb(245,245,245);
+	padding-left: 5px;
+	font-size: 0.95em;
+}
 
 /* ==========================================================================
  * ==========================================================================

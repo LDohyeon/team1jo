@@ -34,6 +34,7 @@
  * ==== 기본 데이터 구성 확인 ===============================================
  * ====================================================================*/        
  		userKey = <%=userKey%>
+ 		
 		let calendar = document.getElementById("calendar");
    		
 		// DAY의 구성을 미리 정의함 
@@ -2139,6 +2140,8 @@
 			tempData = data;
 			
 			viewScheduleDetail(data);
+			visibleScheduleForm();
+			quitScheduleDetail();
 		}
 		
 		console.log("===========================지금 여기 하고 있음");
@@ -2152,8 +2155,19 @@
 			v = document.createElement("div"); 
 			v.classList.add("schedulInfoArea");
 			
+			c = document.createElement("input");
+			c.classList.add("scAreaFlag");
+			c.setAttribute("type", "hidden");
+			c.setAttribute("value", "false");
+			v.appendChild(c);
+			
 			c = document.createElement("div"); 
 			c.classList.add("schedulInfoHead");
+			
+			cc = document.createElement("div");
+			cc.classList.add("schedulInfoHeadTitle");
+			cc.innerHTML = "스케줄 세부 정보";
+			c.appendChild(cc);
 			
 			cc = document.createElement("div");
 			cc.classList.add("schedulInfoQuit");
@@ -2189,11 +2203,39 @@
 			c.appendChild(cc);
 			
 			cc = document.createElement("div"); 
+			cc.classList.add("blockBoxAllDay");
+			cc.innerHTML = "종일";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div"); 
+			cc.classList.add("blockBox");
+			cc.innerHTML = "그룹 이름";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div");
+			cc.classList.add("schedulInfoGroupName");
+			c.appendChild(cc);
+			
+			cc = document.createElement("div"); 
+			cc.classList.add("blockBoxDummy");
+			c.appendChild(cc);
+			
+			cc = document.createElement("div"); 
+			cc.classList.add("blockBox");
+			cc.innerHTML = "시작 날짜";
+			c.appendChild(cc);
+			
+			cc = document.createElement("div"); 
 			cc.classList.add("schedulInfoStartDay");
 			c.appendChild(cc);
 			
 			cc = document.createElement("div"); 
 			cc.classList.add("schedulInfoStartTime");
+			c.appendChild(cc);
+			
+			cc = document.createElement("div"); 
+			cc.classList.add("blockBox");
+			cc.innerHTML = "종료 날짜";
 			c.appendChild(cc);
 		    
 			cc = document.createElement("div"); 
@@ -2238,10 +2280,11 @@
 			let delBtn = document.getElementsByClassName("schedulInfoDelete")[0];
 			let offBtn = document.getElementsByClassName("schedulInfoQuit")[0];
 			
-			let groupname = document.getElementsByClassName("schedulInfoGroup")[0];
+			let groupname = document.getElementsByClassName("schedulInfoGroupName")[0];
 			let groupnum = document.getElementsByClassName("schedulInfoArea")[0];
 			let groupmodifier = document.getElementsByClassName("schedulInfoArea")[0];// 검증필요
 			
+			let allDay = document.getElementsByClassName("blockBoxAllDay")[0];
 			let schedulenum = document.getElementsByClassName("schedulInfoScheduleNum")[0];
 			let color = document.getElementsByClassName("schedulInfoColor")[0];
 			let title = document.getElementsByClassName("schedulInfoTitle")[0];
@@ -2277,16 +2320,34 @@
 				let gn = groups[i].getElementsByClassName("groupDataNum")[0];
 				if(gn.value==data.groupnum){
 					let md = groups[i].getElementsByClassName("groupDataModifierListName");
-					for(let j = 0; j < md.length; j++){
+					
+					for(let j = 0; j <md.length; j++){
 						let str = (md[j].innerHTML+"").replace(")", ' ');
 						let modifiId = str.split("(");
-						
-						if(modifiId[1] == userKey){
-							modifier = modifiId[1];
-							console.log(modifier);
+						let strId = modifiId[1].trim();
+						userKey.trim();
+						/*
+						console.log(":"+modifiId+":")
+						console.log(":"+strId+":")
+						console.log(":"+userKey+":")
+						공백 있는지 보려고 찍은 콘솔
+						*/
+						if(strId==userKey){
+							modifier = strId;
 						}
 					}
 				}
+			}
+			
+			if(startTime=="00:00"&&endTime=="23:45"){
+				scEndTime.setAttribute("style", "visibility: hidden;");
+				scStartTime.setAttribute("style", "visibility: hidden;");
+				allDay.setAttribute("style", "visibility: visible;");		
+			}
+			else{
+				scEndTime.removeAttribute("style");
+				scStartTime.removeAttribute("style");
+				allDay.removeAttribute("style");
 			}
 			
 			if(modifier==userKey){
@@ -2303,10 +2364,22 @@
 			}
 		}
 		
-		// 스케줄 정보창을 끄도록 해야함
-		// remove 사용할 것이나 추후 구현
 		function quitScheduleDetail(){
-			console.log("quit ");
+			let area = document.getElementsByClassName("schedulInfoArea")[0];
+			let flag = document.getElementsByClassName("scAreaFlag")[0];
+			
+			if(flag.value=='false'){
+				area.setAttribute("style", "display:block;");
+				flag.setAttribute("value", "true");
+			}
+			else{
+				area.removeAttribute("style");
+				flag.setAttribute("value", "false");
+			}
+			
+			if(flag=="true"){
+				visibleScheduleForm();
+			}
 		}
 		
 		// 스케줄 수정 기능
@@ -2351,6 +2424,13 @@
 				if(options[i].value==data.groupnum){
 					options[i].setAttribute("selected", "true");
 				}
+			}
+			quitScheduleDetail();
+
+			let flag = document.getElementsByClassName("scheduleFlag")[0].value;
+			console.log(flag);
+			if(flag=="false"){
+				visibleScheduleForm();
 			}
 		}
 		
@@ -3542,6 +3622,16 @@
 			
 			for(let i = 0; i < scheduleBox.length; i++){
 				if(scheduleBox[i].classList.contains("firstElementSchedule")){
+					/*//
+					let bar7 = schedulBox[i].getElementsByClassName("cmpb7");
+					
+					for(let j = 0; j <bar7; j++){
+						
+					}
+					
+					
+					
+					//*/
 					let p = scheduleBox[i].parentNode;
 					let cmpb0 = p.getElementsByClassName("cmpb0");
 					let fr = p.getElementsByClassName("firstElementSchedule");
@@ -3563,6 +3653,7 @@
 					temp = pnum;
 				}
 			}
+			
 			let monthBoxs = document.getElementsByClassName("monthBox");
 			
 			for(let i = 0; i < monthBoxs.length; i++){
@@ -3571,8 +3662,6 @@
 				hg = hg+22;
 				monthBoxs[i].setAttribute("style", "height:"+hg+"px;");
 			}
-			
-			
 		}
 		
 		// 현재 스케줄의 Bar 길이를 확인
@@ -3672,6 +3761,7 @@
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==4){
 		            if(XHRCalendar.status==200){
+		            	quitScheduleDetail();
 		            	getGroupSchedule(userKey, date);
 		            }
 				}

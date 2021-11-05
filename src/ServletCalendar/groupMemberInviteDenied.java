@@ -1,6 +1,8 @@
 package ServletCalendar;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +23,9 @@ public class groupMemberInviteDenied extends HttpServlet {
 		gmDTO.setNum(num);	
 		GroupDAO gDAO = GroupDAO.getInstance();
 		gDAO.inviteDenied(gmDTO);
-		
-		response.sendRedirect("http://localhost/team1jo/InviteList");
+		response.sendRedirect("InviteList");
 	}
 }
+/*
+RequestDispatcher dispatcher = request.getRequestDispatcher("InviteList");
+dispatcher.forward(request, response);*/
