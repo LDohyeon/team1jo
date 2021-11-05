@@ -14,25 +14,17 @@ public class ListLeaveldServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String getId = request.getParameter("getId");
+		request.setCharacterEncoding("utf-8");
+		String id=request.getParameter("getId");
+		String startPage=request.getParameter("startPage");
 		
-		request.setAttribute("getId", getId);
+		MemberDAO mDAO=MemberDAO.getInstance();
+		mDAO.MemberDelete(id);
 		
-		RequestDispatcher dispatcher= request.getRequestDispatcher("leaveId.jsp");
-		dispatcher.forward(request, response);
-		
+		response.sendRedirect("memberList.do?startPage="+startPage);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.setCharacterEncoding("utf-8");
-		
-		String getId = request.getParameter("getId");
-		
-		MemberDAO mDAO=MemberDAO.getInstance();
-		mDAO.MemberDelete(getId);
-
-		response.sendRedirect("memberList.do?startPage=1");
 		
 	}
 }
