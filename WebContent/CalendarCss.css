@@ -1605,9 +1605,29 @@
 .dayScheduleCheck{
 	height: 25%;
 }
-#calendar2{
+.daySchedule:nth-child(2)::before{
+	content: '';
+    border-bottom: 1px solid gray;
+    position: absolute;
     width: 100%;
-    position: relative; 
-	z-index: 1;
-	margin-top: 20px;
+    margin-top: -1px;
+}
+.dayScheduleBox{
+
+	width: 90%;
+	height: 48px;
+	text-align: left;
+	position: absolute;
+	z-index: 450;
+	border-radius: 3px;
+}
+.alldayScheduleBox{
+	width: 90%;
+	height: 38px;
+	margin-bottom: 2px;
+	text-align: left;
+	position: absolute;
+	z-index: 450;
+	border-radius: 3px;
+	background-color: red;
 }

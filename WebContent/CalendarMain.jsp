@@ -2848,7 +2848,12 @@
 			            	checkFirstElement();
 		            	}
 		            	else if(selectForm.value=="D"){
+		            		//	DAY스케줄 그리기
 		            		createDayScheduleElement(scheduleData);
+		            		//	갯수에 따라 위치 조정.
+		            		scheduleBoxMarginLeft();
+		            		//	alldaySchedule 갯수에 따라 div 크기 조정.
+		            		alldayScheduleHeight();
 		            	}
 
 		            	// 배열 초기화하지 않으면 같은 스케줄이 해당 함수 실행시마다 추가됨
@@ -3039,7 +3044,6 @@
 		}
 		
 		function createYearElement(yearBoxBodys, scheduleData){
-			console.log(scheduleData);
 			
 			let numberChilds = yearBoxBodys.parentNode.childNodes.length;
 			if(numberChilds>2){
@@ -5422,6 +5426,7 @@
    	            v.appendChild(c);
             }//day form undefined or null date end
             return v;
+            console.log(ScheduleData);
 		}//createDayformElement(date) end
 		
 		
@@ -5435,14 +5440,14 @@
 				let startYear = scheduleData[i].start.substring(0, 4);
 				let startMonth = scheduleData[i].start.substring(5, 7);
 				let startDay = scheduleData[i].start.substring(8, 10);
-				let startHour; // json 구현 필요. 위에 substring 값도 구현시 start모양에 따라 달라질 수 있음.
-				let startMin; //json 
+				let startHour= scheduleData[i].start.substring(11, 13); 
+				let startMin = scheduleData[i].start.substring(14);  
 				
 				let endYear = scheduleData[i].end.substring(0, 4);
 				let endMonth= scheduleData[i].end.substring(5, 7);
 				let endDay= scheduleData[i].end.substring(8, 10);
-				let endHour; // json 구현 필요. 위에 substring 값도 구현시 end모양에 따라 달라질 수 있음.
-				let endMin; // json
+				let endHour= scheduleData[i].end.substring(11, 13);
+				let endMin= scheduleData[i].end.substring(14);
 				
 				for(let j=0; j<daySchedule.length; j++){
 					let checkDate = daySchedule[j].getElementsByClassName("dateTag")[0].value;
@@ -5478,12 +5483,12 @@
 										//오늘 00시 00분 시작으로 오늘 내에 끝나는 경우. 종료값이 24:00인 경우에만 종일처리.
 										if(endHour==24){
 											if(j==0){
-												createAlldaySchedule(scheduleData);
+												createAlldaySchedule(scheduleData[i]);
 											}
 										}else{
 											//00시 00분부터 종료시간까지 schedule표시.
 											if(j==0){
-												createDaySchedule(scheduleData);
+												createDaySchedule(scheduleData[i]);
 											}
 										}
 									}else if(endDay<checkDateDay){
@@ -5495,7 +5500,7 @@
 								}else if(startHour==checkDateHour){
 									if(startMin==checkDateMin){
 										//시작시간, 분이 동일하므로 여기서 구현.
-										createDaySchedule(scheduleData);
+										createDaySchedule(scheduleData[i]);
 									}
 									//min값 비교후 구현.
 								}else if(startHour<checkDateHour){
@@ -5507,17 +5512,17 @@
 								if(endDay>checkDateDay){
 									//종료일자가 checkDay보다 이후 이므로 종일처리.
 									if(j==0){
-										createAlldaySchedule(scheduleData);
+										createAlldaySchedule(scheduleData[i]);
 									}
 								}else if(endDay==checkDateDay){
 									//종료일자가 오늘. 24:00 종료인 경우에만 종일 스케줄. 그 외에는 createDaySchedule/시작점은 00:00.
 									if(endHour==24){
 										if(j==0){
-											createAlldaySchedule(scheduleData);
+											createAlldaySchedule(scheduleData[i]);
 										}
 									}else{
 										if(j==0){
-											createDaySchedule(scheduleData);
+											createDaySchedule(scheduleData[i]);
 										}
 									}
 								}else if(endDay<checkDateDay){
@@ -5532,31 +5537,31 @@
 							if(endYear>checkDateYear){
 								//아직 진행중인 스케줄. 모든 날짜에 종일처리.
 								if(j==0){
-									createAlldaySchedule(scheduleData);
+									createAlldaySchedule(scheduleData[i]);
 								}
 							}else if(endYear==checkDateYear){
 								//올해 시작해서 올해 끝나는 스케줄. end month, endDay 비교. endMonth,Day까지 동일하면 시간값 비교.
 								if(endMonth>checkDateMonth){
 									//아직 끝나는 달 이전. 종일스케줄처리.
 									if(j==0){
-										createAlldaySchedule(scheduleData);
+										createAlldaySchedule(scheduleData[i]);
 									}
 								}else if(endMonth==checkDateMonth){
 									//day값 비교로 이전이면 종일처리, 이후면 구현x , 당일이면 createDaySchedule 처리
 									if(endDay>checkDateDay){
 										//아직 끝나기 전이므로 종일처리.
 										if(j==0){
-											createAlldaySchedule(scheduleData);
+											createAlldaySchedule(scheduleData[i]);
 										}
 									}else if(endDay==checkDateDay){
 										//종료날짜=checkDateDay -- 시간값비교 및 처리. 24시 종료인 경우에는 종일처리 나머지는 00시부터 daySchedule처리
 										if(endHour==24){
 											if(j==0){
-												createAlldaySchedule(scheduleData);
+												createAlldaySchedule(scheduleData[i]);
 											}
 										}else{
 											if(j==0){
-												createDaySchedule(scheduleData);
+												createDaySchedule(scheduleData[i]);
 											}
 										}
 									}else if(endDay<checkDateDay){
@@ -5574,31 +5579,31 @@
 						if(endYear>checkDateYear){
 							//끼인 연도. 모두 종일처리
 							if(j==0){
-								createAlldaySchedule(scheduleData);
+								createAlldaySchedule(scheduleData[i]);
 							}
 						}else if(endYear==checkDateYear){
 							//올해 끝나는 스케줄. 월 day 비교 필요
 							if(endMonth>checkDateMonth){
 								//아직 끝나지 않음. 모두 종일처리
 								if(j==0){
-									createAlldaySchedule();
+									createAlldaySchedule(scheduleData[i]);
 								}
 							}else if(endMonth==checkDateMonth){
 								//day값 비교해서 종일 혹은 스케줄로 처리
 								if(endDay>checkDateDay){
 									//끝나는 날 이전에는 종일처리
 									if(j==0){
-										createAlldaySchedule(scheduleData);
+										createAlldaySchedule(scheduleData[i]);
 									}
 								}else if(endDay==checkDateDay){
 									//끝나는 당일에는 00시부터 스케줄 처리. 24시 종료인 경우에만 종일처리
 									if(endHour==24){
 										if(j==0){
-											createAlldaySchedule(scheduleData);
+											createAlldaySchedule(scheduleData[i]);
 										}
 									}else{
 										if(j==0){
-											createDaySchedule(scheduleData);
+											createDaySchedule(scheduleData[i]);
 										}
 									}
 								}else if(endDay<checkDateDay){
@@ -5619,13 +5624,11 @@
 			}//scheduleDate for 종료
 		}//createDayScheduleElement end
 		
-		console.log("=====제민 작업중=====");
 		// 종일 스케줄 모양 구현.
 		function createAlldaySchedule(scheduleData){
 			
-			// 갯수에 따라 .alldaySchedule/ .scheduleTimeBox의 높이 값을 바꿔야함.
-			// alldaySchedule은 ScheduleData를 매개변수로 받아서 실행해야되는 날짜에 alldaySchdule div에 들어감.
-			// 종료시점이 day 내에서 바뀌지 않음. ==> 추가 매개변수가 필요할까..?
+			//	갯수에 따라 .alldaySchedule/ .scheduleTimeBox의 높이 값을 바꿔야함.
+			//	alldaySchedule은 ScheduleData를 매개변수로 받아서 실행해야되는 날짜에 alldaySchdule div에 들어감.			
 					
 			let alldaySchedule = document.getElementsByClassName("alldaySchedule")[0];
 			
@@ -5734,26 +5737,39 @@
 			
 		}//createAlldaySchedule end
 		
-		console.log(scheduleData);
 		
 		// 일일 스케줄 모양 구현.
 		function createDaySchedule(scheduleData){
 			
-			let p;
+			/*  
+				시작점 잡는것 구현해야함. ==> dayScheduleBox를 시작점에 해당하는 dayScheduleCheck에 appendChild시켜야한다.
+			 	전체 dayScheduleCheck를 끌어와서 for문잡고 돌리고 if절을 잡아서 append를 시킨다..?
+				그렇다면 if절의 조건을 어떻게 잡아야 정확히 해당하는 날짜에 들어갈 수 있을까. ==> daySchedule로 돌려서 시간찾고 그 daySchedule의 하위요소 dayScheduleCheck 4개중에 맞는 Minutes 찾고 거기서 append?
+				예를들어 startMin이 0이면 dayScheduleCheck[0] 에 appendChild 하는식으로?
+				append하는 함수를 따로하는게 나은가..? 맞나? 아닌것 같기도하고...
+				if(startHour==)
+				그럼 createDayScheduleElement를 돌리는 이유는? ==> 그릴지 말지를 결정해야되니까.
+			*/
 			
-			p=daySchedule.parentNode;
+			let daySchedules = document.getElementsByClassName("daySchedule");
+			let dayScheduleChecks;
 			
-			let thisTime = daySchedule.getElementsByClassName("dataTag")[0].value;
-			let thisTimeHour = thisTime.substring(9, 11);
-			let thisTimeMin = thisTime.substring(12);
-			let endTime = scheduleData.end
-			let endTimeHour; // substring값은 확인 필요
-			let endTimeMin;  // substring값은 확인 필요
+			let dsStartYear = scheduleData.start.substring(0, 4);
+			let dsStartMonth = scheduleData.start.substring(5, 7);
+			let dsStartDay = scheduleData.start.substring(8, 10);
+			let dsStartHour= scheduleData.start.substring(11, 13); 
+			let dsStartMin = scheduleData.start.substring(14);  
+			
+			let dsEndYear = scheduleData.end.substring(0, 4);
+			let dsEndMonth= scheduleData.end.substring(5, 7);
+			let dsEndDay= scheduleData.end.substring(8, 10);
+			let dsEndHour= scheduleData.end.substring(11, 13);
+			let dsEndMin= scheduleData.end.substring(14);
 			
 			// ScheduleBox
 			// {그리기 시작하는 시간값 - 스케줄이 끝나는 시간값 x4 (1 hour가 4칸을 가지므로)} + {그리기 시작하는 분값 - 스케줄이 끝나는 분값/15(15분당 1칸이므로)}
 			
-			let boxHeight = 4*(parseInt(endTimeHour)-parseInt(thisTimeHour))+(parseInt(endTimeMin)-parseInt(thisTimeMin))/15
+			let boxHeight = 4*(parseInt(dsEndHour)-parseInt(dsStartHour))+(parseInt(dsEndMin)-parseInt(dsStartMin))/15
 			
 			let v;
 			let c;
@@ -5855,6 +5871,36 @@
 			c.appendChild(cc);
 			v.appendChild(c);
 			
+			// dayScheduleBox Starting point에 append시키는 작업.
+			/*
+				daySchedule = 1시간단위 div
+				dayScheduleCheck = 15분단위 div
+				dateTag = dayScheduleCheck의 하위 요소인 input
+				let daySchedules = document.getElementsByclassName("daySchedule");
+				let dayScheduleChecks;
+			*/
+			
+			for(let i=0; i<daySchedules.length; i++){
+				//	시간단위로 쪼개진 횟수만큼 실행 (그 안에서 15분 단위로 또 실행.)
+				dayScheduleChecks = daySchedules[i].getElementsByClassName("dayScheduleCheck");
+				//	시간 1단위 체크당 15분단위를 4번씩 끌어올 것임.
+				for(let j=0; j<dayScheduleChecks.length; j++){
+					// 15분단위 div안에 있는 dateTag의 값을 통해 checkTime을 설정
+					let startCheck = dayScheduleChecks[j].getElementsByClassName("dateTag")[0].value;
+					let startCheckHour = startCheck.substring(10,12);
+					let startCheckMin = startCheck.substring(13);
+					
+					// 먼저 start와 맞는 시간값을 찾는다. 일 단위까지는 createDayScheduleElement 에서 걸러짐.
+					if(startCheckHour==dsStartHour){
+						//분 단위까지 동일한 값을 찾는다.
+						if(startCheckMin==dsStartMin){
+							//찾은 값에서 div설정 후 appendChild(v)를 통해 dayScheduleBox를 자식요소로 심어준다.
+							dayScheduleChecks[j].appendChild(v);
+						}
+					}
+				}
+			}
+			
 			//	자신이 몇번째 schedule인지에 따라 left 위치값을 바꿔줘야함. schedule.style.left
 			//	다 그린 후에 dayScheduleBox 를 getElementByClassName 으로 묶은 변수를 만들고 해당 변수의 길이만큼 for문을 돌면서 몇번째인지에 따라 left값을 바꾸는 방식은 어떨까...
 			//	scheduleBoxMarginLeft()로 설정함.
@@ -5868,9 +5914,11 @@
 		//scheduleBox의 left값 처리. DayForm이 그려질 때 마다 실행.
 		function scheduleBoxMarginLeft(){
 			let scheduleBoxes = document.getElementsByClassName("dayScheduleBox");
+			let boxWidth = 100/scheduleBoxes.length;
 			// 이렇게 처리가 될까...
 			for(let i = 0; i<scheduleBoxes.length; i++){
-				scheduleBoxes[i].style.marginLeft= (i*40)+10; // *40은 임의 값. 세부조정가능. 
+				scheduleBoxes[i].style.marginLeft = 20; // *40은 임의 값. 세부조정가능.
+				
 			}
 		}//scheduleBoxMarginLeft end
 		
@@ -5882,7 +5930,7 @@
 			let scheduleTimeBox = document.getElementsByClassName("scheduleTimeBox")[0];
 			let alldayScheduleBoxes = document.getElementsByClassName("alldayScheduleBox");
 			
-			let divHeight = (alldayScheduleBoxes.length)*30; // *30은 임의값. alldayScheduleBox의 height와 margin값에 따라 바꿔서 적용해줘야함.
+			let divHeight = (alldayScheduleBoxes.length)*40; // *40은 임의값. alldayScheduleBox의 height와 margin값에 따라 바꿔서 적용해줘야함.
 			
 			alldaySchedule.style.height = divHeight;
 			scheduleTimeBox.style.height = divHeight;
