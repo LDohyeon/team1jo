@@ -6,6 +6,7 @@ import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
 import DAO.MemberDAO;
+import DTO.MemberDTO;
 
 @WebServlet("/memberReport.do")
 public class MemberReportServlet extends HttpServlet {
@@ -19,7 +20,18 @@ public class MemberReportServlet extends HttpServlet {
 		
 		MemberDAO mDAO= MemberDAO.getInstance();
 		
-		mDAO.memberReport(id);
+		MemberDTO mDTO=mDAO.loginMember(id);
+		
+		int authority =  Integer.parseInt(mDTO.getAuthority());
+		
+		if(authority == 4 || authority ==1)
+		{
+			
+		}
+		else
+		{
+			mDAO.memberReport(id);
+		}
 		
 		request.setAttribute("report", "1");
 		
