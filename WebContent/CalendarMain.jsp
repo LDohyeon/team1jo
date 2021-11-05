@@ -5842,7 +5842,7 @@
 			*/
 			
 			let daySchedules = document.getElementsByClassName("daySchedule");
-			let dayScheduleChecks;
+			let dayScheduleChecks= daySchedules[0].getElementsByClassName("dayScheduleCheck");
 			
 			let dsStartYear = scheduleData.start.substring(0, 4);
 			let dsStartMonth = scheduleData.start.substring(5, 7);
@@ -5867,7 +5867,7 @@
 			
 			v = document.createElement("div");
 			v.classList.add("dayScheduleBox");
-			v.style.height=boxHeight; // 이렇게 해도될까...?
+			
 			
 			c = document.createElement("span");
 			c.classList.add("scheduleInfos");
@@ -5961,6 +5961,8 @@
 			c.appendChild(cc);
 			v.appendChild(c);
 			
+			dayScheduleChecks[0].appendChild(v);
+			
 			// dayScheduleBox Starting point에 append시키는 작업.
 			/*
 				daySchedule = 1시간단위 div
@@ -5970,6 +5972,7 @@
 				let dayScheduleChecks;
 			*/
 			
+			/* 잠깐 가리고 테스트중. 박스는 그려지는데 아래 if절에 문제가 있는 것으로 확인.
 			for(let i=0; i<daySchedules.length; i++){
 				//	시간단위로 쪼개진 횟수만큼 실행 (그 안에서 15분 단위로 또 실행.)
 				dayScheduleChecks = daySchedules[i].getElementsByClassName("dayScheduleCheck");
@@ -5990,6 +5993,7 @@
 					}
 				}
 			}
+			*/
 			
 			//	자신이 몇번째 schedule인지에 따라 left 위치값을 바꿔줘야함. schedule.style.left
 			//	다 그린 후에 dayScheduleBox 를 getElementByClassName 으로 묶은 변수를 만들고 해당 변수의 길이만큼 for문을 돌면서 몇번째인지에 따라 left값을 바꾸는 방식은 어떨까...
