@@ -168,6 +168,60 @@ public class MemberDAO {
 	}
 	//login 끝
 	
+	//신고 기능을 위한 loginmember 오버로딩
+	
+	public MemberDTO loginMember(String id)
+	{
+		
+		MemberDTO mDTO=null;
+		String sql="select * from member where id = ?";
+		
+		Connection conn=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+		
+
+			rs.next();
+		
+		
+			mDTO=new MemberDTO();
+			
+			mDTO.setNum(rs.getInt("num"));
+			mDTO.setId(rs.getString("id"));
+			mDTO.setPw(rs.getString("pw"));
+			mDTO.setName(rs.getString("name"));
+			mDTO.setEmail(rs.getString("email"));
+			mDTO.setAuthority(rs.getString("authority"));
+			
+									
+		}
+		catch(Exception e)
+		{
+			System.out.println("MemberDAO의 MemberLogin2에서 문제 발생"+e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+	
+		
+		return mDTO;
+		
+	}
+	
+	
+	//신고 기능을 위한 loginmember 오버로딩
+	
+	
 	//id 중복 체크 시작
 
 	public int idCheck(String id)
@@ -922,6 +976,10 @@ public class MemberDAO {
 		}
 		return ymdDate;
 	}
+	
+	
+	
+	
 }
 
 
