@@ -125,7 +125,7 @@
 							<tr>
 								<th>이름</th>
 								<td>
-									<input class="registerInput" type="password" name="name">
+									<input class="registerInput" type="text" name="name">
 									<span class="registerMsg">이름을 입력해주세요</span>
 								</td>
 								
