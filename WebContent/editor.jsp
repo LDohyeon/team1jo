@@ -340,7 +340,21 @@
 
 			frm.action="paragraphUpdate.do";
 			
-			writeCheck();
+			if(document.frm.writeTitle.value.length==0){
+				alert("제목을 입력해주세요.");
+				frm.writeTitle.focus();
+				return false;
+			}
+			if(document.getElementById("writeContent").innerHTML==""){
+				alert("내용을 입력해주세요.");
+				document.getElementById("writeContent").focus();
+				return false;
+			}
+				var text;
+				text=document.getElementById('writeContent').innerHTML;
+				document.getElementById('content').value=text;
+
+				return true;
 		}
 	
 	
