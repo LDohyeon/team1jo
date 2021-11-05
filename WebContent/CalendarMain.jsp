@@ -5219,7 +5219,7 @@
                 let thisTimeDate=""; 
             	
             	v = document.createElement("div");
-				v.classList.add("calendarArea");
+				v.classList.add("calendarDayArea");
 				
 				//선택된 날짜가 오늘날짜인지 확인.
 				if(date.year==today.year){
@@ -5524,9 +5524,16 @@
    	            cccc=document.createElement("div");
    	            cccc.classList.add("dayScheduleLeftLineWrap");
    	            for(let i=0; i<25; i++){
-   	            	ccccc=document.createElement("div");
-   	            	ccccc.classList.add("dayScheduleLeftLine");
-   	            	cccc.appendChild(ccccc);
+   	            	if(i==0){
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleFirstLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	            		
+   	            	}else{
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	            	}
    	            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
    	            
    	            ccc.appendChild(cccc);
@@ -5978,17 +5985,7 @@
 		
 		// 일일 스케줄 모양 구현.
 		function createDaySchedule(scheduleData){
-			
-			/*  
-				시작점 잡는것 구현해야함. ==> dayScheduleBox를 시작점에 해당하는 dayScheduleCheck에 appendChild시켜야한다.
-			 	전체 dayScheduleCheck를 끌어와서 for문잡고 돌리고 if절을 잡아서 append를 시킨다..?
-				그렇다면 if절의 조건을 어떻게 잡아야 정확히 해당하는 날짜에 들어갈 수 있을까. ==> daySchedule로 돌려서 시간찾고 그 daySchedule의 하위요소 dayScheduleCheck 4개중에 맞는 Minutes 찾고 거기서 append?
-				예를들어 startMin이 0이면 dayScheduleCheck[0] 에 appendChild 하는식으로?
-				append하는 함수를 따로하는게 나은가..? 맞나? 아닌것 같기도하고...
-				if(startHour==)
-				그럼 createDayScheduleElement를 돌리는 이유는? ==> 그릴지 말지를 결정해야되니까.
-			*/
-			
+						
 			let daySchedules = document.getElementsByClassName("daySchedule");
 			let dayScheduleChecks= daySchedules[0].getElementsByClassName("dayScheduleCheck");
 			
@@ -6181,15 +6178,18 @@
 			let alldaySchedule = document.getElementsByClassName("alldaySchedule")[0];
 			let scheduleTimeBox = document.getElementsByClassName("scheduleTimeBox")[0];
 			let alldayScheduleBoxes = document.getElementsByClassName("alldayScheduleBox");
+			let dayScheduleFirstLeftLine =document.getElementsByClassName("dayScheduleFirstLeftLine")[0];
 			
 			if(alldayScheduleBoxes.length!=0){
 				let divHeight = (alldayScheduleBoxes.length)*40;
 				alldaySchedule.style.height = divHeight+"px";
 				scheduleTimeBox.style.height = divHeight+"px";
+				dayScheduleFirstLeftLine.style.height = divHeight+"px";
 			}else{
 				let divHeight = 40; // alldaySchedule이 존재하지 않는 날짜에서는 기본값 40px로 유지
 				alldaySchedule.style.height = divHeight+"px";
 				scheduleTimeBox.style.height = divHeight+"px";
+				dayScheduleFirstLeftLine.style.height = divHeight+"px";
 			}
 			
 			

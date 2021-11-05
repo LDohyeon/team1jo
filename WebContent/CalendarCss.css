@@ -1632,9 +1632,7 @@
     height: 40px;
     line-height: 40px;
 }
-.calendarArea{
-	width: 100%;
-}
+
 .dayAreaBody{
 	display: flex;
 	flex-flow: row wrap;
@@ -1670,8 +1668,10 @@
     display: flex;
     flex-flow: column wrap;
 }
-.dayScheduleLeftLine:first-child{
+.dayScheduleFirstLeftLine{
+    width: 20px;
     height: 40px;
+    border-right: 1px solid gray;
 }
 .dayScheduleWrap{
     display: flex;
