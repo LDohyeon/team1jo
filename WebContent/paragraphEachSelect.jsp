@@ -752,10 +752,12 @@
 	
 			textarea.setAttribute("id", "writeContentLib");
 			cansleButton.setAttribute("onclick", "cansle()");
+			cansleButton.setAttribute("class", "button2");
 			cansleButton.innerText="취소";
 			wrapPonup.style.display="block";
 			
 			realgoButton.setAttribute("onclick", "realGo()");
+			realgoButton.setAttribute("class", "button2");
 			realgoButton.innerText="저장";
 			
 			Lib(hid);
@@ -810,10 +812,12 @@
 				
 				
 				cansleButton.setAttribute("onclick", "cansleUpdate()");
+				cansleButton.setAttribute("class", "button2");
 				cansleButton.innerText="취소";
 				wrapPonup.style.display="block";
 				
 				realgoButton.setAttribute("onclick", "realGoUpdate()");
+				realgoButton.setAttribute("class", "button2");
 				realgoButton.innerText="저장";
 				
 				Lib(getSels[1]);
