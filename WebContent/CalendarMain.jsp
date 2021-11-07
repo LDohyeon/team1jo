@@ -2883,6 +2883,41 @@
 				}
 			}
 			else if(selectForm.value=="D"){
+				let daySchedule = document.getElementsByClassName("dayScheduleBox");
+				let alldaySchedule = document.getElementsByClassName("alldayScheduleBox");
+				
+				for(let i = 0; i < groupDiv.length; i++){
+					let flag = groupDiv[i].getElementsByClassName("groupDataFlag")[0].value+"";
+					let num = groupDiv[i].getElementsByClassName("groupDataNum")[0].value+"";;
+					for(let j = 0; j <daySchedule.length; j++){
+						
+						let scheduleNum = daySchedule[j].getElementsByClassName("groupNum")[0].value+"";
+						
+						if(num==scheduleNum){
+							if(flag=="true"){
+								daySchedule[j].classList.remove("hiddenElement");
+							}
+							else if(flag=="false"){
+								daySchedule[j].classList.add("hiddenElement");
+							}
+						}
+					}
+					
+					for(let k = 0; k <alldaySchedule.length; j++){
+						
+						scheduleNum = alldaySchedule[k].getElementsByClassName("groupNum")[0].value+"";
+						
+						if(num==scheduleNum){
+							if(flag=="true"){
+								alldaySchedule[k].classList.remove("hiddenElement");
+							}
+							else if(flag=="false"){
+								alldaySchedule[k].classList.add("hiddenElement");
+							}
+						}
+					}
+				}
+				
 				
 			}
 		}
@@ -5861,6 +5896,7 @@
 					
 				}//checkDate for문 종료
 			}//scheduleDate for 종료
+			console.log("Create dayScheduleElement!");
 		}//createDayScheduleElement end
 		
 		// 종일 스케줄 모양 구현.
@@ -5979,7 +6015,7 @@
 			
 			alldaySchedule.appendChild(v);
 
-			
+			console.log("Create alldaySchedule!")
 		}//createAlldaySchedule end
 		
 		
@@ -6147,7 +6183,7 @@
 					}
 				}
 			}
-			
+			console.log("create daySchedule!");
 			
 			//	자신이 몇번째 schedule인지에 따라 left 위치값을 바꿔줘야함. schedule.style.left
 			//	다 그린 후에 dayScheduleBox 를 getElementByClassName 으로 묶은 변수를 만들고 해당 변수의 길이만큼 for문을 돌면서 몇번째인지에 따라 left값을 바꾸는 방식은 어떨까...
@@ -6178,7 +6214,8 @@
 			let alldaySchedule = document.getElementsByClassName("alldaySchedule")[0];
 			let scheduleTimeBox = document.getElementsByClassName("scheduleTimeBox")[0];
 			let alldayScheduleBoxes = document.getElementsByClassName("alldayScheduleBox");
-			let dayScheduleFirstLeftLine =document.getElementsByClassName("dayScheduleFirstLeftLine")[0];
+			let dayScheduleFirstLeftLine = document.getElementsByClassName("dayScheduleFirstLeftLine")[0];
+			// goCalender로 날짜변경시 못읽는 문제 해결해야함.
 			
 			if(alldayScheduleBoxes.length!=0){
 				let divHeight = (alldayScheduleBoxes.length)*40;
@@ -6199,5 +6236,16 @@
 			
 			console.log("====== alldaySchedule / scheduleTimeBox 높이설정!!!!! ======");
 		}// alldayScheduleHeight end
+		
+		/*
+			11.06 ~ 11.07
+			viewGroupForSchedule() Day영역 수정.
+			dayScheduleFirstLeftLine 오류 수정 실패. == > 처리 후 createScheduleInfo() 작업 진행해야함.
+			
+			11.07 갑자기 일간에서 스케줄을 못읽고 있음.. 11.07 (23:00 경)
+			11.08 04:00까지 해결못함..
+			
+			11.08 06:00~ 07:40까지 해결못함...
+		*/
 	</script>
 </html>
