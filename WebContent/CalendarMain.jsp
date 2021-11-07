@@ -3579,9 +3579,8 @@
 							flagDrawn = 1;
 						}
 
-						boxArray[l].classList.add("cmpb0");	
 						boxArray[l].classList.add("firstElementSchedule");
-						boxArray[l].classList.add(checkMonthPlanBar(boxArray.length));
+						boxArray[l].classList.add(checkMonthPlanBar((boxArray.length%7)));
 						
 						let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
 						let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
@@ -3596,12 +3595,11 @@
 						c = document.createElement("div");
 						c.classList.add("scheduleTitleInSpan")
 						c.innerHTML = temp2;
-						c.classList.add(checkMonthPlanBarTitle(boxArray.length));
+						c.classList.add(checkMonthPlanBarTitle((boxArray.length%7)));
 						boxArray[l].appendChild(c);
 					}
 					else{
-						boxArray[l].classList.add("cmpb0");	
-						boxArray[l].classList.add(checkMonthPlanBar(boxArray.length));
+						boxArray[l].classList.add(checkMonthPlanBar((boxArray.length%7)));
 						boxArray[l].appendChild(c);
 					}
 					flagDrawn--;
@@ -3661,12 +3659,66 @@
 			let monthBoxBodys = document.getElementsByClassName("monthBoxBody");
 			
 			// 우선 가장 윗줄만 정렬하도록 알고리즘을 구축 시도 
-			flag = [0, 0, 0, 0, 0, 0, 0]; 
-			EndPoint; 
+			// flag 데이터가 모두 1이 되면 한줄의 정렬이 완료된 것 
+			// 우선 차지할 면적이 긴 요소부터 위로 정렬하고, 순차적으로 들어갈 수 있는 요소를 0 자리에 넣는다.
+			// 들어갈 0자리에 1 이상 면적을 가지는게 없다면 공백용 데이터를 집어넣는다.
+			// 공백용 스케줄이 들어가면 1로 채우고 정렬된 요소들은 식별 클래스 정보를 제거한다.
+			// 한줄의 정렬이 완료되면 엔드포인트가 1증가하고, 해당 포인트가 해당 영역 전체의 정렬해야할 엘리먼트 수와 같아지면 제어문을 종료한다.
+			// 전체 엔드 포인트와 각 열 엔드포인트가 다르게 설정되고 와일문안에서 포문이 또 도는 구조로 정렬을 시도해야한다. 
+			
+			let flag = [0, 0, 0, 0, 0, 0, 0]; 
+			let endPoint = [1, 1, 1, 1, 1, 1, 1]; 
 			
 			// EndPoint는 data가 표시해주는 각행의 마지막 요소, 즉 마지막 요소만큼 정렬상태가 완료되어야 한다. 
 			
-			
+			for(let i = 0; i < data.length; i++){
+				
+				let point = data[i][7];
+				let start = i*7;
+				let end = (i+1)*7;
+		
+				for(let j = 0; j<7; j++){
+					flag = [0, 0, 0, 0, 0, 0, 0]; 
+					let barNow = "";
+
+					for(let l = start; l<end; l++){
+						let name = "cmpb"+(7-j)+"";
+						let check = monthBoxBodys[l].getElementsByClassName(name);
+						let bar = monthBoxBodys[l].getElementsByClassName(name)[0];
+						
+						if(check.length>1){
+							j--;
+						}
+				
+						if(barNow==""&&typeof(bar)!='undefined'){
+							monthBoxBodys[l].appendChild(bar);	
+							bar.classList.remove(name);
+							barNow = name;
+							flag[l%7] += 1; 
+						}
+						else if(typeof(bar)!='undefined'){
+							monthBoxBodys[l].appendChild(bar);	
+							bar.classList.remove(name);
+							barNow = name;
+							flag[l%7] += 1; 
+						}
+					}
+					
+					if(JSON.stringify(flag)!=JSON.stringify(endPoint)){
+						for(let y = 0; y<flag.length; y++){
+							if(flag[y]==0){
+								for(let l = start; l<end; l++){
+									let name = "cmpb"+(j)+"";
+									// 여기서 중요한데 ,
+									// 데이터를 가져올때 제이로 가져와서 남는 공간 수를 추축하고 순차적으로 넣을수 있게함 
+									// 애초에 7부터 졸면서 요소를 넣기때문에
+									// 애매하게 겹치는 경우는 방지됨 > 001100110 이라던지
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		
 		// 현재 스케줄의 Bar 길이를 확인
