@@ -1078,8 +1078,7 @@
 /*Schedule*/
 .monthBoxBody{
 	width: 100%;
-	position: relative;
-	z-index: 400;
+	
 }
 .scheduleInfos{
 	display:none;
@@ -1088,56 +1087,59 @@
 	width: 100%;
 	height: 20px;
 	text-align: left;
-	position: absolute;
-	z-index: 450;
 	border-radius: 3px;
+	position: relative;
+	z-index: 400;
+}
+.scheduleTitleInSpan{
+	
 }
 .cmpbzero{
-	display: none;
+	
 }
 .cmpb0{
-	display: none;
+	
 }
-.cmpb1{
+.cmpb1Title{
 	width: 95%;
 }
-.cmpb2{
+.cmpb2Title{
 	width: 195%;
 }
-.cmpb3{
+.cmpb3Title{
 	width: 295%;
 }
-.cmpb4{
+.cmpb4Title{
 	width: 396%;
 }
-.cmpb5{
+.cmpb5Title{
 	width: 497%;
 }
-.cmpb6{
+.cmpb6Title{
 	width: 598%;
 }
-.cmpb7{
+.cmpb7Title{
 	width: 699%;
 }
-.cmpb1:hover{
+.cmpb1Title:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb2:hover{
+.cmpb2Title:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb3:hover{
+.cmpb3Title:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb4:hover{
+.cmpb4Title:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb5:hover{
+.cmpb5Title:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb6:hover{
+.cmpb6Title:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb7:hover{
+.cmpb7Title:hover{
 	filter: hue-rotate(20deg);
 }
 .scheduleTitleInSpan{
@@ -1146,7 +1148,7 @@
 	text-overflow: ellipsis;
 	display: block;
 	color: black;
-	float: left;
+
 }
 .scheduleBox:after{
 	content: "";
