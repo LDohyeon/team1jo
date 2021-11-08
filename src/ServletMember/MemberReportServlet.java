@@ -1,4 +1,4 @@
-package Servlet;
+package ServletMember;
 
 import java.io.*;
 import javax.servlet.*;

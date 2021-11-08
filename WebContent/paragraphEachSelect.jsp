@@ -446,9 +446,7 @@
 				<hr>
 			</c:forEach> 
         	
-			
-			
-			
+
 			<form method="post" action="comment.do" class="frm" name="frm">
 	            <div>
 	                <div class="editor">
@@ -510,8 +508,6 @@
 
 	            	 </div>
 	            	 
-
-	            	 
 	            	 <div class="buttonsArea">
 	            	 	<c:choose>
 							<c:when test="${loginUser.getAuthority()==4 }">
@@ -521,11 +517,7 @@
 								<input class="button" type="submit" value="글쓰기" onclick="return writeCheck(${commentLastCount })">
 							</c:when>
 						</c:choose>
-						
-	            	 	
 	            	 </div>
-	            	 
-
 	            </div>
         	</form>
 			<form method="post" enctype="multipart/form-data" name="imgFrm" class="imgFrm">
@@ -534,7 +526,6 @@
 	        	<input name="num" type="hidden" value="<%=num%>">
 	        	<input class="num" type="hidden" value="${commentLastCount }" name="commentNum">
 	        </form>
-
 		</div>
 
 
@@ -629,12 +620,15 @@
 		
 		function imgInsert(e)
 		{
-			var imgInput = document.getElementsByClassName("imgInput");
-			
-			imgInput[e].click();
-			
-			imgChange(e);
-			
+			if(document.getSelection().anchorNode !=null)
+			{
+				var imgInput = document.getElementsByClassName("imgInput");
+				document.getElementsByClassName("writeContent")[e].focus();
+				
+				imgInput[e].click();
+				
+				imgChange(e);
+			}
 		}
 		function imgChange(e, action)
 		{

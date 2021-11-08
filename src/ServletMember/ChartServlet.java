@@ -1,4 +1,4 @@
-package Servlet;
+package ServletMember;
 
 import java.util.*;
 import javax.servlet.*;
