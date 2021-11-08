@@ -5284,11 +5284,19 @@
 	            
 	            cccc=document.createElement("div");
 	            cccc.classList.add("dayScheduleLeftLineWrap");
+	            
 	            for(let i=0; i<25; i++){
-	            	ccccc=document.createElement("div");
-	            	ccccc.classList.add("dayScheduleLeftLine");
-	            	cccc.appendChild(ccccc);
-	            }
+   	            	if(i==0){
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleFirstLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	            	}
+   	            	else{
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	   	           }
+   	            }
 	            
 	            ccc.appendChild(cccc);
 	            cc.appendChild(ccc);
@@ -5417,7 +5425,8 @@
 	            cc.appendChild(ccc);
 	            c.appendChild(cc);
 	            v.appendChild(c);
-            }//day formdate defined end
+           	 
+	        }//day formdate defined end
             else{
                	let yoil = getYoil(getToday());
            	 	let today=getToday();
@@ -5504,9 +5513,17 @@
    	            cccc=document.createElement("div");
    	            cccc.classList.add("dayScheduleLeftLineWrap");
    	            for(let i=0; i<25; i++){
-   	            	ccccc=document.createElement("div");
-   	            	ccccc.classList.add("dayScheduleLeftLine");
-   	            	cccc.appendChild(ccccc);
+   	            	if(i==0){
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleFirstLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	            	}
+   	            	else{
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	            	}
+   	            	
    	            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
    	            
    	            ccc.appendChild(cccc);
@@ -5978,6 +5995,11 @@
 			let dsEndHour= scheduleData.end.substring(11, 13);
 			let dsEndMin= scheduleData.end.substring(14);
 			
+			console.log(dsStartHour);
+			console.log(dsStartMin);
+			console.log(dsEndHour);
+			console.log(dsEndMin);
+			
 			// ScheduleBox
 			// {그리기 시작하는 시간값 - 스케줄이 끝나는 시간값 x4 (1 hour가 4칸을 가지므로)} + {그리기 시작하는 분값 - 스케줄이 끝나는 분값/15(15분당 1칸이므로)}
 			
@@ -5989,6 +6011,8 @@
 			
 			v = document.createElement("div");
 			v.classList.add("dayScheduleBox");
+			v.style.height= "calc("+12*boxHeight+"px)";
+			v.style.backgroundColor = scheduleData.groupcolor;
 			
 			
 			c = document.createElement("span");
@@ -6083,18 +6107,8 @@
 			c.appendChild(cc);
 			v.appendChild(c);
 			
-			dayScheduleChecks[0].appendChild(v);
 			
-			// dayScheduleBox Starting point에 append시키는 작업.
-			/*
-				daySchedule = 1시간단위 div
-				dayScheduleCheck = 15분단위 div
-				dateTag = dayScheduleCheck의 하위 요소인 input
-				let daySchedules = document.getElementsByclassName("daySchedule");
-				let dayScheduleChecks;
-			*/
 			
-			/* 잠깐 가리고 테스트중. 박스는 그려지는데 아래 if절에 문제가 있는 것으로 확인.
 			for(let i=0; i<daySchedules.length; i++){
 				//	시간단위로 쪼개진 횟수만큼 실행 (그 안에서 15분 단위로 또 실행.)
 				dayScheduleChecks = daySchedules[i].getElementsByClassName("dayScheduleCheck");
@@ -6102,8 +6116,13 @@
 				for(let j=0; j<dayScheduleChecks.length; j++){
 					// 15분단위 div안에 있는 dateTag의 값을 통해 checkTime을 설정
 					let startCheck = dayScheduleChecks[j].getElementsByClassName("dateTag")[0].value;
-					let startCheckHour = startCheck.substring(10,12);
-					let startCheckMin = startCheck.substring(13);
+					let startCheckHour = startCheck.substring(9,11);
+					let startCheckMin = startCheck.substring(12);
+					
+					console.log(dsStartHour);
+					console.log(startCheckHour);
+					console.log(dsStartMin);
+					console.log(startCheckMin);
 					
 					// 먼저 start와 맞는 시간값을 찾는다. 일 단위까지는 createDayScheduleElement 에서 걸러짐.
 					if(startCheckHour==dsStartHour){
@@ -6115,7 +6134,7 @@
 					}
 				}
 			}
-			*/
+			
 			
 			//	자신이 몇번째 schedule인지에 따라 left 위치값을 바꿔줘야함. schedule.style.left
 			//	다 그린 후에 dayScheduleBox 를 getElementByClassName 으로 묶은 변수를 만들고 해당 변수의 길이만큼 for문을 돌면서 몇번째인지에 따라 left값을 바꾸는 방식은 어떨까...
@@ -6131,10 +6150,10 @@
 		function scheduleBoxMarginLeft(){
 			let scheduleBoxes = document.getElementsByClassName("dayScheduleBox");
 			let boxWidth = 100/scheduleBoxes.length;
-			// 이렇게 처리가 될까...
+			
 			for(let i = 0; i<scheduleBoxes.length; i++){
-				scheduleBoxes[i].style.marginLeft = 20; // *40은 임의 값. 세부조정가능.
-				
+				scheduleBoxes[i].style.width = boxWidth+"%";
+				scheduleBoxes[i].style.marginLeft = "calc("+((i*1.01)*boxWidth)+"%)"; // 
 			}
 		}//scheduleBoxMarginLeft end
 		
@@ -6145,11 +6164,29 @@
 			let alldaySchedule = document.getElementsByClassName("alldaySchedule")[0];
 			let scheduleTimeBox = document.getElementsByClassName("scheduleTimeBox")[0];
 			let alldayScheduleBoxes = document.getElementsByClassName("alldayScheduleBox");
+			let dayScheduleFirstLeftLine = document.getElementsByClassName("dayScheduleFirstLeftLine")[0];
 			
-			let divHeight = (alldayScheduleBoxes.length)*40; // *40은 임의값. alldayScheduleBox의 height와 margin값에 따라 바꿔서 적용해줘야함.
-			
-			alldaySchedule.style.height = divHeight;
-			scheduleTimeBox.style.height = divHeight;
+			if(alldayScheduleBoxes.length==0){
+				let divHeight=42;
+				alldaySchedule.style.height = divHeight+"px";
+				scheduleTimeBox.style.height = divHeight+"px";
+				scheduleTimeBox.style.lineHeight = divHeight+"px";
+				dayScheduleFirstLeftLine.style.height = divHeight+"px";
+				for(let i=0; i<alldayScheduleBoxes.length; i++){
+
+					alldayScheduleBoxes[i].style.marginTop = "calc("+i*divHeight+2+"px)";
+				}
+			}
+			else{
+				let divHeight=42*alldayScheduleBoxes.length;
+				alldaySchedule.style.height = divHeight+"px";
+				scheduleTimeBox.style.height = divHeight+"px";
+				dayScheduleFirstLeftLine.style.height = divHeight+"px";
+				for(let i=0; i<alldayScheduleBoxes.length; i++){
+
+					alldayScheduleBoxes[i].style.marginTop = "calc("+(i*40+2)+"px)";
+				}
+			}
 		}// alldayScheduleHeight end
 	</script>
 </html>
