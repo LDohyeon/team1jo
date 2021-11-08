@@ -70,7 +70,6 @@
 			{
 				color:red;
 			}
-			
 			#wrapPonup
 			{
 				background-color:#0000002b;
