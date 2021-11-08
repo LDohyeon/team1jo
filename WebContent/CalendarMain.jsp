@@ -3549,7 +3549,185 @@
 			
 			monthBoxBody.appendChild(v);
 		}
+		function checkMonthScheduleFirst(){
+			let scheduleBoxs = document.getElementsByClassName("scheduleBox");
+			let scheduleNums = document.getElementsByClassName("scheduleNum");
+			
+			let scheduleTotal = [];
+			
+			for(let i = 0; i<scheduleNums.length; i++){
+				let sn = parseInt(scheduleNums[i].value);//스케쥴 넘버의 값
+				scheduleTotal.push(sn);
+			}
+			// 현재 페이지의 스케쥴 태그의 넘버를 가져옴 // 중복값은 생략해서 가져옴
+			scheduleTotal = Array.from(new Set(scheduleTotal));
+			
+			for(let i = 0; i<scheduleTotal.length; i++){
+				let boxArray = [];
+				
+				for(let j = 0; j <scheduleBoxs.length; j++){
+					let sv = scheduleBoxs[j].getElementsByClassName("scheduleNum");
+					
+					if(sv.length==1){
+						sv = sv[0].value;
+					}
+				
+					if(scheduleTotal[i]==sv){
+						boxArray.push(scheduleBoxs[j]);
+					}
+				}
+				
+				let flagSize = 0;
+				let flagYoil;
+				let flagDrawn = 0;
+				let flagBefore = 0;
+				
+				for(let l = 0; l<boxArray.length; l++){
+					// 해당 태그의 첫 요소의 데이터를 가져와서, 날짜를 파악> 요일 구해서 요일따라 길이 정해야함
+					let dateTag = boxArray[l].parentElement.parentElement.getElementsByClassName("dateTag")[0];
+					let dateTagYear = parseInt(dateTag.value.substring(0,4));
+					let dateTagMonth = parseInt(dateTag.value.substring(4,6));
+					let dateTagDay = parseInt(dateTag.value.substring(6,8));
+					
+					let dateTagYoil = getYoil(getThisDay(dateTagYear, dateTagMonth, dateTagDay, 0, 0));
+					
+					if(l==0||flagDrawn==0){
+						
+						if(dateTagYoil=="일"){
+							flagSize = 7;
+							flagDrawn = 7;
+							flagBefore = 0;
+						}
+						else if(dateTagYoil=="월"){
+							flagSize = 6;
+							flagDrawn = 6;
+							flagBefore = 1;
+						}
+						else if(dateTagYoil=="화"){
+							flagSize = 5;
+							flagDrawn = 5;
+							flagBefore = 2;
+						}
+						else if(dateTagYoil=="수"){
+							flagSize = 4;
+							flagDrawn = 4;
+							flagBefore = 3;
+						}
+						else if(dateTagYoil=="목"){
+							flagSize = 3;
+							flagDrawn = 3;
+							flagBefore = 4;
+						}
+						else if(dateTagYoil=="금"){
+							flagSize = 2;
+							flagDrawn = 2;
+							flagBefore = 5;
+						}
+						else if(dateTagYoil=="토"){
+							flagSize = 1;
+							flagDrawn = 1;
+							flagBefore = 6;
+						}
+						let grandfa = boxArray[l].parentNode.parentNode;
+						let pregrandfa;
+						// 새로 보강한 알고리즘
+						for(let t = 0; t < flagBefore; t++){
+							pregrandfa = grandfa.previousSibling;
+							grandfa = pregrandfa;
+					
+							let pregrandfabox = pregrandfa.getElementsByClassName("monthBoxBody")[0];
+							
+							let boxx = document.createElement("div");
+							boxx.classList.add("cmpb0");
+							
+							pregrandfabox.appendChild(boxx);
+						}
+						
+						if(flagSize>boxArray.length-l){
+							// 사이즈칸 짜리 플래그 넣어주면 됨.
+							flagSize=boxArray.length-l;
+							
+							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
+							boxArray[l].classList.add("firstElementSchedule");
+							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
+							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
+							let temp3 = temp1.getElementsByClassName("groupColor")[0].value;
+							
+							c = document.createElement("span");
+							c.classList.add("scheduleGroupColor")
+							let thisColor = "background-color: "+temp3;
+							c.setAttribute("style", thisColor);
+							boxArray[l].appendChild(c);
+							
+							c = document.createElement("span");
+							c.classList.add("scheduleTitleInSpan")
+							c.innerHTML = temp2;
+							boxArray[l].appendChild(c);
+						}
+						else{
+							// 사이즈 만큼 그리고 빈 수만큼 
+							boxArray[l].classList.add(checkMonthPlanBar(flagSize));
+							boxArray[l].classList.add("firstElementSchedule");
+							let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
+							let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
+							let temp3 = temp1.getElementsByClassName("groupColor")[0].value;
+							
+							c = document.createElement("span");
+							c.classList.add("scheduleGroupColor")
+							let thisColor = "background-color: "+temp3;
+							c.setAttribute("style", thisColor);
+							boxArray[l].appendChild(c);
+							
+							c = document.createElement("span");
+							c.classList.add("scheduleTitleInSpan")
+							c.innerHTML = temp2;
+							boxArray[l].appendChild(c);
+						}	
+					}
+					else{
+						boxArray[l].classList.add("cmpbzero");
+					}
+					flagDrawn--;
+				}
+			}
+		}
 		
+		function checkFirstElement(){
+			let scheduleBox = document.getElementsByClassName("scheduleBox ");
+			let temp = 0; 
+			
+			for(let i = 0; i < scheduleBox.length; i++){
+				if(scheduleBox[i].classList.contains("firstElementSchedule")){
+					let p = scheduleBox[i].parentNode;
+					let cmpb0 = p.getElementsByClassName("cmpb0");
+					let fr = p.getElementsByClassName("firstElementSchedule");
+					
+					let height = 22;
+					
+					for(let j = 0; j < fr.length; j++){
+						let getAtt = fr[j].getAttribute("style")+";";
+						let num = cmpb0.length+j;
+
+						let hg = "margin-top:"+(height*num)+"px;";
+					    
+						fr[j].setAttribute("style", getAtt+hg);
+						
+					}
+				}
+				let pnum = scheduleBox[i].parentNode.childElementCount;
+				if(temp<pnum){
+					temp = pnum;
+				}
+			}
+			let monthBoxs = document.getElementsByClassName("monthBox");
+			
+			for(let i = 0; i < monthBoxs.length; i++){
+				
+				let hg = temp*22;
+				hg = hg+22;
+				monthBoxs[i].setAttribute("style", "height:"+hg+"px;");
+			}	
+		}
 		console.log("정렬알고리즘 개선 필요");
 		/*
 		// 스케줄의 첫 요소 확인,
