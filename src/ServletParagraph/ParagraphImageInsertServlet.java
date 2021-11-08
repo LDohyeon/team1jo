@@ -1,4 +1,4 @@
-package Servlet;
+package ServletParagraph;
 
 import java.io.*;
 
@@ -6,16 +6,14 @@ import javax.servlet.*;
 import javax.servlet.annotation.*;
 import javax.servlet.http.*;
 
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.oreilly.servlet.*;
+import com.oreilly.servlet.multipart.*;
 
-import DTO.CommentDTO;
 
-@WebServlet("/commentInsertImage.do")
-public class CommentInsertImageServlet extends HttpServlet {
+@WebServlet("/paragraphImageInsert.do")
+public class ParagraphImageInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 	}
@@ -36,9 +34,7 @@ public class CommentInsertImageServlet extends HttpServlet {
 		MultipartRequest multi = new MultipartRequest(request, path, sizeLimit, encType, new DefaultFileRenamePolicy());
 		String imgContent = multi.getParameter("imgContent");
 		String imgInput = multi.getFilesystemName("imgInput");
-		int num= Integer.parseInt(multi.getParameter("num"));
-		String commentNum= multi.getParameter("commentNum");
-		
+		String imgTitle= multi.getParameter("imgTitle");
 		
 		String[] imgContents=imgContent.split("★");
 		
@@ -50,17 +46,26 @@ public class CommentInsertImageServlet extends HttpServlet {
 			imgContentsHap+=imgContents[i];
 		}
 
-		HttpSession session = request.getSession();
-		session.setAttribute("imageInsertContent", imgContentsHap);
-		session.setAttribute("commentNum", commentNum);
+		request.setAttribute("imageInsertContent", imgContentsHap);
+		request.setAttribute("imgTitle", imgTitle);
+		
+		RequestDispatcher dispatcher= request.getRequestDispatcher("editor.jsp");
+		dispatcher.forward(request, response);
 		
 		
-		response.sendRedirect("paragraphEachSelect.do?num="+num+"&&flag=3");
-
 		
 		
-		
-
 	}
-
 }
+
+
+
+
+
+
+
+
+
+
+
+

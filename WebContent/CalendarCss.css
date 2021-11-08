@@ -1078,7 +1078,8 @@
 /*Schedule*/
 .monthBoxBody{
 	width: 100%;
-	
+	position: relative;
+	z-index: 400;
 }
 .scheduleInfos{
 	display:none;
@@ -1087,59 +1088,56 @@
 	width: 100%;
 	height: 20px;
 	text-align: left;
+	position: absolute;
+	z-index: 450;
 	border-radius: 3px;
-	position: relative;
-	z-index: 400;
-}
-.scheduleTitleInSpan{
-	
 }
 .cmpbzero{
-	
+	display: none;
 }
 .cmpb0{
-	
+	display: none;
 }
-.cmpb1Title{
+.cmpb1{
 	width: 95%;
 }
-.cmpb2Title{
+.cmpb2{
 	width: 195%;
 }
-.cmpb3Title{
+.cmpb3{
 	width: 295%;
 }
-.cmpb4Title{
+.cmpb4{
 	width: 396%;
 }
-.cmpb5Title{
+.cmpb5{
 	width: 497%;
 }
-.cmpb6Title{
+.cmpb6{
 	width: 598%;
 }
-.cmpb7Title{
+.cmpb7{
 	width: 699%;
 }
-.cmpb1Title:hover{
+.cmpb1:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb2Title:hover{
+.cmpb2:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb3Title:hover{
+.cmpb3:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb4Title:hover{
+.cmpb4:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb5Title:hover{
+.cmpb5:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb6Title:hover{
+.cmpb6:hover{
 	filter: hue-rotate(20deg);
 }
-.cmpb7Title:hover{
+.cmpb7:hover{
 	filter: hue-rotate(20deg);
 }
 .scheduleTitleInSpan{
@@ -1148,7 +1146,7 @@
 	text-overflow: ellipsis;
 	display: block;
 	color: black;
-
+	float: left;
 }
 .scheduleBox:after{
 	content: "";
@@ -1619,7 +1617,7 @@
 }
 .dayTime{
     position: relative;
-    top: 15px;
+    top: -10px;
 }
 .scheduleTimeBox{
     width: 100%;
@@ -1664,7 +1662,7 @@
 	content: '';
     border-bottom: 1px solid gray;
     position: absolute;
-    width: 100%;
+    width: 70%;
     margin-top: -1px;
 }
 .dayScheduleLeftLineWrap{
@@ -1674,6 +1672,13 @@
 .dayScheduleFirstLeftLine{
     width: 20px;
     border-right: 1px solid gray;
+}
+.dayScheduleFirstLeftLine::after{
+	content: '';
+    border-bottom: 1px solid gray;
+    position: absolute;
+    width: 70%;
+    margin-top: -1px;
 }
 .dayScheduleWrap{
     display: flex;
@@ -1686,23 +1691,31 @@
     content: '';
     border-bottom: 1px solid gray;
     position: absolute;
-    width: 100%;
+    width: 70%;
     margin-top: -1px;
 }
 .daySchedule{
     height: 48px;
+    min-width: 1001px;
 }
 .daySchedule::after{
     content: '';
     border-bottom: 1px solid gray;
     position: absolute;
-    width: 100%;
+    width: 70%;
     margin-top: -1px;
 }
 .dayScheduleLeftLine{
     width: 20px;
     height: 48px;
     border-right: 1px solid gray;
+}
+.dayScheduleLeftLine::after{
+	content: '';
+    border-bottom: 1px solid gray;
+    position: absolute;
+    width: 70%;
+    margin-top: -1px;
 }
 .dayScheduleCheck{
 	height: 25%;
@@ -1711,25 +1724,21 @@
 	content: '';
     border-bottom: 1px solid gray;
     position: absolute;
-    width: 100%;
+    width: 70%;
     margin-top: -1px;
 }
 .dayScheduleBox{
-
-	width: 90%;
-	height: 48px;
+	opacity: 0.9;
 	text-align: left;
 	position: absolute;
 	z-index: 450;
 	border-radius: 3px;
 }
 .alldayScheduleBox{
-	width: 90%;
-	height: 38px;
-	text-align: left;
+	width: 70%;
+	opacity: 0.9;
 	position: absolute;
 	z-index: 450;
 	border-radius: 3px;
-	background-color: red;
 	margin-left: 2px;
 }
