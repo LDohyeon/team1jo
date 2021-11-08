@@ -5230,6 +5230,7 @@
 	            		ccc=document.createElement("span");
 	            		ccc.classList.add("dayTime");
 	            		ccc.innerHTML="오전"+12+"시";
+	            		ccc.style.visibility = "hidden";
 	            		cc.appendChild(ccc);//오전 12시 표시
 	            	}else if(i<13){
 	            		cc=document.createElement("div");
@@ -5317,7 +5318,7 @@
 	                   	for(let j=0; j<4; j++){
 	                   		ccccc=document.createElement("div");
 	                       	ccccc.classList.add("dayScheduleCheck");
-	                       	
+	                       	ccccc.addEventListener("click", visibleSchedule);
 	                       	if(thisDayToday==true){
 	                       		if(i==(1+today.hour)){
 	                       			if(today.minute<15&&j==0){
@@ -5458,6 +5459,7 @@
    	            		ccc=document.createElement("span");
    	            		ccc.classList.add("dayTime");
    	            		ccc.innerHTML="오전"+12+"시";
+   	            		ccc.style.visibility = "hidden";
    	            		cc.appendChild(ccc);//오전 12시 표시
    	            	}else if(i<13){
    	            		cc=document.createElement("div");
@@ -5545,7 +5547,8 @@
    	                   	for(let j=0; j<4; j++){
    	                   		ccccc=document.createElement("div");
    	                       	ccccc.classList.add("dayScheduleCheck");
-   	                       	
+   	                     	ccccc.addEventListener("click", visibleSchedule);
+   	                   	    	
    	                       	if(thisDayToday==true){
    	                       		if(i==(1+today.hour)){
    	                       			if(today.minute<15&&j==0){
@@ -5870,6 +5873,7 @@
 			v.classList.add("alldayScheduleBox");
 			v.style.backgroundColor = scheduleData.groupcolor;
 			v.style.textAlign = "center";
+			v.addEventListener("click", scheduleDetailInfo);
 			
 			c = document.createElement("span");
 			c.classList.add("visibleInfo");
@@ -6008,8 +6012,8 @@
 			// {그리기 시작하는 시간값 - 스케줄이 끝나는 시간값 x4 (1 hour가 4칸을 가지므로)} + {그리기 시작하는 분값 - 스케줄이 끝나는 분값/15(15분당 1칸이므로)}
 			// 오늘 시작 오늘 이후 끝나는 값. == 
 			
-			if(dsStartDay<dsEndDay){
-				let boxHeight = (4*(23-parseInt(dsStartHour)))+((60-parseInt(dsStartMin))/15);
+			if(dsStartDay<dsEndDay||dsStartMonth<dsEndMonth||dsStartYear<dsEndYear){
+				let boxHeight = (4*(23-parseInt(dsStartHour)))+(((60-parseInt(dsStartMin))/15));
 				
 				let v;
 				let c;
@@ -6021,6 +6025,7 @@
 				v.style.lineHeight= "calc("+12*boxHeight+"px)";
 				v.style.backgroundColor = scheduleData.groupcolor;
 				v.style.textAlign = "center";
+				v.addEventListener("click", scheduleDetailInfo);
 				
 				c = document.createElement("span");
 				c.classList.add("visibleInfo");
@@ -6153,6 +6158,7 @@
 				v.style.lineHeight= "calc("+12*boxHeight+"px)";
 				v.style.backgroundColor = scheduleData.groupcolor;
 				v.style.textAlign = "center";
+				v.addEventListener("click", scheduleDetailInfo);
 				
 				c = document.createElement("span");
 				c.classList.add("visibleInfo");
@@ -6292,8 +6298,8 @@
 			let boxWidth = 100/scheduleBoxes.length;
 			
 			for(let i = 0; i<scheduleBoxes.length; i++){
-				scheduleBoxes[i].style.width = boxWidth+"%";
-				scheduleBoxes[i].style.marginLeft = "calc("+((i*1.01)*boxWidth)+"%)"; // 
+				scheduleBoxes[i].style.width = "calc("+0.7*boxWidth+"%)";
+				scheduleBoxes[i].style.marginLeft = "calc("+(i*1.01*boxWidth*0.7)+"%)"; // 
 			}
 		}//scheduleBoxMarginLeft end
 		
@@ -6321,12 +6327,15 @@
 				let divHeight=42*alldayScheduleBoxes.length;
 				alldaySchedule.style.height = divHeight+"px";
 				scheduleTimeBox.style.height = divHeight+"px";
+				scheduleTimeBox.style.lineHeight = divHeight+"px";
 				dayScheduleFirstLeftLine.style.height = divHeight+"px";
 				for(let i=0; i<alldayScheduleBoxes.length; i++){
 
+					alldayScheduleBoxes[i].style.height = "38px";
 					alldayScheduleBoxes[i].style.marginTop = "calc("+(i*40+2)+"px)";
 				}
 			}
 		}// alldayScheduleHeight end
+		
 	</script>
 </html>
