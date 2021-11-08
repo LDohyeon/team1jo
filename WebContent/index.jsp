@@ -8,7 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 	<head>
 		<meta charset="utf-8">
 		<title>STATUS 200</title>
@@ -238,10 +238,7 @@
 			
 		</div>
 
-		<footer>
-			서울북부기술교육원 IOT융합프로그래밍과 팀프로젝트 1조<br>
-			조장: 이도현 / 조원: 김종현 박정현 석지애 유제민 윤하영
-		</footer>
+	<jsp:include page="./footer.jsp"/>
 
 	</body>
 </html>

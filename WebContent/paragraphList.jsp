@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
-	<html>
+	<html lang="ko">
 	<head>
 		<meta charset="utf-8">
 		<title>게시판</title>
@@ -151,7 +151,7 @@
 				width:370px;
 		      	overflow:hidden;
 		      	text-overflow:ellipsis;
-		      	white-space:nowrap;S
+		      	white-space:nowrap;
 		      	overflow: hidden;
 		      	line-height:36px;
 		 	}
