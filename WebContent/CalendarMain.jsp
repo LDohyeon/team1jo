@@ -2903,7 +2903,7 @@
 						}
 					}
 					
-					for(let k = 0; k <alldaySchedule.length; j++){
+					for(let k = 0; k <alldaySchedule.length; k++){
 						
 						scheduleNum = alldaySchedule[k].getElementsByClassName("groupNum")[0].value+"";
 						
