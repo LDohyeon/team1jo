@@ -1726,10 +1726,10 @@
 .alldayScheduleBox{
 	width: 90%;
 	height: 38px;
+	line-height: 38px;
 	text-align: left;
 	position: absolute;
 	z-index: 450;
 	border-radius: 3px;
-	background-color: red;
 	margin-left: 2px;
 }
