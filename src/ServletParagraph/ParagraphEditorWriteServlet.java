@@ -1,4 +1,4 @@
-package Servlet;
+package ServletParagraph;
 
 import java.io.*;
 import java.util.Map;
@@ -21,6 +21,9 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		HttpSession session = request.getSession();
+		session.removeAttribute("imageInsertContent");
+		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("editor.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -33,8 +36,6 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 		String content=request.getParameter("content");
 		String category = "질문";
 		String language="";
-		
-		
 		
 		String[] contents=content.split("※");
 		Map<String, String> map = new HashMap<String, String>();

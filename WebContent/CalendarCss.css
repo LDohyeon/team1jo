@@ -1619,7 +1619,7 @@
 }
 .dayTime{
     position: relative;
-    top: 15px;
+    top: -10px;
 }
 .scheduleTimeBox{
     width: 100%;
@@ -1627,7 +1627,6 @@
 }
 .scheduleTime{
     position: relative;
-    top: 15px;
 }
 .dayScheduleTime{
     text-align: center;
@@ -1665,15 +1664,23 @@
 	content: '';
     border-bottom: 1px solid gray;
     position: absolute;
-    width: 100%;
+    width: 70%;
     margin-top: -1px;
 }
 .dayScheduleLeftLineWrap{
     display: flex;
     flex-flow: column wrap;
 }
-.dayScheduleLeftLine:first-child{
-    height: 40px;
+.dayScheduleFirstLeftLine{
+    width: 20px;
+    border-right: 1px solid gray;
+}
+.dayScheduleFirstLeftLine::after{
+	content: '';
+    border-bottom: 1px solid gray;
+    position: absolute;
+    width: 70%;
+    margin-top: -1px;
 }
 .dayScheduleWrap{
     display: flex;
@@ -1686,23 +1693,31 @@
     content: '';
     border-bottom: 1px solid gray;
     position: absolute;
-    width: 100%;
+    width: 70%;
     margin-top: -1px;
 }
 .daySchedule{
     height: 48px;
+    min-width: 1001px;
 }
 .daySchedule::after{
     content: '';
     border-bottom: 1px solid gray;
     position: absolute;
-    width: 100%;
+    width: 70%;
     margin-top: -1px;
 }
 .dayScheduleLeftLine{
     width: 20px;
     height: 48px;
     border-right: 1px solid gray;
+}
+.dayScheduleLeftLine::after{
+	content: '';
+    border-bottom: 1px solid gray;
+    position: absolute;
+    width: 70%;
+    margin-top: -1px;
 }
 .dayScheduleCheck{
 	height: 25%;
@@ -1711,25 +1726,21 @@
 	content: '';
     border-bottom: 1px solid gray;
     position: absolute;
-    width: 100%;
+    width: 70%;
     margin-top: -1px;
 }
 .dayScheduleBox{
-
-	width: 90%;
-	height: 48px;
+	opacity: 0.9;
 	text-align: left;
 	position: absolute;
 	z-index: 450;
 	border-radius: 3px;
 }
 .alldayScheduleBox{
-	width: 90%;
-	height: 38px;
-	margin-bottom: 2px;
-	text-align: left;
+	width: 70%;
+	opacity: 0.9;
 	position: absolute;
 	z-index: 450;
 	border-radius: 3px;
-	background-color: red;
+	margin-left: 2px;
 }

@@ -8,7 +8,7 @@
 <%@ page import="DAO.CommentDAO" %>
 <%@page import="java.util.List" %>
 <!DOCTYPE html>
-	<html>
+	<html lang="ko">
 	<head>
 		<meta charset="utf-8">
 		<title>게시판 내용 보기</title>
@@ -52,7 +52,6 @@
                 margin: 0px 5px 0px 0px;
                 float: left;
             }
-            
             .tagColor
 			{
 				border-radius: 15px;
@@ -60,10 +59,8 @@
 				padding:3px;
 				color: black;
 			    background-color: cornsilk;
-			   
 			    border:1px solid #989898;
 			    margin-right: 5px;
-			   
 			}
 			.codeWrite
            	{
@@ -73,9 +70,6 @@
 			{
 				color:red;
 			}
-			
-			
-			
 			#wrapPonup
 			{
 				background-color:#0000002b;
@@ -83,15 +77,15 @@
     			left: 0;
     			top: 0;
     			display:none;
+    			z-index: 30;
 			}
 			#ponup
 			{
 				border:1px solid black;
-				
-				/*width:800px;height:300px;*/
 				position:absolute;
 				background-color:white;
 				padding:1%;
+				z-index: 60;
 			}
 			#red
 			{
@@ -120,15 +114,7 @@
 			{
 				display:none;
 			}
-			#wrapPonup{
-				posotion: relative;
-				z-index: 30;
-			}
-			#ponup{
-				posotion: absolute;
-				z-index: 60;
-			}
-			
+
 			.CodeMirror {
 			    border: 1px solid #eee;
 			    height: auto;
@@ -262,6 +248,11 @@
 				font-size: 10px;
 				color:gray;
 			}
+			
+			[contenteditable=true]:empty:before {
+			  content: attr(aria-placeholder);
+			  display: block; /* For Firefox */
+			}
 
         </style>
 	</head>
@@ -317,15 +308,14 @@
 			 			<a class="button" onclick="return confirm('정말 삭제하시겠습니까?')" href="paragraphDelete.do?num=<%=num%>">삭제</a>
 				 	</c:when>
 				</c:choose>
-				
 			</div>
 
 			<c:choose>
 				<c:when test="${loginUserId==null }">
-					<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
+					<a onclick="alert('로그인 후 이용해주세요')" class="button2">신고</a>
 				</c:when>
 				<c:when test="${loginUserId!=null }">
-					<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
+					<a onclick="return confirm('정말로 신고하시겠습니까?')" class="button2" href="memberReport.do?id=${pDTO.getId() }&&num=<%=num %>">신고</a>
 				</c:when>
 			</c:choose>
 
@@ -361,10 +351,10 @@
 
 				<c:choose>
 					<c:when test="${loginUserId==null }">
-						<a onclick="alert('로그인 후 이용해주세요')"><button type="button" class="button2">신고</button></a>
+						<a onclick="alert('로그인 후 이용해주세요')" class="button2">신고</a>
 					</c:when>
 					<c:when test="${loginUserId!=null }">
-						<a onclick="return confirm('정말로 신고하시겠습니까?')" href="memberReport.do?id=${clistSelect.getId() }&&num=<%=num %>"><button type="button" class="button2">신고</button></a>
+						<a onclick="return confirm('정말로 신고하시겠습니까?')" class="button2" href="memberReport.do?id=${clistSelect.getId() }&&num=<%=num %>">신고</a>
 					</c:when>
 				</c:choose>
 				
@@ -420,7 +410,7 @@
 			                    <div>
 			                    	<br>
 			                    </div>
-			                    <div class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${clistSelect.getComment()}</div>
+			                    <div class="writeContent" contenteditable="true" aria-placeholder="내용을 입력해주세요.">${clistSelect.getComment()}</div>
 			                    
 			                    <input class="content" type="hidden" name="commentContent">
 			                    
@@ -456,9 +446,7 @@
 				<hr>
 			</c:forEach> 
         	
-			
-			
-			
+
 			<form method="post" action="comment.do" class="frm" name="frm">
 	            <div>
 	                <div class="editor">
@@ -511,7 +499,7 @@
 	                    	<br>
 	                    </div>
           
-	                    <div class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요."></div>
+	                    <div class="writeContent" contenteditable="true" aria-placeholder="내용을 입력해주세요."></div>
 	                    
 	                    <input class="content" type="hidden" name="content">
 	                    
@@ -519,8 +507,6 @@
 	                    <input class="num" type="hidden" value="${pDTO.getNum() }" name="paragraph_num">
 
 	            	 </div>
-	            	 
-
 	            	 
 	            	 <div class="buttonsArea">
 	            	 	<c:choose>
@@ -531,11 +517,7 @@
 								<input class="button" type="submit" value="글쓰기" onclick="return writeCheck(${commentLastCount })">
 							</c:when>
 						</c:choose>
-						
-	            	 	
 	            	 </div>
-	            	 
-
 	            </div>
         	</form>
 			<form method="post" enctype="multipart/form-data" name="imgFrm" class="imgFrm">
@@ -544,7 +526,6 @@
 	        	<input name="num" type="hidden" value="<%=num%>">
 	        	<input class="num" type="hidden" value="${commentLastCount }" name="commentNum">
 	        </form>
-
 		</div>
 
 
@@ -558,7 +539,7 @@
 		<input id="hid" type="hidden">
         <input id="commentLastCount" type="hidden" value="${commentLastCount }">
 
-        <div id="imageInsertContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
+        <div id="imageInsertContent" contenteditable="true" aria-placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
         <input id="commentNum" type="hidden" value="${commentNum }">
 
     
@@ -639,12 +620,15 @@
 		
 		function imgInsert(e)
 		{
-			var imgInput = document.getElementsByClassName("imgInput");
-			
-			imgInput[e].click();
-			
-			imgChange(e);
-			
+			if(document.getSelection().anchorNode !=null)
+			{
+				var imgInput = document.getElementsByClassName("imgInput");
+				document.getElementsByClassName("writeContent")[e].focus();
+				
+				imgInput[e].click();
+				
+				imgChange(e);
+			}
 		}
 		function imgChange(e, action)
 		{

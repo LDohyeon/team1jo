@@ -2,7 +2,7 @@
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 	<head>
 		<meta charset="utf-8">
 		<title>에디터</title>
@@ -11,8 +11,7 @@
 		<script src="codeMirror/xml.js"></script>
 		<link rel="stylesheet" href="codeMirror/darcula.css">
 		<link rel="stylesheet" href="codeMirror/eclipse.css">
-		<script src="codeMirror/closetag.js"></script>
-		
+		<script src="codeMirror/closetag.js"></script>		
 		<script src="codeMirror/python.js"></script>
 		<script src="codeMirror/javascript.js"></script>
 		<script src="codeMirror/sql.js"></script>
@@ -163,6 +162,10 @@
 			{
 				background-color: #fff;
 			}
+			[contenteditable=true]:empty:before {
+			  content: attr(aria-placeholder);
+			  display: block; /* For Firefox */
+			}
         </style>
 	</head>
 	<jsp:include page="./header.jsp"/>
@@ -202,8 +205,6 @@
 	                            <button class="divColor3" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>  
 	                            <button class="divColor2" type="button" onclick="imgInsert()">사진</button>
 	                        </div>
-
-	                        
 	                        <div class="codeWrite">   
 	                        	<select id="language" onchange="langs()">
 	                        		<option value="none">질문할 언어를 선택하세요</option>
@@ -213,7 +214,6 @@
 	                            	<option value="text/x-sql">sql</option>
 	                            	<option value="text/javascript">javascript</option>
 	                        	</select>
-	                        	
 	                        	<input class="divColor2" type="button" onclick="code()" value="코드 작성 하러 가기">  
 	                        	<input class="divColor2" type="button" onclick="codeUpdate()" value="코드 수정하러 가기">
 	                        </div>
@@ -223,7 +223,7 @@
 	                    	<br>
 	                    </div>
           
-	                    <div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }${pDTO.getContents() }</div>
+	                    <div id="writeContent" class="writeContent" contenteditable="true" aria-placeholder="내용을 입력해주세요.">${imageInsertContent }${pDTO.getContents() }</div>
 	                    
 	                    <input id="content" type="hidden" name="content">
 	                    
@@ -250,8 +250,6 @@
         	<input id="imgContent" type="hidden" name="imgContent">
         	<input id="imgTitle" type="hidden" name="imgTitle">
         </form>
-        
-		<!-- 결제 창 판업 띄우기 -->
 		<div id="wrapPonup">
 			<div id="ponup">
 				<textarea id="writeContentLib"></textarea>
@@ -358,16 +356,18 @@
 		}
 	
 	
-		//도현
-		
 		function imgInsert()
 		{
-			var imgInput = document.getElementById("imgInput");
 			
-			imgInput.click();
-			
-			imgChange();
-			
+			if(document.getSelection().anchorNode !=null)
+			{
+				var imgInput = document.getElementById("imgInput");
+				document.getElementById("writeContent").focus();
+				
+				imgInput.click();
+				
+				imgChange();
+			}
 		}
 		function imgChange()
 		{
@@ -605,9 +605,5 @@
 			var ponupFrm = document.getElementById("ponupFrm");
 
 		}
-
-		
-		
-
 	</script>
 </html>

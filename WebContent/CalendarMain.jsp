@@ -13,7 +13,7 @@
 	}
 %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -2883,7 +2883,40 @@
 				}
 			}
 			else if(selectForm.value=="D"){
+				let daySchedule = document.getElementsByClassName("dayScheduleBox");
+				let alldaySchedule = document.getElementsByClassName("alldayScheduleBox");
 				
+				for(let i = 0; i < groupDiv.length; i++){
+					let flag = groupDiv[i].getElementsByClassName("groupDataFlag")[0].value+"";
+					let num = groupDiv[i].getElementsByClassName("groupDataNum")[0].value+"";;
+					for(let j = 0; j <daySchedule.length; j++){
+						
+						let scheduleNum = daySchedule[j].getElementsByClassName("groupNum")[0].value+"";
+						
+						if(num==scheduleNum){
+							if(flag=="true"){
+								daySchedule[j].classList.remove("hiddenElement");
+							}
+							else if(flag=="false"){
+								daySchedule[j].classList.add("hiddenElement");
+							}
+						}
+					}
+					
+					for(let k = 0; k <alldaySchedule.length; k++){
+						
+						scheduleNum = alldaySchedule[k].getElementsByClassName("groupNum")[0].value+"";
+						
+						if(num==scheduleNum){
+							if(flag=="true"){
+								alldaySchedule[k].classList.remove("hiddenElement");
+							}
+							else if(flag=="false"){
+								alldaySchedule[k].classList.add("hiddenElement");
+							}
+						}
+					}
+				}
 			}
 		}
 		
@@ -5248,6 +5281,7 @@
 	            		ccc=document.createElement("span");
 	            		ccc.classList.add("dayTime");
 	            		ccc.innerHTML="오전"+12+"시";
+	            		ccc.style.visibility = "hidden";
 	            		cc.appendChild(ccc);//오전 12시 표시
 	            	}else if(i<13){
 	            		cc=document.createElement("div");
@@ -5302,11 +5336,19 @@
 	            
 	            cccc=document.createElement("div");
 	            cccc.classList.add("dayScheduleLeftLineWrap");
+	            
 	            for(let i=0; i<25; i++){
-	            	ccccc=document.createElement("div");
-	            	ccccc.classList.add("dayScheduleLeftLine");
-	            	cccc.appendChild(ccccc);
-	            }
+   	            	if(i==0){
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleFirstLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	            	}
+   	            	else{
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	   	           }
+   	            }
 	            
 	            ccc.appendChild(cccc);
 	            cc.appendChild(ccc);
@@ -5327,7 +5369,7 @@
 	                   	for(let j=0; j<4; j++){
 	                   		ccccc=document.createElement("div");
 	                       	ccccc.classList.add("dayScheduleCheck");
-	                       	
+	                       	ccccc.addEventListener("click", visibleSchedule);
 	                       	if(thisDayToday==true){
 	                       		if(i==(1+today.hour)){
 	                       			if(today.minute<15&&j==0){
@@ -5435,7 +5477,8 @@
 	            cc.appendChild(ccc);
 	            c.appendChild(cc);
 	            v.appendChild(c);
-            }//day formdate defined end
+           	 
+	        }//day formdate defined end
             else{
                	let yoil = getYoil(getToday());
            	 	let today=getToday();
@@ -5467,6 +5510,7 @@
    	            		ccc=document.createElement("span");
    	            		ccc.classList.add("dayTime");
    	            		ccc.innerHTML="오전"+12+"시";
+   	            		ccc.style.visibility = "hidden";
    	            		cc.appendChild(ccc);//오전 12시 표시
    	            	}else if(i<13){
    	            		cc=document.createElement("div");
@@ -5522,9 +5566,17 @@
    	            cccc=document.createElement("div");
    	            cccc.classList.add("dayScheduleLeftLineWrap");
    	            for(let i=0; i<25; i++){
-   	            	ccccc=document.createElement("div");
-   	            	ccccc.classList.add("dayScheduleLeftLine");
-   	            	cccc.appendChild(ccccc);
+   	            	if(i==0){
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleFirstLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	            	}
+   	            	else{
+   	            		ccccc=document.createElement("div");
+   	   	            	ccccc.classList.add("dayScheduleLeftLine");
+   	   	            	cccc.appendChild(ccccc);
+   	            	}
+   	            	
    	            }//여기서 first child는 일정표시줄 좌측라인.줄은 time왼쪽이지만 border는 right로 줘야함.
    	            
    	            ccc.appendChild(cccc);
@@ -5546,7 +5598,8 @@
    	                   	for(let j=0; j<4; j++){
    	                   		ccccc=document.createElement("div");
    	                       	ccccc.classList.add("dayScheduleCheck");
-   	                       	
+   	                     	ccccc.addEventListener("click", visibleSchedule);
+   	                   	    	
    	                       	if(thisDayToday==true){
    	                       		if(i==(1+today.hour)){
    	                       			if(today.minute<15&&j==0){
@@ -5707,7 +5760,7 @@
 										//오늘 00시00분 시작으로 오늘 이후에 끝나는 경우. 종일처리.
 										//종일처리는 for문이 처음 돌 때(시간값이 00:00일때만 진행하도록 한다. 그렇지 않으면 모든 시간대에 무한반복됨.)
 										if(j==0){
-											createAlldaySchedule(scheduleData);//종일 처리구현 else if절 부터 값 비교 구현.
+											createAlldaySchedule(scheduleData[i]);//종일 처리구현 else if절 부터 값 비교 구현.
 										}
 									}else if(endDay==checkDateDay){
 										//오늘 00시 00분 시작으로 오늘 내에 끝나는 경우. 종료값이 24:00인 경우에만 종일처리.
@@ -5864,13 +5917,22 @@
 			
 			let v;
 			let c;
+			let cc;
 			
 			
 			v=document.createElement("div");
 			v.classList.add("alldayScheduleBox");
+			v.style.backgroundColor = scheduleData.groupcolor;
+			v.style.textAlign = "center";
+			v.addEventListener("click", scheduleDetailInfo);
 			
-			c = document.createElement("span"); // sceduleData의 값을 넣을 span
-			c.classList.add("scheduleInfos"); // class명 month폼과 통일. 내부 data input도 통일. css문제로 필요시 변경.
+			c = document.createElement("span");
+			c.classList.add("visibleInfo");
+			c.innerHTML= scheduleData.title;
+			v.appendChild(c);
+			
+			c = document.createElement("span"); 
+			c.classList.add("scheduleInfos"); 
 			
 			cc = document.createElement("input");
 			cc.classList.add("scInfo"); 
@@ -5996,144 +6058,280 @@
 			let dsEndHour= scheduleData.end.substring(11, 13);
 			let dsEndMin= scheduleData.end.substring(14);
 			
+			
 			// ScheduleBox
 			// {그리기 시작하는 시간값 - 스케줄이 끝나는 시간값 x4 (1 hour가 4칸을 가지므로)} + {그리기 시작하는 분값 - 스케줄이 끝나는 분값/15(15분당 1칸이므로)}
+			// 오늘 시작 오늘 이후 끝나는 값. == 
 			
-			let boxHeight = 4*(parseInt(dsEndHour)-parseInt(dsStartHour))+(parseInt(dsEndMin)-parseInt(dsStartMin))/15
-			
-			let v;
-			let c;
-			let cc;
-			
-			v = document.createElement("div");
-			v.classList.add("dayScheduleBox");
-			
-			
-			c = document.createElement("span");
-			c.classList.add("scheduleInfos");
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("groupNum"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.groupnum);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("groupName"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.groupname);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("groupColor"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.groupcolor);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("modifier"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.modifier);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("scheduleNum"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.num);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("scheduleTitle"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.title);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("scheduleStart"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.start);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("scheduleEnd"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.end);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("scheduleContent"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.content);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("scheduleWriter"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.writer);
-			
-			c.appendChild(cc);
-			
-			cc = document.createElement("input");
-			cc.classList.add("scInfo"); 
-			cc.classList.add("scheduleColor"); 
-			cc.setAttribute("type", "text");
-			cc.setAttribute("value", scheduleData.color);
-			
-			c.appendChild(cc);
-			v.appendChild(c);
-			
-			dayScheduleChecks[0].appendChild(v);
-			
-			// dayScheduleBox Starting point에 append시키는 작업.
-			/*
-				daySchedule = 1시간단위 div
-				dayScheduleCheck = 15분단위 div
-				dateTag = dayScheduleCheck의 하위 요소인 input
-				let daySchedules = document.getElementsByclassName("daySchedule");
-				let dayScheduleChecks;
-			*/
-			
-			/* 잠깐 가리고 테스트중. 박스는 그려지는데 아래 if절에 문제가 있는 것으로 확인.
-			for(let i=0; i<daySchedules.length; i++){
-				//	시간단위로 쪼개진 횟수만큼 실행 (그 안에서 15분 단위로 또 실행.)
-				dayScheduleChecks = daySchedules[i].getElementsByClassName("dayScheduleCheck");
-				//	시간 1단위 체크당 15분단위를 4번씩 끌어올 것임.
-				for(let j=0; j<dayScheduleChecks.length; j++){
-					// 15분단위 div안에 있는 dateTag의 값을 통해 checkTime을 설정
-					let startCheck = dayScheduleChecks[j].getElementsByClassName("dateTag")[0].value;
-					let startCheckHour = startCheck.substring(10,12);
-					let startCheckMin = startCheck.substring(13);
-					
-					// 먼저 start와 맞는 시간값을 찾는다. 일 단위까지는 createDayScheduleElement 에서 걸러짐.
-					if(startCheckHour==dsStartHour){
-						//분 단위까지 동일한 값을 찾는다.
-						if(startCheckMin==dsStartMin){
-							//찾은 값에서 div설정 후 appendChild(v)를 통해 dayScheduleBox를 자식요소로 심어준다.
-							dayScheduleChecks[j].appendChild(v);
+			if(dsStartDay<dsEndDay||dsStartMonth<dsEndMonth||dsStartYear<dsEndYear){
+				let boxHeight = (4*(23-parseInt(dsStartHour)))+(((60-parseInt(dsStartMin))/15));
+				
+				let v;
+				let c;
+				let cc;
+				
+				v = document.createElement("div");
+				v.classList.add("dayScheduleBox");
+				v.style.height= "calc("+12*boxHeight+"px)";
+				v.style.lineHeight= "calc("+12*boxHeight+"px)";
+				v.style.backgroundColor = scheduleData.groupcolor;
+				v.style.textAlign = "center";
+				v.addEventListener("click", scheduleDetailInfo);
+				
+				c = document.createElement("span");
+				c.classList.add("visibleInfo");
+				c.innerHTML= scheduleData.title;
+				v.appendChild(c);
+				
+				c = document.createElement("span");
+				c.classList.add("scheduleInfos");
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("groupNum"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.groupnum);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("groupName"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.groupname);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("groupColor"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.groupcolor);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("modifier"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.modifier);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleNum"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.num);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleTitle"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.title);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleStart"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.start);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleEnd"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.end);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleContent"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.content);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleWriter"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.writer);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleColor"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.color);
+				
+				c.appendChild(cc);
+				v.appendChild(c);
+				
+				for(let i=0; i<daySchedules.length; i++){
+					//	시간단위로 쪼개진 횟수만큼 실행 (그 안에서 15분 단위로 또 실행.)
+					dayScheduleChecks = daySchedules[i].getElementsByClassName("dayScheduleCheck");
+					//	시간 1단위 체크당 15분단위를 4번씩 끌어올 것임.
+					for(let j=0; j<dayScheduleChecks.length; j++){
+						// 15분단위 div안에 있는 dateTag의 값을 통해 checkTime을 설정
+						let startCheck = dayScheduleChecks[j].getElementsByClassName("dateTag")[0].value;
+						let startCheckHour = startCheck.substring(9,11);
+						let startCheckMin = startCheck.substring(12);
+						
+						// 먼저 start와 맞는 시간값을 찾는다. 일 단위까지는 createDayScheduleElement 에서 걸러짐.
+						if(startCheckHour==dsStartHour){
+							//분 단위까지 동일한 값을 찾는다.
+							if(startCheckMin==dsStartMin){
+								//찾은 값에서 div설정 후 appendChild(v)를 통해 dayScheduleBox를 자식요소로 심어준다.
+								dayScheduleChecks[j].appendChild(v);
+							}
 						}
 					}
 				}
 			}
-			*/
+			else{
+				let boxHeight = 4*(parseInt(dsEndHour)-parseInt(dsStartHour))+(parseInt(dsEndMin)-parseInt(dsStartMin))/15;
+				
+				let v;
+				let c;
+				let cc;
+				
+				v = document.createElement("div");
+				v.classList.add("dayScheduleBox");
+				v.style.height= "calc("+12*boxHeight+"px)";
+				v.style.lineHeight= "calc("+12*boxHeight+"px)";
+				v.style.backgroundColor = scheduleData.groupcolor;
+				v.style.textAlign = "center";
+				v.addEventListener("click", scheduleDetailInfo);
+				
+				c = document.createElement("span");
+				c.classList.add("visibleInfo");
+				c.innerHTML= scheduleData.title;
+				v.appendChild(c);
+				
+				c = document.createElement("span");
+				c.classList.add("scheduleInfos");
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("groupNum"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.groupnum);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("groupName"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.groupname);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("groupColor"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.groupcolor);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("modifier"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.modifier);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleNum"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.num);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleTitle"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.title);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleStart"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.start);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleEnd"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.end);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleContent"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.content);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleWriter"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.writer);
+				
+				c.appendChild(cc);
+				
+				cc = document.createElement("input");
+				cc.classList.add("scInfo"); 
+				cc.classList.add("scheduleColor"); 
+				cc.setAttribute("type", "text");
+				cc.setAttribute("value", scheduleData.color);
+				
+				c.appendChild(cc);
+				v.appendChild(c);
+				
+				for(let i=0; i<daySchedules.length; i++){
+					//	시간단위로 쪼개진 횟수만큼 실행 (그 안에서 15분 단위로 또 실행.)
+					dayScheduleChecks = daySchedules[i].getElementsByClassName("dayScheduleCheck");
+					//	시간 1단위 체크당 15분단위를 4번씩 끌어올 것임.
+					for(let j=0; j<dayScheduleChecks.length; j++){
+						// 15분단위 div안에 있는 dateTag의 값을 통해 checkTime을 설정
+						let startCheck = dayScheduleChecks[j].getElementsByClassName("dateTag")[0].value;
+						let startCheckHour = startCheck.substring(9,11);
+						let startCheckMin = startCheck.substring(12);
+						
+						// 먼저 start와 맞는 시간값을 찾는다. 일 단위까지는 createDayScheduleElement 에서 걸러짐.
+						if(startCheckHour==dsStartHour){
+							//분 단위까지 동일한 값을 찾는다.
+							if(startCheckMin==dsStartMin){
+								//찾은 값에서 div설정 후 appendChild(v)를 통해 dayScheduleBox를 자식요소로 심어준다.
+								dayScheduleChecks[j].appendChild(v);
+							}
+						}
+					}
+				}
+			}
+		
+			
+			
 			
 			//	자신이 몇번째 schedule인지에 따라 left 위치값을 바꿔줘야함. schedule.style.left
 			//	다 그린 후에 dayScheduleBox 를 getElementByClassName 으로 묶은 변수를 만들고 해당 변수의 길이만큼 for문을 돌면서 몇번째인지에 따라 left값을 바꾸는 방식은 어떨까...
@@ -6149,10 +6347,10 @@
 		function scheduleBoxMarginLeft(){
 			let scheduleBoxes = document.getElementsByClassName("dayScheduleBox");
 			let boxWidth = 100/scheduleBoxes.length;
-			// 이렇게 처리가 될까...
+			
 			for(let i = 0; i<scheduleBoxes.length; i++){
-				scheduleBoxes[i].style.marginLeft = 20; // *40은 임의 값. 세부조정가능.
-				
+				scheduleBoxes[i].style.width = "calc("+0.7*boxWidth+"%)";
+				scheduleBoxes[i].style.marginLeft = "calc("+(i*1.01*boxWidth*0.7)+"%)"; // 
 			}
 		}//scheduleBoxMarginLeft end
 		
@@ -6163,11 +6361,31 @@
 			let alldaySchedule = document.getElementsByClassName("alldaySchedule")[0];
 			let scheduleTimeBox = document.getElementsByClassName("scheduleTimeBox")[0];
 			let alldayScheduleBoxes = document.getElementsByClassName("alldayScheduleBox");
+			let dayScheduleFirstLeftLine = document.getElementsByClassName("dayScheduleFirstLeftLine")[0];
 			
-			let divHeight = (alldayScheduleBoxes.length)*40; // *40은 임의값. alldayScheduleBox의 height와 margin값에 따라 바꿔서 적용해줘야함.
-			
-			alldaySchedule.style.height = divHeight;
-			scheduleTimeBox.style.height = divHeight;
+			if(alldayScheduleBoxes.length==0){
+				let divHeight=42;
+				alldaySchedule.style.height = divHeight+"px";
+				scheduleTimeBox.style.height = divHeight+"px";
+				scheduleTimeBox.style.lineHeight = divHeight+"px";
+				dayScheduleFirstLeftLine.style.height = divHeight+"px";
+				for(let i=0; i<alldayScheduleBoxes.length; i++){
+
+					alldayScheduleBoxes[i].style.marginTop = "calc("+i*divHeight+2+"px)";
+				}
+			}
+			else{
+				let divHeight=42*alldayScheduleBoxes.length;
+				alldaySchedule.style.height = divHeight+"px";
+				scheduleTimeBox.style.height = divHeight+"px";
+				scheduleTimeBox.style.lineHeight = divHeight+"px";
+				dayScheduleFirstLeftLine.style.height = divHeight+"px";
+				for(let i=0; i<alldayScheduleBoxes.length; i++){
+					alldayScheduleBoxes[i].style.height = "38px";
+					alldayScheduleBoxes[i].style.marginTop = "calc("+(i*40+2)+"px)";
+				}
+			}
 		}// alldayScheduleHeight end
+		
 	</script>
 </html>
