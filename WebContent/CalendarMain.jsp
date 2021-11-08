@@ -6330,7 +6330,6 @@
 				scheduleTimeBox.style.lineHeight = divHeight+"px";
 				dayScheduleFirstLeftLine.style.height = divHeight+"px";
 				for(let i=0; i<alldayScheduleBoxes.length; i++){
-
 					alldayScheduleBoxes[i].style.height = "38px";
 					alldayScheduleBoxes[i].style.marginTop = "calc("+(i*40+2)+"px)";
 				}

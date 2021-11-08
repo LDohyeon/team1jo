@@ -1698,7 +1698,7 @@
 }
 .daySchedule{
     height: 48px;
-    min-width: 1000px;
+    min-width: 1001px;
 }
 .daySchedule::after{
     content: '';
