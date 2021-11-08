@@ -2883,7 +2883,40 @@
 				}
 			}
 			else if(selectForm.value=="D"){
+				let daySchedule = document.getElementsByClassName("dayScheduleBox");
+				let alldaySchedule = document.getElementsByClassName("alldayScheduleBox");
 				
+				for(let i = 0; i < groupDiv.length; i++){
+					let flag = groupDiv[i].getElementsByClassName("groupDataFlag")[0].value+"";
+					let num = groupDiv[i].getElementsByClassName("groupDataNum")[0].value+"";;
+					for(let j = 0; j <daySchedule.length; j++){
+						
+						let scheduleNum = daySchedule[j].getElementsByClassName("groupNum")[0].value+"";
+						
+						if(num==scheduleNum){
+							if(flag=="true"){
+								daySchedule[j].classList.remove("hiddenElement");
+							}
+							else if(flag=="false"){
+								daySchedule[j].classList.add("hiddenElement");
+							}
+						}
+					}
+					
+					for(let k = 0; k <alldaySchedule.length; j++){
+						
+						scheduleNum = alldaySchedule[k].getElementsByClassName("groupNum")[0].value+"";
+						
+						if(num==scheduleNum){
+							if(flag=="true"){
+								alldaySchedule[k].classList.remove("hiddenElement");
+							}
+							else if(flag=="false"){
+								alldaySchedule[k].classList.add("hiddenElement");
+							}
+						}
+					}
+				}
 			}
 		}
 		
