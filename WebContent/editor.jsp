@@ -2,7 +2,7 @@
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 	<head>
 		<meta charset="utf-8">
 		<title>에디터</title>

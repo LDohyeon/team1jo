@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 	<head>
 		<meta charset="utf-8">
 		<title>초대 보기</title>
@@ -44,7 +44,7 @@
         		border-radius: 4px;
         		height: 32px;
         		width: 80px;
-        		backgound-color: rgb(245,245,245);
+        		background-color: rgb(245,245,245);
         		margin-left: 2px;
         		float: left;
         		font-size: 0.85em;
