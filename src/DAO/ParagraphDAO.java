@@ -24,8 +24,8 @@ public class ParagraphDAO {
 		Connection conn = null;
 		String url = "jdbc:mysql://127.0.0.1:3306/status200";
 		String db_id = "root";
-		String db_pw="iotiot";
-		//String db_pw="iotiot12*";
+		//String db_pw="iotiot";
+		String db_pw="iotiot12*";
 		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
 		
 		try
@@ -165,6 +165,61 @@ public class ParagraphDAO {
 		return list;
 	}
 	
+	//아이디별 paragraphList
+	public List<ParagraphDTO> paragraphList(String id, int StartPage, int lastPage)
+	{ 
+		List<ParagraphDTO> list= new ArrayList<ParagraphDTO>();
+		int start = StartPage*lastPage-lastPage;
+		
+		
+		String sql="select * from paragraph where id=? order by date desc limit ?, ?";
+		
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, lastPage);
+			
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next())
+			{
+				ParagraphDTO pDTO = new ParagraphDTO();
+				
+				pDTO.setNum(rs.getInt("num"));
+				pDTO.setId(rs.getString("id"));
+				pDTO.setName(rs.getString("name"));
+				pDTO.setTitle(rs.getString("title"));
+				pDTO.setContents(rs.getString("contents"));
+				pDTO.setCategory(rs.getString("category"));
+				pDTO.setDatetime(rs.getString("date"));
+				pDTO.setHits(rs.getInt("hits"));
+				pDTO.setTag(rs.getString("tag"));
+
+				list.add(pDTO);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println("paragraphList 중 문제 발생 : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+
+		return list;
+	}
+	
 	public int ParagraphPage()
 	{
 		String sql="select count(num) from paragraph";
@@ -198,6 +253,39 @@ public class ParagraphDAO {
 		return page;
 	}
 	
+	//아이디별 paragraphPage
+	public int ParagraphPage(String id)
+	{
+		String sql="select count(num) from paragraph where id=?";
+		
+		int page=0;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			conn= getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+		
+			page= rs.getInt(1);
+		}
+		catch(Exception e)
+		{
+			System.out.println("ParagraphPage 중 문제 발생 : "+ e);
+		}
+		finally
+		{
+			close(conn, pstmt, rs);
+		}
+		
+		return page;
+	}
 	
 	public ParagraphDTO ParagraphContents(int num)
 	{

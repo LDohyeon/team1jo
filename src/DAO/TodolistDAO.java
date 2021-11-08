@@ -25,7 +25,9 @@ public class TodolistDAO {
 		Connection conn=null;
 		String url="jdbc:mysql://127.0.0.1:3306/status200";
 		String db_id="root";
-		String db_pw="iotiot";
+		//String db_pw="iotiot";
+		String db_pw="iotiot12*";
+		//지애 :: 제 db 비밀번호가 달라서 잠깐 수정합니다.
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");

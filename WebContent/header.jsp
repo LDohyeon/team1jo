@@ -36,14 +36,15 @@
 			<c:when test="${loginUser.getId()!=null && loginUser.getAuthority()=='1'}">
 				<div class="headerlist">안녕하세요, ${loginUser.getId()}님!</div>
 				<div class="headerlist"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
-		        <div class="headerlist"><a class="linkBlack" href="#">마이페이지</a></div>
-		        <div class="headerlist"><a class="linkBlack" href="#">관리페이지</a></div>
+		        <div class="headerlist"><a class="linkBlack" href="userInfo.do">마이페이지</a></div>
+		        <div class="headerlist"><a class="linkBlack" href="memberList.do?startPage=1">관리페이지</a></div>
 			</c:when>
 			<c:otherwise>
 				<div class="headerlist">안녕하세요, ${loginUser.getId()}님!</div>
 				<div class="headerlist"><a class="linkBlack" id="inviteGo" href="InviteList">초대보기</a></div>
 		        <div class="headerlist"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
-		        <div class="headerlist"><a class="linkBlack" href="#">마이페이지</a></div>
+		        <div class="headerlist"><a class="linkBlack" href="userInfo.do">마이페이지</a></div>
+		        <div class="headerlist"><a class="linkBlack" href="myWrite.do?startPage=1">내가 쓴 글</a></div>
 			</c:otherwise>
 		</c:choose>
 	</div>
