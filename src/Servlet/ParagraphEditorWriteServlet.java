@@ -21,6 +21,9 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		HttpSession session = request.getSession();
+		session.removeAttribute("imageInsertContent");
+		
 		RequestDispatcher dispatcher= request.getRequestDispatcher("editor.jsp");
 		dispatcher.forward(request, response);
 	}

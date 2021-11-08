@@ -5,8 +5,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class=headerArea>
 	<div id=headerBasicArea>
-		<div id=headerLogo></div>
-		<div id=headerMenu>
+		<div id="headerLogo" onclick="location.href='index.jsp'"></div>
+		<div id="headerMenu">
 			<div class="headerMenuElement"><a class="linkWhite" href="paragraphList.do?startPage=1">게시판</a></div>
 	      	<div class="headerMenuElement"><a class="linkWhite" href="Calendar">캘린더</a></div>
 		</div>
