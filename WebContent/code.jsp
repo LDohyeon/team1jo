@@ -4,6 +4,8 @@
 <!DOCTYPE html>
 	<html>
 	<head>
+	
+	
 		<meta charset="utf-8">
 		<title>코드 미러</title>
 		<link rel="stylesheet" href="codeMirror/codemirror.css">
@@ -12,7 +14,6 @@
 		<link rel="stylesheet" href="codeMirror/darcula.css">
 		<link rel="stylesheet" href="codeMirror/eclipse.css">
 		<script src="codeMirror/closetag.js"></script>
-		
 		<script src="codeMirror/python.js"></script>
 		<script src="codeMirror/javascript.js"></script>
 		<script src="codeMirror/sql.js"></script>

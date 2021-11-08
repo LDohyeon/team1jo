@@ -3,10 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
-	<html lang="ko">
+	<html>
 	<head>
 		<meta charset="utf-8">
-		<title>게시판</title>
+		<title>내가 쓴 글</title>
 		<link rel="stylesheet" href="style.css">
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<link rel="stylesheet" href="style.css">
@@ -151,7 +151,7 @@
 				width:370px;
 		      	overflow:hidden;
 		      	text-overflow:ellipsis;
-		      	white-space:nowrap;
+		      	white-space:nowrap;S
 		      	overflow: hidden;
 		      	line-height:36px;
 		 	}
@@ -164,7 +164,7 @@
 	<jsp:include page="./header.jsp"/>
 	<body>
 		<div class ="paragraphListWrap">
-			<h2 class="titleArea">게시판</h2>
+			<h2 class="titleArea">내가 쓴 글</h2>
 			<div class="spanWrap">
 				<span>
 					<span class="narrow th borderRight">번호</span>
@@ -221,7 +221,7 @@
 					</c:when>
 					<c:when test="${StartPage -10 <= 0}">
 						<c:if test="${searchFlag==0 }">
-							<a href="paragraphList.do?startPage=1">&#60;&#60;</a>
+							<a href="myWrite.do?startPage=1">&#60;&#60;</a>
 						</c:if>
 						<c:if test="${searchFlag==1 }">
 							<a href="search.do?searchValue=${searchValue}&startPage=1">&#60;&#60;</a>
@@ -229,7 +229,7 @@
 					</c:when>
 					<c:otherwise>
 						<c:if test="${searchFlag==0 }">
-							<a href="paragraphList.do?startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
+							<a href="myWrite.do?startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
 						</c:if>
 						<c:if test="${searchFlag==1 }">
 							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
@@ -241,7 +241,7 @@
 					</c:when>
 					<c:otherwise>
 						<c:if test="${searchFlag==0 }">
-							<a href="paragraphList.do?startPage=${StartPage-1 }">&#60;</a>
+							<a href="myWrite.do?startPage=${StartPage-1 }">&#60;</a>
 						</c:if>
 						<c:if test="${searchFlag==1 }">
 							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage-1 }">&#60;</a>
@@ -257,7 +257,7 @@
 								</c:when>
 								<c:otherwise>
 									<c:if test="${searchFlag==0 }">
-										<a href="paragraphList.do?startPage=${i}">${i}</a>
+										<a href="myWrite.do?startPage=${i}">${i}</a>
 									</c:if>
 									<c:if test="${searchFlag==1 }">
 										<a href="search.do?searchValue=${searchValue}&startPage=${i}">${i}</a>
@@ -274,7 +274,7 @@
 								</c:when>
 								<c:otherwise>
 									<c:if test="${searchFlag==0 }">
-										<a href="paragraphList.do?startPage=${i}">${i}</a>
+										<a href="myWrite.do?startPage=${i}">${i}</a>
 									</c:if>
 									<c:if test="${searchFlag==1 }">
 										<a href="search.do?searchValue=${searchValue}&startPage=${i}">${i}</a>
@@ -291,7 +291,7 @@
 								</c:when>
 								<c:otherwise>
 									<c:if test="${searchFlag==0 }">
-										<a href="paragraphList.do?startPage=${i}">${i}</a>
+										<a href="myWrite.do?startPage=${i}">${i}</a>
 									</c:if>
 									<c:if test="${searchFlag==1 }">
 										<a href="search.do?searchValue=${searchValue}&startPage=${i}">${i}</a>
@@ -308,7 +308,7 @@
 								</c:when>
 								<c:otherwise>
 									<c:if test="${searchFlag==0 }">
-										<a href="paragraphList.do?startPage=${i}">${i}</a>
+										<a href="myWrite.do?startPage=${i}">${i}</a>
 									</c:if>
 									<c:if test="${searchFlag==1 }">
 										<a href="search.do?searchValue=${searchValue}&startPage=${i}">${i}</a>
@@ -323,7 +323,7 @@
 					</c:when>
 					<c:otherwise>
 						<c:if test="${searchFlag==0 }">
-							<a href="paragraphList.do?startPage=${StartPage+1 }">&#62;</a>
+							<a href="myWrite.do?startPage=${StartPage+1 }">&#62;</a>
 						</c:if>
 						<c:if test="${searchFlag==1 }">
 							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage+1 }">&#62;</a>
@@ -334,7 +334,7 @@
 					<c:when test="${StartPage==nOfPages }"></c:when>
 					<c:when test="${StartPage +10 > nOfPages}">
 						<c:if test="${searchFlag==0 }">
-							<a href="paragraphList.do?startPage=${nOfPages }">&#62;&#62;</a>
+							<a href="myWrite.do?startPage=${nOfPages }">&#62;&#62;</a>
 						</c:if>
 						<c:if test="${searchFlag==1 }">
 							<a href="search.do?searchValue=${searchValue}&startPage=${nOfPages }">&#62;&#62;</a>
@@ -342,7 +342,7 @@
 					</c:when>
 					<c:otherwise>
 						<c:if test="${searchFlag==0 }">
-							<a href="paragraphList.do?startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
+							<a href="myWrite.do?startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
 						</c:if>
 						<c:if test="${searchFlag==1 }">
 							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>

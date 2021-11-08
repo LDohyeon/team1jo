@@ -15,14 +15,15 @@
 			<div id="headerProfileIcon"></div>
 		</div>
 	</div>
-	<div id=headerSearchArea>
+	<div id=headerSearchArea >
 		<div id="headerSearch">
-			<form method="get" action="search.do" name="formHeader" id="headerForm">
-				<input type="text" name="searchValue" id="searchValue">
+			<form method="get" action="search.do" id="headerForm">
+				<input type="text" name="searchValue" id="searchValue" onKeyup="autoSearch()" onKeydown="autoSearch()">
 				<input type="hidden" name="startPage" value="1">
 				<input type="submit" value="" onclick="writeCheck()" id="searchValueBtn">
-				<input type="button" value="X" id="searchXBtn">
-			</form>
+				<input type="button" value="X" id="searchXBtn">		
+				<div id="divTable"></div>
+			</form>	
 		</div>
 	</div>
 	<div id="headerProfileArea">
@@ -36,14 +37,15 @@
 			<c:when test="${loginUser.getId()!=null && loginUser.getAuthority()=='1'}">
 				<div class="headerlist">안녕하세요, ${loginUser.getId()}님!</div>
 				<div class="headerlist"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
-		        <div class="headerlist"><a class="linkBlack" href="#">마이페이지</a></div>
-		        <div class="headerlist"><a class="linkBlack" href="#">관리페이지</a></div>
+		        <div class="headerlist"><a class="linkBlack" href="userInfo.do">마이페이지</a></div>
+		        <div class="headerlist"><a class="linkBlack" href="memberList.do?startPage=1">관리페이지</a></div>
 			</c:when>
 			<c:otherwise>
 				<div class="headerlist">안녕하세요, ${loginUser.getId()}님!</div>
 				<div class="headerlist"><a class="linkBlack" id="inviteGo" href="InviteList">초대보기</a></div>
 		        <div class="headerlist"><a class="linkBlack" href="logout.jsp">로그아웃</a></div>
-		        <div class="headerlist"><a class="linkBlack" href="#">마이페이지</a></div>
+		        <div class="headerlist"><a class="linkBlack" href="userInfo.do">마이페이지</a></div>
+		        <div class="headerlist"><a class="linkBlack" href="myWrite.do?startPage=1">내가 쓴 글</a></div>
 			</c:otherwise>
 		</c:choose>
 	</div>
@@ -243,8 +245,6 @@
 	
 	function searchDiv(json)
 	{
-
-		
 		var divTable = document.getElementById("divTable");
 		var searchValue = document.getElementById("searchValue");
 		

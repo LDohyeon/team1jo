@@ -12,7 +12,7 @@
 
    
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 	<head>
 		<meta charset="UTF-8">
 		<title>회원 리스트 관리자 페이지</title>
@@ -102,7 +102,7 @@
 				border:0; 
 				padding:1px 20px 5px 20px; 
 				font-size:14px;
-				margin-left:110px;
+				margin-left:165px;
 			}		
 			.memberListPaging{
 				text-align:center; 
