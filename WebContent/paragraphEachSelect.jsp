@@ -82,8 +82,6 @@
 			#ponup
 			{
 				border:1px solid black;
-				
-				/*width:800px;height:300px;*/
 				position:absolute;
 				background-color:white;
 				padding:1%;
