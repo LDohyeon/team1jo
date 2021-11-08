@@ -59,10 +59,8 @@
 				padding:3px;
 				color: black;
 			    background-color: cornsilk;
-			   
 			    border:1px solid #989898;
 			    margin-right: 5px;
-			   
 			}
 			.codeWrite
            	{
