@@ -3517,6 +3517,8 @@
 			monthBoxBody.appendChild(v);
 		}
 		
+		console.log("정렬알고리즘 개선 필요");
+		/*
 		// 스케줄의 첫 요소 확인,
 		function checkMonthScheduleFirst(){
 			let scheduleBoxs = document.getElementsByClassName("scheduleBox");
@@ -3545,8 +3547,14 @@
 				let flagSize = 0;
 				let flagYoil;
 				let flagDrawn = 0;
+				let flagNum;
+				let boxNum;
+				let tempBlockFlag =  Math.ceil(boxArray.length/7);
+				
 				for(let l = 0; l<boxArray.length; l++){
-
+					let v = "";
+					let c = "";
+					let cc = "";
 					// 해당 태그의 첫 요소의 데이터를 가져와서, 날짜를 파악> 요일 구해서 요일따라 길이 정해야함
 					let dateTag = boxArray[l].parentElement.parentElement.getElementsByClassName("dateTag")[0];
 					let dateTagYear = parseInt(dateTag.value.substring(0,4));
@@ -3578,9 +3586,15 @@
 						else if(dateTagYoil=="토"){
 							flagDrawn = 1;
 						}
-
+						flagNum = (boxArray.length%7)
+						
+						if(tempBlockFlag>1){
+							flagNum = flagDrawn;
+							tempBlockFlag--;
+						}
+						
 						boxArray[l].classList.add("firstElementSchedule");
-						boxArray[l].classList.add(checkMonthPlanBar((boxArray.length%7)));
+						boxArray[l].classList.add(checkMonthPlanBar(flagNum));
 						
 						let temp1 = boxArray[l].getElementsByClassName("scheduleInfos")[0];
 						let temp2 = temp1.getElementsByClassName("scheduleTitle")[0].value;
@@ -3595,12 +3609,11 @@
 						c = document.createElement("div");
 						c.classList.add("scheduleTitleInSpan")
 						c.innerHTML = temp2;
-						c.classList.add(checkMonthPlanBarTitle((boxArray.length%7)));
+						c.classList.add(checkMonthPlanBarTitle(flagNum));
 						boxArray[l].appendChild(c);
 					}
 					else{
-						boxArray[l].classList.add(checkMonthPlanBar((boxArray.length%7)));
-						boxArray[l].appendChild(c);
+						boxArray[l].classList.add(checkMonthPlanBar(flagNum));
 					}
 					flagDrawn--;
 				}
@@ -3620,11 +3633,11 @@
 			for(let i = 0; i < monthBoxBodys.length; i++){
 				block = (i%7);
 				reset++;
-				let bar0 = monthBoxBodys[i].getElementsByClassName("cmpb0");
-				flag[block] = bar0.length;
+				let bars = monthBoxBodys[i].children;
+				flag[block] = bars.length;
 				
-				if(flag[7]<bar0.length){
-					flag[7]  = bar0.length
+				if(flag[7]<bars.length){
+					flag[7]  = bars.length
 				}
 				
 				if(reset==7){
@@ -3634,9 +3647,7 @@
 					reset = 0;
 				}
 			}
-			
-			console.log(data);
-			
+
 			for(let j = 0; j < data.length; j++){
 				for(let l = 0; l < data[j].length-1; l++){
 					if(data[j][l]<data[j][7]){
@@ -3668,6 +3679,7 @@
 			
 			let flag = [0, 0, 0, 0, 0, 0, 0]; 
 			let endPoint = [1, 1, 1, 1, 1, 1, 1]; 
+			let nonePoint = [0, 0, 0, 0, 0, 0, 0];
 			
 			// EndPoint는 data가 표시해주는 각행의 마지막 요소, 즉 마지막 요소만큼 정렬상태가 완료되어야 한다. 
 			
@@ -3679,47 +3691,83 @@
 		
 				for(let j = 0; j<7; j++){
 					flag = [0, 0, 0, 0, 0, 0, 0]; 
-					let barNow = "";
-
-					for(let l = start; l<end; l++){
-						let name = "cmpb"+(7-j)+"";
-						let check = monthBoxBodys[l].getElementsByClassName(name);
-						let bar = monthBoxBodys[l].getElementsByClassName(name)[0];
-						
-						if(check.length>1){
-							j--;
-						}
-				
-						if(barNow==""&&typeof(bar)!='undefined'){
-							monthBoxBodys[l].appendChild(bar);	
-							bar.classList.remove(name);
-							barNow = name;
-							flag[l%7] += 1; 
-						}
-						else if(typeof(bar)!='undefined'){
-							monthBoxBodys[l].appendChild(bar);	
-							bar.classList.remove(name);
-							barNow = name;
-							flag[l%7] += 1; 
-						}
-					}
+					let name = "cmpb"+(7-j)+"";
+					let bool = true;
 					
+					for(let l = start; l<end; l++){
+						let bar= monthBoxBodys[l].getElementsByClassName(name);
+
+						for(let y = 0; y < bar.length; y++){
+							if(typeof(bar[y])!='undefined'){
+								
+								monthBoxBodys[l].appendChild(bar[y]);	
+								bar[y].classList.remove(name);
+								flag[l%7] += 1; 
+							}
+						}
+					}	
+					console.log(flag);
+
 					if(JSON.stringify(flag)!=JSON.stringify(endPoint)){
-						for(let y = 0; y<flag.length; y++){
-							if(flag[y]==0){
-								for(let l = start; l<end; l++){
-									let name = "cmpb"+(j)+"";
-									// 여기서 중요한데 ,
-									// 데이터를 가져올때 제이로 가져와서 남는 공간 수를 추축하고 순차적으로 넣을수 있게함 
-									// 애초에 7부터 졸면서 요소를 넣기때문에
-									// 애매하게 겹치는 경우는 방지됨 > 001100110 이라던지
+						if(JSON.stringify(flag)==JSON.stringify(nonePoint)){
+							
+						}
+						else{
+							for(let y = j; y > 0; y --){
+								let boxClass = "cmpb"+(y)+"";
+								let tempArray = [0, 0, 0, 0, 0, 0, 0];
+								let config = false;
+			
+								for(let t = 0; t < flag.length; t++){
+									let box = monthBoxBodys[t+start];
+									if(flag[t]==0){
+										let elBox = box.getElementsByClassName(boxClass)[0];
+										
+										if(typeof(elBox)!='undefined'){
+											for(let r = t; r < t+y; r++){
+												tempArray[r] = 1;
+											}
+											
+											for(let r = 0; r < flag.length; r++){
+												if(tempArray[r]^flag[r]==1){
+													checkedBar = true;
+												}
+												
+												else if(tempArray[r]^flag[r]==0){
+													checkedBar = false;
+													if(tempArray[r]==1){
+														config = true;
+													}
+												}
+											}
+										}
+										
+										if(checkedBar==true){
+											if(typeof(elBox)!='undefined'){
+												box.appendChild(elBox)
+												elBox.classList.remove(boxClass);
+												flag[t]=1;								
+											}
+										}
+										else{
+											let zeroBox = box.getElementsByClassName("cmpb0")[0];
+											if(typeof(zeroBox)!='undefined'){
+												box.appendChild(zeroBox);
+												zeroBox.classList.remove("cmpb0");
+												flag[t]=1;
+											}
+										}
+									}
+								}
+								if(JSON.stringify(flag)==JSON.stringify(endPoint)){
+									break;
 								}
 							}
 						}
 					}
 				}
 			}
-		}
+		}*/
 		
 		// 현재 스케줄의 Bar 길이를 확인
 		function checkMonthPlanBar(flagSize){
@@ -3746,6 +3794,9 @@
 			}
 			else if(flagSize==7){
 				name="cmpb7";
+			}
+			else if(flagSize==0){
+				name="cmpb0";
 			}	
 			return name;
 		}
