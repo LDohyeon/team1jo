@@ -1,4 +1,4 @@
-package Servlet;
+package ServletParagraph;
 
 import java.io.*;
 import java.util.HashMap;
