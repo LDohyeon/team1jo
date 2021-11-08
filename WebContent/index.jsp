@@ -13,160 +13,7 @@
 		<meta charset="utf-8">
 		<title>STATUS 200</title>
 		<link rel="stylesheet" href="style.css">
-		<style>
-		
-			/*임시 a태그 hover*/
-			a:hover
-			{
-				color:lightgray;
-			}
-			body
-			{
-                margin: 0;
-                padding: 0;
-                /*font-size: 1.2em;*/
-            }
-            header
-            {
-                padding: 20px;
-            }
-            section
-            {
-                padding: 20px;
-                display: flex;
-                background-color: lightgray;
-            }
-            footer
-            {
-            	text-align: center;
-            	font-size: 0.8em;
-                padding: 20px;
-                color: gray;
-            }
-            section > div {
-                margin: auto;
-                width: 150px;
-                height: 25px;
-            }
-            .ulist
-            {
-                margin: 0;
-                padding: 0;
-                list-style-type: none;
-                float: right;
-            }
-            .list
-            {
-                display: inline;
-                margin: 0 20px 0 0 ;
-            }
-            .titleArea
-			{
-				margin:0 0 10px 0;
-			}
-            .paragraphListWrap
-			{
-				width: 850px;
-				padding: 35px;
-				border : 1px solid #dbdadf;
-				margin : 60px auto;		
-			}
-			.spanWrap::after
-			{
-				content: "";
-				display: block;
-				clear: both;
-			}
-			.th
-			{
-				font-weight: bold;
-				background-color: #f1f1f1;
-				border-top: 1.5px solid #222;
-				
-			}
-			.borderRight
-			{
-				border-right: 1px solid #dbdadf;
-			}
-			.narrow
-			{
-				text-align: center;
-				display: inline-block;
-				width: 70px;
-				padding: 10px;
-				float: left;
-				border-bottom: 1px solid #dbdadf;
-				line-height:36px;
-				
-			}
-			.medium
-			{
-				text-align: center;
-				display: inline-block;
-				width: 165px;
-				padding: 10px;
-				float: left;
-				border-bottom: 1px solid #dbdadf;
-				line-height:36px;
-			}
-			.wide
-			{
-				text-align: left;
-				display: inline-block;
-				width: 371px;
-				padding: 10px;
-				float: left;
-				border-bottom: 1px solid #dbdadf;
-				height:36px;
-			}
-			.wideTitle{
-				text-align: center;
-				display: inline-block;
-				width: 371px;
-				padding: 10px;
-				float: left;
-				border-bottom: 1px solid #dbdadf;
-				height:36px;
-			}
-			.tagColor
-			{
-				border-radius: 15px;
-				font-size:10.5px;
-				padding:3px;
-				color: black;
-			    background-color: cornsilk;
-			   
-			    border:1px solid #989898;
-			    margin-right: 5px;
-			   
-			}
-			.title{
-				text-align:center;
-			}
-			.linkBlack{
-				color: black;
-				text-decoration:none;
-			}
-			.txt_line {
-				width:370px;
-		      	overflow:hidden;
-		      	text-overflow:ellipsis;
-		      	white-space:nowrap;
-		      	overflow: hidden;
-		      	
-		 	}
-		 	.txt_line2 {
-				width:370px;
-		      	overflow:hidden;
-		      	text-overflow:ellipsis;
-		      	white-space:nowrap;
-		      	overflow: hidden;
-		      	line-height:36px;
-		 	}
-		 	.paragraphListWrap{
-		 		min-height: calc(100vh - 320px);
-		 	}
-		</style>
+		<link rel="stylesheet" href="list.css">
 	</head>
 		<body>
 	<% 
@@ -182,7 +29,15 @@
 					<span class="wideTitle th borderRight txt_line2">제목</span>
 					<span class="narrow th borderRight">글쓴이</span>
 					<span class="medium th borderRight">날짜</span>
-					<span class="narrow th">조회수</span>
+					<span class="narrow th borderRight">조회수</span>
+					<c:choose>
+						<c:when test="${loginUser.getId()!=null && loginUser.getAuthority()=='1'}">
+							<span class="narrow th">삭제</span>
+						</c:when>
+						<c:otherwise>
+							<span class="narrow th">비고</span>
+						</c:otherwise>
+					</c:choose>
 					<br>
 				</span>
 				<c:forEach items="<%=list %>" var="list">
@@ -230,7 +85,14 @@
 					</span>
 					<span class="narrow borderRight">${list.getId()}</span>
 					<span class="medium borderRight">${list.getDatetime()}</span>
-					<span class="narrow">${list.getHits()}</span>		
+					<span class="narrow borderRight">${list.getHits()}</span>		
+					<span class="narrow"> 
+						<c:choose>
+							<c:when test="${loginUser.getId()!=null && loginUser.getAuthority()=='1'}">
+								<a class="deleteButton" onclick="return confirm('정말 삭제하시겠습니까?')" href="paragraphDelete.do?num=${list.getNum()}">삭제</a>
+							</c:when>
+						</c:choose>	
+					</span>		
 				</c:forEach>
 			</div>
 			

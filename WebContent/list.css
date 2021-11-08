@@ -1,0 +1,181 @@
+@charset "UTF-8";
+a:hover
+{
+	color:lightgray;
+}
+
+body
+{
+    margin: 0;
+    padding: 0;
+    /*font-size: 1.2em;*/
+}
+
+section
+{
+    padding: 20px;
+    display: flex;
+    background-color: lightgray;
+}
+
+section > div
+{
+    margin: auto;
+    width: 150px;
+    height: 25px;
+}
+
+.ulist
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    float: right;
+}
+
+.list
+{
+    display: inline;
+    margin: 0 20px 0 0 ;
+}
+
+.titleArea
+{
+	margin:0 0 10px 0;
+}
+
+.paragraphListWrap
+{
+	width: 950px;
+	padding: 35px;
+	border : 1px solid #dbdadf;
+	margin : 60px auto;		
+}
+
+.spanWrap::after
+{
+	content: "";
+	display: block;
+	clear: both;
+}
+
+.th
+{
+	font-weight: bold;
+	background-color: #f1f1f1;
+	border-top: 1.5px solid #222;
+	
+}
+
+.borderRight
+{
+	border-right: 1px solid #dbdadf;
+}
+
+.narrow
+{
+	text-align: center;
+	display: inline-block;
+	width: 70px;
+	padding: 10px;
+	float: left;
+	border-bottom: 1px solid #dbdadf;
+	line-height:36px;
+
+	height: 36px;
+}
+
+.medium
+{
+	text-align: center;
+	display: inline-block;
+	width: 165px;
+	padding: 10px;
+	float: left;
+	border-bottom: 1px solid #dbdadf;
+	line-height:36px;
+}
+
+.wide
+{
+	text-align: left;
+	display: inline-block;
+	width: 371px;
+	padding: 10px;
+	float: left;
+	border-bottom: 1px solid #dbdadf;
+	height:36px;
+}
+
+.wideTitle
+{
+	text-align: center;
+	display: inline-block;
+	width: 371px;
+	padding: 10px;
+	float: left;
+	border-bottom: 1px solid #dbdadf;
+	height:36px;
+}
+
+.tagColor
+{
+	border-radius: 15px;
+	font-size:10.5px;
+	padding:3px;
+	color: black;
+    background-color: cornsilk;
+   
+    border:1px solid #989898;
+    margin-right: 5px;
+}
+
+.title
+{
+	text-align:center;
+}
+
+.linkBlack
+{
+	color: black;
+	text-decoration:none;
+}
+
+.txt_line
+{
+	width:370px;
+     	overflow:hidden;
+     	text-overflow:ellipsis;
+     	white-space:nowrap;
+     	overflow: hidden;  	
+}
+	
+.txt_line2
+{
+	width:370px;
+ 	overflow:hidden;
+ 	text-overflow:ellipsis;
+ 	white-space:nowrap;
+ 	overflow: hidden;
+ 	line-height:36px;
+}
+
+.paragraphListWrap
+{
+	min-height: calc(100vh - 320px);
+}
+
+.pageNum
+{
+	text-align: center;
+	margin-top:30px;
+}
+
+.deleteButton
+{
+	height: 25px;
+    background: #f1f1f1;
+    border: 0;
+    font-size: 13px;
+    padding:5px;
+}

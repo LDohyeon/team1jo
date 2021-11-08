@@ -10,155 +10,16 @@
 		<link rel="stylesheet" href="style.css">
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="list.css">
 		<style>
-			*
+			.blackSmallButton
 			{
-				margin: 0;
-				padding: 0;
+				margin: 20px 0 0 795px;
 			}
-			
-			.titleArea
-			{
-				margin: 0 0 10px 0;
-			}
-			
 			.paragraphListWrap
 			{
-				width: 850px;
-				padding: 35px;
-				border : 1px solid #dbdadf;
-				margin : 60px auto;		
+				width: 850px;	
 			}
-			
-			.button
-			{
-				background-color: #064998;
-				color: #fff;
-				text-align: center;
-				font-size: 14px;
-				
-				margin: 0;
-				width: 60px;
-				height: 42px;
-				line-height: 42px;
-				display: inline-block;
-			}
-			
-			.nonInputSub
-			{
-				padding: 0;
-			    border-width: 0;
-			    border-style: none;
-			    border-color: #fff;
-			    font-family: inherit;
-			}
-			
-			.spanWrap::after
-			{
-				content: "";
-				display: block;
-				clear: both;
-			}
-			
-			.th
-			{
-				font-weight: bold;
-				background-color: #f1f1f1;
-				border-top: 1.5px solid #222;
-				
-			}
-			
-			.borderRight
-			{
-				border-right: 1px solid #dbdadf;
-				text-align: center;
-			}
-			
-			.narrow
-			{
-				text-align: center;
-				display: inline-block;
-				width: 70px;
-				padding: 10px;
-				float: left;
-				border-bottom: 1px solid #dbdadf;
-				line-height:36px;
-			}
-			
-			.medium
-			{
-				text-align: center;
-				display: inline-block;
-				width: 165px;
-				padding: 10px;
-				float: left;
-				border-bottom: 1px solid #dbdadf;
-				line-height:36px;
-			}
-			
-			.wide
-			{
-				text-align: left;
-				display: inline-block;
-				width: 371px;
-				padding: 10px;
-				float: left;
-				border-bottom: 1px solid #dbdadf;
-				height:36px;
-			}
-			.wideTitle{
-				text-align: center;
-				display: inline-block;
-				width: 371px;
-				padding: 10px;
-				float: left;
-				border-bottom: 1px solid #dbdadf;
-				height:36px;
-			}
-			
-			.pageNum
-			{
-				text-align: center;
-			}
-			.tagColor
-			{
-				border-radius: 15px;
-				font-size:10.5px;
-				padding:3px;
-				color: black;
-			    background-color: cornsilk;
-			    border:1px solid #989898;
-			    margin-right: 5px;
-			}
-			.titleLength
-			{
-				/*display:inline-block;*/
-				width:50px;
-			    overflow:hidden;
-			    text-overflow:ellipsis;
-			    /*white-space:nowrap;*/
-			}
-			
-			.txt_line {
-				width:370px;
-		      	overflow:hidden;
-		      	text-overflow:ellipsis;
-		      	white-space:nowrap;
-		      	overflow: hidden;
-		      	
-		 	}
-		 	.txt_line2 {
-				width:370px;
-		      	overflow:hidden;
-		      	text-overflow:ellipsis;
-		      	white-space:nowrap;S
-		      	overflow: hidden;
-		      	line-height:36px;
-		 	}
-		 	span
-		 	{
-		 		padding:0;
-		 	}
 		</style>
 	</head>
 	<jsp:include page="./header.jsp"/>

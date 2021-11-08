@@ -12,6 +12,11 @@
 				background-color: #e2e2e2;
 				margin:0;
 			}
+			
+			.headerArea
+			{
+				background-color:white;
+			}
 		
 			#wrap
 			{
