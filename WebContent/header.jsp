@@ -15,14 +15,15 @@
 			<div id="headerProfileIcon"></div>
 		</div>
 	</div>
-	<div id=headerSearchArea>
+	<div id=headerSearchArea >
 		<div id="headerSearch">
-			<form method="get" action="search.do" name="formHeader" id="headerForm">
-				<input type="text" name="searchValue" id="searchValue">
+			<form method="get" action="search.do" id="headerForm">
+				<input type="text" name="searchValue" id="searchValue" onKeyup="autoSearch()" onKeydown="autoSearch()">
 				<input type="hidden" name="startPage" value="1">
 				<input type="submit" value="" onclick="writeCheck()" id="searchValueBtn">
-				<input type="button" value="X" id="searchXBtn">
-			</form>
+				<input type="button" value="X" id="searchXBtn">		
+				<div id="divTable"></div>
+			</form>	
 		</div>
 	</div>
 	<div id="headerProfileArea">
@@ -243,8 +244,6 @@
 	
 	function searchDiv(json)
 	{
-
-		
 		var divTable = document.getElementById("divTable");
 		var searchValue = document.getElementById("searchValue");
 		
