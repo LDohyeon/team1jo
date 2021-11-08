@@ -31,7 +31,7 @@ public class ParagraphListServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		
 		int nOfPages=page/lastPage;
-		if(page%lastPage>=0) {
+		if(page%lastPage>0) {
 			nOfPages++;
 		}
 		
