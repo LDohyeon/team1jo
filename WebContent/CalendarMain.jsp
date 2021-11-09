@@ -18,8 +18,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Calendar</title>
-        <link rel="stylesheet" href="CalendarCss.css">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="CalendarCss.css" type="text/css">
+        <link rel="stylesheet" href="style.css" type="text/css">
 	</head>
 	<body style="margin:0;">
 		<jsp:include page="header.jsp"/>
@@ -1182,6 +1182,7 @@
 				else if(selectForm=="M"){
 					MonthForm(date);
 					getGroupSchedule(userKey, date);
+					console.log(userKey);
 					whatIsDateInfo(selectForm, date);
 				}
 				else if(selectForm=="D"){
@@ -1967,15 +1968,16 @@
 					let day = parseInt(dateTag.value.substring(6,8));
 					
 					let date = getThisDay(year, month, day, 0, 0);
-					changeForm("D", date);
 					
 					let selectForm = document.getElementsByClassName("selectForm")[0];
 					let options = selectForm.getElementsByTagName("option");
 					for(let i = 0; i<options.length; i++){
-						if(options[i].value=="D"){
+						if(options[i].value=="M"){
 							options[i].setAttribute("selected", "true");
 						}
 					}
+					selectForm.value="M";
+					changeForm("M", date);
 	            }
 	            
 	            // 배열 값이 없는 항목을 참조: 할때 실행, 말을 12로 설정함 (1월일 경우 실행됨)
@@ -2937,6 +2939,7 @@
 			let jsons;
 			createXHRCalendar();
 			
+			
 			XHRCalendar.onreadystatechange=function(){
 				if(XHRCalendar.readyState==2){
 					toDoList();
@@ -2948,7 +2951,7 @@
 		            	jsons = JSON.parse(XHRCalendar.responseText, "text/json");
 		            	
 		            	for(let i = 0; i < Object.keys(jsons).length; i++){
-		            		
+		            		console.log(jsons);
 		            		// 제이손 형태 데이터를 그룹 별로 구분하고, 이걸 다시 스케줄 별로 구분함 
 		            		// 이렇게 생성된 데이터를 기준으로 스케줄 그림 
 		            		for(let j = 0; j < Object.keys(jsons[i].schedule).length; j++){
@@ -2990,6 +2993,7 @@
 		            	}
 		            	else if(selectForm.value=="M"){
 		            		// 스케줄 먼저 그림
+		            		console.log("work");
 			            	createScheduleElement(scheduleData);
 			            	// 스케줄 그리고 각 첫 요소 파악해서 첫요소 길이를 차등 부여
 			            	checkMonthScheduleFirst(); 

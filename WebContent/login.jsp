@@ -12,21 +12,24 @@
 				align-items:center;
 				display:flex;
 				justify-content:center;
+				
+				min-height: calc(100vh - 290px);
 			}
 			.loginWrap{
 				width:546px; 
-				border:1px solid black;
+				border:1px solid rgb(20, 20, 20);
 				padding:15px 0px;
+				
 			}
 			.loginForm{ 
 				background:#f1f1f1;
 			}
-			.loginForm div{
+			.loginWrap{
 				padding:20px 30px;
 			}
 			.loginForm .LoginH1{ 
 				margin-bottom:10px; 
-				font-size:40px;
+				font-size:25px;
 				padding-top:10px;
 				text-align:center;
 			}
@@ -34,13 +37,13 @@
 				display:inline-block; 
 				width:150px; 
 				text-align:center; 
-				font-size:17px;
 			}
 			.loginInput{
 				margin:0; 
 				padding:0 10px; 
 				line-height:40px; 
-				font-size:15px; 
+				height: 40px;
+				font-size: 0.9em; 
 				border:1px solid #dbdadf;
 			}
 			.button
@@ -50,9 +53,7 @@
 				height:40px;
 				line-height:40px;
 				text-align:center;
-				margin:5px 70px;
-				font-size:15px;
-				width:330px;
+				font-size: 0.9em;
 			}
 			.button:hover
 			{
@@ -67,16 +68,53 @@
 			    font-family:inherit;
 			}	
 			.loginIdPw{
-				display:inline-block;
 				width:200px;
 				color:#152aa1;
-				padding-top:10px;
-				padding-left:210px;
+				height: 24px;
+				line-height: 24px;
+				text-align: center;
+				font-size: 0.7em; 
 			}
 			.loginMsg{
 				color:#152aa1;
 				text-align:center;
 			}	
+			#loginArea{
+				padding: 20px;
+				margin: 0 auto;
+			}
+			.loginAreaInId, .loginAreaInPw{
+				display: flex;
+				margin-bottom: 3px;
+			}
+			.loginInputFlex{
+				width: calc(100% - 22px);
+			}
+			.buttonArea, .loginAlertArea{
+				display: flex;
+			}
+			.blankArea{
+				flex: 3;
+				margin-top: 5px;
+			}
+			.buttonSub{
+				flex: 10;
+				margin-bottom: 5px;
+			}
+			.loginAreaInText{
+				line-height: 40px;
+				flex: 3;
+				font-size: 1em;
+			}
+			.loginAreaInput, .loginIdPw{
+				flex: 10;
+			}
+			.loginAlertArea{
+				margin-bottom: 2px;
+			}
+			.buttonArea:first-child{
+				margin-top: 5px;
+			}
 		</style>
 	</head>
 	<body>
@@ -97,22 +135,42 @@
 						<%
 							}
 						%>
-						<div>
-							<span>아이디</span>
-							<span>
-								<input type="text" name="id" class="loginInput">
-							</span>
-							<span class="loginIdPw"></span>
-						</div>
-						<div>
-							<span>비밀번호</span>
-							<span>
-								<input type="password" name="pw" class="loginInput">
-							</span>
-							<span class="loginIdPw"></span>
-						</div>
-						<input class="button buttonSub" type="button" value="로그인" onclick="return loginCheck()">
-						<input class="button buttonSub" type="button" value="취소" onclick="cancel()">
+						<div id="loginArea">
+							<div class="loginAreaInId">
+								<span class="loginAreaInText">아이디</span>
+								<span class="loginAreaInput">
+									<input type="text" name="id" class="loginInput loginInputFlex">
+								</span>
+								<span class="blankArea"></span>
+							</div>
+							<div class="loginAlertArea">
+								<div class="blankArea"></div>
+								<div class="loginIdPw"></div>
+								<div class="blankArea"></div>
+							</div>
+							<div class="loginAreaInPw">
+								<span class="loginAreaInText">비밀번호</span>
+								<span class="loginAreaInput">
+									<input type="password" name="pw" class="loginInput loginInputFlex">
+								</span>
+								<span class="blankArea"></span>
+							</div>
+							<div class="loginAlertArea">
+								<div class="blankArea"></div>
+								<div class="loginIdPw"></div>
+								<div class="blankArea"></div>
+							</div>
+							<div class="buttonArea">
+								<div class="blankArea"></div>
+								<input class="button buttonSub" type="button" value="로그인" onclick="return loginCheck()">
+								<div class="blankArea"></div>
+							</div>
+							<div class="buttonArea">
+								<div class="blankArea"></div>
+								<input class="button buttonSub" type="button" value="취소" onclick="cancel()">
+								<div class="blankArea"></div>
+							</div>
+						</div>					
 					</div>	
 				</div>
 			</form>
