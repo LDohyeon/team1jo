@@ -103,6 +103,8 @@ public class ParagraphDAO {
 			pstmt.setString(5, pDTO.getCategory());
 			pstmt.setString(6, pDTO.getTag());
 			
+			
+			System.out.println("pstmt : "+ pstmt);
 			pstmt.execute();
 
 		}

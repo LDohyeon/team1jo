@@ -44,7 +44,7 @@
             }
             .content{
                 width: 800px;
-                margin: 0 auto;
+                margin: 30px auto;
             }
             .fontType , .fontSize, .fontStyle, .fontAlign, .img{
                 margin: 0px 5px 0px 0px;
@@ -166,6 +166,12 @@
 			  content: attr(aria-placeholder);
 			  display: block; /* For Firefox */
 			}
+			footer
+			{
+				margin-top: 87px;
+			}
+			
+			
         </style>
 	</head>
 	<jsp:include page="./header.jsp"/>
@@ -197,11 +203,12 @@
 	                            <button class="divColor" type="button" onclick="document.execCommand('bold');">두껍게</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('Underline');">밑줄</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
-	                            <input type="color" id="fontColor"><button class="divColor" type="button" onclick="document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
-	                            <input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
-	                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
-	                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
-	                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
+	                            <input type="color" id="fontColor"><button class="divColor2" type="button" onclick="document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
+	                            <input type="color" id="bgColor" value="#ffffff"><button class="divColor2" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
+	                           
+								<button class="divColor" type="button" onclick="justify('justifyleft')">왼쪽</button>
+	                            <button class="divColor" type="button" onclick="justify('justifycenter')">가운데</button>
+	                            <button class="divColor" type="button" onclick="justify('justifyRight')">오른쪽</button>
 	                            <button class="divColor3" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>  
 	                            <button class="divColor2" type="button" onclick="imgInsert()">사진</button>
 	                        </div>
@@ -261,6 +268,22 @@
 	</body>
 	<jsp:include page="./footer.jsp"/>
 	<script>
+	
+
+		function justify(e)
+		{
+			var et= event.target.style.backgroundColor;
+			if(et=="white")
+			{
+				document.execCommand(e);
+			}
+			else
+			{
+				document.execCommand('justifyleft');
+			}
+		}
+	
+	
 		function selectFont(){
 			var select=document.getElementById("fontType");
 			var selectValue=select.options[select.selectedIndex].value;

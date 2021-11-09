@@ -47,6 +47,7 @@
             .bodys{
                 width: 800px;
                 margin: 0 auto;
+                min-height:83vh;
             }
             .fontType , .fontSize, .fontStyle, .fontAlign, .img{
                 margin: 0px 5px 0px 0px;
@@ -253,6 +254,8 @@
 			  content: attr(aria-placeholder);
 			  display: block; /* For Firefox */
 			}
+			
+			
 
         </style>
 	</head>
@@ -329,6 +332,7 @@
 			</div>
 
 			<hr>
+			
 			<p>댓글</p>
 			<c:set var="count" value="${-1 }"></c:set>
 				
@@ -384,11 +388,11 @@
 			                            <button class="divColor" type="button" onclick="document.execCommand('bold');">두껍게</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('Underline');">밑줄</button>
 			                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
-			                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${clistSelect.getCommentCount()}].value);">글자색</button>
-			                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${clistSelect.getCommentCount()}].value);">배경색</button>
-			                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
-			                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
-			                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
+			                            <input type="color" class="fontColor"><button class="divColor2" type="button" onclick="document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${clistSelect.getCommentCount()}].value);">글자색</button>
+			                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor2" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${clistSelect.getCommentCount()}].value);">배경색</button>
+			                            <button class="divColor" type="button" onclick="justify('justifyleft')">왼쪽</button>
+			                            <button class="divColor" type="button" onclick="justify('justifycenter')">가운데</button>
+			                            <button class="divColor" type="button" onclick="justify('justifyRight')">오른쪽</button>
 			                            <button class="divColor3" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>
 			                            <button class="divColor2" type="button" onclick="imgInsert(${clistSelect.getCommentCount()})">사진</button> 
 			                        </div>
@@ -447,6 +451,7 @@
 			</c:forEach> 
         	
 
+		<c:if test="${loginUser.getId()!=null }">
 			<form method="post" action="comment.do" class="frm" name="frm">
 	            <div>
 	                <div class="editor">
@@ -464,13 +469,13 @@
 	                            <button class="divColor" type="button" onclick="document.execCommand('bold');">두껍게</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('Underline');">밑줄</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
-	                            <input type="color" class="fontColor"><button class="divColor" type="button" onclick="document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${commentLastCount }].value);">글자색</button>
-	                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${commentLastCount }].value);">배경색</button>
+	                            <input type="color" class="fontColor"><button class="divColor2" type="button" onclick="document.execCommand('foreColor', false, document.getElementsByClassName('fontColor')[${commentLastCount }].value);">글자색</button>
+	                            <input type="color" class="bgColor" value="#ffffff"><button class="divColor2" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementsByClassName('bgColor')[${commentLastCount }].value);">배경색</button>
 	                        </div>
 	                        <div class="fontAlign">
-	                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
-	                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
-	                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
+	                            <button class="divColor" type="button" onclick="justify('justifyleft')">왼쪽</button>
+	                            <button class="divColor" type="button" onclick="justify('justifycenter')">가운데</button>
+	                            <button class="divColor" type="button" onclick="justify('justifyRight')">오른쪽</button>
 	                            <button class="divColor3" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>                      
 	                        	
 	                        </div>
@@ -507,7 +512,7 @@
 	                    <input class="num" type="hidden" value="${pDTO.getNum() }" name="paragraph_num">
 
 	            	 </div>
-	            	 
+	         
 	            	 <div class="buttonsArea">
 	            	 	<c:choose>
 							<c:when test="${loginUser.getAuthority()==4 }">
@@ -520,6 +525,8 @@
 	            	 </div>
 	            </div>
         	</form>
+        </c:if>
+
 			<form method="post" enctype="multipart/form-data" name="imgFrm" class="imgFrm">
 	        	<input type="file" name="imgInput" class="imgInput" onchange="imgChange(${commentLastCount }, 'commentInsertImage.do')">
 	        	<input class="imgContent" type="hidden" name="imgContent">
@@ -543,7 +550,22 @@
         <input id="commentNum" type="hidden" value="${commentNum }">
 
     
-	<script>	
+	<script>
+	
+		function justify(e)
+		{
+			var et= event.target.style.backgroundColor;
+			
+			if(et=="white")
+			{
+				document.execCommand(e);
+			}
+			else
+			{
+				document.execCommand('justifyleft');
+			}
+		}
+	
 		function selectFont(e){
 			var select=document.getElementsByClassName("fontTypes")[e];
 			var selectValue=select.options[select.selectedIndex].value;
