@@ -22,6 +22,7 @@
 			{
 				position: relative;
     			padding: 32px 51px 95px;
+    			min-height:70vh;
 			}
 		
 			#wrap2
