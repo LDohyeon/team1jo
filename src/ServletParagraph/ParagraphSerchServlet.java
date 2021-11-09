@@ -28,7 +28,7 @@ public class ParagraphSerchServlet extends HttpServlet {
 		
 		int page = pDAO.searchPageBtnParagraph(searchValue);
 		int nOfPages=page/lastPage;
-		if(nOfPages%lastPage>=0) {
+		if(page%lastPage>0) {
 			nOfPages++;
 		}
 		

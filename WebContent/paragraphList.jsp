@@ -95,10 +95,20 @@
 					</c:when>
 					<c:otherwise>
 						<c:if test="${searchFlag==0 }">
-							<a href="paragraphList.do?startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
+							<c:if test="${StartPage%10==0 }">
+								<a href="paragraphList.do?startPage=${StartPage- StartPage%10 -19 }">&#60;&#60;</a>
+							</c:if>
+							<c:if test="${StartPage%10!=0 }">
+								<a href="paragraphList.do?startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
+							</c:if>
 						</c:if>
 						<c:if test="${searchFlag==1 }">
-							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
+							<c:if test="${StartPage%10==0 }">
+								<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 -19 }">&#60;&#60;</a>
+							</c:if>
+							<c:if test="${StartPage%10!=0 }">
+								<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 -9 }">&#60;&#60;</a>
+							</c:if>
 						</c:if>
 					</c:otherwise>
 				</c:choose>
@@ -208,10 +218,20 @@
 					</c:when>
 					<c:otherwise>
 						<c:if test="${searchFlag==0 }">
-							<a href="paragraphList.do?startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
+							<c:if test="${StartPage%10==0 }">
+								<a href="paragraphList.do?startPage=${StartPage - StartPage%10 +1 }">&#62;&#62;</a>
+							</c:if>
+							<c:if test="${StartPage%10!=0 }">
+								<a href="paragraphList.do?startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
+							</c:if>
 						</c:if>
 						<c:if test="${searchFlag==1 }">
-							<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
+							<c:if test="${StartPage%10==0 }">
+								<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 +1 }">&#62;&#62;</a>
+							</c:if>
+							<c:if test="${StartPage%10!=0 }">
+								<a href="search.do?searchValue=${searchValue}&startPage=${StartPage - StartPage%10 +11 }">&#62;&#62;</a>
+							</c:if>
 						</c:if>
 					</c:otherwise>
 				</c:choose>
