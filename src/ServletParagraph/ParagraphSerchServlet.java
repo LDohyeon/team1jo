@@ -20,7 +20,7 @@ public class ParagraphSerchServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int StartPage = Integer.parseInt(request.getParameter("startPage"));
-		int lastPage = 20;		
+		int lastPage = 1;		
 		
 		String searchValue = request.getParameter("searchValue");
 
@@ -28,7 +28,7 @@ public class ParagraphSerchServlet extends HttpServlet {
 		
 		int page = pDAO.searchPageBtnParagraph(searchValue);
 		int nOfPages=page/lastPage;
-		if(nOfPages%lastPage>=0) {
+		if(page%lastPage>0) {
 			nOfPages++;
 		}
 		
