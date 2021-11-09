@@ -2,7 +2,7 @@
     pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 	<head>
 		<meta charset="utf-8">
 		<title>에디터</title>
@@ -11,8 +11,7 @@
 		<script src="codeMirror/xml.js"></script>
 		<link rel="stylesheet" href="codeMirror/darcula.css">
 		<link rel="stylesheet" href="codeMirror/eclipse.css">
-		<script src="codeMirror/closetag.js"></script>
-		
+		<script src="codeMirror/closetag.js"></script>		
 		<script src="codeMirror/python.js"></script>
 		<script src="codeMirror/javascript.js"></script>
 		<script src="codeMirror/sql.js"></script>
@@ -45,7 +44,7 @@
             }
             .content{
                 width: 800px;
-                margin: 0 auto;
+                margin: 30px auto;
             }
             .fontType , .fontSize, .fontStyle, .fontAlign, .img{
                 margin: 0px 5px 0px 0px;
@@ -81,6 +80,7 @@
 			}
 			#ponup
 			{
+				width:800px;
 				border:1px solid black;
 				
 				/*width:800px;height:300px;*/
@@ -163,6 +163,38 @@
 			{
 				background-color: #fff;
 			}
+			[contenteditable=true]:empty:before {
+			  content: attr(aria-placeholder);
+			  display: block; /* For Firefox */
+			}
+			footer
+			{
+				margin-top: 87px;
+			}
+			
+			.CodeMirror {
+			    border: 1px solid #eee;
+			    height: auto;
+			    max-height:200px;
+			    width:100%;
+			}
+			
+			.CodeMirror-scroll {
+			    height: auto;
+			    max-height:200px;
+			    width:100%;
+			}
+			
+			#ponup .CodeMirror
+			{
+				height:200px;
+			}
+			#ponup .CodeMirror-scroll
+			{
+				height:200px;
+			}
+			
+			
         </style>
 	</head>
 	<jsp:include page="./header.jsp"/>
@@ -194,16 +226,15 @@
 	                            <button class="divColor" type="button" onclick="document.execCommand('bold');">두껍게</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('Underline');">밑줄</button>
 	                            <button class="divColor" type="button" onclick="document.execCommand('italic');">기울이기</button>
-	                            <input type="color" id="fontColor"><button class="divColor" type="button" onclick="document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
-	                            <input type="color" id="bgColor" value="#ffffff"><button class="divColor" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
-	                            <button class="divColor" type="button" onclick="document.execCommand('justifyleft');">왼쪽</button>
-	                            <button class="divColor" type="button" onclick="document.execCommand('justifycenter');">가운데</button>
-	                            <button class="divColor" type="button" onclick="document.execCommand('justifyRight');">오른쪽</button>
+	                            <input type="color" id="fontColor"><button class="divColor2" type="button" onclick="document.execCommand('foreColor', false, document.getElementById('fontColor').value);">글자색</button>
+	                            <input type="color" id="bgColor" value="#ffffff"><button class="divColor2" type="button" onclick="document.execCommand('hiliteColor', false, document.getElementById('bgColor').value);">배경색</button>
+	                           
+								<button class="divColor" type="button" onclick="justify('justifyleft')">왼쪽</button>
+	                            <button class="divColor" type="button" onclick="justify('justifycenter')">가운데</button>
+	                            <button class="divColor" type="button" onclick="justify('justifyRight')">오른쪽</button>
 	                            <button class="divColor3" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>  
 	                            <button class="divColor2" type="button" onclick="imgInsert()">사진</button>
 	                        </div>
-
-	                        
 	                        <div class="codeWrite">   
 	                        	<select id="language" onchange="langs()">
 	                        		<option value="none">질문할 언어를 선택하세요</option>
@@ -213,7 +244,7 @@
 	                            	<option value="text/x-sql">sql</option>
 	                            	<option value="text/javascript">javascript</option>
 	                        	</select>
-	                        	
+	                        	<input class="divColor2" type="button" onclick="codeUp()" value="코드">  
 	                        	<input class="divColor2" type="button" onclick="code()" value="코드 작성 하러 가기">  
 	                        	<input class="divColor2" type="button" onclick="codeUpdate()" value="코드 수정하러 가기">
 	                        </div>
@@ -223,7 +254,7 @@
 	                    	<br>
 	                    </div>
           
-	                    <div id="writeContent" class="writeContent" contenteditable="true" placeholder="내용을 입력해주세요.">${imageInsertContent }${pDTO.getContents() }</div>
+	                    <div id="writeContent" class="writeContent" contenteditable="true" aria-placeholder="내용을 입력해주세요.">${imageInsertContent }${pDTO.getContents() }</div>
 	                    
 	                    <input id="content" type="hidden" name="content">
 	                    
@@ -250,8 +281,6 @@
         	<input id="imgContent" type="hidden" name="imgContent">
         	<input id="imgTitle" type="hidden" name="imgTitle">
         </form>
-        
-		<!-- 결제 창 판업 띄우기 -->
 		<div id="wrapPonup">
 			<div id="ponup">
 				<textarea id="writeContentLib"></textarea>
@@ -263,6 +292,22 @@
 	</body>
 	<jsp:include page="./footer.jsp"/>
 	<script>
+	
+
+		function justify(e)
+		{
+			var et= event.target.style.backgroundColor;
+			if(et=="white")
+			{
+				document.execCommand(e);
+			}
+			else
+			{
+				document.execCommand('justifyleft');
+			}
+		}
+	
+	
 		function selectFont(){
 			var select=document.getElementById("fontType");
 			var selectValue=select.options[select.selectedIndex].value;
@@ -358,16 +403,18 @@
 		}
 	
 	
-		//도현
-		
 		function imgInsert()
 		{
-			var imgInput = document.getElementById("imgInput");
 			
-			imgInput.click();
-			
-			imgChange();
-			
+			if(document.getSelection().anchorNode !=null)
+			{
+				var imgInput = document.getElementById("imgInput");
+				document.getElementById("writeContent").focus();
+				
+				imgInput.click();
+				
+				imgChange();
+			}
 		}
 		function imgChange()
 		{
@@ -421,16 +468,97 @@
 				//readOnly: true,
 				autoCloseTags: true
 			});
-			writeContentLib.setSize("800", "400");
+			writeContentLib.setSize("800", "200");
 			
  		}
  		
 		var wrapPonup=document.getElementById("wrapPonup");
 		var hid;
 
-		function code()
+		
+		
+		var test=0;
+		
+		function codeUp()
 		{
+			langs();//온체인지
 			
+			if(language == "none")
+			{
+				alert("언어를 선택해주세요");
+				return;
+			}
+			
+			hid=language;
+			
+			document.getElementById("writeContent").focus();
+			
+			insertTextArea(hid);
+			
+			var langtest = hid+test;
+			
+			LibUp(hid, langtest);
+		
+
+			
+			console.log(test);
+			
+			document.getElementsByClassName("CodeMirror cm-s-darcula")[test-1].insertAdjacentHTML("afterend", "<br>");
+			
+			console.log(document.getElementsByClassName("CodeMirror cm-s-darcula"));
+			
+
+			
+		}
+		
+		function LibUp(hid, langtest)
+ 		{
+			
+			console.log(hid);
+			console.log(langtest);
+			langtest= document.getElementById(langtest);
+			langtest = CodeMirror.fromTextArea(langtest, {
+				//lineNumbers: true,
+				theme: "darcula",
+				mode: hid,
+				//mode:"text/x-python",
+				spellcheck: true,
+				//autocorrect: true,
+				//autocapitalize: true,
+				//readOnly: true,
+				autoCloseTags: true
+			});
+			//writeContentLib.setSize("800", "200");
+			
+			test++;
+
+ 		}
+		
+		function insertTextArea(hid)
+		{
+			var sel = document.getSelection();
+
+            var range = sel.getRangeAt(0);
+
+			var insertNodeTextArea=document.createElement("textarea");
+			insertNodeTextArea.setAttribute("id", hid+test);
+			
+			
+			
+			range.insertNode(insertNodeTextArea);
+			range.setStartAfter(insertNodeTextArea);
+			
+			document.getElementById("writeContent").focus();
+		}
+		
+		
+
+		
+		
+		
+		
+		function code()
+		{			
 			langs();//온체인지
 			
 			if(language == "none")
@@ -605,9 +733,5 @@
 			var ponupFrm = document.getElementById("ponupFrm");
 
 		}
-
-		
-		
-
 	</script>
 </html>
