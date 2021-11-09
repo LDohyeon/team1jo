@@ -20,7 +20,7 @@ public class ParagraphSerchServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int StartPage = Integer.parseInt(request.getParameter("startPage"));
-		int lastPage = 1;		
+		int lastPage = 20;		
 		
 		String searchValue = request.getParameter("searchValue");
 
