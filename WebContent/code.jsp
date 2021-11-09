@@ -23,18 +23,32 @@
 				width:600px;
 				margin:100px auto;
 			}
-			.wrap > div
+			#dddd
 			{
 				border:1px solid black;
 				height:600px;
+			}
+			.CodeMirror {
+			    border: 1px solid #eee;
+			    height: auto;
+			    max-height:200px;
+			}
+			
+			.CodeMirror-scroll {
+			    height: auto;
+			    max-height:200px;
 			}
 
 		</style>
 	</head>
 	<body>
 		<h2>코드 작성</h2>
-		
+		<div id="dddd" contenteditable="true">
+		ee
 		<textarea id="writeContent">${write }</textarea>
+		eeee
+		</div>
+		
 
 		<input id="language" type="hidden" value="${language }">
 		
@@ -61,15 +75,15 @@
 			var writeContent = CodeMirror.fromTextArea(writeContent, {
 				lineNumbers: true,
 				theme: "darcula",
-				mode: language,
-				//mode:"text/x-python",
+				//mode: language,
+				mode:"text/x-python",
 				spellcheck: true,
 				autocorrect: true,
 				autocapitalize: true,
 				//readOnly: true,
 				autoCloseTags: true
 			});
-			writeContent.setSize("785", "400");
+			//writeContent.setSize("785", "400");
 
 			function codeEnd()
 			{
