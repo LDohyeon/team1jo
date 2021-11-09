@@ -16,8 +16,10 @@ public class MyWriteServlet extends HttpServlet {
        
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int StartPage=Integer.parseInt(request.getParameter("startPage"));
 		
+		//https://github.com/LDohyeon/team1jo/blob/main/src/ServletParagraph/ParagraphListServlet.java
+		
+		int StartPage=Integer.parseInt(request.getParameter("startPage"));
 		int lastPage=20;
 		
 		ParagraphDAO pDAO=ParagraphDAO.getInstance();
@@ -32,7 +34,7 @@ public class MyWriteServlet extends HttpServlet {
 		request.setAttribute("list", list);
 		
 		int nOfPages=page/lastPage;
-		if(nOfPages%lastPage>=0) {
+		if(page%lastPage>0) {
 			nOfPages++;
 		}
 		
