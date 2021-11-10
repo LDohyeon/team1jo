@@ -170,6 +170,10 @@
 			{
 				margin-top: 87px;
 			}
+			/*.CodeMirror-scroll
+			{
+				overflow:none;
+			}*/
 			
 			
         </style>
@@ -514,7 +518,7 @@
 				var selected = selectedObj.getRangeAt(0).toString();
 
 				
-				document.getElementById("focusValue").innerText=selected;
+				document.getElementById("focusValue").innerHTML=selected;
 				selectedObj.deleteFromDocument();
 				
 				
@@ -540,7 +544,7 @@
 		
 				textarea.setAttribute("id", "writeContentLib");
 				
-				textarea.innerText=getSels[2];
+				textarea.innerHTML=getSels[2];
 				
 				
 				cansleButton.setAttribute("onclick", "cansleUpdate()");
@@ -588,7 +592,7 @@
 			
 		function cansleUpdate()
 		{
-			document.getElementById("focusValue").insertAdjacentHTML("afterend", document.getElementById("focusValue").innerText);
+			document.getElementById("focusValue").insertAdjacentText("afterend", document.getElementById("focusValue").innerHTML);
 			
 			cansle();
 		}

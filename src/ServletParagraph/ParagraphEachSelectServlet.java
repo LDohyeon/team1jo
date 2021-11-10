@@ -63,6 +63,8 @@ public class ParagraphEachSelectServlet extends HttpServlet {
 		
 		String content= pDTO.getContents();
 		
+		System.out.println("content : "+ content);
+		
 		String[] contents=content.split("※");
 
 		int idCount=0;

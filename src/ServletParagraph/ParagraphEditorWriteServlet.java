@@ -34,6 +34,10 @@ public class ParagraphEditorWriteServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
+		
+		
+		System.out.println("contentinsert : "+ content);
+		
 		String category = "질문";
 		String language="";
 		

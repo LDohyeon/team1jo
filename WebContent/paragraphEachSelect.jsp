@@ -119,12 +119,10 @@
 			.CodeMirror {
 			    border: 1px solid #eee;
 			    height: auto;
-			    max-height:200px;
 			}
 			
 			.CodeMirror-scroll {
 			    height: auto;
-			    max-height:200px;
 			}
 			
 			#ponup .CodeMirror
@@ -814,7 +812,7 @@
 		
 				textarea.setAttribute("id", "writeContentLib");
 				
-				textarea.innerText=getSels[2];
+				textarea.innerHTML=getSels[2];
 				
 				
 				cansleButton.setAttribute("onclick", "cansleUpdate()");
@@ -847,7 +845,7 @@
 		}
 		function cansleUpdate()
 		{
-			document.getElementById("focusValue").insertAdjacentHTML("afterend", document.getElementById("focusValue").innerText);
+			document.getElementById("focusValue").insertAdjacentText("afterend", document.getElementById("focusValue").innerHTML);
 			
 			cansle();
 		}
