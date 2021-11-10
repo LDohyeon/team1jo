@@ -16,6 +16,7 @@
 			}
 			.chartWrap{
 				width:1260px;
+				min-width:1260px;
 				margin:0 auto;
 				vertical-align:middle;
 			}
