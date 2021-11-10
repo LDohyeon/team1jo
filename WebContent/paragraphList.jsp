@@ -208,7 +208,7 @@
 				</c:choose>
 				<c:choose>
 					<c:when test="${StartPage==nOfPages }"></c:when>
-					<c:when test="${StartPage +10 > nOfPages}">
+					<c:when test="${StartPage +10 > nOfPages && StartPage%10!=0}">
 						<c:if test="${searchFlag==0 }">
 							<a href="paragraphList.do?startPage=${nOfPages }">&#62;&#62;</a>
 						</c:if>
