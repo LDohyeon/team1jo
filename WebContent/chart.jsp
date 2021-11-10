@@ -34,7 +34,7 @@
 		<jsp:include page="./footer.jsp"></jsp:include>
 		
 		<script>
-			///////////////////////////////정현/////////////////////////////////
+			////////////////////////////정현///////////////////////////
 			var ctx = document.getElementById('myChart');
 	        var myChart = new Chart(ctx, 
         	{
