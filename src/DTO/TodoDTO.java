@@ -61,5 +61,5 @@ public class TodoDTO {
 		this.time = time;
 	}
 	
-	
+	// create table todolist(num int primary key auto_increment, title text, content text, id text, date text, time text, importance text, checked text);
 }
