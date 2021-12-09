@@ -9,6 +9,9 @@ import javax.servlet.http.*;
 import com.oreilly.servlet.*;
 import com.oreilly.servlet.multipart.*;
 
+import DAO.ParagraphDAO;
+import DTO.ParagraphDTO;
+
 
 @WebServlet("/paragraphImageInsert.do")
 public class ParagraphImageInsertServlet extends HttpServlet {
@@ -16,6 +19,8 @@ public class ParagraphImageInsertServlet extends HttpServlet {
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
+		
 	}
 
 
@@ -36,6 +41,11 @@ public class ParagraphImageInsertServlet extends HttpServlet {
 		String imgInput = multi.getFilesystemName("imgInput");
 		String imgTitle= multi.getParameter("imgTitle");
 		
+		int imgUpdate = Integer.parseInt(multi.getParameter("imgUpdate"));
+		
+
+
+		
 		String[] imgContents=imgContent.split("★");
 		
 		imgContents[0]+="./editor/"+imgInput;
@@ -45,6 +55,18 @@ public class ParagraphImageInsertServlet extends HttpServlet {
 		{
 			imgContentsHap+=imgContents[i];
 		}
+		
+		
+		if(imgUpdate != -1)//수정으로 가야할 때
+		{
+			ParagraphDAO pDAO =ParagraphDAO.getInstance();
+			ParagraphDTO pDTO = pDAO.ParagraphContents(imgUpdate);
+
+			request.setAttribute("pDTO", pDTO);
+			request.setAttribute("imgUpdate", imgUpdate);
+		}
+
+		
 
 		request.setAttribute("imageInsertContent", imgContentsHap);
 		request.setAttribute("imgTitle", imgTitle);

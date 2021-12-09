@@ -188,7 +188,7 @@
 	            		<input id="writeTitle" class="writeTitle" value="${pDTO.getTitle() }" type="text" placeholder="제목을 입력해주세요." name="title">
 	            	</c:if>
 	            	<c:if test="${imgTitle != null }">
-	            		<input id="writeTitle" class="writeTitle" value="${imgTitle }" type="text" placeholder="제목을 입력해주세요." name="title">
+	            		<input id="writeTitle" class="writeTitle" value="${imgTitle }" type="text" placeholder="제목을 입력해주세요" name="title">
 	            	</c:if>
 	            </div>
 	            <div>
@@ -214,7 +214,14 @@
 	                            <button class="divColor" type="button" onclick="justify('justifycenter')">가운데</button>
 	                            <button class="divColor" type="button" onclick="justify('justifyRight')">오른쪽</button>
 	                            <button class="divColor3" type="button" onclick="document.execCommand('removeFormat');">서식삭제</button>  
-	                            <button class="divColor2" type="button" onclick="imgInsert()">사진</button>
+	                            
+	                            <c:if test="${pDTO.getTitle() ==null }">
+		            	 			<button class="divColor2" type="button" onclick="imgInsert(-1)">사진</button>
+		            			 </c:if>
+		            	 		<c:if test="${pDTO.getTitle() !=null }">
+		            	 			<button class="divColor2" type="button" onclick="imgInsert(${pDTO.getNum() })">사진</button>
+		            	 		</c:if>	
+	                            
 	                        </div>
 	                        <div class="codeWrite">   
 	                        	<select id="language" onchange="langs()">
@@ -234,7 +241,16 @@
 	                    	<br>
 	                    </div>
           
-	                    <div id="writeContent" class="writeContent" contenteditable="true" aria-placeholder="내용을 입력해주세요.">${imageInsertContent }${pDTO.getContents() }</div>
+	                   
+	                   <!-- 삽입 -->
+	                   <c:if test="${imgUpdate == null }">
+	                   		<div id="writeContent" class="writeContent" contenteditable="true" aria-placeholder="내용을 입력해주세요.">${imageInsertContent }${pDTO.getContents() }</div>
+	                    </c:if>
+	                    <!-- 수정 -->
+	                    <c:if test="${imgUpdate != null }">
+	                   		<div id="writeContent" class="writeContent" contenteditable="true" aria-placeholder="내용을 입력해주세요.">${imageInsertContent }</div>
+	                    </c:if>
+	                    
 	                    
 	                    <input id="content" type="hidden" name="content">
 	                    
@@ -260,6 +276,8 @@
         	<input type="file" name="imgInput" id="imgInput" onchange="imgChange()">
         	<input id="imgContent" type="hidden" name="imgContent">
         	<input id="imgTitle" type="hidden" name="imgTitle">
+        	<input id="imgUpdate" type="hidden" name="imgUpdate">
+        	<input id="num" type="hidden" value="${pDTO.getNum() }" name="num">
         </form>
 		<div id="wrapPonup">
 			<div id="ponup">
@@ -383,7 +401,9 @@
 		}
 	
 	
-		function imgInsert()
+
+		
+		function imgInsert(i)
 		{
 			
 			if(document.getSelection().anchorNode !=null)
@@ -392,6 +412,11 @@
 				document.getElementById("writeContent").focus();
 				
 				imgInput.click();
+				
+				
+				document.getElementById("imgUpdate").value=i;
+				
+				console.log("i " + document.getElementById("imgUpdate").value);
 				
 				imgChange();
 			}
@@ -414,17 +439,22 @@
 					range2.setStartAfter(insertNodeImg);
 					
 					document.getElementById("writeContent").focus();
-					
 		  				
 					document.getElementById("imgContent").value=document.getElementById('writeContent').innerHTML;
 					
 					document.getElementById("imgTitle").value=document.getElementById('writeTitle').value;
-
+					
 					document.getElementById("imgFrm").submit();
 					
 				}	
 			}
 		}
+		
+		
+
+
+		
+		
 
 		var language;
  		function langs()
